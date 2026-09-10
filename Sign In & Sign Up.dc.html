@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #6B5BFF; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  input::placeholder { color: #8A83A0; }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden">
+
+  <header style="borderBottom: 1px solid #221B2E; flex: 0 0 auto">
+    <div style="padding: 0 clamp(16px, 3vw, 40px); height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+      <a href="ClothSE Homepage.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)" style-active="transform: scale(0.98)">
+        <span>Cloth</span><span style="background: {{ accent }}; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase">
+        <span style="color: #5F5775">Need help?</span>
+        <a href="#contact" style="border: 1px solid #221B2E; padding: 7px 12px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: #221B2E; color: #EDEBF2; box-shadow: 3px 3px 0 {{ accent }}" style-active="transform: scale(0.97)">Contact us</a>
+      </div>
+    </div>
+  </header>
+
+  <main style="flex: 1 1 auto; display: grid; grid-template-columns: {{ splitColumns }}; align-items: stretch">
+
+    <section style="position: relative; overflow: hidden; borderRight: 1px solid #221B2E; min-height: {{ artMinHeight }}; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px)">
+      <span style="position: absolute; inset: 0; background: repeating-linear-gradient(115deg, rgba(34,27,46,0.14) 0 3px, rgba(34,27,46,0) 3px 26px); pointer-events: none"></span>
+      <span style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(34,27,46,0.86) 0%, rgba(34,27,46,0.34) 42%, rgba(34,27,46,0) 72%); pointer-events: none"></span>
+
+      <span style="position: absolute; top: 18px; left: 18px; display: inline-flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; border: 1px solid rgba(34,27,46,0.4); padding: 5px 9px; background: rgba(237,235,242,0.55)">
+        <span style="width: 6px; height: 6px; borderRadius: 999px; background: {{ accent }}; display: block"></span>Member campaign image
+      </span>
+
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; padding: clamp(24px, 3vw, 44px); animation: clothse-rise 420ms cubic-bezier(.2,.7,.2,1) both">
+        <span style="display: inline-flex; align-items: center; gap: 8px; background: {{ accent }}; color: #EDEBF2; borderRadius: 999px; padding: 6px 13px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 18px">
+          <span style="width: 6px; height: 6px; borderRadius: 999px; background: #EDEBF2; display: block; animation: clothse-flash 1600ms ease-in-out infinite"></span>Members only
+        </span>
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(40px, 5.4vw, 78px); line-height: 0.88; letter-spacing: -0.03em; text-transform: uppercase; color: #EDEBF2; margin: 0 0 18px">
+          First in<br />the queue
+        </h2>
+        <p style="font-size: clamp(14px, 1.1vw, 17px); line-height: 1.55; max-width: 40ch; margin: 0; color: rgba(237,235,242,0.82); text-wrap: pretty">Members get every drop 24 hours early, restock alerts on saved sizes, and free returns for life.</p>
+      </div>
+    </section>
+
+    <section style="display: flex; align-items: center; justify-content: center; padding: clamp(28px, 4vw, 64px) clamp(20px, 4vw, 72px)">
+      <div style="width: 100%; max-width: 440px">
+
+        <div style="display: flex; border: 1px solid #221B2E; margin-bottom: clamp(24px, 3vw, 34px)">
+          <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2">
+            <button onClick="{{ t.onClick }}" style="flex: 1 1 0; padding: 13px 8px; border: 0; borderRight: {{ t.divider }}; background: {{ t.bg }}; color: {{ t.fg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out">{{ t.label }}</button>
+          </sc-for>
+        </div>
+
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(38px, 4.4vw, 58px); line-height: 0.94; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 12px">{{ heading }}</h1>
+        <p style="font-size: 15px; line-height: 1.5; color: #4A4358; margin: 0 0 clamp(22px, 2.6vw, 32px); max-width: 40ch; text-wrap: pretty">{{ subheading }}</p>
+
+        <form onSubmit="{{ submit }}" style="display: flex; flex-direction: column; gap: 16px">
+          <sc-if value="{{ isSignUp }}" hint-placeholder-val="{{ false }}">
+            <label style="display: flex; flex-direction: column; gap: 7px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Name</span>
+              <input type="text" placeholder="Alex Mercer" value="{{ nameValue }}" onChange="{{ onName }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}" />
+            </label>
+          </sc-if>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Email</span>
+            <input type="email" placeholder="you@email.com" value="{{ emailValue }}" onChange="{{ onEmail }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}" />
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">
+              <span>Password</span>
+              <button type="button" onClick="{{ toggleReveal }}" style="border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #221B2E; text-decoration: underline; text-underline-offset: 3px; transition: color 160ms ease-out" style-hover="color: {{ accent }}">{{ revealLabel }}</button>
+            </span>
+            <input type="{{ passwordType }}" placeholder="{{ passwordHint }}" value="{{ passwordValue }}" onChange="{{ onPassword }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}" />
+          </label>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-top: 2px">
+            <label style="display: flex; align-items: center; gap: 9px; cursor: pointer; font-size: 13px; color: #4A4358">
+              <span onClick="{{ toggleCheck }}" style="width: 18px; height: 18px; border: 1px solid #221B2E; background: {{ checkBg }}; color: #EDEBF2; display: grid; place-items: center; font-size: 11px; line-height: 1; flex: 0 0 auto; transition: background-color 160ms ease-out">{{ checkMark }}</span>
+              <span onClick="{{ toggleCheck }}">{{ checkLabel }}</span>
+            </label>
+            <sc-if value="{{ isSignIn }}" hint-placeholder-val="{{ true }}">
+              <a href="#reset" style="font-size: 13px; text-decoration: underline; text-underline-offset: 3px">Forgot password?</a>
+            </sc-if>
+          </div>
+
+          <button type="submit" style="margin-top: 6px; height: 54px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: {{ accent }}; border-color: {{ accent }}; box-shadow: 4px 4px 0 #221B2E" style-active="transform: scale(0.985)">{{ submitLabel }}</button>
+
+          <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+            <div style="border: 1px solid #FF6A2B; background: rgba(255,106,43,0.12); padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #221B2E; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">{{ error }}</div>
+          </sc-if>
+
+          <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+            <div style="border: 1px solid #221B2E; background: rgba(107,91,255,0.12); padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">{{ submittedNote }}</div>
+          </sc-if>
+        </form>
+
+        <sc-if value="{{ isSignIn }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ fillDemo }}" style="width: 100%; margin-top: 16px; text-align: left; border: 1px dashed rgba(34,27,46,0.45); background: transparent; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; transition: background-color 160ms ease-out, border-color 160ms ease-out" style-hover="background: rgba(107,91,255,0.08); border-color: {{ accent }}">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Admin test account — tap to fill</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #221B2E; word-break: break-all">ngbon2220805@gmail.com / 123456789</span>
+          </button>
+          <button type="button" onClick="{{ fillDemoUser }}" style="width: 100%; margin-top: 8px; text-align: left; border: 1px dashed rgba(34,27,46,0.45); background: transparent; padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 5px; transition: background-color 160ms ease-out, border-color 160ms ease-out" style-hover="background: rgba(107,91,255,0.08); border-color: {{ accent }}">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Regular test account — tap to fill</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #221B2E; word-break: break-all">mai.tran@clothse.test / clothse123</span>
+          </button>
+        </sc-if>
+
+        <div style="display: flex; align-items: center; gap: 14px; margin: clamp(22px, 2.6vw, 30px) 0">
+          <span style="flex: 1 1 auto; height: 1px; background: rgba(34,27,46,0.22)"></span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">or</span>
+          <span style="flex: 1 1 auto; height: 1px; background: rgba(34,27,46,0.22)"></span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px">
+          <sc-for list="{{ socialAuth }}" as="s" hint-placeholder-count="2">
+            <button type="button" style="height: 48px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 500; color: #221B2E; display: flex; align-items: center; justify-content: center; gap: 8px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: #221B2E; color: #EDEBF2; box-shadow: 3px 3px 0 {{ accent }}" style-active="transform: scale(0.97)">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.7">{{ s.mark }}</span>{{ s.label }}
+            </button>
+          </sc-for>
+        </div>
+
+        <p style="margin: clamp(22px, 2.6vw, 30px) 0 0; font-size: 13px; line-height: 1.5; color: #4A4358">
+          {{ switchPrompt }}
+          <button type="button" onClick="{{ switchMode }}" style="border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; color: #221B2E; text-decoration: underline; text-underline-offset: 3px; transition: color 160ms ease-out" style-hover="color: {{ accent }}">{{ switchAction }}</button>
+        </p>
+        <p style="margin: 12px 0 0; font-size: 12px; line-height: 1.55; color: #5F5775; max-width: 42ch">By continuing you agree to the ClothSE <a href="#terms" style="text-decoration: underline; text-underline-offset: 2px">terms</a> and <a href="#privacy" style="text-decoration: underline; text-underline-offset: 2px">privacy policy</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer style="flex: 0 0 auto; borderTop: 1px solid #221B2E; padding: 16px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">
+    <span>© 2026 ClothSE — multi-brand streetwear</span>
+    <span style="display: flex; flex-wrap: wrap; gap: clamp(12px, 1.6vw, 24px)">
+      <sc-for list="{{ footerLinks }}" as="f" hint-placeholder-count="4">
+        <a href="{{ f.href }}" style="transition: color 160ms ease-out" style-hover="color: #221B2E">{{ f.label }}</a>
+      </sc-for>
+    </span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;]}}">
+class Component extends DCLogic {
+  state = { mode: 'signin', reveal: false, checked: true, submitted: false, width: 1280, name: '', email: '', password: '', error: '' };
+
+  static ACCOUNTS = [
+    { email: 'ngbon2220805@gmail.com', password: '123456789', name: 'Bon Nguyen', role: 'admin' },
+    { email: 'mai.tran@clothse.test', password: 'clothse123', name: 'Mai Tran', role: 'user' }
+  ];
+
+  signIn(user) {
+    try { localStorage.setItem('clothse-user', JSON.stringify(user)); } catch (e) {}
+    this.setState({ submitted: true, error: '' });
+    setTimeout(() => { window.location.href = 'ClothSE Homepage.dc.html'; }, 900);
+  }
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const signUp = this.state.mode === 'signup';
+    const stacked = this.state.width < 900;
+
+    const tabs = [
+      { key: 'signin', label: 'Sign in' },
+      { key: 'signup', label: 'Sign up' }
+    ].map((t, i) => ({
+      label: t.label,
+      bg: this.state.mode === t.key ? '#221B2E' : 'transparent',
+      fg: this.state.mode === t.key ? '#EDEBF2' : '#221B2E',
+      divider: i === 0 ? '1px solid #221B2E' : '0',
+      onClick: () => this.setState({ mode: t.key, submitted: false, error: '' })
+    }));
+
+    return {
+      accent, tabs,
+      splitColumns: stacked ? '1fr' : 'minmax(0, 45fr) minmax(0, 55fr)',
+      artMinHeight: stacked ? '62vh' : '620px',
+      isSignUp: signUp,
+      isSignIn: !signUp,
+      heading: signUp ? 'Join the list' : 'Welcome back',
+      subheading: signUp
+        ? 'One account for early access, saved sizes and order tracking. Takes about twenty seconds.'
+        : 'Sign in to see your saved sizes, drop reminders and order history.',
+      submitLabel: signUp ? 'Create account' : 'Sign in',
+      submitted: this.state.submitted,
+      submittedNote: signUp ? "You're in — check your inbox to confirm." : 'Signed in — taking you back to the shop.',
+      passwordType: this.state.reveal ? 'text' : 'password',
+      passwordHint: signUp ? 'At least 8 characters' : '••••••••',
+      revealLabel: this.state.reveal ? 'Hide' : 'Show',
+      toggleReveal: () => this.setState(s => ({ reveal: !s.reveal })),
+      checkLabel: signUp ? 'Email me drop alerts' : 'Keep me signed in',
+      checkBg: this.state.checked ? accent : 'transparent',
+      checkMark: this.state.checked ? '✓' : '',
+      toggleCheck: () => this.setState(s => ({ checked: !s.checked })),
+      nameValue: this.state.name,
+      emailValue: this.state.email,
+      passwordValue: this.state.password,
+      error: this.state.error,
+      onName: (e) => this.setState({ name: e.target.value, error: '' }),
+      onEmail: (e) => this.setState({ email: e.target.value, error: '' }),
+      onPassword: (e) => this.setState({ password: e.target.value, error: '' }),
+      fillDemo: () => this.setState({ email: Component.ACCOUNTS[0].email, password: Component.ACCOUNTS[0].password, error: '' }),
+      fillDemoUser: () => this.setState({ email: Component.ACCOUNTS[1].email, password: Component.ACCOUNTS[1].password, error: '' }),
+      submit: (e) => {
+        e.preventDefault();
+        const email = this.state.email.trim().toLowerCase();
+        const pw = this.state.password;
+        if (signUp) {
+          if (!email || !pw) return this.setState({ error: 'Enter an email and password to continue.' });
+          if (pw.length < 8) return this.setState({ error: 'Password must be at least 8 characters.' });
+          return this.signIn({ email, name: this.state.name.trim() || email.split('@')[0], role: 'user' });
+        }
+        const match = Component.ACCOUNTS.find(a => a.email === email && a.password === pw);
+        if (!match) {
+          return this.setState({ error: 'Email or password is incorrect. Try a test account below.' });
+        }
+        this.signIn({ email: match.email, name: match.name, role: match.role });
+      },
+      switchMode: () => this.setState(s => ({ mode: s.mode === 'signup' ? 'signin' : 'signup', submitted: false, error: '' })),
+      switchPrompt: signUp ? 'Already a member?' : 'New here?',
+      switchAction: signUp ? 'Sign in instead' : 'Create an account',
+      socialAuth: [
+        { label: 'Facebook', mark: 'f' },
+        { label: 'Google', mark: 'G' }
+      ],
+      footerLinks: [
+        { label: 'Shipping', href: '#shipping' },
+        { label: 'Returns', href: '#returns' },
+        { label: 'Privacy', href: '#privacy' },
+        { label: 'Shop', href: 'Shop Listing.dc.html' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

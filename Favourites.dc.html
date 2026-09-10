@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><path d="M100 148 62 111a20 20 0 0 1 28-28l10 10 10-10a20 20 0 0 1 28 28Z" fill="#EDEBF2"/></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(237,235,242,0.92); backdrop-filter: blur(12px); borderBottom: 1px solid #221B2E">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+
+      <div style="display: flex; align-items: center; gap: clamp(16px, 2.2vw, 34px)">
+        <a href="ClothSE Homepage.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)" style-active="transform: scale(0.98)">
+          <span>Cloth</span><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </a>
+
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
+            <a href="ClothSE Homepage.dc.html" style="position: relative; padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Home</a>
+            <a href="ClothSE Homepage.dc.html#new-arrivals" style="position: relative; padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">New arrivals</a>
+            <div onMouseEnter="{{ openShop }}" onMouseLeave="{{ closeShop }}" style="position: relative">
+              <a href="Shop Listing.dc.html" style="position: relative; padding: 6px 0 8px; display: flex; align-items: center; gap: 6px; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Shop <span style="font-size: 9px; display: inline-block; transform: {{ shopArrow }}; transition: transform 200ms cubic-bezier(.2,.7,.2,1)">▼</span></a>
+              <sc-if value="{{ shopOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 100%; left: -16px; width: 210px; background: #EDEBF2; border: 1px solid #221B2E; padding: 8px; display: flex; flex-direction: column; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); animation: clothse-drop-in 220ms cubic-bezier(.2,.7,.2,1) both; transform-origin: top left">
+                  <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
+                    <a href="{{ l.href }}" style="padding: 11px 12px; font-size: 13px; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 18px">
+                      <span>{{ l.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5">{{ l.count }}</span>
+                    </a>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <a href="ClothSE Homepage.dc.html#sale" style="padding: 6px 8px; background: #FF6A2B; color: #EDEBF2; borderRadius: 2px; font-weight: 700; transition: color 180ms ease-out, background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: #221B2E; color: #FF6A2B; box-shadow: 0 0 0 3px rgba(255,106,43,0.35)">Sale</a>
+          </nav>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px">
+        <x-import component-from-global-scope="lang-switch" from="./lang-switch.js" hint-size="82px,40px"></x-import>
+        <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+          <input placeholder="Search cargos, tees, kicks…" style="width: clamp(140px, 22vw, 280px); height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transform-origin: right center; animation: clothse-expand 260ms cubic-bezier(.2,.8,.2,1) both; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
+        </sc-if>
+        <button onClick="{{ toggleSearch }}" aria-label="Search" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 15px; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #6B5BFF; color: #EDEBF2; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.95)">⌕</button>
+        <a href="My Bag & Orders.dc.html?tab=bag" aria-label="Bag" style="position: relative; width: 40px; height: 40px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), color 180ms ease-out" style-hover="transform: scale(1.12); color: #FF6A2B; box-shadow: 3px 3px 0 #FF6A2B" style-active="transform: scale(0.95)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M4 7h16l-1.4 12.2a1 1 0 0 1-1 .8H6.4a1 1 0 0 1-1-.8L4 7Z"></path>
+            <path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2.1a3.5 3.5 0 0 1 3.5 3.5V7"></path>
+          </svg>
+          <span style="position: absolute; top: -7px; right: -7px; background: #6B5BFF; color: #221B2E; border: 1px solid #221B2E; borderRadius: 999px; minWidth: 20px; height: 20px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 0 5px">{{ cartCount }}</span>
+        </a>
+        <div data-account-menu="1" style="position: relative">
+          <button onClick="{{ toggleAccount }}" aria-label="Account" style="width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.08); box-shadow: 0 0 0 3px rgba(107,91,255,0.32)" style-active="transform: scale(0.95)">BN</button>
+          <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
+            <div data-account-menu="1" style="position: absolute; top: calc(100% + 10px); right: 0; width: 244px; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); z-index: 60; display: flex; flex-direction: column; transform-origin: top right; animation: clothse-drop-in 200ms cubic-bezier(.2,.7,.2,1) both">
+              <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Signed in as</div>
+                <div style="font-size: 13px; word-break: break-all">bao@clothse.com</div>
+              </div>
+              <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
+              </a>
+              <a href="My Bag & Orders.dc.html?tab=pay" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
+              </a>
+              <button onClick="{{ closeAccount }}" aria-current="page" style="text-align: left; height: 44px; padding: 0 14px; border: 0; background: #221B2E; color: #EDEBF2; cursor: pointer; display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 13px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20.2 5.1 13.4a4.4 4.4 0 0 1 0-6.3 4.4 4.4 0 0 1 6.2 0l.7.7.7-.7a4.4 4.4 0 0 1 6.2 0 4.4 4.4 0 0 1 0 6.3L12 20.2Z"></path></svg>Favourites
+              </button>
+              <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.2v2.4M12 18.4v2.4M4.8 12H2.4M21.6 12h-2.4M6.9 6.9 5.2 5.2M18.8 18.8l-1.7-1.7M17.1 6.9l1.7-1.7M5.2 18.8l1.7-1.7"></path></svg>Settings
+              </a>
+              <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+                <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                  <span style="display: flex; align-items: center; gap: 11px">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 9.5h16v10H4z"></path><path d="M4 9.5 6 4.5h12l2 5"></path><path d="M9.5 13.5h5"></path></svg>Store Management
+                  </span>
+                  <span style="background: #6B5BFF; color: #EDEBF2; padding: 2px 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase">Admin</span>
+                </a>
+              </sc-if>
+              <span style="height: 1px; background: #221B2E; display: block"></span>
+              <a href="Sign In & Sign Up.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; color: #B4471A; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9"></path><path d="M18.5 12h-8"></path><path d="m15.5 9 3 3-3 3"></path></svg>Sign Out
+              </a>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showMobileToggle }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; display: grid; place-items: center; gap: 4px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: #6B5BFF" style-active="transform: scale(0.94)">
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 12px; height: 2px; background: #221B2E; display: block"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
+        <a href="ClothSE Homepage.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Home</a>
+        <a href="ClothSE Homepage.dc.html#new-arrivals" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">New arrivals</a>
+        <a href="Shop Listing.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Shop</a>
+        <a href="ClothSE Homepage.dc.html#sale" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase"><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 8px; display: inline-block">Sale</span></a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main style="max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 52px) clamp(16px, 3vw, 40px) clamp(56px, 8vw, 104px)">
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: end; margin-bottom: clamp(26px, 4vw, 44px)">
+      <div>
+        <nav aria-label="Breadcrumb" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; margin-bottom: 14px; display: flex; gap: 8px">
+          <a href="ClothSE Homepage.dc.html" style="color: #5F5775" style-hover="color: #6B5BFF">Home</a><span>/</span><span style="color: #221B2E">Favourites</span>
+        </nav>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(46px, 8vw, 108px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0">Favourites</h1>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: start">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5F5775">Saved</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">{{ countLabel }}</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775">{{ notifyLabel }}</span>
+      </div>
+    </section>
+
+    <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 14px">
+        <sc-for list="{{ items }}" as="p" hint-placeholder-count="8">
+          <article onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="border: 1px solid #221B2E; background: #EDEBF2; display: flex; flex-direction: column; animation: clothse-fade-up 260ms cubic-bezier(.2,.7,.2,1) both; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-5px); box-shadow: 10px 10px 0 #221B2E">
+            <div style="position: relative; aspect-ratio: 4 / 5; overflow: hidden; borderBottom: 1px solid #221B2E">
+              <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ p.zoom }}; opacity: {{ p.imgOpacity }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1), opacity 240ms ease-out">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ p.ph }}</span>
+              </span>
+              <sc-if value="{{ p.hasBadge }}" hint-placeholder-val="{{ false }}">
+                <span style="position: absolute; top: 10px; left: 10px; background: {{ p.badgeBg }}; color: {{ p.badgeFg }}; border: {{ p.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase">{{ p.badge }}</span>
+              </sc-if>
+              <button onClick="{{ p.onUnfav }}" aria-label="Remove from favourites" style="position: absolute; top: 10px; right: 10px; width: 34px; height: 34px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #FF6A2B; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.9)">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 20.5 4.6 13.3a4.7 4.7 0 0 1 0-6.7 4.7 4.7 0 0 1 6.7 0l.7.7.7-.7a4.7 4.7 0 0 1 6.7 0 4.7 4.7 0 0 1 0 6.7L12 20.5Z"></path></svg>
+              </button>
+              <sc-if value="{{ p.inStock }}" hint-placeholder-val="{{ true }}">
+                <button style="position: absolute; left: 10px; right: 10px; bottom: 10px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; padding: 10px; opacity: {{ p.reveal }}; transform: {{ p.revealY }}; transition: opacity 220ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.96)">Add to bag</button>
+              </sc-if>
+            </div>
+            <div style="padding: 13px; display: flex; flex-direction: column; gap: 6px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ p.brand }}</span>
+              <div style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline">
+                <h3 style="margin: 0; font-size: 14px; font-weight: 700">{{ p.name }}</h3>
+                <span style="display: flex; align-items: baseline; gap: 6px; flex: 0 0 auto">
+                  <sc-if value="{{ p.onSale }}" hint-placeholder-val="{{ false }}">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; text-decoration: line-through">{{ p.wasLabel }}</span>
+                  </sc-if>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: {{ p.priceColor }}">{{ p.priceLabel }}</span>
+                </span>
+              </div>
+              <div style="margin-top: 6px; padding-top: 11px; borderTop: 1px solid rgba(34,27,46,0.18); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap">
+                <button onClick="{{ p.onNotify }}" role="switch" aria-checked="{{ p.notifyAria }}" style="display: flex; align-items: center; gap: 9px; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 500; color: {{ p.notifyFg }}">
+                  <span style="width: 38px; height: 21px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ p.trackBg }}; flex: 0 0 auto; display: block; position: relative; transition: background-color 220ms ease-out">
+                    <span style="position: absolute; top: 2px; left: 2px; width: 15px; height: 15px; borderRadius: 999px; background: {{ p.knobBg }}; border: 1px solid #221B2E; transform: {{ p.knobX }}; transition: transform 240ms cubic-bezier(.2,.7,.2,1), background-color 220ms ease-out; display: block"></span>
+                  </span>
+                  Notify me
+                </button>
+                <sc-if value="{{ p.hasStatus }}" hint-placeholder-val="{{ false }}">
+                  <span style="background: {{ p.statusBg }}; color: {{ p.statusFg }}; border: 1px solid {{ p.statusBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; flex: 0 0 auto">{{ p.status }}</span>
+                </sc-if>
+              </div>
+              <sc-if value="{{ p.notify }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #6B5BFF; line-height: 1.5; animation: clothse-fade-up 200ms ease-out both">{{ p.notifyNote }}</span>
+              </sc-if>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="border: 1px solid #221B2E; padding: clamp(48px, 9vw, 120px) clamp(20px, 4vw, 48px); display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; animation: clothse-fade-up 260ms cubic-bezier(.2,.7,.2,1) both">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5F5775">0 items saved</span>
+        <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.4vw, 56px); line-height: 0.95; text-transform: uppercase; margin: 0">No favourites yet</h3>
+        <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A4358; max-width: 44ch">Tap the heart on anything you like — we'll keep it here and can ping you when it restocks or drops in price.</p>
+        <a href="Shop Listing.dc.html" style="margin-top: 8px; padding: 17px 34px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; font-family: 'Instrument Serif', Georgia, serif; font-size: 18px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Browse the shop</a>
+      </div>
+    </sc-if>
+  </main>
+
+  <footer style="background: #221B2E; color: #EDEBF2; borderTop: 1px solid #3A3348">
+    <div style="max-width: 1440px; margin: 0 auto; padding: clamp(36px, 4.5vw, 64px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px">
+      <div>
+        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; display: flex; gap: 2px; align-items: center; margin-bottom: 14px">
+          <span>Cloth</span><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #B6AEC9; max-width: 30ch">Small-batch streetwear. Printed and packed in Stockholm.</p>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div>
+          <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">{{ col.title }}</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px; align-items: start">
+            <sc-for list="{{ col.items }}" as="i" hint-placeholder-count="4">
+              <a href="ClothSE Homepage.dc.html" style="font-size: 13px; color: #D3CDE2; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">{{ i }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div>
+        <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Contact</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #D3CDE2; align-items: start">
+          <a href="ClothSE Homepage.dc.html" style="color: #D3CDE2; transition: color 180ms ease-out" style-hover="color: #9A8CFF">hey@clothse.com</a>
+          <span>+46 8 123 456</span>
+          <span>Hökensgatan 4<br />116 46 Stockholm, SE</span>
+        </div>
+      </div>
+    </div>
+    <div style="borderTop: 1px solid #3A3348; padding: 18px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #A79CBD; max-width: 1440px; margin: 0 auto">
+      <span>© 2026 ClothSE — all rights reserved</span>
+      <span style="display: flex; gap: 18px">
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Privacy</a>
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Terms</a>
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Shipping</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startEmpty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Favourites&quot;},&quot;isAdmin&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Favourites&quot;}}">
+const FAVS = [
+  { id: 'f1', name: 'Panel Work Jacket', brand: 'Stüssy', price: 186, ph: 'Jacket 01', badge: 'New', state: 'normal' },
+  { id: 'f2', name: 'Court Low Sneaker', brand: 'Nike', price: 154, ph: 'Sneaker 04', badge: 'Out of stock', state: 'oos' },
+  { id: 'f3', name: 'Mesh Layer Tee', brand: 'Stüssy', price: 36, was: 52, ph: 'Tee 07', badge: 'Sale', state: 'sale' },
+  { id: 'f4', name: 'Grid Cargo Pant', brand: 'Carhartt', price: 118, ph: 'Cargo 02', badge: 'Core', state: 'normal' },
+  { id: 'f5', name: 'Overdye Hoodie', brand: 'Champion', price: 135, ph: 'Hoodie 03', badge: 'Low stock', state: 'normal' },
+  { id: 'f6', name: 'Suede Court Hi', brand: 'Nike', price: 198, ph: 'Sneaker 09', badge: 'Out of stock', state: 'oos' },
+  { id: 'f7', name: 'Sport Sandal FX', brand: 'Nike', price: 64, was: 92, ph: 'Sandal 05', badge: 'Sale', state: 'sale' },
+  { id: 'f8', name: 'Canvas Tote XL', brand: 'Champion', price: 58, ph: 'Tote 06', badge: 'Core', state: 'normal' }
+];
+
+class Component extends DCLogic {
+  state = {
+    width: 1440, shopOpen: false, searchOpen: false, menuOpen: false, accountOpen: false,
+    ids: FAVS.map(f => f.id),
+    notify: { f2: true, f6: false },
+    hover: null
+  };
+
+  componentDidMount() {
+    if (this.props.startEmpty) this.setState({ ids: [] });
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    this.onDocClick = (e) => {
+      if (!this.state.accountOpen) return;
+      if (e.target.closest && e.target.closest('[data-account-menu]')) return;
+      this.setState({ accountOpen: false });
+    };
+    document.addEventListener('click', this.onDocClick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    document.removeEventListener('click', this.onDocClick);
+  }
+
+  renderVals() {
+    const mobile = this.state.width < 900;
+    const { ids, notify, hover } = this.state;
+    const list = FAVS.filter(f => ids.includes(f.id));
+    const notifyOn = list.filter(f => notify[f.id]).length;
+
+    return {
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      menuOpen: this.state.menuOpen && mobile,
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      searchOpen: this.state.searchOpen,
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      accountOpen: this.state.accountOpen,
+      toggleAccount: () => this.setState(s => ({ accountOpen: !s.accountOpen })),
+      closeAccount: () => this.setState({ accountOpen: false }),
+      isAdmin: !!this.props.isAdmin,
+      cartCount: 4,
+      shopLinks: [
+        { label: 'Tops', count: '48', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+
+      countLabel: list.length + (list.length === 1 ? ' item saved' : ' items saved'),
+      notifyLabel: notifyOn > 0 ? notifyOn + ' with alerts on' : 'No alerts set',
+      hasItems: list.length > 0,
+      isEmpty: list.length === 0,
+      items: list.map(f => {
+        const on = hover === f.id;
+        const oos = f.state === 'oos';
+        const sale = f.state === 'sale';
+        const wants = !!notify[f.id];
+        return {
+          name: f.name, brand: f.brand, ph: f.ph,
+          priceLabel: Math.round(f.price * 10000).toLocaleString('de-DE') + '₫',
+          wasLabel: f.was ? Math.round(f.was * 10000).toLocaleString('de-DE') + '₫' : '',
+          onSale: sale,
+          priceColor: sale ? '#B4471A' : '#221B2E',
+          inStock: !oos,
+          imgOpacity: oos ? 0.55 : 1,
+          zoom: on ? 'scale(1.06)' : 'scale(1)',
+          reveal: on ? 1 : 0,
+          revealY: on ? 'translateY(0)' : 'translateY(8px)',
+          onEnter: () => this.setState({ hover: f.id }),
+          onLeave: () => this.setState(s => (s.hover === f.id ? { hover: null } : null)),
+          hasBadge: true,
+          badge: f.badge || 'Core',
+          badgeBg: (f.badge || 'Core') === 'Core' ? 'rgba(237,235,242,0.86)' : ((f.badge === 'Low stock' || f.badge === 'Out of stock') ? '#221B2E' : '#FF6A2B'),
+          badgeFg: (f.badge || 'Core') === 'Core' ? '#5F5775' : '#EDEBF2',
+          badgeBorder: (f.badge || 'Core') === 'Core' ? '1px solid rgba(34,27,46,0.35)' : '1px solid #221B2E',
+          hasStatus: oos || sale,
+          status: oos ? 'Out of stock' : 'On sale',
+          statusBg: oos ? 'transparent' : '#FF6A2B',
+          statusFg: oos ? '#5F5775' : '#EDEBF2',
+          statusBorder: oos ? '#5F5775' : '#221B2E',
+          notify: wants,
+          notifyAria: wants ? 'true' : 'false',
+          notifyFg: wants ? '#221B2E' : '#5F5775',
+          trackBg: wants ? '#6B5BFF' : 'transparent',
+          knobBg: wants ? '#EDEBF2' : '#221B2E',
+          knobX: wants ? 'translateX(17px)' : 'translateX(0)',
+          notifyNote: oos ? 'We\u2019ll email you the moment it\u2019s back in stock.' : (sale ? 'You\u2019ll hear about the next price drop on this one.' : 'Alerts on for restocks and price drops.'),
+          onNotify: () => this.setState(s => ({ notify: { ...s.notify, [f.id]: !s.notify[f.id] } })),
+          onUnfav: () => this.setState(s => ({ ids: s.ids.filter(x => x !== f.id) }))
+        };
+      }),
+
+      footerCols: [
+        { title: 'Shop', items: ['New arrivals', 'Tops', 'Bottoms', 'Accessories', 'Footwear', 'Sale'] },
+        { title: 'Help', items: ['Size guide', 'Shipping', 'Returns', 'Track order', 'FAQ'] },
+        { title: 'Studio', items: ['About ClothSE', 'Sustainability', 'Stockists', 'Careers'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

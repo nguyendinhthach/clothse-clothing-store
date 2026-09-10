@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  @keyframes clothse-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+  .clothse-scroller::-webkit-scrollbar { height: 0; }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(237,235,242,0.92); backdrop-filter: blur(12px); borderBottom: 1px solid #221B2E">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+
+      <div style="display: flex; align-items: center; gap: clamp(16px, 2.2vw, 34px)">
+        <a href="#top" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)" style-active="transform: scale(0.98)">
+          <span>Cloth</span><span style="background: {{ accent }}; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </a>
+
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
+            <a href="#top" onMouseEnter="{{ navHome.onEnter }}" onMouseLeave="{{ navHome.onLeave }}" style="position: relative; padding: 6px 0 8px; display: inline-block; transform: {{ navHome.lift }}; transition: transform 200ms ease-out">Home<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navHome.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
+            <a href="#new-arrivals" onMouseEnter="{{ navNew.onEnter }}" onMouseLeave="{{ navNew.onLeave }}" style="position: relative; padding: 6px 0 8px; display: inline-block; transform: {{ navNew.lift }}; transition: transform 200ms ease-out">New Arrivals<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navNew.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
+            <div onMouseEnter="{{ openShop }}" onMouseLeave="{{ closeShop }}" style="position: relative">
+              <a href="Shop Listing.dc.html" onMouseEnter="{{ navShop.onEnter }}" onMouseLeave="{{ navShop.onLeave }}" style="position: relative; padding: 6px 0 8px; display: flex; align-items: center; gap: 6px; transform: {{ navShop.lift }}; transition: transform 200ms ease-out">Shop <span style="font-size: 9px; display: inline-block; transform: {{ shopArrow }}; transition: transform 200ms cubic-bezier(.2,.7,.2,1)">▼</span><span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navShop.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
+              <sc-if value="{{ shopOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 100%; left: -16px; width: 210px; background: #EDEBF2; border: 1px solid #221B2E; padding: 8px; display: flex; flex-direction: column; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); animation: clothse-drop-in 220ms cubic-bezier(.2,.7,.2,1) both; transform-origin: top left">
+                  <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
+                    <a href="{{ l.href }}" style="padding: 11px 12px; font-size: 13px; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1); animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both; animation-delay: {{ l.delay }}" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 18px">
+                      <span>{{ l.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5">{{ l.count }}</span>
+                    </a>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <a href="#sale" style="padding: 6px 8px; background: #FF6A2B; color: #EDEBF2; borderRadius: 2px; font-weight: 700; transition: color 180ms ease-out, background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: #221B2E; color: #FF6A2B; box-shadow: 0 0 0 3px rgba(255,106,43,0.35); animation: clothse-flash 600ms ease-in-out infinite">Sale</a>
+          </nav>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px">
+        <x-import component-from-global-scope="lang-switch" from="./lang-switch.js" hint-size="82px,40px"></x-import>
+        <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+          <input placeholder="Search cargos, tees, kicks…" autofocus="{{ true }}" style="width: clamp(140px, 22vw, 280px); height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transform-origin: right center; animation: clothse-expand 260ms cubic-bezier(.2,.8,.2,1) both; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
+        </sc-if>
+        <button onClick="{{ toggleSearch }}" aria-label="Search" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 15px; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #6B5BFF; color: #EDEBF2; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.95)">⌕</button>
+        <a href="My Bag & Orders.dc.html?tab=bag" aria-label="Bag" style="position: relative; width: 40px; height: 40px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out" style-hover="transform: scale(1.12); color: #FF6A2B; box-shadow: 3px 3px 0 #FF6A2B" style-active="transform: scale(0.95); color: #FF6A2B">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M4 7h16l-1.4 12.2a1 1 0 0 1-1 .8H6.4a1 1 0 0 1-1-.8L4 7Z"></path>
+            <path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2.1a3.5 3.5 0 0 1 3.5 3.5V7"></path>
+          </svg>
+          <span key="{{ cartKey }}" style="position: absolute; top: -7px; right: -7px; background: {{ accent }}; color: #221B2E; border: 1px solid #221B2E; borderRadius: 999px; minWidth: 20px; height: 20px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 0 5px; animation: clothse-pop 380ms cubic-bezier(.3,1.4,.4,1) both">{{ cartCount }}</span>
+        </a>
+        <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
+          <a href="Sign In & Sign Up.dc.html" style="height: 40px; padding: 0 14px; border: 1px solid #221B2E; display: flex; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out" style-hover="transform: scale(1.06); background: {{ accent }}; color: #EDEBF2; border-color: {{ accent }}" style-active="transform: scale(0.97)">Log in</a>
+        </sc-if>
+        <sc-if value="{{ showAvatar }}" hint-placeholder-val="{{ false }}">
+          <div data-account-menu="1" style="position: relative">
+            <button onClick="{{ toggleAccount }}" aria-label="Account" style="width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.08); box-shadow: 0 0 0 3px rgba(107,91,255,0.32)" style-active="transform: scale(0.95)">{{ avatarInitials }}</button>
+            <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
+              <div data-account-menu="1" style="position: absolute; top: calc(100% + 10px); right: 0; width: 244px; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); z-index: 60; display: flex; flex-direction: column; transform-origin: top right; animation: clothse-drop-in 200ms cubic-bezier(.2,.7,.2,1) both">
+                <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; display: flex; flex-direction: column; gap: 5px">
+                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ accountRoleLabel }}</div>
+                  <div style="font-size: 13px; word-break: break-all">{{ accountEmail }}</div>
+                </div>
+                <a href="#account" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
+                </a>
+                <a href="My Bag & Orders.dc.html?tab=pay" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
+                </a>
+                <a href="#favourites" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z"></path></svg>Favourites
+                </a>
+                <a href="#settings" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.4v2.2M12 18.4v2.2M4.6 12h2.2M17.2 12h2.2M6.6 6.6l1.6 1.6M15.8 15.8l1.6 1.6M17.4 6.6l-1.6 1.6M8.2 15.8l-1.6 1.6"></path></svg>Settings
+                </a>
+                <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
+                  <a href="#store-management" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; borderTop: 1px solid #221B2E; borderBottom: 1px solid #221B2E; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #6B5BFF; color: #EDEBF2; padding-left: 20px">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 9.5h16v10.5H4z"></path><path d="M4 9.5 6 4h12l2 5.5"></path><path d="M9.5 20v-5.5h5V20"></path></svg>Store Management
+                  </a>
+                </sc-if>
+                <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
+                  <span style="height: 1px; background: #221B2E; display: block"></span>
+                </sc-if>
+                <button onClick="{{ signOut }}" style="text-align: left; height: 44px; padding: 0 14px; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #B4471A; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; padding-left: 20px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9"></path><path d="M18.5 12h-8"></path><path d="m15.5 9 3 3-3 3"></path></svg>Sign Out
+                </button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-if value="{{ showMobileToggle }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; display: grid; place-items: center; gap: 4px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: {{ accent }}" style-active="transform: scale(0.94)">
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 12px; height: 2px; background: #221B2E; display: block"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
+        <a href="#top" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase; transition: padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="padding-left: 10px">Home</a>
+        <a href="#new-arrivals" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase; transition: padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="padding-left: 10px">New Arrivals</a>
+        <div style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12)">
+          <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Shop</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px">
+            <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
+              <a href="{{ l.href }}" style="padding: 8px 12px; border: 1px solid #221B2E; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: {{ accent }}; color: #EDEBF2; transform: translateY(-2px)" style-active="transform: scale(0.96)">{{ l.label }}</a>
+            </sc-for>
+          </div>
+        </div>
+        <a href="#sale" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase; color: #221B2E"><span style="background: {{ accent }}; padding: 0 8px; display: inline-block; transition: transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.04)">Sale</span></a>
+        <sc-if value="{{ showMobileLogin }}" hint-placeholder-val="{{ true }}">
+          <a href="Sign In & Sign Up.dc.html" style="margin-top: 12px; padding: 14px; background: #221B2E; color: #EDEBF2; text-align: center; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; transition: transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.02)" style-active="transform: scale(0.98)">Log in / Sign up</a>
+        </sc-if>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main id="top">
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 3vw, 40px) clamp(40px, 6vw, 88px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(24px, 3vw, 48px); align-items: end">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #221B2E; padding: 6px 10px; margin-bottom: 22px">
+          <span style="width: 7px; height: 7px; borderRadius: 999px; background: {{ accent }}; display: block; animation: clothse-flash 1600ms ease-in-out infinite"></span>New arrivals weekly
+        </div>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(52px, 9.5vw, 140px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 22px">
+          The brands<br />
+          <span style="display: inline-block; background: #221B2E; color: #EDEBF2; padding: 0 12px; transform: skewX(-7deg); transition: transform 240ms cubic-bezier(.2,.7,.2,1), background-color 240ms ease-out, color 240ms ease-out" style-hover="transform: skewX(-7deg) scale(1.04); background: {{ accent }}; color: #EDEBF2">You want</span><br />
+          One place.
+        </h1>
+        <p style="font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 46ch; margin: 0 0 30px; color: #4A4358; text-wrap: pretty">Carhartt, Stüssy, Nike, Champion and more — the streetwear labels worth wearing, stocked in one place. Fresh arrivals every week, real sizes, no hype tax.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+          <a href="#categories" style="padding: 18px 34px; background-color: {{ accent }}; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: {{ accent }}; transform: translateY(-3px) scale(1.03); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Shop Now</a>
+          <a href="#new-arrivals" style="padding: 18px 26px; border: 1px solid #221B2E; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: right center; background-size: 0% 100%; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background-size: 100% 100%; color: #EDEBF2; transform: translateY(-3px)" style-active="transform: scale(0.97)">New arrivals</a>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: clamp(18px, 3vw, 40px); margin-top: clamp(28px, 4vw, 48px); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #4A4358">
+          <span>Free shipping over 800.000₫</span><span>30-day returns</span><span>Ships worldwide</span>
+        </div>
+      </div>
+      <a href="#new-arrivals" onMouseEnter="{{ heroEnter }}" onMouseLeave="{{ heroLeave }}" style="position: relative; aspect-ratio: 4 / 5; border: 1px solid #221B2E; overflow: hidden; display: block; transition: box-shadow 240ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1)" style-hover="box-shadow: 10px 10px 0 #221B2E; transform: translateY(-4px)">
+        <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ heroZoom }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1)">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">hero lifestyle shot</span>
+        </span>
+        <span style="position: absolute; inset: 0; background: {{ accent }}; opacity: {{ heroOverlay }}; mix-blend-mode: multiply; transition: opacity 300ms ease-out; pointer-events: none"></span>
+        <span style="position: absolute; bottom: 0; left: 0; background: #221B2E; color: #EDEBF2; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em">SS26 / LOOK 01</span>
+      </a>
+    </section>
+
+    <section style="border-block: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; overflow: hidden; padding: 12px 0">
+      <div style="display: flex; width: max-content; animation: clothse-marquee 26s linear infinite; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; gap: 28px">
+        <span>New arrivals weekly ✱ Free shipping over 800.000₫ ✱ 30-day returns ✱ Student discount 15% ✱ New arrivals weekly ✱ Free shipping over 800.000₫ ✱ 30-day returns ✱ Student discount 15% ✱</span>
+        <span>New arrivals weekly ✱ Free shipping over 800.000₫ ✱ 30-day returns ✱ Student discount 15% ✱ New arrivals weekly ✱ Free shipping over 800.000₫ ✱ 30-day returns ✱ Student discount 15% ✱</span>
+      </div>
+    </section>
+
+    <section id="categories" style="max-width: 1440px; margin: 0 auto; padding: clamp(48px, 6vw, 90px) clamp(16px, 3vw, 40px)">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 26px">
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.4vw, 58px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Shop by</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">04 groups</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px">
+        <sc-for list="{{ categories }}" as="c" hint-placeholder-count="4">
+          <a href="{{ c.href }}" onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="position: relative; border: 1px solid #221B2E; aspect-ratio: 3 / 4; overflow: hidden; display: block; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out, color 240ms ease-out" style-hover="transform: translateY(-5px); box-shadow: 10px 10px 0 #221B2E" style-active="transform: translateY(-1px) scale(0.99)">
+            <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ c.zoom }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1)">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ c.ph }}</span>
+            </span>
+            <span style="position: absolute; inset: 0; background: {{ accent }}; opacity: {{ c.overlay }}; transition: opacity 280ms ease-out"></span>
+            <span style="position: absolute; inset: 0; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; color: {{ c.fg }}; transition: color 240ms ease-out">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7">{{ c.tag }}</span>
+              <span style="display: flex; align-items: end; justify-content: space-between; gap: 8px">
+                <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 2.6vw, 38px); line-height: 0.9; text-transform: uppercase">{{ c.label }}</span>
+                <span style="font-size: 20px; transform: {{ c.arrow }}; transition: transform 260ms cubic-bezier(.2,.7,.2,1)">→</span>
+              </span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="new-arrivals" style="borderTop: 1px solid #221B2E; padding: clamp(48px, 6vw, 90px) 0">
+      <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 26px">
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.4vw, 58px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">New arrivals</h2>
+        <div style="display: flex; gap: 8px; align-items: center">
+          <a href="#new-arrivals" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left bottom; background-size: 100% 1px; margin-right: 8px; padding-bottom: 3px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-size 240ms cubic-bezier(.2,.7,.2,1); display: inline-block" style-hover="transform: translateY(-2px); background-size: 100% 2px">View all</a>
+          <button onClick="{{ scrollPrev }}" aria-label="Previous" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 16px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: {{ accent }}; color: #EDEBF2; transform: scale(1.1); box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.94)">←</button>
+          <button onClick="{{ scrollNext }}" aria-label="Next" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 16px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: {{ accent }}; color: #EDEBF2; transform: scale(1.1); box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.94)">→</button>
+        </div>
+      </div>
+      <div class="clothse-scroller" ref="{{ scrollerRef }}" style="display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 8px clamp(16px, 3vw, 40px) 24px; scrollbar-width: none">
+        <sc-for list="{{ arrivals }}" as="p" hint-placeholder-count="5">
+          <article onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="flex: 0 0 auto; width: clamp(230px, 26vw, 300px); scroll-snap-align: start; border: 1px solid #221B2E; background: #EDEBF2; display: flex; flex-direction: column; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-5px); box-shadow: 10px 10px 0 #221B2E">
+            <div style="position: relative; aspect-ratio: 4 / 5; overflow: hidden; borderBottom: 1px solid #221B2E">
+              <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ p.zoom }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1)">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ p.ph }}</span>
+              </span>
+              <span style="position: absolute; top: 10px; left: 10px; background: {{ p.badgeBg }}; color: {{ p.badgeFg }}; border: {{ p.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase">{{ p.badge }}</span>
+              <span style="position: absolute; left: 10px; right: 10px; bottom: 10px; text-align: center; background: #221B2E; color: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; padding: 8px; opacity: {{ p.reveal }}; transform: {{ p.revealY }}; transition: opacity 240ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1); pointer-events: none">{{ p.sizes }}</span>
+            </div>
+            <div style="padding: 14px; display: flex; flex-direction: column; gap: 10px; flex: 1">
+              <div style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline">
+                <h3 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: -0.01em">{{ p.name }}</h3>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">{{ p.price }}</span>
+              </div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ p.meta }}</span>
+              <button onClick="{{ addToCart }}" style="margin-top: auto; padding: 12px; border: 1px solid #221B2E; background-color: transparent; background-image: linear-gradient({{ accent }}, {{ accent }}); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="background-size: 100% 100%; color: #EDEBF2; transform: scale(1.03); box-shadow: 4px 4px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 0 0 0 #221B2E">Add to bag</button>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="sale" style="border-block: 1px solid #221B2E; background: #FF6A2B">
+      <div style="max-width: 1440px; margin: 0 auto; padding: clamp(40px, 5vw, 76px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; align-items: center">
+        <div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase">End of season / final cuts</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(44px, 7.5vw, 110px); line-height: 0.85; letter-spacing: -0.03em; text-transform: uppercase; margin: 14px 0 0">Up to 50% off</h2>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 18px; align-items: start">
+          <p style="margin: 0; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 34ch">Last-chance sizes from past seasons. Marked down once, then off the shelf for good.</p>
+          <a href="#sale" style="padding: 18px 34px; background-color: #221B2E; background-image: linear-gradient(#EDEBF2, #EDEBF2); background-repeat: no-repeat; background-position: right center; background-size: 0% 100%; color: #EDEBF2; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.05em; text-transform: uppercase; boxShadow: 6px 6px 0 rgba(34,27,46,0.28); transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #221B2E; transform: translateY(-3px) scale(1.03); box-shadow: 9px 12px 0 rgba(34,27,46,0.35)" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 rgba(34,27,46,0.3)">Shop the sale</a>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(48px, 6vw, 90px) clamp(16px, 3vw, 40px)">
+      <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 26px">
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.4vw, 58px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Best sellers</h2>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Restocked by demand</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px">
+        <sc-for list="{{ bestSellers }}" as="p" hint-placeholder-count="4">
+          <article onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="border: 1px solid #221B2E; display: flex; flex-direction: column; background: #EDEBF2; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-5px); box-shadow: 10px 10px 0 #221B2E">
+            <div style="position: relative; aspect-ratio: 1 / 1; overflow: hidden; borderBottom: 1px solid #221B2E">
+              <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ p.zoom }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1)">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ p.ph }}</span>
+              </span>
+              <span style="position: absolute; top: 10px; left: 10px; background: {{ p.badgeBg }}; color: {{ p.badgeFg }}; border: {{ p.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase">{{ p.badge }}</span>
+              <button onClick="{{ addToCart }}" style="position: absolute; left: 10px; right: 10px; bottom: 10px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px; opacity: {{ p.reveal }}; transform: {{ p.revealY }}; transition: opacity 220ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.96)">Add to bag</button>
+            </div>
+            <div style="padding: 13px; display: flex; justify-content: space-between; gap: 10px; align-items: baseline">
+              <h3 style="margin: 0; font-size: 14px; font-weight: 700">{{ p.name }}</h3>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">{{ p.price }}</span>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="borderTop: 1px solid #221B2E; background: #221B2E; color: #EDEBF2">
+      <div style="max-width: 1440px; margin: 0 auto; padding: clamp(44px, 5.5vw, 84px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; align-items: center">
+        <div>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 4.6vw, 62px); line-height: 0.92; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 12px">Get the drop<br /><span style="color: #9A8CFF">before it's gone</span></h2>
+          <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #B6AEC9; max-width: 40ch">One email a week. New stock first, no noise.</p>
+        </div>
+        <form onSubmit="{{ subscribe }}" style="display: flex; flex-direction: column; gap: 10px">
+          <div style="display: flex; flex-wrap: wrap; gap: 10px">
+            <input type="email" placeholder="you@email.com" style="flex: 1 1 200px; height: 54px; padding: 0 16px; border: 1px solid #EDEBF2; background: transparent; color: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; transition: box-shadow 200ms ease-out, border-color 200ms ease-out" style-focus="box-shadow: 4px 4px 0 {{ accent }}; border-color: {{ accent }}" />
+            <button type="submit" style="height: 54px; padding: 0 28px; border: 1px solid {{ accent }}; background-color: {{ accent }}; background-image: linear-gradient(#EDEBF2, #EDEBF2); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; color: #EDEBF2; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), border-color 200ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="background-size: 100% 100%; color: #221B2E; border-color: #EDEBF2; transform: scale(1.04); box-shadow: 0 8px 22px rgba(107,91,255,0.35)" style-active="transform: scale(0.97)">Sign me up</button>
+          </div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #A79CBD">{{ subscribeNote }}</span>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer style="background: #221B2E; color: #EDEBF2; borderTop: 1px solid #3A3348">
+    <div style="max-width: 1440px; margin: 0 auto; padding: clamp(36px, 4.5vw, 64px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px">
+      <div>
+        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; display: flex; gap: 2px; align-items: center; margin-bottom: 14px">
+          <span>Cloth</span><span style="background: {{ accent }}; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #B6AEC9; max-width: 30ch">Small-batch streetwear. Printed and packed in Stockholm.</p>
+        <div style="display: flex; gap: 8px; margin-top: 18px">
+          <a href="#instagram" aria-label="Instagram" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle>
+            </svg>
+          </a>
+          <a href="#facebook" aria-label="Facebook" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M13.5 21v-7.4h2.6l.4-3h-3V8.7c0-.9.3-1.5 1.6-1.5H16.6V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2h-2.6v3h2.6V21h3.6Z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div>
+          <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">{{ col.title }}</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px; align-items: start">
+            <sc-for list="{{ col.items }}" as="i" hint-placeholder-count="4">
+              <a href="#top" style="font-size: 13px; color: #D3CDE2; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">{{ i }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div>
+        <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Contact</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #D3CDE2; align-items: start">
+          <a href="#top" style="color: #D3CDE2; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">hey@clothse.com</a>
+          <span>+46 8 123 456</span>
+          <span>Hökensgatan 4<br />116 46 Stockholm, SE</span>
+        </div>
+      </div>
+    </div>
+    <div style="borderTop: 1px solid #3A3348; padding: 18px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #A79CBD; max-width: 1440px; margin: 0 auto">
+      <span>© 2026 ClothSE — all rights reserved</span>
+      <span style="display: flex; gap: 18px">
+        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Privacy</a>
+        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Terms</a>
+        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Shipping</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
+class Component extends DCLogic {
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, cart: null, width: 1440, subscribed: false, hover: null, cartKey: 0 };
+  scroller = React.createRef();
+
+  componentDidMount() {
+    try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    this.onDocClick = (e) => { if (!this.state.accountOpen) return; if (e.target.closest && e.target.closest('[data-account-menu]')) return; this.setState({ accountOpen: false }); };
+    document.addEventListener('click', this.onDocClick);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize);
+    document.removeEventListener('click', this.onDocClick); }
+
+  hoverProps(key) {
+    return {
+      onEnter: () => this.setState({ hover: key }),
+      onLeave: () => this.setState(s => (s.hover === key ? { hover: null } : null))
+    };
+  }
+  isHover(key) { return this.state.hover === key; }
+
+  navLink(key, active) {
+    const on = this.isHover('nav-' + key);
+    return {
+      ...this.hoverProps('nav-' + key),
+      lift: on ? 'translateY(-2px)' : 'translateY(0)',
+      bar: on || active ? 'scaleX(1)' : 'scaleX(0)'
+    };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const cart = this.state.cart ?? (this.props.cartCount ?? 4);
+    const mobile = this.state.width < 900;
+    const scrollBy = (dir) => {
+      const el = this.scroller.current;
+      if (el) el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 620), behavior: 'smooth' });
+    };
+    const bump = (key, zoom) => {
+      const on = this.isHover(key);
+      return {
+        ...this.hoverProps(key),
+        zoom: on ? 'scale(' + zoom + ')' : 'scale(1)',
+        reveal: on ? 1 : 0,
+        revealY: on ? 'translateY(0)' : 'translateY(10px)'
+      };
+    };
+
+    const cats = [
+      { label: 'Men', tag: '01 / 52 styles', ph: 'men' },
+      { label: 'Women', tag: '02 / 64 styles', ph: 'women' },
+      { label: 'Unisex', tag: '03 / 28 styles', ph: 'unisex' },
+      { label: 'New Arrivals', tag: '04 / 19 styles', ph: 'new arrivals' }
+    ].map((c, i) => {
+      const on = this.isHover('cat' + i);
+      return { ...c, href: 'Shop Listing.dc.html?cat=' + c.label, ...bump('cat' + i, 1.07), overlay: on ? 0.88 : 0, fg: on ? '#EDEBF2' : '#221B2E', arrow: on ? 'translateX(6px)' : 'none' };
+    });
+
+
+    /* Every product carries exactly one badge; CORE is the muted default status. */
+    function badgeStyle(b) {
+      const core = b === 'Core';
+      return {
+        badgeBg: core ? 'rgba(237,235,242,0.86)' : (b === 'Low stock' || b === 'Out of stock' ? '#221B2E' : '#FF6A2B'),
+        badgeFg: core ? '#5F5775' : '#EDEBF2',
+        badgeBorder: core ? '1px solid rgba(34,27,46,0.35)' : '1px solid #221B2E'
+      };
+    }
+    const arrivals = [
+      { name: 'Static Boxy Tee', price: '480.000₫', meta: 'Heavy 240gsm / 4 colors', badge: 'New', ph: 'product shot 01', sizes: 'S · M · L · XL' },
+      { name: 'Grid Cargo Pant', price: '1.180.000₫', meta: 'Ripstop / relaxed', badge: 'New', ph: 'product shot 02', sizes: '28 · 30 · 32 · 34' },
+      { name: 'Overdye Hoodie', price: '1.350.000₫', meta: 'Loopback / boxy', badge: 'Low stock', ph: 'product shot 03', sizes: 'M · L only' },
+      { name: 'Signal Beanie', price: '320.000₫', meta: 'Merino rib', badge: 'New', ph: 'product shot 04', sizes: 'One size' },
+      { name: 'Panel Work Jacket', price: '1.860.000₫', meta: 'Waxed canvas', badge: 'Restocked', ph: 'product shot 05', sizes: 'S · M · L' },
+      { name: 'Loop Cross Bag', price: '740.000₫', meta: 'Recycled nylon', badge: 'New', ph: 'product shot 06', sizes: 'One size' }
+    ].map((p, i) => ({ ...p, ...badgeStyle(p.badge), ...bump('arr' + i, 1.06) }));
+
+    const bestSellers = [
+      { name: 'Blank Heavy Tee', price: '420.000₫', ph: 'best seller 01', badge: 'Best seller' },
+      { name: 'Wide Denim 001', price: '1.280.000₫', ph: 'best seller 02', badge: 'Best seller' },
+      { name: 'Court Low Sneaker', price: '1.540.000₫', ph: 'best seller 03', badge: 'Best seller' },
+      { name: 'Logo Crew Sock 3pk', price: '240.000₫', ph: 'best seller 04', badge: 'Best seller' }
+    ].map((p, i) => ({ ...p, ...badgeStyle(p.badge), ...bump('bs' + i, 1.06) }));
+
+    const heroOn = this.isHover('hero');
+    return {
+      accent, cartCount: cart, cartKey: this.state.cartKey,
+      showDesktopNav: !mobile,
+      showLogin: !mobile && !this.state.user,
+      showAvatar: !!this.state.user,
+      showMobileLogin: !this.state.user,
+      accountOpen: !!this.state.accountOpen,
+      isAdmin: !!this.state.user && (this.state.user.role === 'admin' || this.state.user.email === 'ngbon2220805@gmail.com'),
+      notAdmin: !(!!this.state.user && (this.state.user.role === 'admin' || this.state.user.email === 'ngbon2220805@gmail.com')),
+      accountRoleLabel: (!!this.state.user && (this.state.user.role === 'admin' || this.state.user.email === 'ngbon2220805@gmail.com')) ? 'Signed in as (admin)' : 'Signed in as',
+      closeAccount: () => this.setState({ accountOpen: false }),
+      accountEmail: this.state.user ? this.state.user.email : '',
+      avatarInitials: this.state.user ? (this.state.user.name || this.state.user.email || '').trim().split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') : '',
+      toggleAccount: () => this.setState(s => ({ accountOpen: !s.accountOpen })),
+      signOut: () => { try { localStorage.removeItem('clothse-user'); } catch (e) {} this.setState({ user: null, accountOpen: false }); },
+      showMobileToggle: mobile,
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      searchOpen: this.state.searchOpen,
+      menuOpen: this.state.menuOpen && mobile,
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      addToCart: () => this.setState(s => ({ cart: cart + 1, cartKey: s.cartKey + 1 })),
+      subscribe: (e) => { e.preventDefault(); this.setState({ subscribed: true }); },
+      subscribeNote: this.state.subscribed ? "You're in — check your inbox for this week's arrivals." : 'No spam. Unsubscribe in one click.',
+      navHome: this.navLink('home', true),
+      navNew: this.navLink('new'),
+      navShop: this.navLink('shop'),
+      scrollerRef: this.scroller,
+      scrollPrev: () => scrollBy(-1),
+      scrollNext: () => scrollBy(1),
+      heroEnter: () => this.setState({ hover: 'hero' }),
+      heroLeave: () => this.setState(s => (s.hover === 'hero' ? { hover: null } : null)),
+      heroZoom: heroOn ? 'scale(1.05)' : 'scale(1)',
+      heroOverlay: heroOn ? 0.22 : 0,
+      shopLinks: [
+        { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', delay: '120ms', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', delay: '160ms', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+      categories: cats,
+      arrivals,
+      bestSellers,
+      footerCols: [
+        { title: 'Shop', items: ['New arrivals', 'Tops', 'Bottoms', 'Accessories', 'Footwear', 'Sale'] },
+        { title: 'Help', items: ['Size guide', 'Shipping', 'Returns', 'Track order', 'FAQ'] },
+        { title: 'Studio', items: ['About ClothSE', 'Sustainability', 'Stockists', 'Careers'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

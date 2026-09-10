@@ -1,0 +1,2151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#221B2E"/><rect x="52" y="86" width="96" height="60" fill="none" stroke="#6B5BFF" stroke-width="8"/><path d="M52 86l12-30h72l12 30" fill="none" stroke="#6B5BFF" stroke-width="8"/></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-slide-left { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(237,235,242,0.92); backdrop-filter: blur(12px); borderBottom: 1px solid #221B2E">
+    <div style="max-width: 1600px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+      <div style="display: flex; align-items: center; gap: clamp(16px, 2.2vw, 34px)">
+        <a href="ClothSE Homepage.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)">
+          <span>Cloth</span><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </a>
+        <span style="border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; padding: 5px 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase">Admin</span>
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
+            <a href="ClothSE Homepage.dc.html" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Storefront</a>
+            <a href="Shop Listing.dc.html" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Shop</a>
+            <a href="My Bag & Orders.dc.html?tab=pay" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Orders</a>
+          </nav>
+        </sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px">
+        <x-import component-from-global-scope="lang-switch" from="./lang-switch.js" hint-size="82px,40px"></x-import>
+        <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+          <input placeholder="Search orders, products, SKUs…" style="width: clamp(140px, 22vw, 280px); height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transform-origin: right center; animation: clothse-expand 260ms cubic-bezier(.2,.8,.2,1) both; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
+        </sc-if>
+        <button onClick="{{ toggleSearch }}" aria-label="Search" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 15px; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #6B5BFF; color: #EDEBF2; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.95)">⌕</button>
+        <div data-account-menu="1" style="position: relative">
+          <button onClick="{{ toggleAccount }}" aria-label="Account" style="width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.08); box-shadow: 0 0 0 3px rgba(107,91,255,0.32)" style-active="transform: scale(0.95)">BN</button>
+          <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
+            <div data-account-menu="1" style="position: absolute; top: calc(100% + 10px); right: 0; width: 252px; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); z-index: 60; display: flex; flex-direction: column; transform-origin: top right; animation: clothse-drop-in 200ms cubic-bezier(.2,.7,.2,1) both">
+              <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Signed in as</div>
+                <div style="font-size: 13px; word-break: break-all">bao@clothse.com</div>
+              </div>
+              <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
+              </a>
+              <a href="My Bag & Orders.dc.html?tab=pay" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
+              </a>
+              <a href="Favourites.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 20.2 5.1 13.4a4.4 4.4 0 0 1 0-6.3 4.4 4.4 0 0 1 6.2 0l.7.7.7-.7a4.4 4.4 0 0 1 6.2 0 4.4 4.4 0 0 1 0 6.3L12 20.2Z"></path></svg>Favourites
+              </a>
+              <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.2v2.4M12 18.4v2.4M4.8 12H2.4M21.6 12h-2.4M6.9 6.9 5.2 5.2M18.8 18.8l-1.7-1.7M17.1 6.9l1.7-1.7M5.2 18.8l1.7-1.7"></path></svg>Settings
+              </a>
+              <button onClick="{{ closeAccount }}" aria-current="page" style="text-align: left; height: 44px; padding: 0 14px; border: 0; background: #221B2E; color: #EDEBF2; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 13px">
+                <span style="display: flex; align-items: center; gap: 11px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 9.5h16v10H4z"></path><path d="M4 9.5 6 4.5h12l2 5"></path><path d="M9.5 13.5h5"></path></svg>Store Management
+                </span>
+                <span style="background: #6B5BFF; color: #EDEBF2; padding: 2px 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase">Admin</span>
+              </button>
+              <span style="height: 1px; background: #221B2E; display: block"></span>
+              <a href="Sign In & Sign Up.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; color: #B4471A; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9"></path><path d="M18.5 12h-8"></path><path d="m15.5 9 3 3-3 3"></path></svg>Sign Out
+              </a>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showMobileToggle }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; display: grid; place-items: center; gap: 4px; transition: background-color 180ms ease-out" style-hover="background: #6B5BFF">
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 12px; height: 2px; background: #221B2E; display: block"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
+        <a href="ClothSE Homepage.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Storefront</a>
+        <a href="Shop Listing.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Shop</a>
+        <a href="My Bag & Orders.dc.html?tab=pay" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Orders</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main style="max-width: 1600px; margin: 0 auto; padding: clamp(20px, 3vw, 36px) clamp(16px, 3vw, 40px) clamp(48px, 7vw, 88px)">
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: end; margin-bottom: clamp(20px, 3vw, 32px)">
+      <div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775; display: block; margin-bottom: 10px">Admin · ClothSE Stockholm</span>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(38px, 5.6vw, 76px); line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; margin: 0">Store Management</h1>
+      </div>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: start">
+        <span style="border: 1px dashed #221B2E; padding: 9px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">Synced {{ syncedAt }}</span>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: {{ shellCols }}; gap: clamp(16px, 2.4vw, 32px); align-items: start">
+
+      <nav aria-label="Admin sections" style="border: 1px solid #221B2E; display: flex; flex-direction: {{ railDir }}; position: sticky; top: 96px; background: #EDEBF2; overflow: hidden">
+        <sc-for list="{{ sections }}" as="s" hint-placeholder-count="4">
+          <button onClick="{{ s.onPick }}" aria-current="{{ s.aria }}" style="flex: {{ s.flex }}; text-align: left; padding: 15px 14px; border: 0; borderBottom: {{ s.divider }}; background: {{ s.bg }}; color: {{ s.fg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: background-color 180ms ease-out, color 180ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+            <span>{{ s.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; opacity: 0.6">{{ s.count }}</span>
+          </button>
+        </sc-for>
+      </nav>
+
+      <div>
+        <sc-if value="{{ onDashboard }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 16px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+              <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+                <div style="border: 1px solid #221B2E; background: {{ s.bg }}; color: {{ s.fg }}; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="transform: translateY(-3px); box-shadow: 7px 7px 0 #221B2E">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.72">{{ s.label }}</span>
+                  <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 3.4vw, 44px); line-height: 0.9; letter-spacing: -0.02em">{{ s.value }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.66">{{ s.note }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display: grid; grid-template-columns: {{ dashCols }}; gap: 16px; align-items: start">
+              <div style="border: 1px solid #221B2E; overflow: hidden">
+                <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E; display: flex; align-items: baseline; justify-content: space-between; gap: 12px">
+                  <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">Recent orders</h2>
+                  <button onClick="{{ goOrders }}" style="border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6B5BFF">All orders →</button>
+                </div>
+                <div style="overflow-x: auto">
+                  <table style="width: 100%; border-collapse: collapse; min-width: 520px">
+                    <thead>
+                      <tr style="background: #E3E0EA">
+                        <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Order</th>
+                        <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Customer</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Total</th>
+                        <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Status</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <sc-for list="{{ recentOrders }}" as="o" hint-placeholder-count="6">
+                        <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ o.id }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-size: 13px; font-weight: 500">{{ o.customer }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right">{{ o.total }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                            <span style="display: inline-block; background: {{ o.badgeBg }}; color: {{ o.badgeFg }}; border: 1px solid {{ o.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase">{{ o.status }}</span>
+                          </td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; text-align: right">{{ o.date }}</td>
+                        </tr>
+                      </sc-for>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div style="border: 1px solid #221B2E">
+                <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E">
+                  <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">Top selling</h2>
+                </div>
+                <div style="display: flex; flex-direction: column">
+                  <sc-for list="{{ topSellers }}" as="t" hint-placeholder-count="5">
+                    <div style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); display: flex; align-items: center; gap: 12px; transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                      <span style="width: 44px; height: 52px; flex: 0 0 auto; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px)"></span>
+                      <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+                        <span style="font-size: 13px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{ t.name }}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ t.brand }}</span>
+                      </span>
+                      <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 12px; flex: 0 0 auto">{{ t.units }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+
+            <div style="border: 1px solid #221B2E; overflow: hidden">
+              <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px">
+                <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">{{ attnTitle }}</h2>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ attnBreakdown }}</span>
+              </div>
+              <div style="overflow-x: auto">
+                <table style="width: 100%; border-collapse: collapse; min-width: 720px">
+                  <thead>
+                    <tr style="background: #E3E0EA">
+                      <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Product</th>
+                      <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Size</th>
+                      <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Listed</th>
+                      <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Warehouse</th>
+                      <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Status</th>
+                      <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <sc-for list="{{ attnRows }}" as="a" hint-placeholder-count="6">
+                      <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: flex; align-items: center; gap: 11px">
+                            <span style="width: 38px; height: 46px; flex: 0 0 auto; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px)"></span>
+                            <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0">
+                              <span style="font-size: 13px; font-weight: 700">{{ a.name }}</span>
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ a.brand }}</span>
+                            </span>
+                          </span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ a.size }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right">{{ a.listed }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.04em; color: {{ a.whColor }}">{{ a.wh }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: inline-block; background: {{ a.badgeBg }}; color: {{ a.badgeFg }}; border: 1px solid {{ a.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase">{{ a.badge }}</span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); text-align: right">
+                          <button onClick="{{ a.onRestock }}" style="border: 1px solid #221B2E; background: transparent; padding: 8px 13px; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: translateY(-2px)" style-active="transform: scale(0.96)">Restock</button>
+                        </td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+              <sc-if value="{{ noAttn }}" hint-placeholder-val="{{ false }}">
+                <span style="display: block; padding: 22px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">All sizes healthy · nothing to restock</span>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onRevenue }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 16px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; padding: 15px 16px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; position: relative">
+              <div style="display: flex; flex-wrap: wrap; gap: 8px; position: relative">
+                <sc-for list="{{ rangePills }}" as="r" hint-placeholder-count="4">
+                  <button onClick="{{ r.onPick }}" style="padding: 11px 17px; border: 1px solid #221B2E; borderRadius: 999px; background: {{ r.bg }}; color: {{ r.fg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: translateY(-2px)" style-active="transform: scale(0.96)">{{ r.label }}{{ r.caret }}</button>
+                </sc-for>
+                <sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="position: absolute; top: calc(100% + 10px); left: 0; z-index: 20; width: min(360px, 84vw); background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.18); padding: 16px; display: flex; flex-direction: column; gap: 14px; transform-origin: top left; animation: clothse-drop-in 180ms cubic-bezier(.2,.7,.2,1) both">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Custom range</span>
+                      <button onClick="{{ closePicker }}" aria-label="Close" style="width: 28px; height: 28px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 12px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px">
+                      <label style="display: flex; flex-direction: column; gap: 7px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">From</span>
+                        <input type="date" value="{{ customFrom }}" onChange="{{ setCustomFrom }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                      </label>
+                      <label style="display: flex; flex-direction: column; gap: 7px">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">To</span>
+                        <input type="date" value="{{ customTo }}" onChange="{{ setCustomTo }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                      </label>
+                    </div>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #5F5775; borderTop: 1px solid rgba(34,27,46,0.18); padding-top: 12px">{{ customPreview }}</span>
+                    <div style="display: flex; gap: 9px; justify-content: end">
+                      <button onClick="{{ closePicker }}" style="padding: 12px 16px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Cancel</button>
+                      <button onClick="{{ applyCustom }}" disabled="{{ applyDisabled }}" style="padding: 12px 20px; background-color: #6B5BFF; color: #EDEBF2; border: 1px solid #221B2E; cursor: pointer; opacity: {{ applyOpacity }}; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 4px 4px 0 #221B2E; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); box-shadow: 6px 7px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Apply range</button>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ rangeNote }}</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+              <sc-for list="{{ revStats }}" as="s" hint-placeholder-count="3">
+                <div style="border: 1px solid #221B2E; background: {{ s.bg }}; color: {{ s.fg }}; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="transform: translateY(-3px); box-shadow: 7px 7px 0 #221B2E">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.72">{{ s.label }}</span>
+                  <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 3.4vw, 44px); line-height: 0.9; letter-spacing: -0.02em">{{ s.value }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.66">{{ s.note }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="border: 1px solid #221B2E">
+              <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between">
+                <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">Revenue over time</h2>
+                <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap">
+                  <span style="display: flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">
+                    <span style="width: 12px; height: 12px; background: #6B5BFF; border: 1px solid #221B2E; display: block"></span>Revenue</span>
+                  <span style="display: flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">
+                    <span style="width: 14px; height: 3px; background: #0E9E7E; display: block"></span>Profit</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ chartUnitLabel }} · peak {{ chartPeak }}</span>
+                </div>
+              </div>
+              <div style="padding: 20px 16px 14px; height: 260px; position: relative; box-sizing: border-box; overflow: hidden">
+                <div style="display: flex; align-items: end; gap: 4px; height: 100%">
+                  <sc-for list="{{ chartBars }}" as="b" hint-placeholder-count="30">
+                    <span title="{{ b.title }}" style="flex: 1 1 0; height: 100%; display: flex; flex-direction: column; justify-content: end; align-items: stretch; gap: 7px; min-width: 0">
+                      <span style="height: {{ b.height }}; background: {{ b.bg }}; border: 1px solid #221B2E; display: block; transition: background-color 200ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1); transform-origin: bottom" style-hover="transform: scaleY(1.03); background: #221B2E"></span>
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; line-height: 12px; color: #5F5775; text-align: center; white-space: nowrap">{{ b.labelText }}</span>
+                    </span>
+                  </sc-for>
+                </div>
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; left: 16px; top: 20px; width: calc(100% - 32px); height: calc(100% - 53px); pointer-events: none">
+                  <polyline points="{{ profitPoints }}" fill="none" stroke="#0E9E7E" strokeWidth="2" vectorEffect="non-scaling-stroke" strokeLinejoin="round"></polyline>
+                </svg>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: {{ dashCols }}; gap: 16px; align-items: start">
+              <div style="border: 1px solid #221B2E">
+                <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E">
+                  <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">By brand</h2>
+                </div>
+                <div style="overflow-x: auto">
+                  <table style="width: 100%; border-collapse: collapse; min-width: 660px">
+                    <thead>
+                      <tr style="background: #E3E0EA">
+                        <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Brand</th>
+                        <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Share</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Units</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Revenue</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Cost</th>
+                        <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Margin %</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <sc-for list="{{ brandRows }}" as="b" hint-placeholder-count="4">
+                        <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-size: 13px; font-weight: 700; white-space: nowrap">{{ b.name }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); width: 45%">
+                            <span style="display: flex; align-items: center; gap: 9px">
+                              <span style="flex: 1 1 auto; height: 12px; background: #E1DEEA; border: 1px solid #221B2E; display: block; overflow: hidden">
+                                <span style="display: block; height: 100%; width: {{ b.width }}; background: #6B5BFF"></span>
+                              </span>
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; flex: 0 0 auto">{{ b.pct }}</span>
+                            </span>
+                          </td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; text-align: right; white-space: nowrap">{{ b.units }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; white-space: nowrap">{{ b.value }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; text-align: right; white-space: nowrap">{{ b.cost }}</td>
+                          <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #0E9E7E; text-align: right; white-space: nowrap">{{ b.margin }}</td>
+                        </tr>
+                      </sc-for>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 16px">
+                <div style="border: 1px solid #221B2E">
+                  <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E">
+                    <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">By category</h2>
+                  </div>
+                  <div style="padding: 15px 16px; display: flex; flex-direction: column; gap: 14px">
+                    <sc-for list="{{ catBars }}" as="c" hint-placeholder-count="4">
+                      <div style="display: flex; flex-direction: column; gap: 7px">
+                        <span style="display: flex; justify-content: space-between; gap: 10px; align-items: baseline">
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase">{{ c.name }}</span>
+                          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775">{{ c.value }} · {{ c.pct }}</span>
+                        </span>
+                        <span style="height: 16px; background: #E1DEEA; border: 1px solid #221B2E; display: block; overflow: hidden">
+                          <span style="display: block; height: 100%; width: {{ c.width }}; background: #6B5BFF; transition: width 320ms cubic-bezier(.2,.7,.2,1)"></span>
+                        </span>
+                        <span style="display: flex; justify-content: space-between; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #5F5775">
+                          <span>Cost {{ c.cost }}</span>
+                          <span style="color: #0E9E7E">Margin {{ c.margin }}</span>
+                        </span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+
+                <div style="border: 1px solid #221B2E">
+                  <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E">
+                    <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">By payment</h2>
+                  </div>
+                  <div style="padding: 15px 16px; display: flex; flex-direction: column; gap: 13px">
+                    <span style="display: flex; height: 26px; border: 1px solid #221B2E; overflow: hidden">
+                      <sc-for list="{{ paySplit }}" as="p" hint-placeholder-count="2">
+                        <span style="width: {{ p.width }}; background: {{ p.bg }}; color: {{ p.fg }}; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em">{{ p.pct }}</span>
+                      </sc-for>
+                    </span>
+                    <sc-for list="{{ paySplit }}" as="p" hint-placeholder-count="2">
+                      <span style="display: flex; align-items: center; gap: 10px; justify-content: space-between">
+                        <span style="display: flex; align-items: center; gap: 9px">
+                          <span style="width: 13px; height: 13px; background: {{ p.bg }}; border: 1px solid #221B2E; flex: 0 0 auto; display: block"></span>
+                          <span style="font-size: 13px">{{ p.label }}</span>
+                        </span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ p.value }}</span>
+                      </span>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="border: 1px solid #221B2E">
+              <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E; display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between">
+                <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">Margin leaders</h2>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">By product margin · sold units only</span>
+              </div>
+              <div style="display: grid; grid-template-columns: {{ marginCols }}">
+                <div style="padding: 15px 16px; display: flex; flex-direction: column; gap: 12px; borderRight: {{ marginDivider }}">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #0E9E7E">Highest margin</span>
+                  <sc-for list="{{ marginTop3 }}" as="p" hint-placeholder-count="3">
+                    <div style="display: flex; align-items: baseline; gap: 12px; justify-content: space-between; borderBottom: 1px solid rgba(34,27,46,0.16); padding-bottom: 10px">
+                      <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+                        <span style="font-size: 13px; font-weight: 700">{{ p.name }}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ p.brand }}</span>
+                      </span>
+                      <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; line-height: 1; color: #0E9E7E; flex: 0 0 auto">{{ p.margin }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="padding: 15px 16px; display: flex; flex-direction: column; gap: 12px; borderTop: {{ marginTopDivider }}">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #FF6A2B">Lowest margin</span>
+                  <sc-for list="{{ marginBottom3 }}" as="p" hint-placeholder-count="3">
+                    <div style="display: flex; align-items: baseline; gap: 12px; justify-content: space-between; borderBottom: 1px solid rgba(34,27,46,0.16); padding-bottom: 10px">
+                      <span style="display: flex; flex-direction: column; gap: 4px; min-width: 0">
+                        <span style="font-size: 13px; font-weight: 700">{{ p.name }}</span>
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ p.brand }}</span>
+                      </span>
+                      <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; line-height: 1; color: #FF6A2B; flex: 0 0 auto">{{ p.margin }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onStorage }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+              <sc-for list="{{ storageStats }}" as="s" hint-placeholder-count="3">
+                <div style="border: 1px solid #221B2E; background: {{ s.bg }}; color: {{ s.fg }}; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="transform: translateY(-3px); box-shadow: 7px 7px 0 #221B2E">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; opacity: 0.72">{{ s.label }}</span>
+                  <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(30px, 3.4vw, 44px); line-height: 0.9; letter-spacing: -0.02em">{{ s.value }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.66">{{ s.note }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="border: 1px solid #221B2E; padding: 16px; display: flex; flex-wrap: wrap; gap: 14px; align-items: end; justify-content: space-between">
+              <div>
+                <h2 style="margin: 0 0 5px; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 3vw, 34px); text-transform: uppercase; line-height: 1">Stock intake</h2>
+                <p style="margin: 0; font-size: 13px; color: #4A4358">{{ storageSummary }}</p>
+              </div>
+              <button onClick="{{ openIntake }}" style="padding: 14px 24px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">+ New stock intake</button>
+            </div>
+
+            <div style="border: 1px solid #221B2E; overflow: hidden">
+              <div style="overflow-x: auto">
+                <table style="width: 100%; border-collapse: collapse; min-width: 900px">
+                  <thead>
+                    <tr style="background: #E3E0EA">
+                      <sc-for list="{{ batchCols }}" as="c" hint-placeholder-count="7">
+                        <th style="text-align: {{ c.align }}; padding: 11px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400; white-space: nowrap">{{ c.label }}</th>
+                      </sc-for>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <sc-for list="{{ batchRows }}" as="b" hint-placeholder-count="6">
+                      <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-size: 13px">{{ b.brand }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: flex; flex-direction: column; gap: 3px">
+                            <span style="font-size: 13px; font-weight: 700">{{ b.item }}</span>
+                            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: {{ b.itemNoteColor }}">{{ b.itemNote }}</span>
+                          </span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5F5775; white-space: nowrap">{{ b.date }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right">{{ b.recv }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; color: {{ b.remainColor }}">{{ b.remain }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; white-space: nowrap">{{ b.cost }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: inline-block; background: {{ b.badgeBg }}; color: {{ b.badgeFg }}; border: 1px solid {{ b.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">{{ b.badge }}</span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); text-align: right">
+                          <sc-if value="{{ b.hasHistory }}" hint-placeholder-val="{{ true }}">
+                            <button onClick="{{ b.onHistory }}" style="padding: 8px 13px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">View history</button>
+                          </sc-if>
+                        </td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+              <div style="padding: 11px 14px; display: flex; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775; borderTop: 1px solid #221B2E; background: #E3E0EA">
+                <span>{{ storageFootLeft }}</span><span>{{ storageFootRight }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onProducts }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: end; justify-content: space-between">
+              <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: end">
+                <label style="display: flex; flex-direction: column; gap: 7px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Search</span>
+                  <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Product name…" style="height: 44px; width: clamp(160px, 26vw, 260px); padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 7px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Brand</span>
+                  <select value="{{ brandFilter }}" onChange="{{ setBrandFilter }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                    <sc-for list="{{ brandOptions }}" as="b" hint-placeholder-count="5">
+                      <option value="{{ b }}">{{ b }}</option>
+                    </sc-for>
+                  </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 7px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Category</span>
+                  <select value="{{ catFilter }}" onChange="{{ setCatFilter }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                    <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="5">
+                      <option value="{{ c }}">{{ c }}</option>
+                    </sc-for>
+                  </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 7px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Status</span>
+                  <select value="{{ statusFilter }}" onChange="{{ setStatusFilter }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                    <sc-for list="{{ statusOptions }}" as="s" hint-placeholder-count="4">
+                      <option value="{{ s }}">{{ s }}</option>
+                    </sc-for>
+                  </select>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: 7px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Sort by</span>
+                  <select value="{{ sortBy }}" onChange="{{ setSortBy }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                    <sc-for list="{{ sortOptions }}" as="s" hint-placeholder-count="3">
+                      <option value="{{ s }}">{{ s }}</option>
+                    </sc-for>
+                  </select>
+                </label>
+              </div>
+              <button onClick="{{ openProductForm }}" style="padding: 14px 24px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">+ Add product</button>
+            </div>
+
+            <div style="border: 1px solid #221B2E; overflow: hidden">
+              <div style="overflow-x: auto">
+                <table style="width: 100%; border-collapse: collapse; min-width: 860px">
+                  <thead>
+                    <tr style="background: #E3E0EA">
+                      <sc-for list="{{ productCols }}" as="c" hint-placeholder-count="7">
+                        <th style="text-align: {{ c.align }}; padding: 11px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400; white-space: nowrap">{{ c.label }}</th>
+                      </sc-for>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <sc-for list="{{ productRows }}" as="p" hint-placeholder-count="8">
+                      <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: flex; align-items: center; gap: 11px">
+                            <span style="width: 40px; height: 48px; flex: 0 0 auto; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px)"></span>
+                            <span style="display: flex; flex-direction: column; gap: 3px">
+                              <span style="font-size: 13px; font-weight: 700">{{ p.name }}</span>
+                              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #5F5775">{{ p.sku }}</span>
+                            </span>
+                          </span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-size: 13px">{{ p.brand }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #5F5775">{{ p.cat }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right">{{ p.price }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; color: {{ p.saleColor }}">{{ p.sale }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right">{{ p.stock }}</td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: inline-block; background: {{ p.badgeBg }}; color: {{ p.badgeFg }}; border: 1px solid {{ p.badgeBorder }}; padding: 3px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">{{ p.badge }}</span>
+                        </td>
+                        <td style="padding: 11px 14px; borderBottom: 1px solid rgba(34,27,46,0.16)">
+                          <span style="display: flex; gap: 6px; justify-content: end">
+                            <button onClick="{{ p.onEdit }}" style="padding: 8px 13px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Edit</button>
+                            <button onClick="{{ p.onDelete }}" style="padding: 8px 13px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">Delete</button>
+                          </span>
+                        </td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+              <sc-if value="{{ noProducts }}" hint-placeholder-val="{{ false }}">
+                <div style="padding: clamp(30px, 5vw, 56px); text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; borderTop: 1px solid rgba(34,27,46,0.16)">
+                  <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase">No matching products</span>
+                  <button onClick="{{ clearProductFilters }}" style="padding: 11px 20px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Clear filters</button>
+                </div>
+              </sc-if>
+              <div style="padding: 11px 14px; display: flex; justify-content: space-between; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775; borderTop: 1px solid #221B2E; background: #E3E0EA">
+                <span>{{ productCountLabel }}</span><span>{{ lowStockLabel }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onBrands }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; padding: 16px; display: flex; flex-wrap: wrap; gap: 14px; align-items: end; justify-content: space-between">
+              <div>
+                <h2 style="margin: 0 0 5px; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 3vw, 34px); text-transform: uppercase; line-height: 1">Brands</h2>
+                <p style="margin: 0; font-size: 13px; color: #4A4358">{{ brandSummary }}</p>
+              </div>
+              <button onClick="{{ openBrandForm }}" style="padding: 14px 24px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">+ Add brand</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: 12px">
+              <sc-for list="{{ brandCards }}" as="b" hint-placeholder-count="4">
+                <div style="border: 1px solid #221B2E; padding: 16px; display: flex; flex-direction: column; gap: 14px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="transform: translateY(-3px); box-shadow: 7px 7px 0 #221B2E">
+                  <div style="display: flex; align-items: center; gap: 13px">
+                    <span style="width: 54px; height: 54px; flex: 0 0 auto; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px); display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">Logo</span>
+                    <span style="display: flex; flex-direction: column; gap: 4px">
+                      <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1; text-transform: uppercase">{{ b.name }}</span>
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ b.countLabel }}</span>
+                    </span>
+                  </div>
+                  <div style="display: flex; gap: 6px">
+                    <button onClick="{{ b.onEdit }}" style="padding: 9px 15px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Edit</button>
+                    <button onClick="{{ b.onDelete }}" style="padding: 9px 15px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">Delete</button>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onOrders }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; display: flex; flex-wrap: wrap; overflow: hidden">
+              <sc-for list="{{ orderTabs }}" as="t" hint-placeholder-count="6">
+                <button onClick="{{ t.onPick }}" aria-current="{{ t.aria }}" style="flex: 1 1 130px; padding: 14px 12px; border: 0; borderRight: 1px solid rgba(34,27,46,0.3); background: {{ t.bg }}; color: {{ t.fg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">
+                  <span>{{ t.label }}</span><span style="opacity: 0.65">{{ t.count }}</span>
+                </button>
+              </sc-for>
+            </div>
+
+            <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="3">
+              <div style="border: 1px solid #221B2E; padding: 15px 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; align-items: center; transition: box-shadow 200ms ease-out" style-hover="box-shadow: 6px 6px 0 rgba(34,27,46,0.14)">
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ o.id }}</span>
+                  <span style="font-size: 14px; font-weight: 700">{{ o.customer }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ o.date }}</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 9px">
+                  <span style="display: flex">
+                    <span style="width: 34px; height: 40px; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px)"></span>
+                    <span style="width: 34px; height: 40px; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #D9D5E4 0 8px, #C9C4DB 8px 16px); margin-left: -10px"></span>
+                  </span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #5F5775">{{ o.itemsLabel }}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 5px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px">{{ o.total }}</span>
+                  <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">
+                    <span style="border: 1px solid #221B2E; padding: 2px 6px">{{ o.pay }}</span>{{ o.payNote }}
+                  </span>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: end">
+                  <sc-if value="{{ o.hasPrimary }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ o.onPrimary }}" style="padding: 12px 18px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-2px); box-shadow: 4px 4px 0 #221B2E" style-active="transform: scale(0.97)">{{ o.primaryLabel }}</button>
+                  </sc-if>
+                  <sc-if value="{{ o.hasCancel }}" hint-placeholder-val="{{ false }}">
+                    <button onClick="{{ o.onCancel }}" style="padding: 12px 16px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">Cancel order</button>
+                  </sc-if>
+                  <sc-if value="{{ o.viewOnly }}" hint-placeholder-val="{{ false }}">
+                    <button style="padding: 12px 16px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">View details</button>
+                  </sc-if>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ noOrders }}" hint-placeholder-val="{{ false }}">
+              <div style="border: 1px solid #221B2E; padding: clamp(38px, 6vw, 76px); text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5F5775">{{ emptyOrdersTag }}</span>
+                <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3.4vw, 40px); text-transform: uppercase">Nothing here right now</h3>
+                <p style="margin: 0; font-size: 14px; color: #4A4358; max-width: 40ch">Orders will appear in this queue as they reach that stage.</p>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+
+  <sc-if value="{{ productFormOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 90; background: rgba(34,27,46,0.55); display: flex; align-items: start; justify-content: center; padding: clamp(12px, 4vh, 48px) 16px; overflow-y: auto">
+      <div style="width: min(760px, 100%); background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 12px 12px 0 rgba(34,27,46,0.35); animation: clothse-fade-up 220ms cubic-bezier(.2,.7,.2,1) both">
+        <div style="padding: 16px 18px; borderBottom: 1px solid #221B2E; display: flex; align-items: center; justify-content: space-between; gap: 12px; background: #EDEBF2">
+          <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 3vw, 32px); text-transform: uppercase; line-height: 1">{{ productFormTitle }}</h2>
+          <button onClick="{{ closeProductForm }}" aria-label="Close" style="width: 34px; height: 34px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 14px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+        </div>
+        <div style="padding: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px">
+          <label style="display: flex; flex-direction: column; gap: 7px; grid-column: 1 / -1">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Product name</span>
+            <input value="{{ pfName }}" onChange="{{ setPfName }}" placeholder="Panel Work Jacket" style="height: 48px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+          </label>
+          <sc-if value="{{ pfAdding }}" hint-placeholder-val="{{ true }}">
+            <div style="grid-column: 1 / -1; position: relative; z-index: 0; border: 1px solid #221B2E; background: #E3E0EA; padding: 15px; display: flex; flex-direction: column; gap: 12px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Source from warehouse · one row per size</span>
+
+              <sc-for list="{{ srcRows }}" as="r" hint-placeholder-count="1">
+                <div style="border: 1px solid #221B2E; background: #EDEBF2; padding: 13px; display: flex; flex-direction: column; gap: 11px; animation: clothse-fade-up 180ms ease-out both">
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ r.num }}</span>
+                    <sc-if value="{{ r.removable }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ r.onRemove }}" aria-label="Remove size row" style="width: 30px; height: 30px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 12px; display: grid; place-items: center; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">✕</button>
+                    </sc-if>
+                  </div>
+                  <div style="display: grid; grid-template-columns: 120px minmax(220px, 1fr) 130px; gap: 11px; align-items: end">
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size</span>
+                      <select value="{{ r.size }}" onChange="{{ r.onSize }}" style="height: 46px; padding: 0 11px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">Pick…</option>
+                        <sc-for list="{{ sizeOptions }}" as="s" hint-placeholder-count="4">
+                          <option value="{{ s }}">{{ s }}</option>
+                        </sc-for>
+                      </select>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px; min-width: 0">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Source batch</span>
+                      <select value="{{ r.batchId }}" onChange="{{ r.onBatch }}" style="height: 46px; padding: 0 11px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">{{ r.emptyLabel }}</option>
+                        <sc-for list="{{ r.options }}" as="o" hint-placeholder-count="2">
+                          <option value="{{ o.id }}">{{ o.label }}</option>
+                        </sc-for>
+                      </select>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Qty to list</span>
+                      <input value="{{ r.qty }}" onChange="{{ r.onQty }}" placeholder="0" style="height: 46px; padding: 0 12px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                  </div>
+                  <sc-if value="{{ r.hasBatch }}" hint-placeholder-val="{{ false }}">
+                    <span style="display: flex; flex-wrap: wrap; gap: 4px 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">
+                      <span>{{ r.availLabel }}</span><span>{{ r.holdNote }}</span>
+                    </span>
+                  </sc-if>
+                </div>
+              </sc-for>
+
+              <button onClick="{{ addSrcRow }}" style="align-self: start; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6B5BFF; borderBottom: 1px solid #6B5BFF; transition: color 180ms ease-out, border-color 180ms ease-out" style-hover="color: #221B2E; border-color: #221B2E">+ Add another size</button>
+
+              <sc-if value="{{ hasSrcSummary }}" hint-placeholder-val="{{ false }}">
+                <span style="border: 1px dashed #221B2E; padding: 11px 13px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #221B2E; line-height: 1.5; display: flex; flex-direction: column; gap: 5px"><span>This product will be listed in:</span><span style="font-size: 14px; font-weight: 700; letter-spacing: 0.04em">{{ srcSummaryList }}</span></span>
+              </sc-if>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">Each batch is single-size, so one row links one batch to one product size. Only unlinked intake batches appear here.</span>
+            </div>
+          </sc-if>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Brand</span>
+            <select value="{{ brandValue }}" onChange="{{ setPfBrand }}" disabled="{{ brandLocked }}" style="height: 48px; padding: 0 11px; border: 1px solid #221B2E; background: {{ brandFieldBg }}; color: {{ brandFieldFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; cursor: {{ brandFieldCursor }}; appearance: {{ brandFieldArrow }}; -webkit-appearance: {{ brandFieldArrow }}; -moz-appearance: {{ brandFieldArrow }}">
+              <option value="">Select a brand…</option>
+              <sc-for list="{{ brandNames }}" as="b" hint-placeholder-count="4">
+                <option value="{{ b }}">{{ b }}</option>
+              </sc-for>
+            </select>
+            <sc-if value="{{ pfAdding }}" hint-placeholder-val="{{ true }}">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">{{ brandLockNote }}</span>
+            </sc-if>
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Category</span>
+            <select value="{{ catValue }}" onChange="{{ setPfCat }}" disabled="{{ catLocked }}" style="height: 48px; padding: 0 11px; border: 1px solid #221B2E; background: {{ catFieldBg }}; color: {{ catFieldFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; cursor: {{ catFieldCursor }}; appearance: {{ catFieldArrow }}; -webkit-appearance: {{ catFieldArrow }}; -moz-appearance: {{ catFieldArrow }}">
+              <sc-for list="{{ catNames }}" as="c" hint-placeholder-count="4">
+                <option value="{{ c }}">{{ c }}</option>
+              </sc-for>
+            </select>
+            <sc-if value="{{ pfAdding }}" hint-placeholder-val="{{ true }}">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">{{ catLockNote }}</span>
+            </sc-if>
+          </label>
+
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Tags</span>
+            <div style="position: relative">
+              <input value="{{ tagDraft }}" onChange="{{ onTagChange }}" onKeyDown="{{ onTagKeyDown }}" onFocus="{{ onTagFocus }}" onBlur="{{ onTagBlur }}" placeholder="Type a tag, press Enter…" aria-autocomplete="list" style="height: 48px; width: 100%; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+              <sc-if value="{{ showSuggestions }}" hint-placeholder-val="{{ false }}">
+                <div role="listbox" style="position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 5; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 6px 6px 0 rgba(34,27,46,0.18); max-height: 208px; overflow-y: auto; display: flex; flex-direction: column; animation: clothse-drop-in 160ms cubic-bezier(.2,.7,.2,1) both">
+                  <sc-for list="{{ tagSuggestions }}" as="s" hint-placeholder-count="3">
+                    <button onMouseDown="{{ s.onPick }}" role="option" aria-selected="{{ s.aria }}" style="text-align: left; padding: 11px 13px; border: 0; borderBottom: 1px solid rgba(34,27,46,0.14); background: {{ s.bg }}; color: {{ s.fg }}; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: background-color 140ms ease-out, color 140ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">
+                      <span>{{ s.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.6">{{ s.hint }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <sc-if value="{{ hasTags }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-wrap: wrap; gap: 7px; margin-top: 3px">
+                <sc-for list="{{ tagChips }}" as="t" hint-placeholder-count="3">
+                  <span style="display: inline-flex; align-items: center; gap: 8px; background: #6B5BFF; color: #EDEBF2; border: 1px solid #221B2E; borderRadius: 999px; padding: 6px 6px 6px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; animation: clothse-fade-up 160ms ease-out both">
+                    {{ t.label }}
+                    <button onClick="{{ t.onRemove }}" aria-label="Remove tag" style="width: 20px; height: 20px; borderRadius: 999px; border: 0; background: rgba(34,27,46,0.35); color: #EDEBF2; cursor: pointer; display: grid; place-items: center; font-size: 11px; line-height: 1; transition: background-color 160ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; transform: scale(1.14)">✕</button>
+                  </span>
+                </sc-for>
+              </div>
+            </sc-if>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #5F5775; line-height: 1.5">{{ tagHelp }}</span>
+          </div>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Price (VNĐ)</span>
+            <input value="{{ pfPrice }}" onChange="{{ setPfPrice }}" placeholder="186" style="height: 48px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+          </label>
+          <sc-if value="{{ pfEditing }}" hint-placeholder-val="{{ false }}">
+            <div style="grid-column: 1 / -1; border: 1px solid #221B2E; background: #E3E0EA; padding: 15px; display: flex; flex-direction: column; gap: 12px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Restock from warehouse · per size</span>
+              <sc-for list="{{ sizeRows }}" as="z" hint-placeholder-count="3">
+                <div style="border: {{ z.rowBorder }}; background: #EDEBF2; padding: 13px; display: grid; grid-template-columns: minmax(200px, 1fr) 150px; gap: 11px 14px; align-items: end">
+                  <span style="display: flex; flex-direction: column; gap: 5px">
+                    <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 20px; text-transform: uppercase; line-height: 1">{{ z.label }}</span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #5F5775">{{ z.info }}</span>
+                  </span>
+                  <label style="display: flex; flex-direction: column; gap: 6px">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Restock</span>
+                    <input value="{{ z.value }}" onChange="{{ z.onChange }}" autoFocus="{{ z.autofocus }}" disabled="{{ z.disabled }}" placeholder="{{ z.placeholder }}" style="height: 46px; padding: 0 12px; border: 1px solid #221B2E; background: {{ z.inputBg }}; color: {{ z.inputColor }}; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                  </label>
+                  <span style="grid-column: 1 / -1; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: {{ z.noteColor }}; line-height: 1.5">{{ z.note }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ noSizeRows }}" hint-placeholder-val="{{ false }}">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">No sizes linked to this product yet</span>
+              </sc-if>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">{{ restockTotalNote }}</span>
+            </div>
+          </sc-if>
+
+          <div style="grid-column: 1 / -1; border: 1px solid rgba(34,27,46,0.3); padding: 14px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between">
+            <button onClick="{{ toggleSale }}" role="switch" aria-checked="{{ saleAria }}" style="display: flex; align-items: center; gap: 10px; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 500; color: {{ saleFg }}">
+              <span style="width: 42px; height: 23px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ saleTrack }}; flex: 0 0 auto; position: relative; display: block; transition: background-color 220ms ease-out">
+                <span style="position: absolute; top: 2px; left: 2px; width: 17px; height: 17px; borderRadius: 999px; background: {{ saleKnob }}; border: 1px solid #221B2E; transform: {{ saleKnobX }}; transition: transform 240ms cubic-bezier(.2,.7,.2,1); display: block"></span>
+              </span>
+              On sale
+            </button>
+            <sc-if value="{{ saleOn }}" hint-placeholder-val="{{ false }}">
+              <label style="display: flex; align-items: center; gap: 10px">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Sale price</span>
+                <input value="{{ pfSale }}" onChange="{{ setPfSale }}" placeholder="149" style="height: 44px; width: 130px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+              </label>
+            </sc-if>
+          </div>
+
+          <div style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 9px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Images</span>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(122px, 1fr)); gap: 12px">
+              <sc-for list="{{ imageSlots }}" as="im" hint-placeholder-count="4">
+                <div style="position: relative; aspect-ratio: 4 / 5; border: {{ im.border }}; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px); outline: {{ im.ring }}; outline-offset: 2px; transition: transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: translateY(-3px); box-shadow: 4px 4px 0 #221B2E">
+                  <span style="position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 5px; padding: 4px 6px; cursor: grab; color: #5F5775" title="Drag to reorder">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"></circle><circle cx="15" cy="6" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="9" cy="18" r="1.6"></circle><circle cx="15" cy="18" r="1.6"></circle></svg>
+                  </span>
+                  <button onClick="{{ im.onRemove }}" aria-label="Remove image" style="position: absolute; right: 4px; top: 4px; width: 22px; height: 22px; border: 1px solid #221B2E; background: rgba(237,235,242,0.92); color: #221B2E; cursor: pointer; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1; transition: background-color 160ms ease-out, color 160ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2">×</button>
+                  <sc-if value="{{ im.isCover }}" hint-placeholder-val="{{ false }}">
+                    <span style="position: absolute; left: 6px; bottom: 6px; background: #6B5BFF; color: #EDEBF2; border: 1px solid #221B2E; padding: 3px 7px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase">Cover</span>
+                  </sc-if>
+                  <span style="position: absolute; right: 6px; bottom: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; color: #5F5775">{{ im.num }}</span>
+                </div>
+              </sc-for>
+              <button onClick="{{ addImage }}" aria-label="Add image" style="border: 1px dashed #221B2E; background: transparent; aspect-ratio: 4 / 5; width: 100%; cursor: pointer; display: grid; place-items: center; gap: 4px; font-size: 22px; color: #5F5775; transition: border-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="border-color: #6B5BFF; color: #6B5BFF; transform: translateY(-3px)">
+                <span>+</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase">Add</span>
+              </button>
+            </div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">Drag to reorder — first image is used as the main product photo</span>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">4:5 crop · JPG or PNG · max 4MB</span>
+          </div>
+
+          <label style="grid-column: 1 / -1; display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Description</span>
+            <textarea value="{{ pfDesc }}" onChange="{{ setPfDesc }}" rows="4" placeholder="Fabric, fit, care notes…" style="padding: 12px 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.5; resize: vertical; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF"></textarea>
+          </label>
+
+          <div style="grid-column: 1 / -1; border: 1px solid #221B2E; background: #E3E0EA; padding: 15px; display: flex; flex-direction: column; gap: 12px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Product details</span>
+            <sc-for list="{{ detailRows }}" as="d" hint-placeholder-count="4">
+              <div style="display: grid; grid-template-columns: minmax(140px, 1fr) minmax(220px, 2.4fr) 34px; gap: 10px; align-items: center">
+                <input value="{{ d.label }}" onChange="{{ d.onLabel }}" placeholder="{{ d.labelHint }}" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                <input value="{{ d.value }}" onChange="{{ d.onValue }}" placeholder="{{ d.valueHint }}" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                <sc-if value="{{ d.removable }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ d.onRemove }}" aria-label="Remove detail row" style="width: 34px; height: 34px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 12px; display: grid; place-items: center; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">✕</button>
+                </sc-if>
+              </div>
+            </sc-for>
+            <button onClick="{{ addDetailRow }}" style="align-self: start; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6B5BFF; borderBottom: 1px solid #6B5BFF; transition: color 180ms ease-out, border-color 180ms ease-out" style-hover="color: #221B2E; border-color: #221B2E">+ Add detail row</button>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #5F5775; line-height: 1.5">Shows as the Product Details accordion on the product page.</span>
+          </div>
+
+          <div style="grid-column: 1 / -1; border: 1px solid #221B2E; background: #E3E0EA; padding: 15px; display: flex; flex-direction: column; gap: 12px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Size guide · measurements in cm</span>
+            <sc-if value="{{ hasGuideSizes }}" hint-placeholder-val="{{ true }}">
+              <div style="display: flex; flex-direction: column; gap: 10px">
+                <sc-for list="{{ guideRows }}" as="g" hint-placeholder-count="3">
+                  <div style="display: grid; grid-template-columns: 92px repeat(3, minmax(90px, 1fr)); gap: 10px; align-items: end">
+                    <span style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size</span>
+                      <span style="height: 44px; padding: 0 12px; border: 1px dashed #221B2E; display: flex; align-items: center; font-family: 'JetBrains Mono', monospace; font-size: 14px">{{ g.size }}</span>
+                    </span>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Chest</span>
+                      <input value="{{ g.chest }}" onChange="{{ g.onChest }}" placeholder="56" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Length</span>
+                      <input value="{{ g.length }}" onChange="{{ g.onLength }}" placeholder="70" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Sleeve</span>
+                      <input value="{{ g.sleeve }}" onChange="{{ g.onSleeve }}" placeholder="62" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ noGuideSizes }}" hint-placeholder-val="{{ false }}">
+              <span style="border: 1px dashed #221B2E; padding: 12px 13px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775; line-height: 1.5">{{ guideEmptyNote }}</span>
+            </sc-if>
+            <label style="display: flex; flex-direction: column; gap: 7px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Model fit note</span>
+              <input value="{{ pfModelNote }}" onChange="{{ setPfModelNote }}" placeholder="183cm / 74kg wearing size M" style="height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+            </label>
+          </div>
+        </div>
+        <div style="padding: 16px 18px; borderTop: 1px solid #221B2E; display: flex; flex-wrap: wrap; gap: 10px; justify-content: end; background: #E3E0EA">
+          <button onClick="{{ closeProductForm }}" style="padding: 14px 20px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 200ms ease-out, color 200ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Cancel</button>
+          <button onClick="{{ saveProduct }}" style="padding: 14px 26px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">{{ productSaveLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ historyOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeHistory }}" style="position: fixed; inset: 0; z-index: 95; background: rgba(34,27,46,0.55); display: flex; justify-content: end">
+      <aside onClick="{{ stopClick }}" style="width: min(560px, 100%); height: 100%; background: #EDEBF2; borderLeft: 1px solid #221B2E; boxShadow: -12px 0 0 rgba(34,27,46,0.25); display: flex; flex-direction: column; overflow-y: auto; animation: clothse-slide-left 260ms cubic-bezier(.2,.7,.2,1) both">
+        <div style="padding: 18px; borderBottom: 1px solid #221B2E; display: flex; align-items: start; justify-content: space-between; gap: 12px; position: sticky; top: 0; background: #EDEBF2">
+          <div style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Intake history · {{ historyCount }}</span>
+            <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 3.2vw, 32px); text-transform: uppercase; line-height: 1">{{ historyTitle }}</h2>
+          </div>
+          <button onClick="{{ closeHistory }}" aria-label="Close" style="width: 34px; height: 34px; flex: 0 0 auto; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 14px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+        </div>
+
+        <div style="padding: 14px 18px; borderBottom: 1px solid #221B2E; background: #E3E0EA">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: #221B2E; line-height: 1.6">{{ historySummary }}</span>
+        </div>
+
+        <div style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse; min-width: 500px">
+            <thead>
+              <tr style="background: #E3E0EA">
+                <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Received</th>
+                <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Qty</th>
+                <th style="text-align: right; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Unit cost</th>
+                <th style="text-align: left; padding: 10px 14px; borderBottom: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; font-weight: 400">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ historyRows }}" as="h" hint-placeholder-count="3">
+                <tr style="transition: background-color 160ms ease-out" style-hover="background: #E6E3EE">
+                  <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 11px; white-space: nowrap">{{ h.date }}</td>
+                  <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; white-space: nowrap">{{ h.recv }}</td>
+                  <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); text-align: right; white-space: nowrap">
+                    <span style="display: flex; flex-direction: column; gap: 3px; align-items: end">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ h.cost }}</span>
+                      <sc-if value="{{ h.hasDelta }}" hint-placeholder-val="{{ true }}">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: {{ h.deltaColor }}">{{ h.delta }}</span>
+                      </sc-if>
+                    </span>
+                  </td>
+                  <td style="padding: 12px 14px; borderBottom: 1px solid rgba(34,27,46,0.16); font-size: 13px">{{ h.source }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ intakeOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 90; background: rgba(34,27,46,0.55); display: flex; align-items: start; justify-content: center; padding: clamp(24px, 6vh, 70px) 16px; overflow-y: auto">
+      <div style="width: min(760px, 100%); background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 12px 12px 0 rgba(34,27,46,0.35); animation: clothse-fade-up 220ms cubic-bezier(.2,.7,.2,1) both">
+        <div style="padding: 16px 18px; borderBottom: 1px solid #221B2E; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; line-height: 1">New stock intake</h2>
+          <button onClick="{{ closeIntake }}" aria-label="Close" style="width: 34px; height: 34px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 14px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+        </div>
+
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+            <label style="display: flex; flex-direction: column; gap: 7px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Brand</span>
+              <select value="{{ sfBrand }}" onChange="{{ setSfBrand }}" style="height: 48px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; cursor: pointer">
+                <sc-for list="{{ brandNames }}" as="b" hint-placeholder-count="4">
+                  <option value="{{ b }}">{{ b }}</option>
+                </sc-for>
+              </select>
+            </label>
+            <label style="display: flex; flex-direction: column; gap: 7px">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Date received</span>
+              <input type="date" value="{{ sfDate }}" onChange="{{ setSfDate }}" style="height: 48px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+            </label>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Line items</span>
+            <sc-for list="{{ sfLines }}" as="l" hint-placeholder-count="1">
+              <div style="border: 1px solid rgba(34,27,46,0.35); padding: 14px; display: flex; flex-direction: column; gap: 12px; animation: clothse-fade-up 180ms ease-out both">
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between">
+                  <span style="display: flex; gap: 0; border: 1px solid #221B2E">
+                    <button onClick="{{ l.pickExisting }}" aria-pressed="{{ l.isExisting }}" style="padding: 9px 14px; border: 0; borderRight: 1px solid #221B2E; background: {{ l.exBg }}; color: {{ l.exFg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out">Existing product</button>
+                    <button onClick="{{ l.pickNew }}" aria-pressed="{{ l.isNew }}" style="padding: 9px 14px; border: 0; background: {{ l.newBg }}; color: {{ l.newFg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out">New item</button>
+                  </span>
+                  <span style="display: flex; align-items: center; gap: 10px">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ l.num }} · {{ l.lineTotal }}</span>
+                    <sc-if value="{{ l.removable }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ l.onRemove }}" style="padding: 7px 12px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B">Remove</button>
+                    </sc-if>
+                  </span>
+                </div>
+
+                <sc-if value="{{ l.isExisting }}" hint-placeholder-val="{{ true }}">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px">
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Product</span>
+                      <select value="{{ l.product }}" onChange="{{ l.onProduct }}" style="height: 44px; padding: 0 11px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">Select a product…</option>
+                        <sc-for list="{{ productNames }}" as="p" hint-placeholder-count="4">
+                          <option value="{{ p }}">{{ p }}</option>
+                        </sc-for>
+                      </select>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size *</span>
+                      <select value="{{ l.size }}" onChange="{{ l.onSize }}" aria-invalid="{{ l.sizeMissing }}" style="height: 44px; padding: 0 11px; border: 1px solid {{ l.sizeBorder }}; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">Pick a size…</option>
+                        <sc-for list="{{ sizeNames }}" as="v" hint-placeholder-count="4">
+                          <option value="{{ v }}">{{ v }}</option>
+                        </sc-for>
+                      </select>
+                      <sc-if value="{{ l.sizeMissing }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #B4471A; line-height: 1.4">Size required</span>
+                      </sc-if>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Quantity</span>
+                      <input value="{{ l.qty }}" onChange="{{ l.onQty }}" placeholder="40" style="height: 44px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Unit cost</span>
+                      <input value="{{ l.cost }}" onChange="{{ l.onCost }}" placeholder="96" style="height: 44px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ l.isNew }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px">
+                    <label style="display: flex; flex-direction: column; gap: 6px; grid-column: span 2">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Item description</span>
+                      <input value="{{ l.name }}" onChange="{{ l.onName }}" placeholder="Reverse weave hood — grey marl" style="height: 44px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Category *</span>
+                      <select value="{{ l.cat }}" onChange="{{ l.onCat }}" aria-invalid="{{ l.catMissing }}" style="height: 44px; padding: 0 11px; border: 1px solid {{ l.catBorder }}; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">Pick a category…</option>
+                        <sc-for list="{{ catNames }}" as="c" hint-placeholder-count="4">
+                          <option value="{{ c }}">{{ c }}</option>
+                        </sc-for>
+                      </select>
+                      <sc-if value="{{ l.catMissing }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #B4471A; line-height: 1.4">Category required</span>
+                      </sc-if>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size *</span>
+                      <select value="{{ l.size }}" onChange="{{ l.onSize }}" aria-invalid="{{ l.sizeMissing }}" style="height: 44px; padding: 0 11px; border: 1px solid {{ l.sizeBorder }}; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
+                        <option value="">Pick a size…</option>
+                        <sc-for list="{{ sizeNames }}" as="v" hint-placeholder-count="4">
+                          <option value="{{ v }}">{{ v }}</option>
+                        </sc-for>
+                      </select>
+                      <sc-if value="{{ l.sizeMissing }}" hint-placeholder-val="{{ false }}">
+                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #B4471A; line-height: 1.4">Size required</span>
+                      </sc-if>
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Quantity</span>
+                      <input value="{{ l.qty }}" onChange="{{ l.onQty }}" placeholder="80" style="height: 44px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                    <label style="display: flex; flex-direction: column; gap: 6px">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Unit cost</span>
+                      <input value="{{ l.cost }}" onChange="{{ l.onCost }}" placeholder="58" style="height: 44px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                    </label>
+                  </div>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #5F5775; line-height: 1.5">Stays unlinked until you list it as a product — the size is still recorded now so Add Product can match it.</span>
+                </sc-if>
+              </div>
+            </sc-for>
+
+            <button onClick="{{ addLine }}" style="align-self: start; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #6B5BFF; borderBottom: 1px solid #6B5BFF; transition: color 180ms ease-out, border-color 180ms ease-out" style-hover="color: #221B2E; border-color: #221B2E">+ Add another item</button>
+          </div>
+
+          <div style="border: 1px solid #221B2E; background: #E3E0EA; padding: 16px; display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Total cost · {{ intakeLineLabel }}</span>
+            <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.4vw, 40px); line-height: 0.9; letter-spacing: -0.02em">{{ intakeTotal }}</span>
+            <sc-if value="{{ showIntakeBlocked }}" hint-placeholder-val="{{ false }}">
+              <span style="flex: 1 0 100%; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: #B4471A; line-height: 1.5">{{ intakeBlockedNote }}</span>
+            </sc-if>
+          </div>
+        </div>
+
+        <div style="padding: 16px 18px; borderTop: 1px solid #221B2E; display: flex; flex-wrap: wrap; gap: 10px; justify-content: end; background: #E3E0EA">
+          <button onClick="{{ closeIntake }}" style="padding: 14px 20px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 200ms ease-out, color 200ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Cancel</button>
+          <button onClick="{{ confirmIntake }}" disabled="{{ intakeBlocked }}" style="padding: 14px 26px; background-color: {{ confirmBg }}; color: {{ confirmFg }}; cursor: {{ confirmCursor }}; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Confirm intake</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ brandFormOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 90; background: rgba(34,27,46,0.55); display: flex; align-items: start; justify-content: center; padding: clamp(24px, 8vh, 90px) 16px; overflow-y: auto">
+      <div style="width: min(460px, 100%); background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 12px 12px 0 rgba(34,27,46,0.35); animation: clothse-fade-up 220ms cubic-bezier(.2,.7,.2,1) both">
+        <div style="padding: 16px 18px; borderBottom: 1px solid #221B2E; display: flex; align-items: center; justify-content: space-between; gap: 12px">
+          <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; line-height: 1">{{ brandFormTitle }}</h2>
+          <button onClick="{{ closeBrandForm }}" aria-label="Close" style="width: 34px; height: 34px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 14px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+        </div>
+        <div style="padding: 18px; display: flex; flex-direction: column; gap: 16px">
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Brand name</span>
+            <input value="{{ bfName }}" onChange="{{ setBfName }}" placeholder="Stüssy" style="height: 48px; padding: 0 13px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+          </label>
+          <div style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Logo</span>
+            <div style="border: 1px dashed #221B2E; padding: 18px; display: flex; gap: 14px; align-items: center">
+              <span style="width: 58px; height: 58px; flex: 0 0 auto; border: 1px solid #221B2E; background: repeating-linear-gradient(135deg, #E1DEEA 0 8px, #D3CFE0 8px 16px)"></span>
+              <span style="display: flex; flex-direction: column; gap: 7px; align-items: start">
+                <button style="padding: 11px 18px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; transition: background-color 200ms ease-out, color 200ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Upload logo</button>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">Square SVG or PNG</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div style="padding: 16px 18px; borderTop: 1px solid #221B2E; display: flex; gap: 10px; justify-content: end; background: #E3E0EA">
+          <button onClick="{{ closeBrandForm }}" style="padding: 14px 20px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 200ms ease-out, color 200ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Cancel</button>
+          <button onClick="{{ saveBrand }}" style="padding: 14px 24px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">{{ brandSaveLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startSection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dashboard&quot;,&quot;options&quot;:[&quot;dashboard&quot;,&quot;revenue&quot;,&quot;brands&quot;,&quot;storage&quot;,&quot;products&quot;,&quot;orders&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Admin&quot;}}">
+const SECTIONS = [
+  { id: 'dashboard', label: 'Dashboard' },
+  { id: 'revenue', label: 'Revenue' },
+  { id: 'brands', label: 'Brands' },
+  { id: 'storage', label: 'Storage' },
+  { id: 'products', label: 'Products' },
+  { id: 'orders', label: 'Orders' }
+];
+const SEED_BATCHES = [
+  // Nike Suede Court Hi — size L: 3 batches, full lifecycle + cost trend (FIFO / View History demo)
+  { id: 'sb-l1', brand: 'Nike', item: 'Suede Court Hi', variant: 'L', cat: 'Footwear', linked: true, date: '2026-05-18', recv: 24, remain: 0, cost: 116 },
+  { id: 'sb-l2', brand: 'Nike', item: 'Suede Court Hi', variant: 'L', cat: 'Footwear', linked: true, date: '2026-06-30', recv: 48, remain: 12, cost: 108 },
+  { id: 'sb-l3', brand: 'Nike', item: 'Suede Court Hi', variant: 'L', cat: 'Footwear', linked: true, date: '2026-08-25', recv: 30, remain: 30, cost: 120 },
+  // same product, size M: every batch fully listed — warehouse-depleted size
+  { id: 'sb-m1', brand: 'Nike', item: 'Suede Court Hi', variant: 'M', cat: 'Footwear', linked: true, date: '2026-06-20', recv: 16, remain: 0, cost: 114 },
+  { id: 'sb-m2', brand: 'Nike', item: 'Suede Court Hi', variant: 'M', cat: 'Footwear', linked: true, date: '2026-08-05', recv: 12, remain: 0, cost: 118 },
+  // same product, size S: its own separate batch, partially listed
+  { id: 'sb-s1', brand: 'Nike', item: 'Suede Court Hi', variant: 'S', cat: 'Footwear', linked: true, date: '2026-07-15', recv: 24, remain: 14, cost: 110 },
+  // Champion — unlinked description, 3 single-size batches at different dates/costs (Add Product source)
+  { id: 'sb-u1', brand: 'Champion', item: 'Reverse weave hood — grey marl', variant: '', size: 'M', cat: 'Tops', linked: false, date: '2026-08-19', recv: 80, remain: 80, cost: 62 },
+  { id: 'sb-u2', brand: 'Champion', item: 'Reverse weave hood — grey marl', variant: '', size: 'S', cat: 'Tops', linked: false, date: '2026-08-20', recv: 24, remain: 24, cost: 58 },
+  { id: 'sb-u3', brand: 'Champion', item: 'Reverse weave hood — grey marl', variant: '', size: 'L', cat: 'Tops', linked: false, date: '2026-08-21', recv: 32, remain: 32, cost: 60 },
+  // Stüssy — unlinked, second brand in the pool so the locked-brand filter is visible
+  { id: 'sb-u4', brand: 'Stüssy', item: 'Washed cord overshirt — sand', variant: '', size: 'M', cat: 'Tops', linked: false, date: '2026-08-23', recv: 28, remain: 28, cost: 74 },
+  { id: 'sb-u5', brand: 'Stüssy', item: 'Washed cord overshirt — sand', variant: '', size: 'L', cat: 'Tops', linked: false, date: '2026-08-24', recv: 22, remain: 22, cost: 76 },
+  // Stüssy — linked, two batches, rising cost
+  { id: 'sb-t1', brand: 'Stüssy', item: 'Basic Stock Logo Tee', variant: 'S', cat: 'Tops', linked: true, date: '2026-06-11', recv: 90, remain: 0, cost: 31 },
+  { id: 'sb-t2', brand: 'Stüssy', item: 'Basic Stock Logo Tee', variant: 'S', cat: 'Tops', linked: true, date: '2026-08-14', recv: 120, remain: 45, cost: 34 },
+  // Carhartt — One size accessory
+  { id: 'sb-c1', brand: 'Carhartt', item: 'Duck Canvas Cap', variant: 'One size', cat: 'Accessories', linked: true, date: '2026-04-24', recv: 30, remain: 0, cost: 24 },
+  { id: 'sb-c2', brand: 'Carhartt', item: 'Duck Canvas Cap', variant: 'One size', cat: 'Accessories', linked: true, date: '2026-07-28', recv: 50, remain: 8, cost: 22 },
+  // Carhartt — single fully listed batch
+  { id: 'sb-j1', brand: 'Carhartt', item: 'Detroit Work Jacket', variant: 'M', cat: 'Tops', linked: true, date: '2026-08-02', recv: 40, remain: 0, cost: 96 },
+  // warehouse cover for two low-stock listed sizes (Needs attention · quick restock possible)
+  { id: 'sb-g1', brand: 'Carhartt', item: 'Grid Cargo Pant', variant: 'S', cat: 'Bottoms', linked: true, date: '2026-08-21', recv: 40, remain: 34, cost: 71 },
+  { id: 'sb-h1', brand: 'Champion', item: 'Overdye Hoodie', variant: 'L', cat: 'Tops', linked: true, date: '2026-08-12', recv: 36, remain: 18, cost: 84 }
+];
+const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One size'];
+const EMPTY_LINE = { mode: 'existing', product: '', size: '', name: '', cat: '', qty: '', cost: '' };
+const CATS = ['Tops', 'Bottoms', 'Accessories', 'Footwear'];
+const TAG_LIBRARY = ['New', 'Restocked', 'Unisex', 'Men', 'Women', 'Best seller', 'Core', 'Limited', 'Organic cotton', 'Sale', 'Waterproof', 'Heavyweight'];
+const SEED_PRODUCTS = [
+  { id: 'p1', name: 'Panel Work Jacket', sku: 'CSE-JKT-186', brand: 'Stüssy', cat: 'Tops', price: 186, sale: null, stock: 24, tags: ['New', 'Unisex'] },
+  { id: 'p2', name: 'Grid Cargo Pant', sku: 'CSE-PNT-118', brand: 'Carhartt', cat: 'Bottoms', price: 118, sale: null, stock: 9, tags: ['Men', 'Heavyweight'], sizes: [{ size: 'S', stock: 0 }, { size: 'M', stock: 9 }] },
+  { id: 'p3', name: 'Mesh Layer Tee', sku: 'CSE-TEE-052', brand: 'Stüssy', cat: 'Tops', price: 52, sale: 36, stock: 41, tags: ['Sale', 'Unisex'] },
+  { id: 'p4', name: 'Court Low Sneaker', sku: 'CSE-SNK-154', brand: 'Nike', cat: 'Footwear', price: 154, sale: null, stock: 0, tags: ['Best seller'], sizes: [{ size: 'M', stock: 0 }] },
+  { id: 'p5', name: 'Overdye Hoodie', sku: 'CSE-HDY-135', brand: 'Champion', cat: 'Tops', price: 135, sale: null, stock: 6, tags: ['Restocked', 'Organic cotton'], sizes: [{ size: 'M', stock: 2 }, { size: 'L', stock: 4 }] },
+  { id: 'p6', name: 'Canvas Tote XL', sku: 'CSE-BAG-058', brand: 'Champion', cat: 'Accessories', price: 58, sale: null, stock: 63, tags: ['Core', 'Unisex'] },
+  { id: 'p7', name: 'Sport Sandal FX', sku: 'CSE-SDL-092', brand: 'Nike', cat: 'Footwear', price: 92, sale: 64, stock: 18, tags: ['Sale', 'Women'] },
+  { id: 'p8', name: 'Suede Court Hi', sku: 'CSE-SNK-198', brand: 'Nike', cat: 'Footwear', price: 198, sale: null, stock: 8, tags: ['Limited'], sizes: [{ size: 'S', stock: 5 }, { size: 'M', stock: 0 }, { size: 'L', stock: 3 }] }
+];
+const SEED_BRANDS = [
+  { id: 'b1', name: 'Carhartt' }, { id: 'b2', name: 'Stüssy' }, { id: 'b3', name: 'Nike' }, { id: 'b4', name: 'Champion' }
+];
+const STATUSES = [
+  { id: 'pay', label: 'To Pay' },
+  { id: 'processing', label: 'Processing' },
+  { id: 'shipping', label: 'Shipping' },
+  { id: 'completed', label: 'Completed' },
+  { id: 'cancelled', label: 'Cancelled' },
+  { id: 'refund', label: 'Return / Refund' }
+];
+const SEED_ORDERS = [
+  { id: '#CSE-4417', customer: 'Elin Vikström', total: 244, items: 3, pay: 'QR', date: '24 Aug', status: 'pay' },
+  { id: '#CSE-4416', customer: 'Jonas Ek', total: 118, items: 1, pay: 'COD', date: '24 Aug', status: 'pay' },
+  { id: '#CSE-4415', customer: 'Mira Holm', total: 396, items: 4, pay: 'QR', date: '23 Aug', status: 'processing' },
+  { id: '#CSE-4413', customer: 'Adam Persson', total: 154, items: 1, pay: 'COD', date: '23 Aug', status: 'processing' },
+  { id: '#CSE-4409', customer: 'Sofia Lund', total: 212, items: 2, pay: 'QR', date: '21 Aug', status: 'shipping' },
+  { id: '#CSE-4404', customer: 'Nils Aberg', total: 88, items: 2, pay: 'COD', date: '19 Aug', status: 'shipping' },
+  { id: '#CSE-4398', customer: 'Klara Dahl', total: 306, items: 3, pay: 'QR', date: '17 Aug', status: 'completed' },
+  { id: '#CSE-4391', customer: 'Otto Bergman', total: 142, items: 1, pay: 'QR', date: '15 Aug', status: 'completed' },
+  { id: '#CSE-4386', customer: 'Vera Ohlin', total: 76, items: 1, pay: 'COD', date: '13 Aug', status: 'cancelled' },
+  { id: '#CSE-4380', customer: 'Hugo Falk', total: 198, items: 1, pay: 'QR', date: '11 Aug', status: 'refund' }
+];
+const RANGES = ['This week', 'This month', 'This year', 'Custom range'];
+const REV_SERIES = {
+  'This week': { unit: 'day', labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], values: [1240, 980, 1610, 1420, 2380, 3120, 1870], orders: 46, note: '18 – 24 Aug 2026' },
+  'This month': { unit: 'day', labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'], values: [820, 940, 1310, 760, 1180, 2050, 1620, 990, 1240, 1480, 1130, 1720, 2260, 1390, 880, 1040, 1590, 1810, 1270, 1460, 2180, 2640, 1520, 1180, 1350, 1690, 1240, 1980, 2410, 1720], orders: 214, note: '1 – 30 Aug 2026' },
+  'This year': { unit: 'month', labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], values: [28400, 24100, 31600, 29800, 36200, 41800, 38400, 44600, 0, 0, 0, 0], orders: 1842, note: 'Jan – Aug 2026 · YTD' },
+  'Custom range': { unit: 'day', labels: ['12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24'], values: [1590, 1810, 1270, 1460, 2180, 2640, 1520, 1180, 1350, 1690, 1240, 1980, 2410], orders: 92, note: '12 – 24 Aug 2026' }
+};
+const REV_CATS = [
+  { name: 'Tops', share: 0.38, margin: 0.38 }, { name: 'Footwear', share: 0.29, margin: 0.28 },
+  { name: 'Bottoms', share: 0.21, margin: 0.34 }, { name: 'Accessories', share: 0.12, margin: 0.40 }
+];
+const MARGIN_PRODUCTS = [
+  { name: 'Stüssy Basic Logo Tee', brand: 'Stüssy', margin: 0.46 },
+  { name: 'Carhartt WIP Beanie', brand: 'Carhartt', margin: 0.43 },
+  { name: 'Champion Reverse Weave Hoodie', brand: 'Champion', margin: 0.39 },
+  { name: 'Carhartt Double Knee Pant', brand: 'Carhartt', margin: 0.29 },
+  { name: 'Nike Dunk Low Retro', brand: 'Nike', margin: 0.26 },
+  { name: 'Nike Air Force 1 ’07', brand: 'Nike', margin: 0.22 }
+];
+const REV_BRANDS = [
+  { name: 'Nike', share: 0.34, units: 412, margin: 0.31 }, { name: 'Stüssy', share: 0.27, units: 368, margin: 0.42 },
+  { name: 'Carhartt', share: 0.24, units: 341, margin: 0.36 }, { name: 'Champion', share: 0.15, units: 296, margin: 0.28 }
+];
+const EMPTY_SRC = { size: '', batchId: '', qty: '' };
+const DEFAULT_IMAGE_COUNT = 4;
+const DETAIL_HINTS = [
+  { label: 'Fabric', value: '480gsm brushed loopback, 100% organic cotton' },
+  { label: 'Fit', value: 'Boxy, true to size' },
+  { label: 'Made in', value: 'Portugal' },
+  { label: 'Care', value: 'Cold wash, dry flat' }
+];
+const EMPTY_DETAILS = DETAIL_HINTS.map(d => ({ label: '', value: '' }));
+const EMPTY_PF = { name: '', brand: '', cat: 'Tops', tags: [], price: '', sale: '', saleOn: false, stock: '', desc: '', srcRows: [{ ...EMPTY_SRC }], restocks: {}, details: EMPTY_DETAILS.map(d => ({ ...d })), guide: {}, modelNote: '' };
+
+class Component extends DCLogic {
+  state = {
+    width: 1440, section: 'dashboard', searchOpen: false, accountOpen: false, menuOpen: false,
+    products: SEED_PRODUCTS.map(p => ({ ...p })),
+    brands: SEED_BRANDS.map(b => ({ ...b })),
+    orders: SEED_ORDERS.map(o => ({ ...o })),
+    addedBatches: [], batchEdits: {}, srcQuery: '', srcOpen: false,
+    intakeOpen: false, historyOf: null,
+    sfBrand: 'Carhartt', sfDate: '2026-08-27',
+    sfLines: [{ ...EMPTY_LINE }],
+    query: '', brandFilter: 'All brands', catFilter: 'All categories', statusFilter: 'All statuses', sortBy: 'Default',
+    orderTab: 'pay', range: 'This month',
+    pickerOpen: false, customFrom: '2026-08-12', customTo: '2026-08-24', customApplied: null,
+    productFormOpen: false, editingProduct: null, pf: { ...EMPTY_PF },
+    tagDraft: '', tagFocused: false, tagLibrary: TAG_LIBRARY.slice(),
+    brandFormOpen: false, editingBrand: null, bfName: ''
+  };
+
+  componentDidMount() {
+    const start = this.props.startSection;
+    if (start && SECTIONS.some(s => s.id === start)) this.setState({ section: start });
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    this.onDocClick = (e) => {
+      if (!this.state.accountOpen) return;
+      if (e.target.closest && e.target.closest('[data-account-menu]')) return;
+      this.setState({ accountOpen: false });
+    };
+    document.addEventListener('click', this.onDocClick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    document.removeEventListener('click', this.onDocClick);
+  }
+
+  setPf(key, v) { this.setState(s => ({ pf: { ...s.pf, [key]: v } })); }
+
+  fmtDate(iso, withYear) {
+    const parts = String(iso || '').split('-');
+    if (parts.length !== 3) return '';
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const d = String(Number(parts[2]));
+    const m = months[Number(parts[1]) - 1] || '';
+    return withYear ? d + ' ' + m + ' ' + parts[0] : d + ' ' + m;
+  }
+  customLabel(from, to) {
+    if (!from || !to) return '';
+    const sameYear = from.slice(0, 4) === to.slice(0, 4);
+    return this.fmtDate(from, !sameYear) + ' – ' + this.fmtDate(to, true);
+  }
+  pickRange = (r) => {
+    if (r === 'Custom range') {
+      this.setState(s => ({ range: r, pickerOpen: !(s.range === r && s.pickerOpen) }));
+    } else {
+      this.setState({ range: r, pickerOpen: false });
+    }
+  };
+  applyCustom = () => {
+    const { customFrom, customTo } = this.state;
+    if (!customFrom || !customTo) return;
+    const flip = customFrom > customTo;
+    const from = flip ? customTo : customFrom;
+    const to = flip ? customFrom : customTo;
+    this.setState({ customFrom: from, customTo: to, customApplied: { from: from, to: to }, pickerOpen: false, range: 'Custom range' });
+  };
+
+  addTag = (raw) => {
+    const name = String(raw || '').trim().replace(/,+$/, '');
+    if (!name) return;
+    this.setState(s => {
+      const exists = s.pf.tags.some(t => t.toLowerCase() === name.toLowerCase());
+      const canonical = s.tagLibrary.find(t => t.toLowerCase() === name.toLowerCase()) || name;
+      return {
+        pf: exists ? s.pf : { ...s.pf, tags: s.pf.tags.concat(canonical) },
+        tagLibrary: s.tagLibrary.some(t => t.toLowerCase() === canonical.toLowerCase()) ? s.tagLibrary : s.tagLibrary.concat(canonical),
+        tagDraft: ''
+      };
+    });
+  };
+
+  onTagKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const sugg = this.matchingTags();
+      const draft = this.state.tagDraft.trim();
+      this.addTag(sugg.length === 1 && draft ? sugg[0] : draft);
+    } else if (e.key === 'Backspace' && !this.state.tagDraft) {
+      this.setState(s => ({ pf: { ...s.pf, tags: s.pf.tags.slice(0, -1) } }));
+    } else if (e.key === 'Escape') {
+      this.setState({ tagDraft: '' });
+    }
+  };
+
+  matchingTags() {
+    const q = this.state.tagDraft.trim().toLowerCase();
+    const chosen = this.state.pf.tags.map(t => t.toLowerCase());
+    return this.state.tagLibrary
+      .filter(t => !chosen.includes(t.toLowerCase()) && (q === '' || t.toLowerCase().includes(q)))
+      .slice(0, 6);
+  }
+
+  allBatches() {
+    const edits = this.state.batchEdits || {};
+    const raw = (this.state.addedBatches || []).concat(SEED_BATCHES.map(b => ({ ...b })));
+    return raw.map(b => ({ ...b, ...(edits[b.id] || {}) }));
+  }
+  warehouseFor(name, size) {
+    return this.allBatches()
+      .filter(b => b.linked && b.item === name && b.remain > 0 && (size == null || b.variant === size))
+      .sort((a, b) => (a.date < b.date ? -1 : 1));
+  }
+  productSizes(name) {
+    const p = this.state.products.find(x => x.name === name);
+    if (p && p.sizes && p.sizes.length) return p.sizes.map(s => ({ ...s }));
+    const seen = [];
+    this.allBatches().filter(b => b.linked && b.item === name && b.variant).forEach(b => {
+      if (!seen.some(s => s.size === b.variant)) seen.push({ size: b.variant, stock: 0 });
+    });
+    if (!seen.length && p) return [{ size: 'One size', stock: p.stock }];
+    return seen;
+  }
+  setSrcRow = (i, patch) => {
+    this.setState(s => ({ pf: { ...s.pf, srcRows: s.pf.srcRows.map((r, idx) => (idx === i ? { ...r, ...patch } : r)) } }));
+  };
+  addSrcRow = () => this.setState(s => ({ pf: { ...s.pf, srcRows: s.pf.srcRows.concat([{ ...EMPTY_SRC }]) } }));
+  removeSrcRow = (i) => this.setState(s => ({ pf: { ...s.pf, srcRows: s.pf.srcRows.filter((r, idx) => idx !== i) } }));
+  setDetail = (i, key, val) => this.setState(s => ({ pf: { ...s.pf, details: s.pf.details.map((d, idx) => (idx === i ? { ...d, [key]: val } : d)) } }));
+  addDetailRow = () => this.setState(s => ({ pf: { ...s.pf, details: s.pf.details.concat([{ label: '', value: '' }]) } }));
+  removeDetailRow = (i) => this.setState(s => ({ pf: { ...s.pf, details: s.pf.details.filter((d, idx) => idx !== i) } }));
+  setGuide = (size, field, val) => this.setState(s => ({
+    pf: { ...s.pf, guide: { ...s.pf.guide, [size]: { ...(s.pf.guide[size] || {}), [field]: val } } }
+  }));
+  attentionRows() {
+    const rows = [];
+    this.state.products.forEach(p => {
+      const sizes = (p.sizes && p.sizes.length) ? p.sizes : this.productSizes(p.name);
+      sizes.forEach(sz => {
+        if (sz.stock > 10) return;
+        const avail = this.warehouseFor(p.name, sz.size).reduce((a, b) => a + b.remain, 0);
+        rows.push({ product: p, size: sz.size, stock: sz.stock, avail: avail, oos: sz.stock === 0 });
+      });
+    });
+    rows.sort((a, b) => (a.oos === b.oos ? a.stock - b.stock : (a.oos ? -1 : 1)));
+    return rows;
+  }
+  goRestock(p, size) {
+    this.setState({ section: 'products', focusSize: size });
+    this.openProduct(p);
+  }
+  setRestock = (size, val) => this.setState(s => ({ pf: { ...s.pf, restocks: { ...s.pf.restocks, [size]: val } } }));
+
+  openProduct(p) {
+    if (p) {
+      this.setState({
+        productFormOpen: true, editingProduct: p.id, tagDraft: '',
+        pf: { ...EMPTY_PF, name: p.name, brand: p.brand, cat: p.cat, tags: p.tags.slice(), price: String(p.price), sale: p.sale ? String(p.sale) : '', saleOn: !!p.sale, stock: String(p.stock), desc: p.desc || '',
+          details: (p.details && p.details.length ? p.details : EMPTY_DETAILS).map(d => ({ ...d })),
+          guide: { ...(p.guide || {}) }, modelNote: p.modelNote || '' },
+        srcQuery: '', srcOpen: false
+      });
+    } else {
+      this.setState({ productFormOpen: true, editingProduct: null, tagDraft: '', pf: { ...EMPTY_PF }, srcQuery: '', srcOpen: false });
+    }
+  }
+
+  saveProduct = () => {
+    const pf = this.state.pf;
+    const name = pf.name || 'Untitled product';
+    const edits = { ...(this.state.batchEdits || {}) };
+    let stock = Number(pf.stock) || 0;
+    let brandName = pf.brand;
+    let catName = pf.cat;
+
+    let sizes = null;
+
+    if (this.state.editingProduct) {
+      sizes = this.productSizes(name);
+      sizes.forEach(sz => {
+        let pull = Math.max(0, Number((pf.restocks || {})[sz.size]) || 0);
+        this.warehouseFor(name, sz.size).forEach(b => {
+          if (pull <= 0) return;
+          const take = Math.min(pull, b.remain);
+          edits[b.id] = { ...(edits[b.id] || {}), remain: b.remain - take };
+          sz.stock += take;
+          stock += take;
+          pull -= take;
+        });
+      });
+    } else {
+      const rows = (pf.srcRows || []).filter(r => r.batchId && r.size);
+      if (rows.length) {
+        const fb = this.allBatches().find(x => x.id === rows[0].batchId);
+        if (fb) { brandName = fb.brand; if (fb.cat) catName = fb.cat; }
+        stock = 0;
+        sizes = [];
+        rows.forEach(r => {
+          const b = this.allBatches().find(x => x.id === r.batchId);
+          if (!b) return;
+          const take = Math.min(Math.max(0, Number(r.qty) || 0), b.remain);
+          edits[b.id] = { ...(edits[b.id] || {}), remain: b.remain - take, linked: true, item: name, variant: r.size };
+          sizes.push({ size: r.size, stock: take });
+          stock += take;
+        });
+      }
+    }
+
+    this.setState(s => {
+      const rec = {
+        name: name,
+        brand: brandName || pf.brand, cat: catName || pf.cat, tags: pf.tags.slice(),
+        price: Number(pf.price) || 0,
+        sale: pf.saleOn && pf.sale ? Number(pf.sale) : null,
+        stock: stock,
+        desc: pf.desc,
+        details: (pf.details || []).map(d => ({ ...d })),
+        guide: { ...(pf.guide || {}) },
+        modelNote: pf.modelNote || '',
+        ...(sizes ? { sizes: sizes } : {})
+      };
+      const products = s.editingProduct
+        ? s.products.map(p => (p.id === s.editingProduct ? { ...p, ...rec } : p))
+        : s.products.concat([{ id: 'p' + Date.now(), sku: 'CSE-NEW-' + String(rec.price).padStart(3, '0'), ...rec }]);
+      return { products, batchEdits: edits, productFormOpen: false, editingProduct: null, focusSize: null, pf: { ...EMPTY_PF }, tagDraft: '', srcQuery: '', srcOpen: false };
+    });
+  };
+
+
+
+  saveBrand = () => {
+    this.setState(s => {
+      const name = s.bfName.trim() || 'New brand';
+      const brands = s.editingBrand
+        ? s.brands.map(b => (b.id === s.editingBrand ? { ...b, name } : b))
+        : s.brands.concat([{ id: 'b' + Date.now(), name }]);
+      return { brands, brandFormOpen: false, editingBrand: null, bfName: '' };
+    });
+  };
+
+  setLine = (i, key, val) => {
+    this.setState(s => ({ sfLines: s.sfLines.map((l, idx) => (idx === i ? { ...l, [key]: val } : l)) }));
+  };
+  addLine = () => this.setState(s => ({ sfLines: s.sfLines.concat([{ ...EMPTY_LINE }]) }));
+  removeLine = (i) => this.setState(s => ({ sfLines: s.sfLines.filter((l, idx) => idx !== i) }));
+  openIntake = () => this.setState({ intakeOpen: true, sfLines: [{ ...EMPTY_LINE }], sfBrand: this.state.brands[0] ? this.state.brands[0].name : 'Carhartt', sfDate: '2026-08-27' });
+  closeIntake = () => this.setState({ intakeOpen: false });
+  confirmIntake = () => {
+    const ok = (this.state.sfLines || []).filter(l => l.size && (l.mode === 'existing' ? l.product : (l.name.trim() && l.cat)));
+    if (!ok.length) return;
+    this.setState(s => {
+      const rows = s.sfLines
+        .filter(l => l.size && (l.mode === 'existing' ? l.product : (l.name.trim() && l.cat)))
+        .map((l, i) => ({
+          id: 'sb' + Date.now() + i,
+          brand: s.sfBrand,
+          item: l.mode === 'existing' ? l.product : l.name.trim(),
+          variant: l.mode === 'existing' ? (l.size || 'One size') : '',
+          size: l.size || 'One size',
+          linked: l.mode === 'existing',
+          date: s.sfDate,
+          recv: Number(l.qty) || 0,
+          remain: Number(l.qty) || 0,
+          cost: Number(l.cost) || 0,
+          cat: l.mode === 'existing'
+            ? ((s.products.find(p => p.name === l.product) || {}).cat || '')
+            : l.cat
+        }));
+      return { addedBatches: rows.concat(s.addedBatches || []), intakeOpen: false, sfLines: [{ ...EMPTY_LINE }] };
+    });
+  };
+  batchMeta(b) {
+    if (b.remain === 0) return { badge: 'Fully listed', bg: '#6B5BFF', fg: '#EDEBF2', border: '#221B2E' };
+    if (b.remain < b.recv) return { badge: 'Partially listed', bg: '#221B2E', fg: '#EDEBF2', border: '#221B2E' };
+    return { badge: 'Not listed yet', bg: 'transparent', fg: '#5F5775', border: '#5F5775' };
+  }
+  stockMeta(stock) {
+    if (stock === 0) return { badge: 'Out of stock', bg: 'transparent', fg: '#5F5775', border: '#5F5775' };
+    if (stock <= 10) return { badge: 'Low stock', bg: '#221B2E', fg: '#EDEBF2', border: '#221B2E' };
+    return { badge: 'In stock', bg: '#6B5BFF', fg: '#EDEBF2', border: '#221B2E' };
+  }
+  statusMeta(id) {
+    if (id === 'pay') return { label: 'To Pay', bg: '#FF6A2B', fg: '#EDEBF2', border: '#221B2E' };
+    if (id === 'processing') return { label: 'Processing', bg: '#6B5BFF', fg: '#EDEBF2', border: '#221B2E' };
+    if (id === 'shipping') return { label: 'Shipping', bg: '#221B2E', fg: '#EDEBF2', border: '#221B2E' };
+    if (id === 'completed') return { label: 'Completed', bg: 'transparent', fg: '#221B2E', border: '#221B2E' };
+    if (id === 'cancelled') return { label: 'Cancelled', bg: 'transparent', fg: '#B4471A', border: '#B4471A' };
+    return { label: 'Refund', bg: 'transparent', fg: '#5F5775', border: '#5F5775' };
+  }
+
+  renderVals() {
+    const mobile = this.state.width < 980;
+    const { products, brands, orders, query, brandFilter, catFilter, statusFilter, sortBy, orderTab, pf } = this.state;
+
+    const q = query.trim().toLowerCase();
+    let filtered = products.filter(p =>
+      (q === '' || p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q)) &&
+      (brandFilter === 'All brands' || p.brand === brandFilter) &&
+      (catFilter === 'All categories' || p.cat === catFilter) &&
+      (statusFilter === 'All statuses' || this.stockMeta(p.stock).badge.toLowerCase() === statusFilter.toLowerCase())
+    );
+    const effPrice = (p) => (p.sale ? p.sale : p.price);
+    if (sortBy === 'Price: Low to High') filtered = filtered.slice().sort((a, b) => effPrice(a) - effPrice(b));
+    else if (sortBy === 'Price: High to Low') filtered = filtered.slice().sort((a, b) => effPrice(b) - effPrice(a));
+    const attention = this.attentionRows();
+    const oosCount = attention.filter(r => r.oos).length;
+    const lowCount = attention.length - oosCount;
+    const payCount = orders.filter(o => o.status === 'pay').length;
+    const revenue = orders.filter(o => o.status !== 'cancelled' && o.status !== 'refund').reduce((a, o) => a + o.total, 0);
+    const visibleOrders = orders.filter(o => o.status === orderTab);
+    const suggestions = this.matchingTags();
+    const draft = this.state.tagDraft.trim();
+    const exactExists = this.state.tagLibrary.some(t => t.toLowerCase() === draft.toLowerCase());
+
+    const move = (id, to) => this.setState(s => ({ orders: s.orders.map(o => (o.id === id ? { ...o, status: to } : o)) }));
+
+    const series = REV_SERIES[this.state.range] || REV_SERIES['This month'];
+    const revTotal = series.values.reduce((a, v) => a + v, 0);
+    const revMax = Math.max.apply(null, series.values);
+    const eur = (n) => Math.round(n * 10000).toLocaleString('de-DE') + '₫';
+    const aov = series.orders ? revTotal / series.orders : 0;
+    const codShare = 0.41;
+    const marginRate = REV_BRANDS.reduce((a, b) => a + b.share * b.margin, 0);
+    const profitTotal = revTotal * marginRate;
+    const profitSeries = series.values.map((v, i) => v * marginRate * (1 + (((i * 7) % 5) - 2) * 0.03));
+    const pct1 = (n) => (n * 100).toFixed(1) + '%';
+
+    return {
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      menuOpen: this.state.menuOpen && mobile,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      searchOpen: this.state.searchOpen,
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      accountOpen: this.state.accountOpen,
+      toggleAccount: () => this.setState(s => ({ accountOpen: !s.accountOpen })),
+      closeAccount: () => this.setState({ accountOpen: false }),
+      syncedAt: '2 min ago',
+
+      shellCols: mobile ? 'minmax(0, 1fr)' : 'minmax(190px, 224px) minmax(0, 1fr)',
+      railDir: mobile ? 'row' : 'column',
+      sections: SECTIONS.map((s, i) => {
+        const on = s.id === this.state.section;
+        const counts = { dashboard: '', products: String(products.length), brands: String(brands.length), storage: String((this.state.addedBatches || []).length + SEED_BATCHES.length), orders: String(orders.length) };
+        return {
+          label: s.label, aria: on ? 'page' : 'false', count: counts[s.id],
+          flex: mobile ? '1 1 0' : '0 0 auto',
+          divider: mobile || i === SECTIONS.length - 1 ? '0' : '1px solid #221B2E',
+          bg: on ? '#221B2E' : 'transparent', fg: on ? '#EDEBF2' : '#221B2E',
+          onPick: () => this.setState({ section: s.id })
+        };
+      }),
+      onDashboard: this.state.section === 'dashboard',
+      onRevenue: this.state.section === 'revenue',
+      onProducts: this.state.section === 'products',
+      onBrands: this.state.section === 'brands',
+      onStorage: this.state.section === 'storage',
+      onOrders: this.state.section === 'orders',
+      goOrders: () => this.setState({ section: 'orders' }),
+      dashCols: this.state.width < 1180 ? 'minmax(0, 1fr)' : 'minmax(0, 1.65fr) minmax(0, 1fr)',
+
+      rangePills: RANGES.map(r => {
+        const on = r === this.state.range;
+        const custom = r === 'Custom range';
+        return {
+          label: custom && this.state.customApplied ? 'Custom · ' + this.customLabel(this.state.customApplied.from, this.state.customApplied.to) : r,
+          caret: custom ? (this.state.pickerOpen ? ' ▲' : ' ▼') : '',
+          bg: on ? '#221B2E' : 'transparent', fg: on ? '#EDEBF2' : '#221B2E',
+          onPick: () => this.pickRange(r)
+        };
+      }),
+      rangeNote: this.state.range === 'Custom range' && this.state.customApplied
+        ? this.customLabel(this.state.customApplied.from, this.state.customApplied.to)
+        : series.note,
+      pickerOpen: this.state.pickerOpen,
+      customFrom: this.state.customFrom,
+      customTo: this.state.customTo,
+      setCustomFrom: (e) => this.setState({ customFrom: e.target.value }),
+      setCustomTo: (e) => this.setState({ customTo: e.target.value }),
+      closePicker: () => this.setState({ pickerOpen: false }),
+      applyCustom: this.applyCustom,
+      customPreview: this.state.customFrom && this.state.customTo
+        ? this.customLabel(this.state.customFrom > this.state.customTo ? this.state.customTo : this.state.customFrom, this.state.customFrom > this.state.customTo ? this.state.customFrom : this.state.customTo)
+        : 'Pick a start and end date',
+      applyDisabled: !(this.state.customFrom && this.state.customTo),
+      applyOpacity: this.state.customFrom && this.state.customTo ? 1 : 0.45,
+      revStats: [
+        { label: 'Total revenue', value: eur(revTotal), note: this.state.range.toLowerCase() + ' · +14% vs prior', bg: '#221B2E', fg: '#EDEBF2' },
+        { label: 'Total orders', value: String(series.orders), note: 'paid & fulfilled', bg: 'transparent', fg: '#221B2E' },
+        { label: 'Average order value', value: eur(aov), note: 'per paid order', bg: '#6B5BFF', fg: '#EDEBF2' },
+        { label: 'Total profit', value: eur(profitTotal), note: 'revenue − cost of goods sold', bg: 'transparent', fg: '#221B2E' },
+        { label: 'Profit margin', value: pct1(marginRate), note: 'cogs ' + eur(revTotal - profitTotal), bg: '#FF6A2B', fg: '#221B2E' }
+      ],
+      chartUnitLabel: series.unit === 'month' ? 'Revenue per month' : 'Revenue per day',
+      chartPeak: eur(revMax),
+      chartBars: series.values.map((v, i) => ({
+        label: series.labels[i],
+        height: (revMax ? Math.max(v / revMax * 100, v > 0 ? 2 : 0) : 0) + '%',
+        bg: v === revMax ? '#FF6A2B' : '#6B5BFF',
+        title: series.labels[i] + ' · rev ' + eur(v) + ' · profit ' + eur(profitSeries[i]),
+        labelText: (series.values.length <= 13 || i % 4 === 0) ? series.labels[i] : '\u00A0'
+      })),
+      profitPoints: profitSeries.map((p, i) => {
+        const x = (i + 0.5) / profitSeries.length * 100;
+        const y = 100 - (revMax ? p / revMax * 100 : 0);
+        return x.toFixed(2) + ',' + y.toFixed(2);
+      }).join(' '),
+      marginCols: this.state.width < 760 ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) minmax(0, 1fr)',
+      marginDivider: this.state.width < 760 ? '0' : '1px solid #221B2E',
+      marginTopDivider: this.state.width < 760 ? '1px solid #221B2E' : '0',
+      catBars: REV_CATS.map(c => ({
+        name: c.name, value: eur(revTotal * c.share),
+        pct: Math.round(c.share * 100) + '%',
+        cost: eur(revTotal * c.share * (1 - c.margin)),
+        margin: Math.round(c.margin * 100) + '%',
+        marginWidth: (c.margin * 100) + '%',
+        width: (c.share / REV_CATS[0].share * 100) + '%'
+      })),
+      brandRows: REV_BRANDS.map(b => ({
+        name: b.name, units: b.units + ' units', value: eur(revTotal * b.share),
+        pct: Math.round(b.share * 100) + '%',
+        cost: eur(revTotal * b.share * (1 - b.margin)),
+        margin: Math.round(b.margin * 100) + '%',
+        width: (b.share / REV_BRANDS[0].share * 100) + '%'
+      })),
+      marginTop3: MARGIN_PRODUCTS.slice(0, 3).map(p => ({ name: p.name, brand: p.brand, margin: Math.round(p.margin * 100) + '%' })),
+      marginBottom3: MARGIN_PRODUCTS.slice(-3).reverse().map(p => ({ name: p.name, brand: p.brand, margin: Math.round(p.margin * 100) + '%' })),
+      paySplit: [
+        { label: 'QR transfer', value: eur(revTotal * (1 - codShare)), pct: Math.round((1 - codShare) * 100) + '%', width: ((1 - codShare) * 100) + '%', bg: '#6B5BFF', fg: '#EDEBF2' },
+        { label: 'Cash on delivery', value: eur(revTotal * codShare), pct: Math.round(codShare * 100) + '%', width: (codShare * 100) + '%', bg: '#221B2E', fg: '#EDEBF2' }
+      ],
+      stats: [
+        { label: 'Revenue · August', value: eur(revenue), note: '+18% vs July', bg: '#221B2E', fg: '#EDEBF2' },
+        { label: 'Total orders', value: String(orders.length), note: 'All statuses', bg: 'transparent', fg: '#221B2E' },
+        { label: 'Pending payments', value: String(payCount), note: 'Awaiting COD / QR', bg: '#6B5BFF', fg: '#EDEBF2' },
+        { label: 'Low stock items', value: String(lowCount + oosCount), note: lowCount + ' low · ' + oosCount + ' out', bg: 'transparent', fg: '#221B2E' }
+      ],
+      recentOrders: orders.slice(0, 6).map(o => {
+        const m = this.statusMeta(o.status);
+        return { id: o.id, customer: o.customer, total: eur(o.total), date: o.date, status: m.label, badgeBg: m.bg, badgeFg: m.fg, badgeBorder: m.border };
+      }),
+      attnTitle: 'Needs attention · ' + attention.length + (attention.length === 1 ? ' item' : ' items'),
+      attnBreakdown: lowCount + ' low stock · ' + oosCount + ' out of stock',
+      attnRows: attention.map(r => {
+        const m = this.stockMeta(r.stock);
+        return {
+          name: r.product.name,
+          brand: r.product.brand,
+          size: r.size === 'One size' ? 'One size' : r.size,
+          listed: String(r.stock),
+          badge: m.badge, badgeBg: m.bg, badgeFg: m.fg, badgeBorder: m.border,
+          wh: r.avail > 0 ? r.avail + ' available in warehouse' : 'No warehouse stock',
+          whColor: r.avail > 0 ? '#221B2E' : '#9993A8',
+          onRestock: () => this.goRestock(r.product, r.size)
+        };
+      }),
+      noAttn: attention.length === 0,
+      topSellers: [
+        { name: 'Court Low Sneaker', brand: 'Nike', units: '148 sold' },
+        { name: 'Mesh Layer Tee', brand: 'Stüssy', units: '121 sold' },
+        { name: 'Grid Cargo Pant', brand: 'Carhartt', units: '96 sold' },
+        { name: 'Overdye Hoodie', brand: 'Champion', units: '74 sold' },
+        { name: 'Canvas Tote XL', brand: 'Champion', units: '61 sold' }
+      ],
+
+      query,
+      setQuery: (e) => this.setState({ query: e.target.value }),
+      brandFilter, catFilter, statusFilter, sortBy,
+      setBrandFilter: (e) => this.setState({ brandFilter: e.target.value }),
+      setCatFilter: (e) => this.setState({ catFilter: e.target.value }),
+      setStatusFilter: (e) => this.setState({ statusFilter: e.target.value }),
+      setSortBy: (e) => this.setState({ sortBy: e.target.value }),
+      statusOptions: ['All statuses', 'In stock', 'Low stock', 'Out of stock'],
+      sortOptions: ['Default', 'Price: Low to High', 'Price: High to Low'],
+      brandOptions: ['All brands'].concat(brands.map(b => b.name)),
+      catOptions: ['All categories'].concat(CATS),
+      clearProductFilters: () => this.setState({ query: '', brandFilter: 'All brands', catFilter: 'All categories', statusFilter: 'All statuses', sortBy: 'Default' }),
+      productCols: [
+        { label: 'Product', align: 'left' }, { label: 'Brand', align: 'left' }, { label: 'Category', align: 'left' },
+        { label: 'Price', align: 'right' }, { label: 'Sale', align: 'right' }, { label: 'Stock', align: 'right' },
+        { label: 'Status', align: 'left' }, { label: 'Actions', align: 'right' }
+      ],
+      productRows: filtered.map(p => {
+        const m = this.stockMeta(p.stock);
+        return {
+          name: p.name, sku: p.sku, brand: p.brand, cat: p.cat,
+          price: eur(p.price),
+          sale: p.sale ? eur(p.sale) : '—',
+          saleColor: p.sale ? '#B4471A' : '#5F5775',
+          stock: String(p.stock),
+          badge: m.badge, badgeBg: m.bg, badgeFg: m.fg, badgeBorder: m.border,
+          onEdit: () => this.openProduct(p),
+          onDelete: () => this.setState(s => ({ products: s.products.filter(x => x.id !== p.id) }))
+        };
+      }),
+      noProducts: filtered.length === 0,
+      productCountLabel: filtered.length + ' of ' + products.length + ' products',
+      lowStockLabel: lowCount + ' low stock · ' + oosCount + ' out of stock',
+
+      brandSummary: brands.length + ' brands · ' + products.length + ' products total',
+      brandCards: brands.map(b => ({
+        name: b.name,
+        countLabel: products.filter(p => p.brand === b.name).length + ' products',
+        onEdit: () => this.setState({ brandFormOpen: true, editingBrand: b.id, bfName: b.name }),
+        onDelete: () => this.setState(s => ({ brands: s.brands.filter(x => x.id !== b.id) }))
+      })),
+      brandFormOpen: this.state.brandFormOpen,
+      brandFormTitle: this.state.editingBrand ? 'Edit brand' : 'Add brand',
+      brandSaveLabel: this.state.editingBrand ? 'Save brand' : 'Add brand',
+      openBrandForm: () => this.setState({ brandFormOpen: true, editingBrand: null, bfName: '' }),
+      closeBrandForm: () => this.setState({ brandFormOpen: false, editingBrand: null, bfName: '' }),
+      bfName: this.state.bfName,
+      setBfName: (e) => this.setState({ bfName: e.target.value }),
+      saveBrand: this.saveBrand,
+
+      ...(() => {
+        const raw = this.allBatches();
+        const groupKey = (b) => b.brand + '|' + b.item + '|' + b.variant;
+        const newest = {};
+        raw.forEach(b => { const k = groupKey(b); if (!newest[k] || b.date > newest[k]) newest[k] = b.date; });
+        const batches = raw.slice().sort((a, b) => {
+          const ka = groupKey(a), kb = groupKey(b);
+          if (ka !== kb) return newest[ka] < newest[kb] ? 1 : -1;
+          return a.date < b.date ? 1 : -1;
+        });
+        const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const fmtDate = (d) => {
+          const p = String(d).split('-');
+          return p.length === 3 ? p[2] + ' ' + (MON[Number(p[1]) - 1] || '') + ' ' + p[0].slice(2) : d;
+        };
+        const warehouseValue = batches.reduce((a, b) => a + b.remain * b.cost, 0);
+        const thisMonth = batches.filter(b => String(b.date).slice(0, 7) === '2026-08');
+        const awaiting = batches.filter(b => b.remain > 0);
+        const unitsRemaining = batches.reduce((a, b) => a + b.remain, 0);
+        const lines = this.state.sfLines;
+        const lineFilled = (l) => !!(l.mode === 'existing' ? l.product : l.name.trim());
+        const lineValid = (l) => lineFilled(l) && !!l.size && (l.mode === 'existing' || !!l.cat);
+        const validLines = lines.filter(lineValid);
+        const blocked = lines.filter(l => lineFilled(l) && !lineValid(l));
+        const total = validLines.reduce((a, l) => a + (Number(l.qty) || 0) * (Number(l.cost) || 0), 0);
+        return {
+          storageStats: [
+            { label: 'Total warehouse value', value: eur(warehouseValue), note: unitsRemaining + ' units unlisted', bg: '#221B2E', fg: '#EDEBF2' },
+            { label: 'Batches this month', value: String(thisMonth.length), note: 'August 2026', bg: 'transparent', fg: '#221B2E' },
+            { label: 'Awaiting listing', value: String(awaiting.length), note: 'Batches with stock left', bg: '#6B5BFF', fg: '#EDEBF2' }
+          ],
+          storageSummary: batches.length + ' intake batches · ' + unitsRemaining + ' units in warehouse',
+          batchCols: [
+            { label: 'Brand', align: 'left' }, { label: 'Item', align: 'left' }, { label: 'Received', align: 'left' },
+            { label: 'Qty in', align: 'right' }, { label: 'Remaining', align: 'right' }, { label: 'Unit cost', align: 'right' },
+            { label: 'Status', align: 'left' }, { label: '', align: 'right' }
+          ],
+          batchRows: batches.map(b => {
+            const m = this.batchMeta(b);
+            return {
+              brand: b.brand,
+              item: b.item,
+              itemNote: b.linked
+                ? 'Linked product' + (b.variant ? ' · ' + b.variant : '')
+                : 'Unlinked description' + (b.size ? ' · ' + b.size : ''),
+              itemNoteColor: b.linked ? '#5F5775' : '#B4471A',
+              date: fmtDate(b.date),
+              recv: String(b.recv),
+              remain: String(b.remain),
+              remainColor: b.remain === 0 ? '#5F5775' : '#221B2E',
+              cost: eur(b.cost),
+              badge: m.badge, badgeBg: m.bg, badgeFg: m.fg, badgeBorder: m.border,
+              hasHistory: b.linked,
+              onHistory: () => this.setState({ historyOf: { item: b.item, variant: b.variant } })
+            };
+          }),
+
+          ...(() => {
+            const h = this.state.historyOf;
+            if (!h) return { historyOpen: false, historyRows: [], historyTitle: '', historySummary: '', historyCount: '' };
+            const rows = batches
+              .filter(b => b.linked && b.item === h.item && b.variant === h.variant)
+              .slice()
+              .sort((a, b) => (a.date < b.date ? 1 : -1));
+            const costs = rows.map(r => r.cost);
+            const avg = costs.length ? costs.reduce((a, c) => a + c, 0) / costs.length : 0;
+            return {
+              historyOpen: true,
+              historyTitle: h.item + (h.variant ? ' — ' + (h.variant === 'One size' ? 'One size' : 'Size ' + h.variant) : ''),
+              historySummary: 'Average cost: ' + eur(avg) + ' · Lowest: ' + eur(Math.min.apply(null, costs)) + ' · Highest: ' + eur(Math.max.apply(null, costs)),
+              historyCount: rows.length + (rows.length === 1 ? ' intake batch' : ' intake batches'),
+              historyRows: rows.map((r, i) => {
+                const prev = rows[i + 1];
+                const diff = prev ? r.cost - prev.cost : 0;
+                return {
+                  date: fmtDate(r.date),
+                  recv: r.recv + ' pcs',
+                  cost: eur(r.cost),
+                  source: r.brand,
+                  hasDelta: !!prev,
+                  delta: (diff > 0 ? '▲ +' : diff < 0 ? '▼ −' : '= ') + eur(Math.abs(diff)),
+                  deltaColor: diff > 0 ? '#B4471A' : diff < 0 ? '#2F7A4C' : '#5F5775',
+                  qtyBar: (r.recv / Math.max.apply(null, rows.map(x => x.recv)) * 100) + '%',
+                  latest: i === 0
+                };
+              })
+            };
+          })(),
+          closeHistory: () => this.setState({ historyOf: null }),
+          stopClick: (e) => e.stopPropagation(),
+          storageFootLeft: awaiting.length + ' batches awaiting listing',
+          storageFootRight: 'Warehouse value ' + eur(warehouseValue),
+
+          intakeOpen: this.state.intakeOpen,
+          openIntake: this.openIntake,
+          closeIntake: this.closeIntake,
+          confirmIntake: this.confirmIntake,
+          addLine: this.addLine,
+          sizeNames: SIZES,
+          productNames: products.map(p => p.name),
+          sfBrand: this.state.sfBrand,
+          setSfBrand: (e) => this.setState({ sfBrand: e.target.value }),
+          sfDate: this.state.sfDate,
+          setSfDate: (e) => this.setState({ sfDate: e.target.value }),
+          intakeTotal: eur(total),
+          intakeLineLabel: validLines.length + ' of ' + lines.length + (lines.length === 1 ? ' line item ready' : ' line items ready'),
+          intakeBlocked: blocked.length > 0 || validLines.length === 0,
+          intakeBlockedNote: blocked.length > 0
+            ? blocked.length + (blocked.length === 1 ? ' line item is missing a size or category' : ' line items are missing a size or category') + ' before you can confirm.'
+            : 'Add at least one line item with a size to confirm.',
+          showIntakeBlocked: blocked.length > 0 || validLines.length === 0,
+          confirmBg: (blocked.length > 0 || validLines.length === 0) ? '#E3E0EA' : '#6B5BFF',
+          confirmFg: (blocked.length > 0 || validLines.length === 0) ? '#9993A8' : '#EDEBF2',
+          confirmCursor: (blocked.length > 0 || validLines.length === 0) ? 'not-allowed' : 'pointer',
+          sfLines: lines.map((l, i) => {
+            const existing = l.mode === 'existing';
+            return {
+              num: 'Item ' + String(i + 1).padStart(2, '0'),
+              isExisting: existing,
+              isNew: !existing,
+              exBg: existing ? '#221B2E' : 'transparent', exFg: existing ? '#EDEBF2' : '#221B2E',
+              newBg: existing ? 'transparent' : '#221B2E', newFg: existing ? '#221B2E' : '#EDEBF2',
+              pickExisting: () => this.setLine(i, 'mode', 'existing'),
+              pickNew: () => this.setLine(i, 'mode', 'new'),
+              product: l.product, onProduct: (e) => this.setLine(i, 'product', e.target.value),
+              size: l.size, onSize: (e) => this.setLine(i, 'size', e.target.value),
+              sizeMissing: lineFilled(l) && !l.size,
+              sizeBorder: (lineFilled(l) && !l.size) ? '#B4471A' : '#221B2E',
+              name: l.name, onName: (e) => this.setLine(i, 'name', e.target.value),
+              cat: l.cat, onCat: (e) => this.setLine(i, 'cat', e.target.value),
+              catMissing: !existing && !!l.name.trim() && !l.cat,
+              catBorder: (!existing && !!l.name.trim() && !l.cat) ? '#B4471A' : '#221B2E',
+              qty: l.qty, onQty: (e) => this.setLine(i, 'qty', e.target.value),
+              cost: l.cost, onCost: (e) => this.setLine(i, 'cost', e.target.value),
+              lineTotal: eur((Number(l.qty) || 0) * (Number(l.cost) || 0)),
+              removable: lines.length > 1,
+              onRemove: () => this.removeLine(i)
+            };
+          })
+        };
+      })(),
+
+      orderTabs: STATUSES.map(s => {
+        const on = s.id === orderTab;
+        return {
+          label: s.label, count: String(orders.filter(o => o.status === s.id).length),
+          aria: on ? 'true' : 'false',
+          bg: on ? '#6B5BFF' : 'transparent', fg: on ? '#EDEBF2' : '#221B2E',
+          onPick: () => this.setState({ orderTab: s.id })
+        };
+      }),
+      orderRows: visibleOrders.map(o => {
+        const primary = o.status === 'pay' ? 'Confirm payment' : (o.status === 'processing' ? 'Mark as shipped' : (o.status === 'shipping' ? 'Mark as delivered' : ''));
+        const next = o.status === 'pay' ? 'processing' : (o.status === 'processing' ? 'shipping' : 'completed');
+        return {
+          id: o.id, customer: o.customer, date: o.date + ' 2026',
+          itemsLabel: o.items + (o.items === 1 ? ' item' : ' items'),
+          total: eur(o.total), pay: o.pay,
+          payNote: o.pay === 'COD' ? 'on delivery' : 'bank transfer',
+          hasPrimary: !!primary, primaryLabel: primary,
+          onPrimary: () => move(o.id, next),
+          hasCancel: o.status === 'pay',
+          onCancel: () => move(o.id, 'cancelled'),
+          viewOnly: !primary
+        };
+      }),
+      noOrders: visibleOrders.length === 0,
+      emptyOrdersTag: (STATUSES.find(s => s.id === orderTab) || {}).label + ' · 0 orders',
+
+      productFormOpen: this.state.productFormOpen,
+      productFormTitle: this.state.editingProduct ? 'Edit product' : 'Add product',
+      productSaveLabel: this.state.editingProduct ? 'Save product' : 'Add product',
+      openProductForm: () => this.openProduct(null),
+      closeProductForm: () => this.setState({ productFormOpen: false, editingProduct: null, focusSize: null, pf: { ...EMPTY_PF }, tagDraft: '' }),
+      brandNames: brands.map(b => b.name),
+      catNames: CATS,
+      pfName: pf.name, setPfName: (e) => this.setPf('name', e.target.value),
+      pfBrand: pf.brand, setPfBrand: (e) => this.setPf('brand', e.target.value),
+      pfCat: pf.cat, setPfCat: (e) => this.setPf('cat', e.target.value),
+      pfPrice: pf.price, setPfPrice: (e) => this.setPf('price', e.target.value),
+      pfSale: pf.sale, setPfSale: (e) => this.setPf('sale', e.target.value),
+      pfStock: pf.stock, setPfStock: (e) => this.setPf('stock', e.target.value),
+
+      ...(() => {
+        const eur2 = (n) => Math.round(n * 10000).toLocaleString('de-DE') + '₫';
+        const MON2 = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        const fmtDay = (d) => {
+          const p = String(d).split('-');
+          return p.length === 3 ? p[2] + ' ' + (MON2[Number(p[1]) - 1] || '') + ' ' + p[0].slice(2) : d;
+        };
+        const editing = !!this.state.editingProduct;
+        const all = this.allBatches();
+        const unlinked = all.filter(b => !b.linked && b.remain > 0).sort((a, b) => (a.date < b.date ? 1 : -1));
+        const rows = pf.srcRows || [];
+        const taken = rows.map(r => r.batchId).filter(Boolean);
+        const firstPicked = rows.map(r => all.find(x => x.id === r.batchId)).filter(Boolean)[0] || null;
+        const lockedBrand = !editing && firstPicked ? firstPicked.brand : '';
+        const lockedCat = !editing && firstPicked ? (firstPicked.cat || '') : '';
+
+        const srcRows = rows.map((r, i) => {
+          const opts = unlinked.filter(b => (!r.size || b.size === r.size) && (!lockedBrand || b.brand === lockedBrand) && (b.id === r.batchId || taken.indexOf(b.id) === -1));
+          const b = all.find(x => x.id === r.batchId) || null;
+          const listed = Math.min(Math.max(0, Number(r.qty) || 0), b ? b.remain : 0);
+          return {
+            num: 'Size ' + String(i + 1).padStart(2, '0'),
+            size: r.size,
+            onSize: (e) => this.setSrcRow(i, { size: e.target.value, batchId: '', qty: '' }),
+            batchId: r.batchId,
+            onBatch: (e) => {
+              const nb = all.find(x => x.id === e.target.value);
+              this.setSrcRow(i, { batchId: e.target.value, qty: nb ? String(nb.remain) : '', size: nb ? nb.size : r.size });
+              if (nb) this.setPf('brand', nb.brand);
+            },
+            options: opts.map(o => ({ id: o.id, label: o.brand + ' · ' + o.item + ' · ' + o.remain + ' left · ' + eur2(o.cost) + '/unit' })),
+            noOptions: opts.length === 0,
+            emptyLabel: opts.length ? 'Select a batch…' : (r.size ? 'No unlinked ' + r.size + ' stock' + (lockedBrand ? ' from ' + lockedBrand : '') + ' in warehouse' : 'No unlinked stock in warehouse'),
+            qty: r.qty,
+            onQty: (e) => this.setSrcRow(i, { qty: e.target.value }),
+            hasBatch: !!b,
+            availLabel: b ? 'In warehouse: ' + b.remain + ' units · received ' + fmtDay(b.date) : '',
+            holdNote: b
+              ? (Number(r.qty) > b.remain
+                ? 'Only ' + b.remain + ' available — will list ' + b.remain + '.'
+                : 'Holding back ' + Math.max(0, b.remain - listed) + ' units in the warehouse.')
+              : '',
+            removable: rows.length > 1,
+            onRemove: () => this.removeSrcRow(i)
+          };
+        });
+        const filled = rows.filter(r => r.size && r.batchId);
+        const summary = filled.map(r => {
+          const b = all.find(x => x.id === r.batchId);
+          return r.size + ' (' + Math.min(Math.max(0, Number(r.qty) || 0), b ? b.remain : 0) + ')';
+        });
+
+        const sizeRows = editing ? this.productSizes(pf.name).map(sz => {
+          const fifo = this.warehouseFor(pf.name, sz.size);
+          const avail = fifo.reduce((a, b) => a + b.remain, 0);
+          const raw = Number((pf.restocks || {})[sz.size]) || 0;
+          let left = Math.min(Math.max(0, raw), avail), spans = 0;
+          fifo.forEach(b => { if (left > 0) { spans += 1; left -= Math.min(left, b.remain); } });
+          const focused = this.state.focusSize === sz.size;
+          return {
+            rowBorder: focused ? '2px solid #6B5BFF' : '1px solid #221B2E',
+            autofocus: focused,
+            label: sz.size === 'One size' ? 'One size' : 'Size ' + sz.size,
+            info: 'Currently listed: ' + sz.stock + ' · Available in warehouse: ' + avail,
+            value: (pf.restocks || {})[sz.size] || '',
+            onChange: (e) => this.setRestock(sz.size, e.target.value),
+            disabled: avail === 0,
+            inputBg: avail === 0 ? '#E3E0EA' : '#EDEBF2',
+            inputColor: avail === 0 ? '#9993A8' : '#221B2E',
+            placeholder: avail === 0 ? '—' : '0',
+            note: avail === 0
+              ? 'Nothing in warehouse for this size'
+              : (raw > avail
+                ? 'Capped at ' + avail + ' units available'
+                : (spans > 1 ? 'Will draw from ' + spans + ' batches, oldest first (FIFO)' : 'Draws from ' + fifo.length + (fifo.length === 1 ? ' linked batch' : ' linked batches') + ' · oldest first')),
+            noteColor: avail === 0 ? '#9993A8' : (raw > avail ? '#B4471A' : (spans > 1 ? '#6B5BFF' : '#5F5775'))
+          };
+        }) : [];
+
+        return {
+          pfAdding: !editing,
+          pfEditing: editing,
+          catLocked: !!lockedCat,
+          catValue: lockedCat || pf.cat,
+          catFieldBg: lockedCat ? '#E3E0EA' : 'transparent',
+          catFieldFg: lockedCat ? '#9993A8' : '#221B2E',
+          catFieldCursor: lockedCat ? 'not-allowed' : 'pointer',
+          catFieldArrow: lockedCat ? 'none' : 'auto',
+          catLockNote: lockedCat
+            ? 'Set automatically from the selected warehouse batch.'
+            : (firstPicked ? 'No category recorded on this batch — pick one manually.' : 'Set automatically once you pick the first source batch.'),
+          brandLocked: !!lockedBrand,
+          brandUnlocked: !lockedBrand,
+          lockedBrand: lockedBrand,
+          brandValue: lockedBrand || pf.brand,
+          brandFieldBg: lockedBrand ? '#E3E0EA' : 'transparent',
+          brandFieldFg: lockedBrand ? '#9993A8' : '#221B2E',
+          brandFieldCursor: lockedBrand ? 'not-allowed' : 'pointer',
+          brandFieldArrow: lockedBrand ? 'none' : 'auto',
+          brandLockNote: lockedBrand
+            ? 'Locked to ' + lockedBrand + ' by the first source batch — all sizes must come from the same brand.'
+            : 'Set automatically once you pick the first source batch.',
+          sizeOptions: SIZES,
+          srcRows: srcRows,
+          addSrcRow: this.addSrcRow,
+          hasSrcSummary: summary.length > 0,
+          srcSummaryList: summary.join(', '),
+          sizeRows: sizeRows,
+          noSizeRows: sizeRows.length === 0,
+          imageSlots: Array.from({ length: this.state.pfImgCount ?? DEFAULT_IMAGE_COUNT }, (_, i) => ({
+            num: String(i + 1).padStart(2, '0'),
+            isCover: i === 0,
+            border: i === 0 ? '1px solid #6B5BFF' : '1px solid #221B2E',
+            ring: i === 0 ? '2px solid rgba(107,91,255,0.35)' : '2px solid transparent',
+            onRemove: () => this.setState(s => ({ pfImgCount: Math.max(0, (s.pfImgCount ?? DEFAULT_IMAGE_COUNT) - 1) }))
+          })),
+          addImage: () => this.setState(s => ({ pfImgCount: Math.min(8, (s.pfImgCount ?? DEFAULT_IMAGE_COUNT) + 1) })),
+          detailRows: (pf.details || []).map((d, i) => ({
+            label: d.label, value: d.value,
+            labelHint: (DETAIL_HINTS[i] || {}).label || 'Label',
+            valueHint: (DETAIL_HINTS[i] || {}).value || 'Value',
+            onLabel: (e) => this.setDetail(i, 'label', e.target.value),
+            onValue: (e) => this.setDetail(i, 'value', e.target.value),
+            removable: (pf.details || []).length > 1,
+            onRemove: () => this.removeDetailRow(i)
+          })),
+          addDetailRow: this.addDetailRow,
+          ...(() => {
+            const guideSizes = editing
+              ? this.productSizes(pf.name).map(z => z.size)
+              : rows.filter(r => r.size).map(r => r.size).filter((s, i, a) => a.indexOf(s) === i);
+            const g = pf.guide || {};
+            return {
+              hasGuideSizes: guideSizes.length > 0,
+              noGuideSizes: guideSizes.length === 0,
+              guideEmptyNote: editing
+                ? 'No sizes linked to this product yet'
+                : 'Add a size in Source from warehouse above and it appears here',
+              guideRows: guideSizes.map(sz => ({
+                size: sz,
+                chest: (g[sz] || {}).chest || '',
+                length: (g[sz] || {}).length || '',
+                sleeve: (g[sz] || {}).sleeve || '',
+                onChest: (e) => this.setGuide(sz, 'chest', e.target.value),
+                onLength: (e) => this.setGuide(sz, 'length', e.target.value),
+                onSleeve: (e) => this.setGuide(sz, 'sleeve', e.target.value)
+              }))
+            };
+          })(),
+          pfModelNote: pf.modelNote || '',
+          setPfModelNote: (e) => this.setPf('modelNote', e.target.value),
+          restockTotalNote: 'Restock draws only from batches already linked to this product and size.'
+        };
+      })(),
+      pfDesc: pf.desc, setPfDesc: (e) => this.setPf('desc', e.target.value),
+      saleOn: pf.saleOn,
+      saleAria: pf.saleOn ? 'true' : 'false',
+      saleFg: pf.saleOn ? '#221B2E' : '#5F5775',
+      saleTrack: pf.saleOn ? '#6B5BFF' : 'transparent',
+      saleKnob: pf.saleOn ? '#EDEBF2' : '#221B2E',
+      saleKnobX: pf.saleOn ? 'translateX(19px)' : 'translateX(0)',
+      toggleSale: () => this.setPf('saleOn', !pf.saleOn),
+      saveProduct: this.saveProduct,
+
+      tagDraft: this.state.tagDraft,
+      onTagChange: (e) => this.setState({ tagDraft: e.target.value.includes(',') ? '' : e.target.value }, () => {
+        if (e.target.value.includes(',')) this.addTag(e.target.value.split(',')[0]);
+      }),
+      onTagKeyDown: this.onTagKeyDown,
+      onTagFocus: () => this.setState({ tagFocused: true }),
+      onTagBlur: () => this.setState({ tagFocused: false }),
+      showSuggestions: this.state.tagFocused && suggestions.length > 0,
+      tagSuggestions: suggestions.map((t, i) => ({
+        label: t,
+        hint: i === 0 && draft && !exactExists ? 'closest' : 'existing',
+        aria: 'false',
+        bg: 'transparent', fg: '#221B2E',
+        onPick: (e) => { e.preventDefault(); this.addTag(t); }
+      })),
+      hasTags: pf.tags.length > 0,
+      tagChips: pf.tags.map(t => ({
+        label: t,
+        onRemove: () => this.setState(s => ({ pf: { ...s.pf, tags: s.pf.tags.filter(x => x !== t) } }))
+      })),
+      tagHelp: !draft
+        ? 'Enter or comma adds a tag · Backspace removes the last one · ' + this.state.tagLibrary.length + ' tags in the library'
+        : (suggestions.length === 1
+            ? 'Enter reuses the existing tag “' + suggestions[0] + '”'
+            : (suggestions.length > 1
+                ? 'Pick a suggestion to reuse it, or press Enter to create “' + draft + '”'
+                : 'Press Enter to create the new tag “' + draft + '”'))
+    };
+  }
+}
+</script>
+</body>
+</html>

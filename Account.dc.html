@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(237,235,242,0.92); backdrop-filter: blur(12px); borderBottom: 1px solid #221B2E">
+    <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
+
+      <div style="display: flex; align-items: center; gap: clamp(16px, 2.2vw, 34px)">
+        <a href="ClothSE Homepage.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)" style-active="transform: scale(0.98)">
+          <span>Cloth</span><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </a>
+
+        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
+          <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
+            <a href="ClothSE Homepage.dc.html" style="position: relative; padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Home</a>
+            <a href="ClothSE Homepage.dc.html#new-arrivals" style="position: relative; padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">New arrivals</a>
+            <div onMouseEnter="{{ openShop }}" onMouseLeave="{{ closeShop }}" style="position: relative">
+              <a href="Shop Listing.dc.html" style="position: relative; padding: 6px 0 8px; display: flex; align-items: center; gap: 6px; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Shop <span style="font-size: 9px; display: inline-block; transform: {{ shopArrow }}; transition: transform 200ms cubic-bezier(.2,.7,.2,1)">▼</span></a>
+              <sc-if value="{{ shopOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="position: absolute; top: 100%; left: -16px; width: 210px; background: #EDEBF2; border: 1px solid #221B2E; padding: 8px; display: flex; flex-direction: column; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); animation: clothse-drop-in 220ms cubic-bezier(.2,.7,.2,1) both; transform-origin: top left">
+                  <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
+                    <a href="{{ l.href }}" style="padding: 11px 12px; font-size: 13px; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 18px">
+                      <span>{{ l.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5">{{ l.count }}</span>
+                    </a>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+            <a href="ClothSE Homepage.dc.html#sale" style="padding: 6px 8px; background: #FF6A2B; color: #EDEBF2; borderRadius: 2px; font-weight: 700; transition: color 180ms ease-out, background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: #221B2E; color: #FF6A2B; box-shadow: 0 0 0 3px rgba(255,106,43,0.35)">Sale</a>
+          </nav>
+        </sc-if>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 10px">
+        <x-import component-from-global-scope="lang-switch" from="./lang-switch.js" hint-size="82px,40px"></x-import>
+        <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+          <input placeholder="Search cargos, tees, kicks…" style="width: clamp(140px, 22vw, 280px); height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transform-origin: right center; animation: clothse-expand 260ms cubic-bezier(.2,.8,.2,1) both; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
+        </sc-if>
+        <button onClick="{{ toggleSearch }}" aria-label="Search" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 15px; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #6B5BFF; color: #EDEBF2; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.95)">⌕</button>
+        <a href="My Bag & Orders.dc.html?tab=bag" aria-label="Bag" style="position: relative; width: 40px; height: 40px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), color 180ms ease-out" style-hover="transform: scale(1.12); color: #FF6A2B; box-shadow: 3px 3px 0 #FF6A2B" style-active="transform: scale(0.95)">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true">
+            <path d="M4 7h16l-1.4 12.2a1 1 0 0 1-1 .8H6.4a1 1 0 0 1-1-.8L4 7Z"></path>
+            <path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2.1a3.5 3.5 0 0 1 3.5 3.5V7"></path>
+          </svg>
+          <span style="position: absolute; top: -7px; right: -7px; background: #6B5BFF; color: #221B2E; border: 1px solid #221B2E; borderRadius: 999px; minWidth: 20px; height: 20px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 0 5px">{{ cartCount }}</span>
+        </a>
+        <div data-account-menu="1" style="position: relative">
+          <button onClick="{{ toggleAccount }}" aria-label="Account" style="width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.08); box-shadow: 0 0 0 3px rgba(107,91,255,0.32)" style-active="transform: scale(0.95)">{{ avatarInitials }}</button>
+          <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
+            <div data-account-menu="1" style="position: absolute; top: calc(100% + 10px); right: 0; width: 244px; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); z-index: 60; display: flex; flex-direction: column; transform-origin: top right; animation: clothse-drop-in 200ms cubic-bezier(.2,.7,.2,1) both">
+              <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; display: flex; flex-direction: column; gap: 5px">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Signed in as</div>
+                <div style="font-size: 13px; word-break: break-all">{{ accountEmail }}</div>
+              </div>
+              <button onClick="{{ closeAccount }}" style="text-align: left; height: 44px; padding: 0 14px; border: 0; background: #221B2E; color: #EDEBF2; cursor: pointer; display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 13px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
+              </button>
+              <a href="My Bag & Orders.dc.html?tab=pay" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
+              </a>
+              <span style="height: 1px; background: #221B2E; display: block"></span>
+              <a href="Sign In & Sign Up.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; color: #B4471A; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; padding-left: 20px">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9"></path><path d="M18.5 12h-8"></path><path d="m15.5 9 3 3-3 3"></path></svg>Sign Out
+              </a>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ showMobileToggle }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; display: grid; place-items: center; gap: 4px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: #6B5BFF" style-active="transform: scale(0.94)">
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
+            <span style="width: 12px; height: 2px; background: #221B2E; display: block"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
+        <a href="ClothSE Homepage.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Home</a>
+        <a href="ClothSE Homepage.dc.html#new-arrivals" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">New arrivals</a>
+        <a href="Shop Listing.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Shop</a>
+        <a href="ClothSE Homepage.dc.html#sale" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase"><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 8px; display: inline-block">Sale</span></a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <main style="max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 52px) clamp(16px, 3vw, 40px) clamp(56px, 8vw, 104px)">
+
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; align-items: end; margin-bottom: clamp(26px, 4vw, 48px)">
+      <div>
+        <nav aria-label="Breadcrumb" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775; margin-bottom: 14px; display: flex; gap: 8px">
+          <a href="ClothSE Homepage.dc.html" style="color: #5F5775" style-hover="color: #6B5BFF">Home</a><span>/</span><span style="color: #221B2E">Account</span>
+        </nav>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(46px, 8vw, 108px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0">My Account</h1>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: start">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5F5775">Member since</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">MAR 2024 · {{ addressCountLabel }}</span>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: {{ shellCols }}; gap: clamp(20px, 3vw, 44px); align-items: start">
+
+      <nav aria-label="Account sections" style="border: 1px solid #221B2E; display: flex; flex-direction: {{ railDir }}; position: sticky; top: 96px; background: #EDEBF2">
+        <sc-for list="{{ sections }}" as="s" hint-placeholder-count="3">
+          <button onClick="{{ s.onPick }}" aria-current="{{ s.active }}" style="flex: {{ s.flex }}; text-align: left; padding: 17px 16px; border: 0; borderBottom: {{ s.divider }}; background: {{ s.bg }}; color: {{ s.fg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: background-color 180ms ease-out, color 180ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 22px">
+            <span>{{ s.label }}</span><span style="opacity: {{ s.arrowOpacity }}">→</span>
+          </button>
+        </sc-for>
+      </nav>
+
+      <div>
+        <sc-if value="{{ onProfile }}" hint-placeholder-val="{{ true }}">
+          <div style="border: 1px solid #221B2E; padding: clamp(20px, 3vw, 36px); animation: clothse-fade-up 260ms cubic-bezier(.2,.7,.2,1) both">
+            <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 6px">Profile</h2>
+            <p style="margin: 0 0 clamp(24px, 3vw, 34px); font-size: 14px; line-height: 1.5; color: #4A4358; max-width: 52ch">Your details are used for order confirmations and delivery notes.</p>
+
+            <div style="display: flex; flex-wrap: wrap; gap: clamp(18px, 3vw, 30px); align-items: center; padding-bottom: clamp(24px, 3vw, 32px); borderBottom: 1px solid rgba(34,27,46,0.18); margin-bottom: clamp(24px, 3vw, 32px)">
+              <div style="position: relative; width: 116px; height: 116px; flex: 0 0 auto">
+                <span style="position: absolute; inset: 0; borderRadius: 999px; border: 1px solid #221B2E; overflow: hidden; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775; text-align: center; padding: 0 10px">profile photo</span>
+                </span>
+                <button aria-label="Change photo" style="position: absolute; right: -6px; bottom: -6px; width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.1); box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.94)">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 8.5h3.2l1.4-2.2h6.8l1.4 2.2H20v11H4z"></path><circle cx="12" cy="14" r="3.2"></circle></svg>
+                </button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px; align-items: start">
+                <button style="padding: 13px 22px; border: 1px solid #221B2E; background-color: transparent; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background-size: 100% 100%; color: #EDEBF2; transform: translateY(-2px)" style-active="transform: scale(0.97)">Change photo</button>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">JPG or PNG · max 4MB · square works best</span>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
+              <sc-for list="{{ profileFields }}" as="f" hint-placeholder-count="4">
+                <label style="display: flex; flex-direction: column; gap: 8px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ f.label }}</span>
+                  <input type="{{ f.type }}" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="height: 52px; padding: 0 15px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, background-color 180ms ease-out" style-focus="box-shadow: 4px 4px 0 #6B5BFF" />
+                </label>
+              </sc-for>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: clamp(26px, 3vw, 34px)">
+              <button onClick="{{ saveProfile }}" style="padding: 17px 32px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Save changes</button>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ profileNoteColor }}">{{ profileNote }}</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onAddresses }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 16px; animation: clothse-fade-up 260ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; padding: clamp(20px, 3vw, 32px); display: flex; flex-wrap: wrap; gap: 16px; align-items: end; justify-content: space-between">
+              <div>
+                <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 6px">Addresses</h2>
+                <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4A4358; max-width: 46ch">Saved destinations. The default is pre-selected at checkout.</p>
+              </div>
+              <sc-if value="{{ showAddButton }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ openAddForm }}" style="padding: 15px 26px; border: 1px solid #221B2E; background-color: transparent; background-image: linear-gradient(#6B5BFF, #6B5BFF); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="background-size: 100% 100%; color: #EDEBF2; transform: translateY(-2px); box-shadow: 4px 4px 0 #221B2E" style-active="transform: scale(0.97)">+ Add new address</button>
+              </sc-if>
+            </div>
+
+            <sc-if value="{{ formOpen }}" hint-placeholder-val="{{ false }}">
+              <div style="border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); padding: clamp(20px, 3vw, 32px); animation: clothse-fade-up 220ms cubic-bezier(.2,.7,.2,1) both">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 22px">
+                  <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 2.4vw, 28px); line-height: 1; text-transform: uppercase; margin: 0">{{ formTitle }}</h3>
+                  <button onClick="{{ closeForm }}" aria-label="Close" style="width: 34px; height: 34px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 14px; display: grid; place-items: center; transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: rotate(90deg)">✕</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 18px">
+                  <sc-for list="{{ formFields }}" as="f" hint-placeholder-count="5">
+                    <label style="display: flex; flex-direction: column; gap: 8px; grid-column: {{ f.span }}">
+                      <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ f.label }}</span>
+                      <input value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="{{ f.placeholder }}" style="height: 52px; padding: 0 15px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 4px 4px 0 #6B5BFF" />
+                    </label>
+                  </sc-for>
+                </div>
+                <button onClick="{{ toggleDefault }}" style="margin-top: 22px; display: flex; align-items: center; gap: 12px; border: 0; background: transparent; padding: 0; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 14px; color: #221B2E">
+                  <span style="width: 24px; height: 24px; border: 1px solid #221B2E; background: {{ checkboxBg }}; color: #EDEBF2; display: grid; place-items: center; font-size: 13px; flex: 0 0 auto; transition: background-color 180ms ease-out">{{ checkboxMark }}</span>
+                  Set as default address
+                </button>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px">
+                  <button onClick="{{ saveAddress }}" style="padding: 16px 30px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 16px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 5px 5px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 8px 10px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">{{ formSubmitLabel }}</button>
+                  <button onClick="{{ closeForm }}" style="padding: 16px 26px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; font-family: 'Space Grotesk', sans-serif; transition: background-color 200ms ease-out, color 200ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">Cancel</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-for list="{{ addresses }}" as="a" hint-placeholder-count="2">
+              <div style="border: 1px solid #221B2E; padding: clamp(18px, 2.4vw, 28px); display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; align-items: start; background: #EDEBF2; transition: box-shadow 220ms ease-out, transform 220ms cubic-bezier(.2,.7,.2,1)" style-hover="box-shadow: 8px 8px 0 rgba(34,27,46,0.14); transform: translateY(-2px)">
+                <div style="display: flex; flex-direction: column; gap: 10px">
+                  <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px">
+                    <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; line-height: 1; text-transform: uppercase">{{ a.label }}</span>
+                    <sc-if value="{{ a.isDefault }}" hint-placeholder-val="{{ false }}">
+                      <span style="background: #6B5BFF; color: #EDEBF2; border: 1px solid #221B2E; padding: 4px 9px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase">Default</span>
+                    </sc-if>
+                  </div>
+                  <span style="font-size: 15px; font-weight: 500">{{ a.name }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5F5775">{{ a.phone }}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 14px">
+                  <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; max-width: 34ch; text-wrap: pretty">{{ a.full }}</p>
+                  <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                    <button onClick="{{ a.onEdit }}" style="padding: 10px 18px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; transform: translateY(-2px)" style-active="transform: scale(0.96)">Edit</button>
+                    <button onClick="{{ a.onDelete }}" style="padding: 10px 18px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #B4471A; transition: background-color 180ms ease-out, color 180ms ease-out, transform 180ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; border-color: #FF6A2B; transform: translateY(-2px)" style-active="transform: scale(0.96)">Delete</button>
+                    <sc-if value="{{ a.showMakeDefault }}" hint-placeholder-val="{{ false }}">
+                      <button onClick="{{ a.onMakeDefault }}" style="padding: 10px 18px; border: 1px dashed #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #6B5BFF; color: #EDEBF2; border-style: solid">Make default</button>
+                    </sc-if>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+
+            <sc-if value="{{ addressesEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="border: 1px solid #221B2E; padding: clamp(48px, 9vw, 110px) clamp(20px, 4vw, 48px); display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #5F5775">No addresses saved</span>
+                <h3 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3.6vw, 44px); line-height: 0.95; text-transform: uppercase; margin: 0">Nowhere to ship yet</h3>
+                <p style="margin: 0; font-size: 15px; line-height: 1.5; color: #4A4358; max-width: 42ch">Add a delivery address and checkout gets a whole lot faster next time.</p>
+                <button onClick="{{ openAddForm }}" style="margin-top: 8px; padding: 17px 32px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Add your first address</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ onSecurity }}" hint-placeholder-val="{{ false }}">
+          <div style="border: 1px solid #221B2E; padding: clamp(20px, 3vw, 36px); animation: clothse-fade-up 260ms cubic-bezier(.2,.7,.2,1) both">
+            <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3.4vw, 40px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 6px">Password &amp; security</h2>
+            <p style="margin: 0 0 clamp(26px, 3vw, 34px); font-size: 14px; line-height: 1.5; color: #4A4358; max-width: 52ch">Use at least 8 characters with one number. Changing your password signs out other devices.</p>
+            <div style="display: flex; flex-direction: column; gap: 18px; max-width: 460px">
+              <sc-for list="{{ passwordFields }}" as="f" hint-placeholder-count="3">
+                <label style="display: flex; flex-direction: column; gap: 8px">
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ f.label }}</span>
+                  <input type="password" value="{{ f.value }}" onChange="{{ f.onChange }}" placeholder="••••••••" style="height: 52px; padding: 0 15px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; letter-spacing: 0.1em; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 4px 4px 0 #6B5BFF" />
+                </label>
+              </sc-for>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center; margin-top: clamp(26px, 3vw, 34px)">
+              <button onClick="{{ updatePassword }}" style="padding: 17px 32px; background-color: #6B5BFF; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; cursor: pointer; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: #6B5BFF; transform: translateY(-3px); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Update password</button>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ passwordNoteColor }}">{{ passwordNote }}</span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </main>
+
+  <footer style="background: #221B2E; color: #EDEBF2; borderTop: 1px solid #3A3348">
+    <div style="max-width: 1440px; margin: 0 auto; padding: clamp(36px, 4.5vw, 64px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px">
+      <div>
+        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; display: flex; gap: 2px; align-items: center; margin-bottom: 14px">
+          <span>Cloth</span><span style="background: #6B5BFF; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
+        </div>
+        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #B6AEC9; max-width: 30ch">Small-batch streetwear. Printed and packed in Stockholm.</p>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div>
+          <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">{{ col.title }}</h3>
+          <div style="display: flex; flex-direction: column; gap: 10px; align-items: start">
+            <sc-for list="{{ col.items }}" as="i" hint-placeholder-count="4">
+              <a href="ClothSE Homepage.dc.html" style="font-size: 13px; color: #D3CDE2; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">{{ i }}</a>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div>
+        <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Contact</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #D3CDE2; align-items: start">
+          <a href="ClothSE Homepage.dc.html" style="color: #D3CDE2; transition: color 180ms ease-out" style-hover="color: #9A8CFF">hey@clothse.com</a>
+          <span>+46 8 123 456</span>
+          <span>Hökensgatan 4<br />116 46 Stockholm, SE</span>
+        </div>
+      </div>
+    </div>
+    <div style="borderTop: 1px solid #3A3348; padding: 18px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #A79CBD; max-width: 1440px; margin: 0 auto">
+      <span>© 2026 ClothSE — all rights reserved</span>
+      <span style="display: flex; gap: 18px">
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Privacy</a>
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Terms</a>
+        <a href="ClothSE Homepage.dc.html" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Shipping</a>
+      </span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startSection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;profile&quot;,&quot;options&quot;:[&quot;profile&quot;,&quot;addresses&quot;,&quot;security&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Account&quot;},&quot;showEmptyAddresses&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Account&quot;}}">
+const SECTIONS = [
+  { id: 'profile', label: 'Profile' },
+  { id: 'addresses', label: 'Addresses' },
+  { id: 'security', label: 'Password & Security' }
+];
+const SEED_ADDRESSES = [
+  { id: 'a1', label: 'Home', name: 'Bao Nguyen', phone: '+46 70 555 1204', line: 'Hökensgatan 4, Apt 2B', city: 'Södermalm, Stockholm 116 46', isDefault: true },
+  { id: 'a2', label: 'Work', name: 'Bao Nguyen', phone: '+46 70 555 1204', line: 'Sveavägen 44, 6th floor', city: 'Norrmalm, Stockholm 111 34', isDefault: false }
+];
+const EMPTY_FORM = { label: '', name: '', phone: '', line: '', city: '', isDefault: false };
+
+class Component extends DCLogic {
+  state = {
+    section: 'profile', width: 1440, shopOpen: false, searchOpen: false, menuOpen: false, accountOpen: false,
+    profile: { first: 'Bao', last: 'Nguyen', email: 'bao@clothse.com', phone: '+46 70 555 1204' },
+    profileSaved: false,
+    addresses: SEED_ADDRESSES.map(a => ({ ...a })),
+    formOpen: false, editingId: null, form: { ...EMPTY_FORM },
+    pw: { current: '', next: '', confirm: '' }, pwMsg: '', pwOk: false
+  };
+
+  componentDidMount() {
+    const start = this.props.startSection;
+    if (start && SECTIONS.some(s => s.id === start)) this.setState({ section: start });
+    if (this.props.showEmptyAddresses) this.setState({ addresses: [] });
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+    this.onDocClick = (e) => {
+      if (!this.state.accountOpen) return;
+      if (e.target.closest && e.target.closest('[data-account-menu]')) return;
+      this.setState({ accountOpen: false });
+    };
+    document.addEventListener('click', this.onDocClick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    document.removeEventListener('click', this.onDocClick);
+  }
+
+  setProfile(key, v) { this.setState(s => ({ profile: { ...s.profile, [key]: v }, profileSaved: false })); }
+  setForm(key, v) { this.setState(s => ({ form: { ...s.form, [key]: v } })); }
+  setPw(key, v) { this.setState(s => ({ pw: { ...s.pw, [key]: v }, pwMsg: '' })); }
+
+  saveAddress = () => {
+    const f = this.state.form;
+    this.setState(s => {
+      const clean = { label: f.label || 'Address', name: f.name, phone: f.phone, line: f.line, city: f.city, isDefault: f.isDefault };
+      let list;
+      if (s.editingId) {
+        list = s.addresses.map(a => (a.id === s.editingId ? { ...a, ...clean } : a));
+      } else {
+        list = s.addresses.concat([{ id: 'a' + Date.now(), ...clean }]);
+      }
+      if (clean.isDefault) {
+        const keep = s.editingId || list[list.length - 1].id;
+        list = list.map(a => ({ ...a, isDefault: a.id === keep }));
+      } else if (!list.some(a => a.isDefault) && list.length) {
+        list = list.map((a, i) => ({ ...a, isDefault: i === 0 }));
+      }
+      return { addresses: list, formOpen: false, editingId: null, form: { ...EMPTY_FORM } };
+    });
+  };
+
+  renderVals() {
+    const { section, addresses, form, profile, pw } = this.state;
+    const mobile = this.state.width < 900;
+    const field = (label, key, type, placeholder) => ({
+      label, type, placeholder, value: profile[key],
+      onChange: (e) => this.setProfile(key, e.target.value)
+    });
+    const fFld = (label, key, placeholder, span) => ({
+      label, placeholder, span: span || 'auto', value: form[key],
+      onChange: (e) => this.setForm(key, e.target.value)
+    });
+
+    return {
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      menuOpen: this.state.menuOpen && mobile,
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      searchOpen: this.state.searchOpen,
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      accountOpen: this.state.accountOpen,
+      toggleAccount: () => this.setState(s => ({ accountOpen: !s.accountOpen })),
+      closeAccount: () => this.setState({ accountOpen: false }),
+      accountEmail: profile.email,
+      avatarInitials: ((profile.first[0] || '') + (profile.last[0] || '')).toUpperCase(),
+      cartCount: 4,
+      shopLinks: [
+        { label: 'Tops', count: '48', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+
+      shellCols: mobile ? 'minmax(0, 1fr)' : 'minmax(210px, 244px) minmax(0, 1fr)',
+      railDir: mobile ? 'row' : 'column',
+      addressCountLabel: addresses.length + (addresses.length === 1 ? ' saved address' : ' saved addresses'),
+      sections: SECTIONS.map((s, i) => {
+        const on = s.id === section;
+        return {
+          label: s.label, active: on ? 'page' : 'false',
+          flex: mobile ? '1 1 0' : '0 0 auto',
+          divider: mobile || i === SECTIONS.length - 1 ? '0' : '1px solid #221B2E',
+          bg: on ? '#221B2E' : 'transparent',
+          fg: on ? '#EDEBF2' : '#221B2E',
+          arrowOpacity: on ? 1 : 0.3,
+          onPick: () => this.setState({ section: s.id })
+        };
+      }),
+      onProfile: section === 'profile',
+      onAddresses: section === 'addresses',
+      onSecurity: section === 'security',
+
+      profileFields: [
+        field('First name', 'first', 'text', 'Bao'),
+        field('Last name', 'last', 'text', 'Nguyen'),
+        field('Email', 'email', 'email', 'you@email.com'),
+        field('Phone number', 'phone', 'tel', '+46 70 000 0000')
+      ],
+      saveProfile: () => this.setState({ profileSaved: true }),
+      profileNote: this.state.profileSaved ? 'Saved just now' : 'Changes apply to future orders',
+      profileNoteColor: this.state.profileSaved ? '#6B5BFF' : '#5F5775',
+
+      addresses: addresses.map(a => ({
+        label: a.label, name: a.name, phone: a.phone,
+        full: a.line + ' — ' + a.city + ', Sweden',
+        isDefault: a.isDefault,
+        showMakeDefault: !a.isDefault,
+        onEdit: () => this.setState({ formOpen: true, editingId: a.id, form: { label: a.label, name: a.name, phone: a.phone, line: a.line, city: a.city, isDefault: a.isDefault } }),
+        onDelete: () => this.setState(s => {
+          let list = s.addresses.filter(x => x.id !== a.id);
+          if (list.length && !list.some(x => x.isDefault)) list = list.map((x, i) => ({ ...x, isDefault: i === 0 }));
+          return { addresses: list, formOpen: s.editingId === a.id ? false : s.formOpen, editingId: s.editingId === a.id ? null : s.editingId };
+        }),
+        onMakeDefault: () => this.setState(s => ({ addresses: s.addresses.map(x => ({ ...x, isDefault: x.id === a.id })) }))
+      })),
+      addressesEmpty: addresses.length === 0,
+      showAddButton: addresses.length > 0,
+      formOpen: this.state.formOpen,
+      formTitle: this.state.editingId ? 'Edit address' : 'New address',
+      formSubmitLabel: this.state.editingId ? 'Save address' : 'Add address',
+      openAddForm: () => this.setState({ formOpen: true, editingId: null, form: { ...EMPTY_FORM } }),
+      closeForm: () => this.setState({ formOpen: false, editingId: null, form: { ...EMPTY_FORM } }),
+      formFields: [
+        fFld('Label', 'label', 'Home, Work, Studio…'),
+        fFld('Full name', 'name', 'Bao Nguyen'),
+        fFld('Phone', 'phone', '+46 70 000 0000'),
+        fFld('Address line', 'line', 'Street, number, apartment', '1 / -1'),
+        fFld('City / province', 'city', 'Södermalm, Stockholm 116 46', '1 / -1')
+      ],
+      toggleDefault: () => this.setForm('isDefault', !form.isDefault),
+      checkboxBg: form.isDefault ? '#6B5BFF' : 'transparent',
+      checkboxMark: form.isDefault ? '✓' : '',
+      saveAddress: this.saveAddress,
+
+      passwordFields: [
+        { label: 'Current password', value: pw.current, onChange: (e) => this.setPw('current', e.target.value) },
+        { label: 'New password', value: pw.next, onChange: (e) => this.setPw('next', e.target.value) },
+        { label: 'Confirm new password', value: pw.confirm, onChange: (e) => this.setPw('confirm', e.target.value) }
+      ],
+      updatePassword: () => {
+        const ok = pw.current && pw.next.length >= 8 && pw.next === pw.confirm;
+        this.setState({
+          pwOk: !!ok,
+          pwMsg: ok ? 'Password updated' : (pw.next && pw.next !== pw.confirm ? 'New passwords do not match' : 'Fill all fields — 8 characters minimum'),
+          pw: ok ? { current: '', next: '', confirm: '' } : pw
+        });
+      },
+      passwordNote: this.state.pwMsg || 'Last changed 4 months ago',
+      passwordNoteColor: this.state.pwMsg ? (this.state.pwOk ? '#6B5BFF' : '#B4471A') : '#5F5775',
+
+      footerCols: [
+        { title: 'Shop', items: ['New arrivals', 'Tops', 'Bottoms', 'Accessories', 'Footwear', 'Sale'] },
+        { title: 'Help', items: ['Size guide', 'Shipping', 'Returns', 'Track order', 'FAQ'] },
+        { title: 'Studio', items: ['About ClothSE', 'Sustainability', 'Stockists', 'Careers'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
