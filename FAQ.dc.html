@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  input::placeholder, textarea::placeholder { color: #8A83A0; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <dc-import name="SiteHeader" accent="{{ accent }}" cart-count="{{ cartCount }}" hint-size="100%,72px" style="position: sticky; top: 0; z-index: 50"></dc-import>
+
+  <main id="top">
+    <section style="borderBottom: 1px solid #221B2E; max-width: 1440px; margin: 0 auto; padding: clamp(28px, 4vw, 64px) clamp(16px, 3vw, 40px) clamp(28px, 3.4vw, 48px)">
+      <span style="display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #221B2E; padding: 6px 10px; margin-bottom: 22px">Support · FAQ</span>
+      <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(40px, 7vw, 104px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 20px">Frequently<br /><span style="display: inline-block; background: #221B2E; color: #EDEBF2; padding: 0 12px; transform: skewX(-7deg)">Asked</span><br />Questions</h1>
+      <p style="font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 52ch; margin: 0; color: #4A4358; text-wrap: pretty">Can't find what you're looking for? <a href="Contact.dc.html" style="color: #221B2E; text-decoration: underline; text-underline-offset: 4px; transition: color 180ms ease-out" style-hover="color: {{ accent }}">Contact us</a>.</p>
+    </section>
+
+    <div style="max-width: 1440px; margin: 0 auto; padding: clamp(20px, 3vw, 40px) clamp(16px, 3vw, 40px) clamp(48px, 6vw, 90px)">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+        <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(8px, 2vw, 40px); align-items: start; padding: clamp(18px, 2.6vw, 36px) 0">
+          <div style="display: flex; flex-direction: column; gap: 8px; position: sticky; top: 96px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ g.index }}</span>
+            <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">{{ g.title }}</h2>
+          </div>
+          <div style="grid-column: span 2; borderTop: 1px solid #221B2E">
+            <sc-for list="{{ g.items }}" as="a" hint-placeholder-count="3">
+              <div style="borderBottom: 1px solid #221B2E">
+                <button onClick="{{ a.onToggle }}" style="width: 100%; padding: 20px 2px; background: transparent; border: 0; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 14px; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(19px, 1.6vw, 23px); text-transform: uppercase; letter-spacing: -0.01em; color: #221B2E; text-align: left; transition: color 180ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: {{ accent }}; padding-left: 8px">
+                  <span>{{ a.q }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: {{ accent }}; transform: {{ a.iconRot }}; transition: transform 240ms cubic-bezier(.2,.7,.2,1); display: inline-block; flex: 0 0 auto">{{ a.icon }}</span>
+                </button>
+                <sc-if value="{{ a.open }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding: 0 2px 24px 22px; borderLeft: 2px solid {{ accent }}; margin: 0 0 0 2px; display: flex; flex-direction: column; gap: 12px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+                    <sc-for list="{{ a.lines }}" as="line" hint-placeholder-count="2">
+                      <p style="margin: 0; font-size: 15px; line-height: 1.65; color: #4A4358; max-width: 66ch; text-wrap: pretty">{{ line }}</p>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </sc-for>
+
+      <section style="borderTop: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; margin-top: clamp(24px, 3vw, 44px); padding: clamp(24px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between">
+        <div style="display: flex; flex-direction: column; gap: 8px; max-width: 46ch">
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1; text-transform: uppercase; margin: 0">Still stuck?</h2>
+          <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #B6AEC9; text-wrap: pretty">Send us the details and we'll answer within 1–2 business days.</p>
+        </div>
+        <a href="Contact.dc.html" style="padding: 16px 28px; border: 1px solid #EDEBF2; color: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out" style-hover="transform: translateY(-2px); background: #EDEBF2; color: #221B2E" style-active="transform: scale(0.97)">Contact us →</a>
+      </section>
+    </div>
+  </main>
+
+  <dc-import name="SiteFooter" accent="{{ accent }}" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
+const FAQ_GROUPS = [
+  { title: 'Orders & Payment', items: [
+    { q: 'What payment methods do you accept?', lines: ['Cash on delivery only for now — you pay the courier in full when the parcel arrives.', 'No card details are collected or stored on the site.'] },
+    { q: 'Can I change or cancel my order?', lines: ['Yes, any time before dispatch. Message us with your order number and we will update or cancel it free of charge.', 'Once the parcel is with the courier it has to be handled as a return.'] },
+    { q: 'How do I know my order was confirmed?', lines: ['Every order is reviewed manually before it moves into processing. You can follow its status under Orders in your account.'] }
+  ] },
+  { title: 'Shipping', items: [
+    { q: 'How long does delivery take?', lines: ['1–2 business days within Da Lat, 2–4 business days elsewhere in Vietnam.', 'Confirmed orders are packed and handed to the courier within 1–2 business days.'] },
+    { q: 'Do you ship outside Da Lat?', lines: ['Yes — we ship nationwide. Delivery outside Da Lat typically takes 2–4 business days.'] },
+    { q: 'How much is shipping?', lines: ['A flat 30.000₫, free on orders over 1.000.000₫.'] }
+  ] },
+  { title: 'Returns & Refunds', items: [
+    { q: "What's your return policy?", lines: ['30 days from delivery, on items that are unworn, unwashed and still have their original tags attached.', 'Footwear must come back in its original box. Underwear, socks and face coverings cannot be returned for hygiene reasons.'] },
+    { q: 'How do I request a return?', lines: ['Message us from the Contact page with your order number and the items involved. We reply with return instructions.', 'Once the return arrives and is checked, refunds are issued by bank transfer within 5 business days.'] },
+    { q: 'Who pays for return shipping?', lines: ['The customer, unless the item arrived faulty or was not what was ordered — then it is on us.'] }
+  ] },
+  { title: 'Account', items: [
+    { q: 'Do I need an account to shop?', lines: ['You can browse and add items to your bag or favourites without an account, but you will need to sign in (or create one — it only takes a few seconds) to complete checkout.', 'An account also saves your addresses and order history, and lets you turn on restock alerts.'] },
+    { q: 'How do I reset my password?', lines: ['Use the “Forgot password?” link on the sign-in page and follow the emailed reset link.'] },
+    { q: 'How do restock alerts work?', lines: ['Turn on “Notify me” for any item in Favourites and we will email you once your size is back in stock.'] }
+  ] }
+];
+
+class Component extends DCLogic {
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, width: 1440, hover: null, open: {} };
+
+  componentDidMount() {
+    try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  hoverProps(key) {
+    return {
+      onEnter: () => this.setState({ hover: key }),
+      onLeave: () => this.setState(s => (s.hover === key ? { hover: null } : null))
+    };
+  }
+  navLink(key) {
+    const on = this.state.hover === 'nav-' + key;
+    return { ...this.hoverProps('nav-' + key), lift: on ? 'translateY(-2px)' : 'translateY(0)', bar: on ? 'scaleX(1)' : 'scaleX(0)' };
+  }
+  toggle(key) { this.setState(s => ({ open: { ...s.open, [key]: !s.open[key] } })); }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const mobile = this.state.width < 900;
+    const user = this.state.user;
+    const groups = FAQ_GROUPS.map((g, gi) => ({
+      title: g.title,
+      index: String(gi + 1).padStart(2, '0'),
+      items: g.items.map((it, ii) => {
+        const key = gi + '-' + ii;
+        const open = !!this.state.open[key];
+        return { q: it.q, lines: it.lines, open, icon: open ? '−' : '+', iconRot: open ? 'rotate(180deg)' : 'rotate(0deg)', onToggle: () => this.toggle(key) };
+      })
+    }));
+    return {
+      accent,
+      groups,
+      cartCount: this.props.cartCount ?? 4,
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      showLogin: !mobile && !user,
+      showAvatar: !!user,
+      avatarInitials: user ? (user.name || user.email || '').trim().split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') : '',
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      searchOpen: this.state.searchOpen,
+      menuOpen: this.state.menuOpen && mobile,
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      navHome: this.navLink('home'),
+      navNew: this.navLink('new'),
+      navShop: this.navLink('shop'),
+      shopLinks: [
+        { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', delay: '120ms', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', delay: '160ms', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

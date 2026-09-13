@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  input::placeholder, textarea::placeholder { color: #8A83A0; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <dc-import name="SiteHeader" accent="{{ accent }}" cart-count="{{ cartCount }}" hint-size="100%,72px" style="position: sticky; top: 0; z-index: 50"></dc-import>
+
+  <main id="top">
+    <section style="borderBottom: 1px solid #221B2E; max-width: 1440px; margin: 0 auto; padding: clamp(28px, 4vw, 64px) clamp(16px, 3vw, 40px) clamp(28px, 3.4vw, 48px)">
+      <span style="display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #221B2E; padding: 6px 10px; margin-bottom: 22px">Privacy · Updated September 2026</span>
+      <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(44px, 8vw, 112px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 20px">Privacy<br /><span style="display: inline-block; background: #221B2E; color: #EDEBF2; padding: 0 12px; transform: skewX(-7deg)">Policy</span></h1>
+      <p style="font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 54ch; margin: 0; color: #4A4358; text-wrap: pretty">What we collect, why we need it, and how to get it changed or deleted. Short version: only what an order needs.</p>
+    </section>
+    <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px) clamp(48px, 6vw, 90px)">
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">01</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">What we collect</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px"><li style="text-wrap: pretty">Name</li><li style="text-wrap: pretty">Email address</li><li style="text-wrap: pretty">Phone number</li><li style="text-wrap: pretty">Delivery address</li><li style="text-wrap: pretty">Order history — what you bought, sizes, and order status</li></ul><p style="margin: 0; text-wrap: pretty">If you create an account we also store your saved addresses and your Favourites list. We do not collect payment card data at all.</p></div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">02</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Why we use it</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px"><li style="text-wrap: pretty"><strong>Processing orders:</strong> confirming, packing and handing your parcel to the courier.</li><li style="text-wrap: pretty"><strong>COD delivery contact:</strong> your phone number and address go to the courier so they can reach you at the door and collect payment.</li><li style="text-wrap: pretty"><strong>Restock and sale notifications:</strong> only if you turned on “Notify me” for an item in Favourites, or opted into the weekly email.</li><li style="text-wrap: pretty"><strong>Support:</strong> answering messages you send from the Contact page.</li></ul><p style="margin: 0; text-wrap: pretty">We do not sell your data, and we do not use it for profiling or advertising.</p></div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">03</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Payment data</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><p style="margin: 0; text-wrap: pretty">ClothSE supports cash on delivery only. No card or bank details are collected on this site, so there is nothing to pass to a payment processor — no third-party payment provider receives your data.</p><div style="border: 1px solid #221B2E; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #221B2E">No card data collected · COD only</div></div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">04</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Who sees your data</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><p style="margin: 0; text-wrap: pretty">Only the ClothSE team, and the delivery courier assigned to your order — who receives your name, phone number, address and the amount to collect. Nothing else is shared with anyone else unless we are legally required to.</p></div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">05</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">How long we keep it</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><p style="margin: 0; text-wrap: pretty">Order records are kept for as long as we need them for accounting and returns. Account details stay until you ask us to delete the account; marketing consent ends the moment you unsubscribe.</p></div>
+      </section>
+
+      <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: clamp(12px, 2.4vw, 40px); align-items: start; borderTop: 1px solid rgba(34,27,46,0.18); padding: clamp(22px, 3vw, 40px) 0">
+        <div style="display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">06</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Your choices</h2>
+        </div>
+        <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 14px; max-width: 66ch; font-size: 15px; line-height: 1.65; color: #4A4358"><ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px"><li style="text-wrap: pretty">Ask for a copy of the data we hold about you.</li><li style="text-wrap: pretty">Ask us to correct anything wrong.</li><li style="text-wrap: pretty">Ask us to delete your account and personal details.</li><li style="text-wrap: pretty">Turn off restock alerts in Favourites, or unsubscribe from any email in one click.</li></ul><p style="margin: 0; text-wrap: pretty">Send any of these requests through the <a href="Contact.dc.html" style="color: #221B2E; text-decoration: underline; text-underline-offset: 3px">Contact page</a> and we will action them within 30 days.</p></div>
+      </section>
+
+        <section style="borderTop: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; margin-top: clamp(24px, 3vw, 44px); padding: clamp(24px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between">
+          <div style="display: flex; flex-direction: column; gap: 8px; max-width: 46ch">
+            <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 2.6vw, 34px); line-height: 1; text-transform: uppercase; margin: 0">Still unsure?</h2>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #B6AEC9; text-wrap: pretty">Ask us directly — we answer every message within 1–2 business days.</p>
+          </div>
+          <a href="Contact.dc.html" style="padding: 16px 28px; border: 1px solid #EDEBF2; color: #EDEBF2; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out" style-hover="transform: translateY(-2px); background: #EDEBF2; color: #221B2E" style-active="transform: scale(0.97)">Contact us →</a>
+        </section>
+    </div>
+  </main>
+
+  <dc-import name="SiteFooter" accent="{{ accent }}" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
+class Component extends DCLogic {
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, width: 1440, hover: null };
+
+  componentDidMount() {
+    try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  hoverProps(key) {
+    return {
+      onEnter: () => this.setState({ hover: key }),
+      onLeave: () => this.setState(s => (s.hover === key ? { hover: null } : null))
+    };
+  }
+  navLink(key) {
+    const on = this.state.hover === 'nav-' + key;
+    return { ...this.hoverProps('nav-' + key), lift: on ? 'translateY(-2px)' : 'translateY(0)', bar: on ? 'scaleX(1)' : 'scaleX(0)' };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const mobile = this.state.width < 900;
+    const user = this.state.user;
+    return {
+      accent,
+      cartCount: this.props.cartCount ?? 4,
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      showLogin: !mobile && !user,
+      showAvatar: !!user,
+      avatarInitials: user ? (user.name || user.email || '').trim().split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') : '',
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      searchOpen: this.state.searchOpen,
+      menuOpen: this.state.menuOpen && mobile,
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      navHome: this.navLink('home'),
+      navNew: this.navLink('new'),
+      navShop: this.navLink('shop'),
+      shopLinks: [
+        { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', delay: '120ms', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', delay: '160ms', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

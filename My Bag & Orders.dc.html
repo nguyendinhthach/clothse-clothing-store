@@ -41,114 +41,7 @@
     </span>
   </div>
 
-  <header style="position: sticky; top: 0; z-index: 50; background: rgba(237,235,242,0.92); backdrop-filter: blur(12px); borderBottom: 1px solid #221B2E">
-    <div style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 16px">
-      <div style="display: flex; align-items: center; gap: clamp(16px, 2.2vw, 34px)">
-        <a href="ClothSE Homepage.dc.html" style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; letter-spacing: -0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 2px; transform-origin: left center; transition: transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.05)" style-active="transform: scale(0.98)">
-          <span>Cloth</span><span style="background: {{ accent }}; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
-        </a>
-        <sc-if value="{{ showDesktopNav }}" hint-placeholder-val="{{ true }}">
-          <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
-            <a href="ClothSE Homepage.dc.html" onMouseEnter="{{ navHome.onEnter }}" onMouseLeave="{{ navHome.onLeave }}" style="position: relative; padding: 6px 0 8px; display: inline-block; transform: {{ navHome.lift }}; transition: transform 200ms ease-out">Home<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navHome.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
-            <a href="Shop Listing.dc.html" onMouseEnter="{{ navNew.onEnter }}" onMouseLeave="{{ navNew.onLeave }}" style="position: relative; padding: 6px 0 8px; display: inline-block; transform: {{ navNew.lift }}; transition: transform 200ms ease-out">New Arrivals<span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navNew.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
-            <div onMouseEnter="{{ openShop }}" onMouseLeave="{{ closeShop }}" style="position: relative">
-              <a href="Shop Listing.dc.html" onMouseEnter="{{ navShop.onEnter }}" onMouseLeave="{{ navShop.onLeave }}" style="position: relative; padding: 6px 0 8px; display: flex; align-items: center; gap: 6px; transform: {{ navShop.lift }}; transition: transform 200ms ease-out">Shop <span style="font-size: 9px; display: inline-block; transform: {{ shopArrow }}; transition: transform 200ms cubic-bezier(.2,.7,.2,1)">▼</span><span style="position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #221B2E; transform: {{ navShop.bar }}; transform-origin: center; transition: transform 200ms ease-out"></span></a>
-              <sc-if value="{{ shopOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="position: absolute; top: 100%; left: -16px; width: 210px; background: #EDEBF2; border: 1px solid #221B2E; padding: 8px; display: flex; flex-direction: column; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); animation: clothse-drop-in 220ms cubic-bezier(.2,.7,.2,1) both; transform-origin: top left">
-                  <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
-                    <a href="{{ l.href }}" style="padding: 11px 12px; font-size: 13px; letter-spacing: 0.06em; display: flex; justify-content: space-between; align-items: center; width: 100%; text-transform: uppercase; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1); animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both; animation-delay: {{ l.delay }}" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 18px">
-                      <span>{{ l.label }}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; opacity: 0.5">{{ l.count }}</span>
-                    </a>
-                  </sc-for>
-                </div>
-              </sc-if>
-            </div>
-            <a href="Shop Listing.dc.html" style="padding: 6px 8px; background: #FF6A2B; color: #EDEBF2; borderRadius: 2px; font-weight: 700; transition: color 180ms ease-out, background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: #221B2E; color: #FF6A2B; box-shadow: 0 0 0 3px rgba(255,106,43,0.35); animation: clothse-flash 600ms ease-in-out infinite">Sale</a>
-          </nav>
-        </sc-if>
-      </div>
-
-      <div style="display: flex; align-items: center; gap: 10px">
-        <x-import component-from-global-scope="lang-switch" from="./lang-switch.js" hint-size="82px,40px"></x-import>
-        <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
-          <input placeholder="Search cargos, tees, kicks…" autofocus="{{ true }}" style="width: clamp(140px, 22vw, 280px); height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transform-origin: right center; animation: clothse-expand 260ms cubic-bezier(.2,.8,.2,1) both; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
-        </sc-if>
-        <button onClick="{{ toggleSearch }}" aria-label="Search" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 15px; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); background: #6B5BFF; color: #EDEBF2; box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.95)">⌕</button>
-        <a href="#top" onClick="{{ goBagTab }}" aria-label="Bag" style="position: relative; width: 40px; height: 40px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: scale(1.12); color: #FF6A2B; box-shadow: 3px 3px 0 #FF6A2B" style-active="transform: scale(0.95); color: #FF6A2B">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true">
-            <path d="M4 7h16l-1.4 12.2a1 1 0 0 1-1 .8H6.4a1 1 0 0 1-1-.8L4 7Z"></path>
-            <path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2.1a3.5 3.5 0 0 1 3.5 3.5V7"></path>
-          </svg>
-          <span key="{{ cartKey }}" style="position: absolute; top: -7px; right: -7px; background: {{ accent }}; color: #EDEBF2; border: 1px solid #221B2E; borderRadius: 999px; minWidth: 20px; height: 20px; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 0 5px; animation: clothse-pop 380ms cubic-bezier(.3,1.4,.4,1) both">{{ cartCount }}</span>
-        </a>
-        <sc-if value="{{ showLogin }}" hint-placeholder-val="{{ true }}">
-          <a href="Sign In & Sign Up.dc.html" style="height: 40px; padding: 0 14px; border: 1px solid #221B2E; display: flex; align-items: center; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out" style-hover="transform: scale(1.06); background: {{ accent }}; color: #EDEBF2; border-color: {{ accent }}" style-active="transform: scale(0.97)">Log in</a>
-        </sc-if>
-        <sc-if value="{{ showAvatar }}" hint-placeholder-val="{{ false }}">
-          <div data-account-menu="1" style="position: relative">
-            <button onClick="{{ toggleAccount }}" aria-label="Account" style="width: 40px; height: 40px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; display: grid; place-items: center; transition: transform 180ms cubic-bezier(.2,.7,.2,1), box-shadow 180ms ease-out" style-hover="transform: scale(1.08); box-shadow: 0 0 0 3px rgba(107,91,255,0.32)" style-active="transform: scale(0.95)">{{ avatarInitials }}</button>
-            <sc-if value="{{ accountOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="position: absolute; top: calc(100% + 10px); right: 0; width: 244px; background: #EDEBF2; border: 1px solid #221B2E; boxShadow: 8px 8px 0 rgba(34,27,46,0.12); z-index: 60; display: flex; flex-direction: column; transform-origin: top right; animation: clothse-drop-in 200ms cubic-bezier(.2,.7,.2,1) both">
-                <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; display: flex; flex-direction: column; gap: 5px">
-                  <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">{{ accountRoleLabel }}</div>
-                  <div style="font-size: 13px; word-break: break-all">{{ accountEmail }}</div>
-                </div>
-                <a href="#account" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
-                </a>
-                <a href="My Bag & Orders.dc.html?tab=pay" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
-                </a>
-                <a href="#favourites" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z"></path></svg>Favourites
-                </a>
-                <a href="#settings" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M12 3.4v2.2M12 18.4v2.2M4.6 12h2.2M17.2 12h2.2M6.6 6.6l1.6 1.6M15.8 15.8l1.6 1.6M17.4 6.6l-1.6 1.6M8.2 15.8l-1.6 1.6"></path></svg>Settings
-                </a>
-                <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ false }}">
-                  <a href="#store-management" onClick="{{ closeAccount }}" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; borderTop: 1px solid #221B2E; borderBottom: 1px solid #221B2E; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #6B5BFF; color: #EDEBF2; padding-left: 20px">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4 9.5h16v10.5H4z"></path><path d="M4 9.5 6 4h12l2 5.5"></path><path d="M9.5 20v-5.5h5V20"></path></svg>Store Management
-                  </a>
-                </sc-if>
-                <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
-                  <span style="height: 1px; background: #221B2E; display: block"></span>
-                </sc-if>
-                <button onClick="{{ signOut }}" style="text-align: left; height: 44px; padding: 0 14px; border: 0; background: transparent; cursor: pointer; display: flex; align-items: center; gap: 11px; font-family: 'Space Grotesk', sans-serif; font-size: 13px; color: #B4471A; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #FF6A2B; color: #EDEBF2; padding-left: 20px">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9"></path><path d="M18.5 12h-8"></path><path d="m15.5 9 3 3-3 3"></path></svg>Sign Out
-                </button>
-              </div>
-            </sc-if>
-          </div>
-        </sc-if>
-        <sc-if value="{{ showMobileToggle }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; display: grid; place-items: center; gap: 4px; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: {{ accent }}" style-active="transform: scale(0.94)">
-            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
-            <span style="width: 18px; height: 2px; background: #221B2E; display: block"></span>
-            <span style="width: 12px; height: 2px; background: #221B2E; display: block"></span>
-          </button>
-        </sc-if>
-      </div>
-    </div>
-
-    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
-      <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
-        <a href="ClothSE Homepage.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase">Home</a>
-        <a href="Shop Listing.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase">New arrivals</a>
-        <div style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12)">
-          <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase">Shop</div>
-          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px">
-            <sc-for list="{{ shopLinks }}" as="l" hint-placeholder-count="4">
-              <a href="{{ l.href }}" style="padding: 8px 12px; border: 1px solid #221B2E; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; font-family: 'JetBrains Mono', monospace; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out" style-hover="background: {{ accent }}; color: #EDEBF2; transform: translateY(-2px)">{{ l.label }}</a>
-            </sc-for>
-          </div>
-        </div>
-        <a href="Shop Listing.dc.html" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase"><span style="background: #FF6A2B; color: #EDEBF2; padding: 0 8px; display: inline-block">Sale</span></a>
-        <sc-if value="{{ showMobileLogin }}" hint-placeholder-val="{{ true }}">
-          <a href="Sign In & Sign Up.dc.html" style="margin-top: 12px; padding: 14px; background: #221B2E; color: #EDEBF2; text-align: center; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em">Log in / Sign up</a>
-        </sc-if>
-      </nav>
-    </sc-if>
-  </header>
+  <dc-import name="SiteHeader" accent="{{ accent }}" cart-count="{{ cartCount }}" hint-size="100%,72px" style="position: sticky; top: 0; z-index: 50"></dc-import>
 
   <main id="top" style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px) clamp(48px, 6vw, 96px)">
 
@@ -208,7 +101,6 @@
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px">
                   <span style="border: 1px solid rgba(34,27,46,0.3); padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #3F3752">Size {{ it.size }}</span>
-                  <span style="border: 1px solid rgba(34,27,46,0.3); padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #3F3752; display: flex; align-items: center; gap: 7px"><span style="width: 11px; height: 11px; borderRadius: 999px; background: {{ it.colorHex }}; border: 1px solid #221B2E; display: inline-block"></span>{{ it.color }}</span>
                   <span style="border: 1px solid rgba(34,27,46,0.3); padding: 5px 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ it.sku }}</span>
                 </div>
                 <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ it.stockColor }}">{{ it.stockNote }}</span>
@@ -245,17 +137,6 @@
         <aside style="position: {{ summaryPos }}; top: 96px; border: 1px solid #221B2E; background: #EDEBF2; padding: clamp(20px, 2.4vw, 28px); display: flex; flex-direction: column; gap: 18px; boxShadow: 10px 10px 0 rgba(34,27,46,0.1)">
           <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; letter-spacing: -0.01em; borderBottom: 1px solid #221B2E; padding-bottom: 12px">Summary</span>
 
-          <div style="display: flex; flex-direction: column; gap: 10px">
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Promo code</span>
-            <div style="display: flex; gap: 8px">
-              <input value="{{ code }}" onChange="{{ setCode }}" placeholder="DROP04" style="flex: 1 1 auto; min-width: 0; height: 44px; padding: 0 12px; border: 1px solid #221B2E; background: transparent; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #221B2E" />
-              <button onClick="{{ applyCode }}" style="flex: 0 0 auto; height: 44px; padding: 0 16px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, box-shadow 180ms ease-out" style-hover="background: {{ accent }}; transform: translateY(-2px); box-shadow: 3px 3px 0 #221B2E" style-active="transform: scale(0.97)">Apply</button>
-            </div>
-            <sc-if value="{{ codeMsg.show }}" hint-placeholder-val="{{ false }}">
-              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ codeMsg.color }}; animation: clothse-fade-up 220ms cubic-bezier(.2,.7,.2,1) both">{{ codeMsg.text }}</span>
-            </sc-if>
-          </div>
-
           <div style="display: flex; flex-direction: column; gap: 12px; borderTop: 1px solid rgba(34,27,46,0.18); padding-top: 18px">
             <sc-for list="{{ summaryRows }}" as="r" hint-placeholder-count="3">
               <div style="display: flex; justify-content: space-between; gap: 12px; align-items: baseline">
@@ -275,9 +156,10 @@
           <div style="display: flex; flex-direction: column; gap: 8px">
             <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">{{ shippingNote }}</span>
             <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px">
-              <sc-for list="{{ payMarks }}" as="p" hint-placeholder-count="4">
-                <span style="border: 1px solid rgba(34,27,46,0.28); padding: 5px 9px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ p }}</span>
-              </sc-for>
+              <span style="border: 1px solid rgba(34,27,46,0.28); padding: 6px 10px; display: flex; align-items: center; gap: 7px; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10"></rect><circle cx="12" cy="12" r="2.4"></circle></svg>
+                <span>Cash on delivery</span>
+              </span>
             </div>
           </div>
         </aside>
@@ -294,70 +176,22 @@
     </sc-if>
   </main>
 
-  <footer style="background: #221B2E; color: #EDEBF2; borderTop: 1px solid #3A3348">
-    <div style="max-width: 1440px; margin: 0 auto; padding: clamp(32px, 4vw, 56px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 32px">
-      <div>
-        <div style="font-family: 'Instrument Serif', Georgia, serif; font-size: 26px; text-transform: uppercase; display: flex; gap: 2px; align-items: center; margin-bottom: 14px">
-          <span>Cloth</span><span style="background: {{ accent }}; color: #EDEBF2; padding: 0 6px; transform: skewX(-8deg); display: inline-block">SE</span>
-        </div>
-        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #B6AEC9; max-width: 30ch">Small-batch streetwear. Printed and packed in Stockholm.</p>
-        <div style="display: flex; gap: 8px; margin-top: 18px">
-          <a href="#instagram" aria-label="Instagram" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-              <circle cx="12" cy="12" r="4"></circle>
-              <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle>
-            </svg>
-          </a>
-          <a href="#facebook" aria-label="Facebook" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M13.5 21v-7.4h2.6l.4-3h-3V8.7c0-.9.3-1.5 1.6-1.5H16.6V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2h-2.6v3h2.6V21h3.6Z"></path>
-            </svg>
-          </a>
-        </div>
-      </div>
-      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
-        <div>
-          <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">{{ col.title }}</h3>
-          <div style="display: flex; flex-direction: column; gap: 10px; align-items: start">
-            <sc-for list="{{ col.items }}" as="i" hint-placeholder-count="4">
-              <a href="#top" style="font-size: 13px; color: #D3CDE2; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">{{ i }}</a>
-            </sc-for>
-          </div>
-        </div>
-      </sc-for>
-      <div>
-        <h3 style="margin: 0 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Contact</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px; color: #D3CDE2; align-items: start">
-          <a href="#top" style="color: #D3CDE2; transition: color 180ms ease-out" style-hover="color: #9A8CFF">hey@clothse.com</a>
-          <span>+46 8 123 456</span>
-          <span>Hökensgatan 4<br />116 46 Stockholm, SE</span>
-        </div>
-      </div>
-    </div>
-    <div style="borderTop: 1px solid #3A3348; padding: 18px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #A79CBD; max-width: 1440px; margin: 0 auto">
-      <span>© 2026 ClothSE — all rights reserved</span>
-      <span style="display: flex; gap: 18px">
-        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Privacy</a>
-        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Terms</a>
-        <a href="#top" style="color: #A79CBD; transition: color 180ms ease-out" style-hover="color: #9A8CFF">Shipping</a>
-      </span>
-    </div>
-  </footer>
+  <dc-import name="SiteFooter" accent="{{ accent }}" hint-size="100%,420px"></dc-import>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;}}">
 /* TEMPLATE PAGE — BAG_ITEMS stands in for DB-driven cart lines (product, sku,
-   variant, unit price, qty, stock). Tabs 2–7 are structural placeholders. */
+   size, unit price, qty, stock). Products are tracked by size only — no colour
+   variants. Tabs 2–7 are structural placeholders. */
 const BAG_ITEMS = [
-  { id: 'l1', name: 'Overdye Heavy Hoodie', sku: 'CS-HD-014', size: 'M', color: 'Faded Aubergine', colorHex: '#4B3F5E', price: 135, qty: 1, stock: 6, fill: 'repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px)' },
-  { id: 'l2', name: 'Grid Cargo Pant', sku: 'CS-BT-006', size: '32', color: 'Slate', colorHex: '#6E6A7A', price: 118, qty: 2, stock: 14, fill: 'repeating-linear-gradient(135deg, #E4E1EC 0 10px, #D6D2E2 10px 20px)' },
-  { id: 'l3', name: 'Court Low Sneaker', sku: 'CS-FW-003', size: 'EU 43', color: 'Bone', colorHex: '#DCD6C6', price: 154, qty: 1, stock: 3, fill: 'repeating-linear-gradient(135deg, #E7E4DB 0 10px, #D9D5C9 10px 20px)' }
+  { id: 'l1', name: 'Overdye Heavy Hoodie', sku: 'CS-HD-014', size: 'M', price: 135, qty: 1, stock: 6, fill: 'repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px)' },
+  { id: 'l2', name: 'Grid Cargo Pant', sku: 'CS-BT-006', size: 'M', price: 118, qty: 2, stock: 14, fill: 'repeating-linear-gradient(135deg, #E4E1EC 0 10px, #D6D2E2 10px 20px)' },
+  { id: 'l3', name: 'Court Low Sneaker', sku: 'CS-FW-003', size: '43', price: 154, qty: 1, stock: 3, fill: 'repeating-linear-gradient(135deg, #E7E4DB 0 10px, #D9D5C9 10px 20px)' }
 ];
 const TABS = [
   { id: 'bag', label: 'Bag' },
-  { id: 'pay', label: 'To Pay', title: 'Nothing awaiting payment', body: 'Orders held for payment will appear here with a countdown until the reservation expires.' },
-  { id: 'proc', label: 'Processing', title: 'No orders processing', body: 'Once payment clears, orders being picked and packed in the Stockholm studio show up here.' },
+  { id: 'pending', label: 'To Confirm', title: 'Nothing awaiting confirmation', body: 'New orders land here first. We review and confirm each one before moving it into processing.' },
+  { id: 'proc', label: 'Processing', title: 'No orders processing', body: 'Once an order is confirmed, items being picked and packed in Đà Lạt show up here.' },
   { id: 'ship', label: 'Shipping', title: 'Nothing in transit', body: 'Live tracking for dispatched parcels will land on this tab.' },
   { id: 'done', label: 'Completed', title: 'No completed orders', body: 'Delivered orders stay here so you can reorder or leave a fit review.' },
   { id: 'cancel', label: 'Cancelled', title: 'No cancelled orders', body: 'Anything you or we cancel is archived here with the refund status.' },
@@ -365,15 +199,14 @@ const TABS = [
 ];
 const CATS = ['Tops', 'Bottoms', 'Accessories', 'Footwear'];
 const CAT_COUNTS = { Tops: 7, Bottoms: 6, Accessories: 6, Footwear: 5 };
-const CODES = { DROP04: 0.15, CLOTHSE10: 0.10 };
-const FREE_OVER = 120;
-const SHIP_FLAT = 9;
+const FREE_OVER = 100;
+const SHIP_FLAT = 3;
 
 class Component extends DCLogic {
   state = {
     shopOpen: false, searchOpen: false, menuOpen: false, width: 1440, hover: null, cartKey: 0,
     tab: 'bag', lines: BAG_ITEMS.map(i => ({ ...i })), selected: BAG_ITEMS.map(i => i.id),
-    wished: [], code: '', applied: null, codeError: '', placed: false
+    wished: [], placed: false
   };
 
   componentDidMount() {
@@ -416,12 +249,11 @@ class Component extends DCLogic {
   renderVals() {
     const accent = this.props.accent ?? '#6B5BFF';
     const mobile = this.state.width < 900;
-    const { tab, lines, selected, wished, code, applied, codeError, placed } = this.state;
+    const { tab, lines, selected, wished, placed } = this.state;
     const bagCount = lines.reduce((n, l) => n + l.qty, 0);
     const selLines = lines.filter(l => selected.includes(l.id));
     const subtotal = selLines.reduce((n, l) => n + l.price * l.qty, 0);
-    const discount = applied ? Math.round(subtotal * CODES[applied]) : 0;
-    const net = subtotal - discount;
+    const net = subtotal;
     const shipping = net === 0 ? 0 : (net >= FREE_OVER ? 0 : SHIP_FLAT);
     const total = net + shipping;
     const money = (n) => Math.round(n * 10000).toLocaleString('de-DE') + '₫';
@@ -514,7 +346,7 @@ class Component extends DCLogic {
           checkBg: sel ? accent : 'transparent',
           checkMark: sel ? '✓' : '',
           onSelect: () => this.setState(s => ({ selected: sel ? s.selected.filter(x => x !== l.id) : s.selected.concat(l.id) })),
-          stockNote: low ? 'Only ' + l.stock + ' left — ships from Stockholm' : 'In stock — ships in 1–2 days',
+          stockNote: low ? 'Only ' + l.stock + ' left — ships from Đà Lạt' : 'In stock — ships in 1–2 days',
           stockColor: low ? '#FF6A2B' : '#5F5775',
           inc: () => this.setQty(l.id, 1),
           dec: () => this.setQty(l.id, -1),
@@ -534,19 +366,8 @@ class Component extends DCLogic {
       selectedCount: selected.length,
       removeSelected: () => this.setState(s => ({ lines: s.lines.filter(l => !s.selected.includes(l.id)), selected: [], cartKey: s.cartKey + 1 })),
 
-      code,
-      setCode: (e) => this.setState({ code: e.target.value.toUpperCase(), codeError: '' }),
-      applyCode: () => {
-        const c = code.trim().toUpperCase();
-        if (CODES[c]) this.setState({ applied: c, codeError: '' });
-        else this.setState({ applied: null, codeError: c ? 'Code “' + c + '” is not valid' : 'Enter a code first' });
-      },
-      codeMsg: applied
-        ? { show: true, text: applied + ' applied — ' + Math.round(CODES[applied] * 100) + '% off', color: accent }
-        : { show: !!codeError, text: codeError, color: '#FF6A2B' },
       summaryRows: [
         { k: 'Subtotal (' + selLines.reduce((n, l) => n + l.qty, 0) + ' items)', v: money(subtotal), color: '#221B2E' },
-        { k: applied ? 'Discount (' + applied + ')' : 'Discount', v: discount ? '−' + money(discount) : '—', color: discount ? '#FF6A2B' : '#5F5775' },
         { k: 'Shipping', v: net === 0 ? '—' : (shipping === 0 ? 'Free' : money(shipping)), color: '#221B2E' },
         { k: 'Tax', v: 'At checkout', color: '#5F5775' }
       ],
@@ -562,13 +383,7 @@ class Component extends DCLogic {
         clearTimeout(this.timer);
         this.timer = setTimeout(() => this.setState({ placed: false }), 1600);
       },
-      shippingNote: net > 0 && net < FREE_OVER ? money(FREE_OVER - net) + ' away from free shipping' : 'Free shipping unlocked · 30-day returns',
-      payMarks: ['Klarna', 'Visa', 'Mastercard', 'Apple Pay', 'Swish'],
-      footerCols: [
-        { title: 'Shop', items: ['New arrivals', 'Tops', 'Bottoms', 'Accessories', 'Footwear', 'Sale'] },
-        { title: 'Help', items: ['Size guide', 'Shipping', 'Returns', 'Track order', 'FAQ'] },
-        { title: 'Studio', items: ['About ClothSE', 'Sustainability', 'Stockists', 'Careers'] }
-      ]
+      shippingNote: net > 0 && net < FREE_OVER ? money(FREE_OVER - net) + ' away from free shipping' : 'Free shipping unlocked · 30-day returns'
     };
   }
 }

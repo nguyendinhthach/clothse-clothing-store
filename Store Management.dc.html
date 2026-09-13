@@ -42,7 +42,7 @@
           <nav style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em">
             <a href="ClothSE Homepage.dc.html" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Storefront</a>
             <a href="Shop Listing.dc.html" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Shop</a>
-            <a href="My Bag & Orders.dc.html?tab=pay" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Orders</a>
+            <a href="My Bag & Orders.dc.html?tab=pending" style="padding: 6px 0 8px; display: inline-block; transition: transform 200ms ease-out" style-hover="transform: translateY(-2px)">Orders</a>
           </nav>
         </sc-if>
       </div>
@@ -63,7 +63,7 @@
               <a href="Account.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6"></circle><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6"></path></svg>Account
               </a>
-              <a href="My Bag & Orders.dc.html?tab=pay" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
+              <a href="My Bag & Orders.dc.html?tab=pending" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z"></path><path d="M8.5 6.5V4.2h7v2.3"></path><path d="M8.5 11h7"></path></svg>Orders
               </a>
               <a href="Favourites.dc.html" style="height: 44px; padding: 0 14px; display: flex; align-items: center; gap: 11px; font-size: 13px; transition: background-color 160ms ease-out, color 160ms ease-out, padding-left 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background: #221B2E; color: #EDEBF2; padding-left: 20px">
@@ -98,7 +98,7 @@
       <nav style="borderTop: 1px solid #221B2E; background: #EDEBF2; padding: 8px clamp(16px, 3vw, 40px) 20px; display: flex; flex-direction: column; animation: clothse-drop-in 240ms cubic-bezier(.2,.7,.2,1) both">
         <a href="ClothSE Homepage.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Storefront</a>
         <a href="Shop Listing.dc.html" style="padding: 14px 0; borderBottom: 1px solid rgba(34,27,46,0.12); font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Shop</a>
-        <a href="My Bag & Orders.dc.html?tab=pay" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Orders</a>
+        <a href="My Bag & Orders.dc.html?tab=pending" style="padding: 14px 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; text-transform: uppercase">Orders</a>
       </nav>
     </sc-if>
   </header>
@@ -107,7 +107,7 @@
 
     <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; align-items: end; margin-bottom: clamp(20px, 3vw, 32px)">
       <div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775; display: block; margin-bottom: 10px">Admin · ClothSE Stockholm</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775; display: block; margin-bottom: 10px">Admin · ClothSE Đà Lạt</span>
         <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(38px, 5.6vw, 76px); line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; margin: 0">Store Management</h1>
       </div>
       <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: start">
@@ -374,28 +374,6 @@
                     </sc-for>
                   </div>
                 </div>
-
-                <div style="border: 1px solid #221B2E">
-                  <div style="padding: 15px 16px; borderBottom: 1px solid #221B2E">
-                    <h2 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: 24px; text-transform: uppercase; line-height: 1">By payment</h2>
-                  </div>
-                  <div style="padding: 15px 16px; display: flex; flex-direction: column; gap: 13px">
-                    <span style="display: flex; height: 26px; border: 1px solid #221B2E; overflow: hidden">
-                      <sc-for list="{{ paySplit }}" as="p" hint-placeholder-count="2">
-                        <span style="width: {{ p.width }}; background: {{ p.bg }}; color: {{ p.fg }}; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em">{{ p.pct }}</span>
-                      </sc-for>
-                    </span>
-                    <sc-for list="{{ paySplit }}" as="p" hint-placeholder-count="2">
-                      <span style="display: flex; align-items: center; gap: 10px; justify-content: space-between">
-                        <span style="display: flex; align-items: center; gap: 9px">
-                          <span style="width: 13px; height: 13px; background: {{ p.bg }}; border: 1px solid #221B2E; flex: 0 0 auto; display: block"></span>
-                          <span style="font-size: 13px">{{ p.label }}</span>
-                        </span>
-                        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px">{{ p.value }}</span>
-                      </span>
-                    </sc-for>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -625,6 +603,51 @@
           </div>
         </sc-if>
 
+        <sc-if value="{{ onSizes }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
+            <div style="border: 1px solid #221B2E; padding: 16px; display: flex; flex-wrap: wrap; gap: 14px; align-items: end; justify-content: space-between">
+              <div>
+                <h2 style="margin: 0 0 5px; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(24px, 3vw, 34px); text-transform: uppercase; line-height: 1">Sizes</h2>
+                <p style="margin: 0; font-size: 13px; color: #4A4358">{{ sizeSummary }}</p>
+              </div>
+              <p style="margin: 0; max-width: 340px; font-size: 12px; color: #5F5775; line-height: 1.5">Each category keeps its own size list. Drag to set the order shoppers see; disable a size to hide it from new selections without breaking products that already use it.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; align-items: start">
+              <sc-for list="{{ sizeGroups }}" as="g" hint-placeholder-count="4">
+                <div style="border: 1px solid #221B2E; display: flex; flex-direction: column">
+                  <div style="padding: 13px 14px; borderBottom: 1px solid #221B2E; background: #E3E0EA; display: flex; align-items: baseline; justify-content: space-between; gap: 10px">
+                    <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: 22px; line-height: 1; text-transform: uppercase">{{ g.name }}</span>
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #5F5775">{{ g.meta }}</span>
+                  </div>
+                  <div style="display: flex; flex-direction: column">
+                    <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="6">
+                      <div draggable="true" onDragStart="{{ r.onDragStart }}" onDragOver="{{ r.onDragOver }}" onDrop="{{ r.onDrop }}" onDragEnd="{{ r.onDragEnd }}" style="padding: 9px 12px; borderBottom: 1px solid rgba(34,27,46,0.14); background: {{ r.rowBg }}; opacity: {{ r.rowOpacity }}; display: flex; align-items: center; gap: 10px; transition: background-color 160ms ease-out, opacity 160ms ease-out">
+                        <span aria-hidden="true" title="Drag to reorder" style="width: 22px; flex: 0 0 auto; cursor: grab; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #9993A8; letter-spacing: -1px">⣿</span>
+                        <span style="width: 20px; flex: 0 0 auto; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9993A8">{{ r.ord }}</span>
+                        <input value="{{ r.label }}" onChange="{{ r.onLabel }}" aria-label="Size label" style="flex: 1 1 auto; min-width: 0; height: 34px; padding: 0 8px; border: 1px solid transparent; background: transparent; color: {{ r.inputFg }}; font-family: 'Space Grotesk', sans-serif; font-size: 15px; outline: none; transition: border-color 160ms ease-out, box-shadow 160ms ease-out" style-hover="border-color: rgba(34,27,46,0.3)" style-focus="border-color: #221B2E; box-shadow: 3px 3px 0 #6B5BFF" />
+                        <button onClick="{{ r.onToggle }}" style="flex: 0 0 auto; padding: 6px 10px; border: 1px solid {{ r.pillBorder }}; background: {{ r.pillBg }}; color: {{ r.pillFg }}; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out" style-hover="border-color: #6B5BFF; color: #6B5BFF; background: transparent">{{ r.stateLabel }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="padding: 11px 12px">
+                    <sc-if value="{{ g.notAdding }}" hint-placeholder-val="{{ true }}">
+                      <button onClick="{{ g.onAddOpen }}" style="padding: 10px 14px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">+ Add size</button>
+                    </sc-if>
+                    <sc-if value="{{ g.adding }}" hint-placeholder-val="{{ false }}">
+                      <div style="display: flex; gap: 7px; align-items: center; animation: clothse-fade-up 180ms ease-out both">
+                        <input value="{{ g.draft }}" onChange="{{ g.onDraft }}" onKeyDown="{{ g.onDraftKey }}" placeholder="New size label…" aria-label="New size label" autoFocus="{{ true }}" style="flex: 1 1 auto; min-width: 0; height: 40px; padding: 0 11px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; transition: box-shadow 180ms ease-out" style-focus="box-shadow: 3px 3px 0 #6B5BFF" />
+                        <button onClick="{{ g.onAddConfirm }}" style="flex: 0 0 auto; height: 40px; padding: 0 14px; border: 1px solid #221B2E; background: #6B5BFF; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; transition: transform 180ms ease-out" style-hover="transform: translateY(-2px)">Add</button>
+                        <button onClick="{{ g.onAddCancel }}" aria-label="Cancel" style="flex: 0 0 auto; width: 40px; height: 40px; border: 1px solid #221B2E; background: transparent; cursor: pointer; font-size: 12px; display: grid; place-items: center; color: #5F5775; transition: background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">✕</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
         <sc-if value="{{ onOrders }}" hint-placeholder-val="{{ false }}">
           <div style="display: flex; flex-direction: column; gap: 14px; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">
             <div style="border: 1px solid #221B2E; display: flex; flex-wrap: wrap; overflow: hidden">
@@ -634,6 +657,7 @@
                 </button>
               </sc-for>
             </div>
+            <p style="margin: 0; font-size: 13px; color: #4A4358">{{ orderTabNote }}</p>
 
             <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="3">
               <div style="border: 1px solid #221B2E; padding: 15px 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; align-items: center; transition: box-shadow 200ms ease-out" style-hover="box-shadow: 6px 6px 0 rgba(34,27,46,0.14)">
@@ -652,7 +676,7 @@
                 <div style="display: flex; flex-direction: column; gap: 5px">
                   <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px">{{ o.total }}</span>
                   <span style="display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5F5775">
-                    <span style="border: 1px solid #221B2E; padding: 2px 6px">{{ o.pay }}</span>{{ o.payNote }}
+                    <span style="border: 1px solid {{ o.paidBorder }}; background: {{ o.paidBg }}; color: {{ o.paidFg }}; padding: 2px 6px">{{ o.paidLabel }}</span>{{ o.paidNote }}
                   </span>
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: end">
@@ -697,6 +721,7 @@
           <sc-if value="{{ pfAdding }}" hint-placeholder-val="{{ true }}">
             <div style="grid-column: 1 / -1; position: relative; z-index: 0; border: 1px solid #221B2E; background: #E3E0EA; padding: 15px; display: flex; flex-direction: column; gap: 12px">
               <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Source from warehouse · one row per size</span>
+              <span style="font-size: 12px; color: #5F5775; line-height: 1.5">{{ sizeScopeNote }}</span>
 
               <sc-for list="{{ srcRows }}" as="r" hint-placeholder-count="1">
                 <div style="border: 1px solid #221B2E; background: #EDEBF2; padding: 13px; display: flex; flex-direction: column; gap: 11px; animation: clothse-fade-up 180ms ease-out both">
@@ -710,8 +735,8 @@
                     <label style="display: flex; flex-direction: column; gap: 6px">
                       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size</span>
                       <select value="{{ r.size }}" onChange="{{ r.onSize }}" style="height: 46px; padding: 0 11px; border: 1px solid #221B2E; background: #EDEBF2; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
-                        <option value="">Pick…</option>
-                        <sc-for list="{{ sizeOptions }}" as="s" hint-placeholder-count="4">
+                        <option value="">{{ r.sizeEmptyLabel }}</option>
+                        <sc-for list="{{ r.sizeOpts }}" as="s" hint-placeholder-count="4">
                           <option value="{{ s }}">{{ s }}</option>
                         </sc-for>
                       </select>
@@ -1030,8 +1055,8 @@
                     <label style="display: flex; flex-direction: column; gap: 6px">
                       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size *</span>
                       <select value="{{ l.size }}" onChange="{{ l.onSize }}" aria-invalid="{{ l.sizeMissing }}" style="height: 44px; padding: 0 11px; border: 1px solid {{ l.sizeBorder }}; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
-                        <option value="">Pick a size…</option>
-                        <sc-for list="{{ sizeNames }}" as="v" hint-placeholder-count="4">
+                        <option value="">{{ l.sizeEmptyLabel }}</option>
+                        <sc-for list="{{ l.sizeOpts }}" as="v" hint-placeholder-count="4">
                           <option value="{{ v }}">{{ v }}</option>
                         </sc-for>
                       </select>
@@ -1071,8 +1096,8 @@
                     <label style="display: flex; flex-direction: column; gap: 6px">
                       <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Size *</span>
                       <select value="{{ l.size }}" onChange="{{ l.onSize }}" aria-invalid="{{ l.sizeMissing }}" style="height: 44px; padding: 0 11px; border: 1px solid {{ l.sizeBorder }}; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 14px; outline: none; cursor: pointer">
-                        <option value="">Pick a size…</option>
-                        <sc-for list="{{ sizeNames }}" as="v" hint-placeholder-count="4">
+                        <option value="">{{ l.sizeEmptyLabel }}</option>
+                        <sc-for list="{{ l.sizeOpts }}" as="v" hint-placeholder-count="4">
                           <option value="{{ v }}">{{ v }}</option>
                         </sc-for>
                       </select>
@@ -1146,11 +1171,12 @@
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;startSection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dashboard&quot;,&quot;options&quot;:[&quot;dashboard&quot;,&quot;revenue&quot;,&quot;brands&quot;,&quot;storage&quot;,&quot;products&quot;,&quot;orders&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Admin&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;startSection&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;dashboard&quot;,&quot;options&quot;:[&quot;dashboard&quot;,&quot;revenue&quot;,&quot;brands&quot;,&quot;sizes&quot;,&quot;storage&quot;,&quot;products&quot;,&quot;orders&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Admin&quot;}}">
 const SECTIONS = [
   { id: 'dashboard', label: 'Dashboard' },
   { id: 'revenue', label: 'Revenue' },
   { id: 'brands', label: 'Brands' },
+  { id: 'sizes', label: 'Sizes' },
   { id: 'storage', label: 'Storage' },
   { id: 'products', label: 'Products' },
   { id: 'orders', label: 'Orders' }
@@ -1184,7 +1210,20 @@ const SEED_BATCHES = [
   { id: 'sb-g1', brand: 'Carhartt', item: 'Grid Cargo Pant', variant: 'S', cat: 'Bottoms', linked: true, date: '2026-08-21', recv: 40, remain: 34, cost: 71 },
   { id: 'sb-h1', brand: 'Champion', item: 'Overdye Hoodie', variant: 'L', cat: 'Tops', linked: true, date: '2026-08-12', recv: 36, remain: 18, cost: 84 }
 ];
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'One size'];
+const CATEGORIES = [
+  { id: 'c1', name: 'Tops' }, { id: 'c2', name: 'Bottoms' }, { id: 'c3', name: 'Accessories' }, { id: 'c4', name: 'Footwear' }
+];
+/* Size entity: id, category_id (FK), label, sort_order, active */
+const SEED_SIZES = (() => {
+  const out = [];
+  let n = 0;
+  const push = (cat, labels) => labels.forEach((label, i) => out.push({ id: 'sz' + (++n), category_id: cat, label: label, sort_order: i + 1, active: true }));
+  push('c1', ['XS', 'S', 'M', 'L', 'XL', 'XXL']);
+  push('c2', ['XS', 'S', 'M', 'L', 'XL', 'XXL']);
+  push('c3', ['One size', 'S', 'M', 'L', 'XL']);
+  push('c4', ['35', '36', '37', '38', '39', '40', '41', '42', '43']);
+  return out;
+})();
 const EMPTY_LINE = { mode: 'existing', product: '', size: '', name: '', cat: '', qty: '', cost: '' };
 const CATS = ['Tops', 'Bottoms', 'Accessories', 'Footwear'];
 const TAG_LIBRARY = ['New', 'Restocked', 'Unisex', 'Men', 'Women', 'Best seller', 'Core', 'Limited', 'Organic cotton', 'Sale', 'Waterproof', 'Heavyweight'];
@@ -1202,7 +1241,7 @@ const SEED_BRANDS = [
   { id: 'b1', name: 'Carhartt' }, { id: 'b2', name: 'Stüssy' }, { id: 'b3', name: 'Nike' }, { id: 'b4', name: 'Champion' }
 ];
 const STATUSES = [
-  { id: 'pay', label: 'To Pay' },
+  { id: 'pending', label: 'To Confirm' },
   { id: 'processing', label: 'Processing' },
   { id: 'shipping', label: 'Shipping' },
   { id: 'completed', label: 'Completed' },
@@ -1210,16 +1249,16 @@ const STATUSES = [
   { id: 'refund', label: 'Return / Refund' }
 ];
 const SEED_ORDERS = [
-  { id: '#CSE-4417', customer: 'Elin Vikström', total: 244, items: 3, pay: 'QR', date: '24 Aug', status: 'pay' },
-  { id: '#CSE-4416', customer: 'Jonas Ek', total: 118, items: 1, pay: 'COD', date: '24 Aug', status: 'pay' },
-  { id: '#CSE-4415', customer: 'Mira Holm', total: 396, items: 4, pay: 'QR', date: '23 Aug', status: 'processing' },
-  { id: '#CSE-4413', customer: 'Adam Persson', total: 154, items: 1, pay: 'COD', date: '23 Aug', status: 'processing' },
-  { id: '#CSE-4409', customer: 'Sofia Lund', total: 212, items: 2, pay: 'QR', date: '21 Aug', status: 'shipping' },
-  { id: '#CSE-4404', customer: 'Nils Aberg', total: 88, items: 2, pay: 'COD', date: '19 Aug', status: 'shipping' },
-  { id: '#CSE-4398', customer: 'Klara Dahl', total: 306, items: 3, pay: 'QR', date: '17 Aug', status: 'completed' },
-  { id: '#CSE-4391', customer: 'Otto Bergman', total: 142, items: 1, pay: 'QR', date: '15 Aug', status: 'completed' },
-  { id: '#CSE-4386', customer: 'Vera Ohlin', total: 76, items: 1, pay: 'COD', date: '13 Aug', status: 'cancelled' },
-  { id: '#CSE-4380', customer: 'Hugo Falk', total: 198, items: 1, pay: 'QR', date: '11 Aug', status: 'refund' }
+  { id: '#CSE-4417', customer: 'Elin Vikström', total: 244, items: 3, pay: 'COD', date: '24 Aug', status: 'pending', paid: false },
+  { id: '#CSE-4416', customer: 'Jonas Ek', total: 118, items: 1, pay: 'COD', date: '24 Aug', status: 'pending', paid: false },
+  { id: '#CSE-4415', customer: 'Mira Holm', total: 396, items: 4, pay: 'COD', date: '23 Aug', status: 'processing', paid: false },
+  { id: '#CSE-4413', customer: 'Adam Persson', total: 154, items: 1, pay: 'COD', date: '23 Aug', status: 'processing', paid: false },
+  { id: '#CSE-4409', customer: 'Sofia Lund', total: 212, items: 2, pay: 'COD', date: '21 Aug', status: 'shipping', paid: false },
+  { id: '#CSE-4404', customer: 'Nils Aberg', total: 88, items: 2, pay: 'COD', date: '19 Aug', status: 'shipping', paid: false },
+  { id: '#CSE-4398', customer: 'Klara Dahl', total: 306, items: 3, pay: 'COD', date: '17 Aug', status: 'completed', paid: true },
+  { id: '#CSE-4391', customer: 'Otto Bergman', total: 142, items: 1, pay: 'COD', date: '15 Aug', status: 'completed', paid: true },
+  { id: '#CSE-4386', customer: 'Vera Ohlin', total: 76, items: 1, pay: 'COD', date: '13 Aug', status: 'cancelled', paid: false },
+  { id: '#CSE-4380', customer: 'Hugo Falk', total: 198, items: 1, pay: 'COD', date: '11 Aug', status: 'refund', paid: true }
 ];
 const RANGES = ['This week', 'This month', 'This year', 'Custom range'];
 const REV_SERIES = {
@@ -1260,13 +1299,15 @@ class Component extends DCLogic {
     width: 1440, section: 'dashboard', searchOpen: false, accountOpen: false, menuOpen: false,
     products: SEED_PRODUCTS.map(p => ({ ...p })),
     brands: SEED_BRANDS.map(b => ({ ...b })),
+    sizes: SEED_SIZES.map(s => ({ ...s })),
+    szAddingCat: null, szDraft: '', szDrag: null,
     orders: SEED_ORDERS.map(o => ({ ...o })),
     addedBatches: [], batchEdits: {}, srcQuery: '', srcOpen: false,
     intakeOpen: false, historyOf: null,
     sfBrand: 'Carhartt', sfDate: '2026-08-27',
     sfLines: [{ ...EMPTY_LINE }],
     query: '', brandFilter: 'All brands', catFilter: 'All categories', statusFilter: 'All statuses', sortBy: 'Default',
-    orderTab: 'pay', range: 'This month',
+    orderTab: 'pending', range: 'This month',
     pickerOpen: false, customFrom: '2026-08-12', customTo: '2026-08-24', customApplied: null,
     productFormOpen: false, editingProduct: null, pf: { ...EMPTY_PF },
     tagDraft: '', tagFocused: false, tagLibrary: TAG_LIBRARY.slice(),
@@ -1536,13 +1577,55 @@ class Component extends DCLogic {
     return { badge: 'In stock', bg: '#6B5BFF', fg: '#EDEBF2', border: '#221B2E' };
   }
   statusMeta(id) {
-    if (id === 'pay') return { label: 'To Pay', bg: '#FF6A2B', fg: '#EDEBF2', border: '#221B2E' };
+    if (id === 'pending') return { label: 'To Confirm', bg: '#FF6A2B', fg: '#EDEBF2', border: '#221B2E' };
     if (id === 'processing') return { label: 'Processing', bg: '#6B5BFF', fg: '#EDEBF2', border: '#221B2E' };
     if (id === 'shipping') return { label: 'Shipping', bg: '#221B2E', fg: '#EDEBF2', border: '#221B2E' };
     if (id === 'completed') return { label: 'Completed', bg: 'transparent', fg: '#221B2E', border: '#221B2E' };
     if (id === 'cancelled') return { label: 'Cancelled', bg: 'transparent', fg: '#B4471A', border: '#B4471A' };
     return { label: 'Refund', bg: 'transparent', fg: '#5F5775', border: '#5F5775' };
   }
+
+  catIdFor = (catName) => {
+    const c = CATEGORIES.find(c => c.name === catName);
+    return c ? c.id : null;
+  };
+  sizesForCat = (catName, activeOnly) => {
+    const cid = this.catIdFor(catName);
+    if (!cid) return [];
+    return (this.state.sizes || [])
+      .filter(s => s.category_id === cid && (!activeOnly || s.active))
+      .sort((a, b) => a.sort_order - b.sort_order);
+  };
+  sizeLabelsFor = (catName) => this.sizesForCat(catName, true).map(s => s.label);
+  setSizeLabel = (id, label) => this.setState(s => ({ sizes: s.sizes.map(z => (z.id === id ? { ...z, label } : z)) }));
+  toggleSize = (id) => this.setState(s => ({ sizes: s.sizes.map(z => (z.id === id ? { ...z, active: !z.active } : z)) }));
+  openSizeAdd = (cid) => this.setState({ szAddingCat: cid, szDraft: '' });
+  cancelSizeAdd = () => this.setState({ szAddingCat: null, szDraft: '' });
+  commitSizeAdd = (cid) => {
+    const label = (this.state.szDraft || '').trim();
+    if (!label) return this.cancelSizeAdd();
+    this.setState(s => {
+      const max = s.sizes.filter(z => z.category_id === cid).reduce((a, z) => Math.max(a, z.sort_order), 0);
+      return {
+        sizes: s.sizes.concat([{ id: 'sz' + Date.now(), category_id: cid, label, sort_order: max + 1, active: true }]),
+        szDraft: '', szAddingCat: cid
+      };
+    });
+  };
+  moveSize = (cid, fromId, toId) => {
+    if (!fromId || !toId || fromId === toId) return;
+    this.setState(s => {
+      const group = s.sizes.filter(z => z.category_id === cid).sort((a, b) => a.sort_order - b.sort_order);
+      const from = group.findIndex(z => z.id === fromId);
+      const to = group.findIndex(z => z.id === toId);
+      if (from < 0 || to < 0) return {};
+      const next = group.slice();
+      next.splice(to, 0, next.splice(from, 1)[0]);
+      const order = {};
+      next.forEach((z, i) => { order[z.id] = i + 1; });
+      return { sizes: s.sizes.map(z => (order[z.id] ? { ...z, sort_order: order[z.id] } : z)), szDrag: null };
+    });
+  };
 
   renderVals() {
     const mobile = this.state.width < 980;
@@ -1561,7 +1644,7 @@ class Component extends DCLogic {
     const attention = this.attentionRows();
     const oosCount = attention.filter(r => r.oos).length;
     const lowCount = attention.length - oosCount;
-    const payCount = orders.filter(o => o.status === 'pay').length;
+    const payCount = orders.filter(o => o.status === 'pending').length;
     const revenue = orders.filter(o => o.status !== 'cancelled' && o.status !== 'refund').reduce((a, o) => a + o.total, 0);
     const visibleOrders = orders.filter(o => o.status === orderTab);
     const suggestions = this.matchingTags();
@@ -1575,7 +1658,6 @@ class Component extends DCLogic {
     const revMax = Math.max.apply(null, series.values);
     const eur = (n) => Math.round(n * 10000).toLocaleString('de-DE') + '₫';
     const aov = series.orders ? revTotal / series.orders : 0;
-    const codShare = 0.41;
     const marginRate = REV_BRANDS.reduce((a, b) => a + b.share * b.margin, 0);
     const profitTotal = revTotal * marginRate;
     const profitSeries = series.values.map((v, i) => v * marginRate * (1 + (((i * 7) % 5) - 2) * 0.03));
@@ -1597,7 +1679,7 @@ class Component extends DCLogic {
       railDir: mobile ? 'row' : 'column',
       sections: SECTIONS.map((s, i) => {
         const on = s.id === this.state.section;
-        const counts = { dashboard: '', products: String(products.length), brands: String(brands.length), storage: String((this.state.addedBatches || []).length + SEED_BATCHES.length), orders: String(orders.length) };
+        const counts = { dashboard: '', products: String(products.length), brands: String(brands.length), sizes: String((this.state.sizes || []).filter(z => z.active).length), storage: String((this.state.addedBatches || []).length + SEED_BATCHES.length), orders: String(orders.length) };
         return {
           label: s.label, aria: on ? 'page' : 'false', count: counts[s.id],
           flex: mobile ? '1 1 0' : '0 0 auto',
@@ -1610,6 +1692,51 @@ class Component extends DCLogic {
       onRevenue: this.state.section === 'revenue',
       onProducts: this.state.section === 'products',
       onBrands: this.state.section === 'brands',
+      onSizes: this.state.section === 'sizes',
+      sizeSummary: (() => {
+        const all = this.state.sizes || [];
+        const off = all.filter(z => !z.active).length;
+        return all.length + ' sizes across ' + CATEGORIES.length + ' categories · ' + (all.length - off) + ' active' + (off ? ' · ' + off + ' inactive' : '');
+      })(),
+      sizeGroups: CATEGORIES.map(c => {
+        const group = this.sizesForCat(c.name, false);
+        const adding = this.state.szAddingCat === c.id;
+        return {
+          name: c.name,
+          meta: group.length + ' sizes · ' + group.filter(z => z.active).length + ' active',
+          adding: adding,
+          notAdding: !adding,
+          draft: this.state.szDraft,
+          onDraft: (e) => this.setState({ szDraft: e.target.value }),
+          onDraftKey: (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); this.commitSizeAdd(c.id); }
+            if (e.key === 'Escape') this.cancelSizeAdd();
+          },
+          onAddOpen: () => this.openSizeAdd(c.id),
+          onAddConfirm: () => this.commitSizeAdd(c.id),
+          onAddCancel: this.cancelSizeAdd,
+          rows: group.map((z, i) => {
+            const dragging = this.state.szDrag === z.id;
+            return {
+              ord: String(i + 1).padStart(2, '0'),
+              label: z.label,
+              onLabel: (e) => this.setSizeLabel(z.id, e.target.value),
+              onToggle: () => this.toggleSize(z.id),
+              stateLabel: z.active ? 'Active' : 'Inactive',
+              pillBg: z.active ? '#221B2E' : 'transparent',
+              pillFg: z.active ? '#EDEBF2' : '#9993A8',
+              pillBorder: z.active ? '#221B2E' : '#9993A8',
+              rowOpacity: dragging ? 0.4 : 1,
+              rowBg: z.active ? '#EDEBF2' : '#E3E0EA',
+              inputFg: z.active ? '#221B2E' : '#5F5775',
+              onDragStart: () => this.setState({ szDrag: z.id }),
+              onDragOver: (e) => e.preventDefault(),
+              onDrop: (e) => { e.preventDefault(); this.moveSize(c.id, this.state.szDrag, z.id); },
+              onDragEnd: () => this.setState({ szDrag: null })
+            };
+          })
+        };
+      }),
       onStorage: this.state.section === 'storage',
       onOrders: this.state.section === 'orders',
       goOrders: () => this.setState({ section: 'orders' }),
@@ -1681,14 +1808,10 @@ class Component extends DCLogic {
       })),
       marginTop3: MARGIN_PRODUCTS.slice(0, 3).map(p => ({ name: p.name, brand: p.brand, margin: Math.round(p.margin * 100) + '%' })),
       marginBottom3: MARGIN_PRODUCTS.slice(-3).reverse().map(p => ({ name: p.name, brand: p.brand, margin: Math.round(p.margin * 100) + '%' })),
-      paySplit: [
-        { label: 'QR transfer', value: eur(revTotal * (1 - codShare)), pct: Math.round((1 - codShare) * 100) + '%', width: ((1 - codShare) * 100) + '%', bg: '#6B5BFF', fg: '#EDEBF2' },
-        { label: 'Cash on delivery', value: eur(revTotal * codShare), pct: Math.round(codShare * 100) + '%', width: (codShare * 100) + '%', bg: '#221B2E', fg: '#EDEBF2' }
-      ],
       stats: [
         { label: 'Revenue · August', value: eur(revenue), note: '+18% vs July', bg: '#221B2E', fg: '#EDEBF2' },
         { label: 'Total orders', value: String(orders.length), note: 'All statuses', bg: 'transparent', fg: '#221B2E' },
-        { label: 'Pending payments', value: String(payCount), note: 'Awaiting COD / QR', bg: '#6B5BFF', fg: '#EDEBF2' },
+        { label: 'To confirm', value: String(payCount), note: 'New orders not yet confirmed', bg: '#6B5BFF', fg: '#EDEBF2' },
         { label: 'Low stock items', value: String(lowCount + oosCount), note: lowCount + ' low · ' + oosCount + ' out', bg: 'transparent', fg: '#221B2E' }
       ],
       recentOrders: orders.slice(0, 6).map(o => {
@@ -1867,7 +1990,6 @@ class Component extends DCLogic {
           closeIntake: this.closeIntake,
           confirmIntake: this.confirmIntake,
           addLine: this.addLine,
-          sizeNames: SIZES,
           productNames: products.map(p => p.name),
           sfBrand: this.state.sfBrand,
           setSfBrand: (e) => this.setState({ sfBrand: e.target.value }),
@@ -1895,6 +2017,31 @@ class Component extends DCLogic {
               pickNew: () => this.setLine(i, 'mode', 'new'),
               product: l.product, onProduct: (e) => this.setLine(i, 'product', e.target.value),
               size: l.size, onSize: (e) => this.setLine(i, 'size', e.target.value),
+              sizeOpts: (() => {
+                const cat = existing
+                  ? ((products.find(p => p.name === l.product) || {}).cat || '')
+                  : l.cat;
+                return cat ? this.sizeLabelsFor(cat) : [];
+              })(),
+              sizeEmptyLabel: (() => {
+                const cat = existing
+                  ? ((products.find(p => p.name === l.product) || {}).cat || '')
+                  : l.cat;
+                if (!cat) return existing ? 'Pick a product first…' : 'Pick a category first…';
+                return 'Pick a ' + cat + ' size…';
+              })(),
+              sizeScopeNote: (() => {
+                const cat = existing
+                  ? ((products.find(p => p.name === l.product) || {}).cat || '')
+                  : l.cat;
+                return cat ? cat + ' size list' : '';
+              })(),
+              sizeScoped: (() => {
+                const cat = existing
+                  ? ((products.find(p => p.name === l.product) || {}).cat || '')
+                  : l.cat;
+                return !!cat;
+              })(),
               sizeMissing: lineFilled(l) && !l.size,
               sizeBorder: (lineFilled(l) && !l.size) ? '#B4471A' : '#221B2E',
               name: l.name, onName: (e) => this.setLine(i, 'name', e.target.value),
@@ -1921,21 +2068,40 @@ class Component extends DCLogic {
         };
       }),
       orderRows: visibleOrders.map(o => {
-        const primary = o.status === 'pay' ? 'Confirm payment' : (o.status === 'processing' ? 'Mark as shipped' : (o.status === 'shipping' ? 'Mark as delivered' : ''));
-        const next = o.status === 'pay' ? 'processing' : (o.status === 'processing' ? 'shipping' : 'completed');
+        const primary = o.status === 'pending'
+          ? 'Confirm order'
+          : (o.status === 'processing' ? 'Mark as shipped' : (o.status === 'shipping' ? 'Mark as delivered' : ''));
+        const next = o.status === 'pending' ? 'processing' : (o.status === 'processing' ? 'shipping' : 'completed');
+        const paid = o.paid !== undefined ? o.paid : o.status === 'completed';
         return {
           id: o.id, customer: o.customer, date: o.date + ' 2026',
           itemsLabel: o.items + (o.items === 1 ? ' item' : ' items'),
-          total: eur(o.total), pay: o.pay,
-          payNote: o.pay === 'COD' ? 'on delivery' : 'bank transfer',
+          total: eur(o.total),
+          paidLabel: paid ? 'Paid' : 'Unpaid',
+          paidBg: paid ? '#221B2E' : 'transparent',
+          paidFg: paid ? '#EDEBF2' : '#B4471A',
+          paidBorder: paid ? '#221B2E' : '#B4471A',
+          paidNote: paid ? 'cash received' : 'collect on delivery',
           hasPrimary: !!primary, primaryLabel: primary,
-          onPrimary: () => move(o.id, next),
-          hasCancel: o.status === 'pay',
+          onPrimary: () => this.setState(s => ({
+            orders: s.orders.map(x => {
+              if (x.id !== o.id) return x;
+              const nowPaid = next === 'completed';
+              return { ...x, status: next, paid: nowPaid };
+            })
+          })),
+          hasCancel: o.status === 'pending' || o.status === 'processing',
           onCancel: () => move(o.id, 'cancelled'),
           viewOnly: !primary
         };
       }),
       noOrders: visibleOrders.length === 0,
+      orderTabNote: orderTab === 'pending'
+        ? 'New orders awaiting confirmation before processing begins.'
+        : (orderTab === 'processing' ? 'Confirmed orders being picked and packed.'
+          : (orderTab === 'shipping' ? 'Dispatched parcels in transit to customers.'
+            : (orderTab === 'completed' ? 'Delivered orders, closed out.'
+              : (orderTab === 'cancelled' ? 'Orders cancelled before dispatch.' : 'Open return and refund cases.')))),
       emptyOrdersTag: (STATUSES.find(s => s.id === orderTab) || {}).label + ' · 0 orders',
 
       productFormOpen: this.state.productFormOpen,
@@ -1968,6 +2134,9 @@ class Component extends DCLogic {
         const lockedBrand = !editing && firstPicked ? firstPicked.brand : '';
         const lockedCat = !editing && firstPicked ? (firstPicked.cat || '') : '';
 
+        const pfCat = lockedCat || pf.cat || '';
+        const pfSizeOpts = pfCat ? this.sizeLabelsFor(pfCat) : [];
+
         const srcRows = rows.map((r, i) => {
           const opts = unlinked.filter(b => (!r.size || b.size === r.size) && (!lockedBrand || b.brand === lockedBrand) && (b.id === r.batchId || taken.indexOf(b.id) === -1));
           const b = all.find(x => x.id === r.batchId) || null;
@@ -1975,6 +2144,8 @@ class Component extends DCLogic {
           return {
             num: 'Size ' + String(i + 1).padStart(2, '0'),
             size: r.size,
+            sizeOpts: pfSizeOpts,
+            sizeEmptyLabel: pfCat ? 'Pick a ' + pfCat + ' size…' : 'Pick…',
             onSize: (e) => this.setSrcRow(i, { size: e.target.value, batchId: '', qty: '' }),
             batchId: r.batchId,
             onBatch: (e) => {
@@ -2054,7 +2225,9 @@ class Component extends DCLogic {
           brandLockNote: lockedBrand
             ? 'Locked to ' + lockedBrand + ' by the first source batch — all sizes must come from the same brand.'
             : 'Set automatically once you pick the first source batch.',
-          sizeOptions: SIZES,
+          sizeScopeNote: pfCat
+            ? 'Sizes below are scoped to the ' + pfCat + ' size list.'
+            : 'Pick a source batch or category — the size list is scoped per category.',
           srcRows: srcRows,
           addSrcRow: this.addSrcRow,
           hasSrcSummary: summary.length > 0,

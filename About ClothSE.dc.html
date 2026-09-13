@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  input::placeholder, textarea::placeholder { color: #8A83A0; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <dc-import name="SiteHeader" accent="{{ accent }}" cart-count="{{ cartCount }}" hint-size="100%,72px" style="position: sticky; top: 0; z-index: 50"></dc-import>
+
+  <main id="top">
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(24px, 4vw, 56px) clamp(16px, 3vw, 40px) clamp(40px, 5vw, 76px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(24px, 3vw, 48px); align-items: stretch">
+      <div>
+        <div style="display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #221B2E; padding: 6px 10px; margin-bottom: 22px">
+          <span style="width: 7px; height: 7px; borderRadius: 999px; background: {{ accent }}; display: block"></span>Multi-brand streetwear · Da Lat
+        </div>
+        <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(48px, 9vw, 132px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 22px">
+          About<br /><span style="display: inline-block; background: #221B2E; color: #EDEBF2; padding: 0 12px; transform: skewX(-7deg)">ClothSE</span>
+        </h1>
+        <p style="font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 46ch; margin: 0 0 30px; color: #4A4358; text-wrap: pretty">Streetwear from the brands you already love, curated in one place — picked by size, fit and wearability, not hype.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center">
+          <a href="Shop Listing.dc.html" style="padding: 18px 34px; background-color: {{ accent }}; color: #EDEBF2; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: left center; background-size: 0% 100%; border: 1px solid #221B2E; font-family: 'Instrument Serif', Georgia, serif; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; boxShadow: 6px 6px 0 #221B2E; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1), box-shadow 200ms ease-out" style-hover="background-size: 100% 100%; color: {{ accent }}; transform: translateY(-3px) scale(1.03); box-shadow: 9px 12px 0 #221B2E" style-active="transform: scale(0.97); box-shadow: 2px 2px 0 #221B2E">Shop the store</a>
+          <a href="Contact.dc.html" style="padding: 18px 26px; border: 1px solid #221B2E; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; background-image: linear-gradient(#221B2E, #221B2E); background-repeat: no-repeat; background-position: right center; background-size: 0% 100%; transition: background-size 280ms cubic-bezier(.2,.7,.2,1), color 220ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background-size: 100% 100%; color: #EDEBF2; transform: translateY(-3px)" style-active="transform: scale(0.97)">Contact us</a>
+        </div>
+      </div>
+      <div style="position: relative; height: 100%; min-height: 300px; border: 1px solid #221B2E; overflow: hidden">
+        <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">lifestyle / editorial shot</span>
+        </span>
+        <span style="position: absolute; bottom: 0; left: 0; background: #221B2E; color: #EDEBF2; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em">ClothSE / Da Lat</span>
+      </div>
+    </section>
+
+    <section style="border-block: 1px solid #221B2E; max-width: 1440px; margin: 0 auto; padding: clamp(36px, 4.6vw, 72px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 3vw, 48px); align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">01</span>
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.4vw, 46px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">What we do</h2>
+      </div>
+      <div style="grid-column: span 2; display: flex; flex-direction: column; gap: 16px; max-width: 68ch; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.65; color: #4A4358">
+        <p style="margin: 0; text-wrap: pretty">ClothSE is a multi-brand retail store. We buy, curate and sell streetwear from established labels — Nike, Carhartt, Stüssy, Champion and others — rather than producing our own line.</p>
+        <p style="margin: 0; text-wrap: pretty">Every drop is chosen piece by piece: the fits that work, in sizes people actually wear, at prices that aren't inflated by resale. If something doesn't hold up in fabric, cut or value, it doesn't make the floor.</p>
+        <p style="margin: 0; text-wrap: pretty">New stock lands weekly, listed with real measurements and honest condition notes so you can buy with the same confidence as trying it on.</p>
+      </div>
+    </section>
+
+    <section style="borderBottom: 1px solid #221B2E; max-width: 1440px; margin: 0 auto; padding: clamp(36px, 4.6vw, 72px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(16px, 3vw, 48px); align-items: start">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">02</span>
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.4vw, 46px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">How we curate</h2>
+      </div>
+      <div style="grid-column: span 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px">
+          <div style="border: 1px solid #221B2E; padding: clamp(18px, 2vw, 26px); display: flex; flex-direction: column; gap: 12px; background: #EDEBF2; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-4px); box-shadow: 8px 8px 0 #221B2E">
+            <span style="width: 36px; height: 36px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em">01</span>
+            <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em">Source</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; text-wrap: pretty">We buy directly from established brands — Nike, Carhartt, Stüssy, Champion and others.</p>
+          </div>
+          <div style="border: 1px solid #221B2E; padding: clamp(18px, 2vw, 26px); display: flex; flex-direction: column; gap: 12px; background: #EDEBF2; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-4px); box-shadow: 8px 8px 0 #221B2E">
+            <span style="width: 36px; height: 36px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em">02</span>
+            <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em">Inspect</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; text-wrap: pretty">Every piece is checked for condition and true fit before it's listed.</p>
+          </div>
+          <div style="border: 1px solid #221B2E; padding: clamp(18px, 2vw, 26px); display: flex; flex-direction: column; gap: 12px; background: #EDEBF2; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-4px); box-shadow: 8px 8px 0 #221B2E">
+            <span style="width: 36px; height: 36px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em">03</span>
+            <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em">Measure & Photograph</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; text-wrap: pretty">Real measurements, real photos — never brand stock images.</p>
+          </div>
+          <div style="border: 1px solid #221B2E; padding: clamp(18px, 2vw, 26px); display: flex; flex-direction: column; gap: 12px; background: #EDEBF2; transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-4px); box-shadow: 8px 8px 0 #221B2E">
+            <span style="width: 36px; height: 36px; borderRadius: 999px; border: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.06em">04</span>
+            <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em">List</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; text-wrap: pretty">Published with honest specs and no inflated claims.</p>
+          </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(40px, 5vw, 80px) clamp(16px, 3vw, 40px)">
+      <div style="display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px; margin-bottom: 26px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">03</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.6vw, 50px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Our brands</h2>
+        </div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ brandCountLabel }}</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+        <sc-for list="{{ brands }}" as="b" hint-placeholder-count="4">
+          <div style="border: 1px solid #221B2E; aspect-ratio: 3 / 2; display: grid; place-items: center; gap: 10px; padding: 18px; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease-out" style-hover="transform: translateY(-4px); box-shadow: 8px 8px 0 #221B2E">
+            <sc-if value="{{ b.hasLogo }}" hint-placeholder-val="{{ false }}">
+              <span role="img" aria-label="{{ b.name }}" style="width: 70%; height: 60%; display: block; background-image: {{ b.logoImage }}; background-size: contain; background-repeat: no-repeat; background-position: center"></span>
+            </sc-if>
+            <sc-if value="{{ b.noLogo }}" hint-placeholder-val="{{ true }}">
+              <span style="display: grid; place-items: center; gap: 10px; text-align: center">
+                <span style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(22px, 2.2vw, 30px); text-transform: uppercase; letter-spacing: -0.01em; color: #221B2E">{{ b.name }}</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ b.ph }}</span>
+              </span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="borderTop: 1px solid #221B2E; background: #221B2E; color: #EDEBF2">
+      <div style="max-width: 1440px; margin: 0 auto; padding: clamp(40px, 5vw, 80px) clamp(16px, 3vw, 40px)">
+        <div style="display: flex; flex-direction: column; gap: 8px; margin: 0 0 28px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">04</span>
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.6vw, 50px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Why ClothSE</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px">
+          <sc-for list="{{ values }}" as="v" hint-placeholder-count="3">
+            <div style="border: 1px solid #4E4660; padding: clamp(20px, 2.2vw, 28px); display: flex; flex-direction: column; gap: 12px; transition: border-color 200ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1)" style-hover="border-color: {{ accent }}; transform: translateY(-4px)">
+              <span style="width: 34px; height: 34px; border: 1px solid {{ accent }}; display: grid; place-items: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #9A8CFF">{{ v.n }}</span>
+              <h3 style="margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(20px, 1.9vw, 26px); line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em">{{ v.title }}</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #B6AEC9; text-wrap: pretty">{{ v.body }}</p>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(40px, 5vw, 80px) clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: clamp(20px, 3vw, 44px); align-items: center">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">05 · Where we are</span>
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(28px, 3.6vw, 50px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Based in Da Lat,<br />Vietnam</h2>
+        <p style="margin: 0; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; color: #4A4358; max-width: 46ch; text-wrap: pretty">01 Phu Dong Thien Vuong — orders ship nationwide, and questions get a reply within 1–2 business days.</p>
+        <a href="Contact.dc.html" style="margin-top: 6px; width: fit-content; padding: 16px 28px; border: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: #221B2E; color: #EDEBF2; box-shadow: 4px 4px 0 {{ accent }}" style-active="transform: scale(0.97)">Get in touch →</a>
+      </div>
+      <div style="position: relative; aspect-ratio: 16 / 10; border: 1px solid #221B2E; overflow: hidden">
+        <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">map — Da Lat, Vietnam</span>
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <dc-import name="SiteFooter" accent="{{ accent }}" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
+const BRAND_TABLE = [
+  { id: 'b1', name: 'Carhartt', logo_url: null },
+  { id: 'b2', name: 'Stüssy', logo_url: null },
+  { id: 'b3', name: 'Nike', logo_url: null },
+  { id: 'b4', name: 'Champion', logo_url: null }
+];
+
+class Component extends DCLogic {
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, width: 1440, hover: null };
+
+  componentDidMount() {
+    try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  hoverProps(key) {
+    return {
+      onEnter: () => this.setState({ hover: key }),
+      onLeave: () => this.setState(s => (s.hover === key ? { hover: null } : null))
+    };
+  }
+  navLink(key) {
+    const on = this.state.hover === 'nav-' + key;
+    return { ...this.hoverProps('nav-' + key), lift: on ? 'translateY(-2px)' : 'translateY(0)', bar: on ? 'scaleX(1)' : 'scaleX(0)' };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const mobile = this.state.width < 900;
+    const user = this.state.user;
+    // Source of truth: the Brand table managed in Store Management → Brands.
+    // Rows are { id, name, logo_url } — add a brand there and it appears here automatically.
+    const brands = BRAND_TABLE.map(b => ({
+      name: b.name,
+      logoImage: b.logo_url ? 'url(' + b.logo_url + ')' : 'none',
+      hasLogo: !!b.logo_url,
+      noLogo: !b.logo_url,
+      ph: 'logo placeholder'
+    }));
+    const values = [
+      { n: '01', title: 'Authenticity guaranteed', body: 'Every item is checked and verified before listing — no counterfeits, no fakes.' },
+      { n: '02', title: 'Fast local delivery', body: '1–2 days in Da Lat, 2–4 days nationwide, packed the day after you order.' },
+      { n: '03', title: 'Easy returns', body: '30 days to send anything back, unworn and with tags, no questions asked.' },
+      { n: '04', title: 'Pay on delivery', body: 'Cash on delivery only — you pay the courier once the parcel is in your hands.' }
+    ];
+    return {
+      accent,
+      brands,
+      brandCountLabel: brands.length + ' brands currently carried',
+      values,
+      cartCount: this.props.cartCount ?? 4,
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      showLogin: !mobile && !user,
+      showAvatar: !!user,
+      avatarInitials: user ? (user.name || user.email || '').trim().split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') : '',
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      searchOpen: this.state.searchOpen,
+      menuOpen: this.state.menuOpen && mobile,
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      navHome: this.navLink('home'),
+      navNew: this.navLink('new'),
+      navShop: this.navLink('shop'),
+      shopLinks: [
+        { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', delay: '120ms', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', delay: '160ms', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#6B5BFF"/><text x="100" y="118" text-anchor="middle" font-family="Georgia, serif" font-size="54" fill="#EDEBF2">CS</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #EDEBF2; }
+  html { scroll-padding-top: 88px; scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  a { color: #221B2E; text-decoration: none; }
+  a:hover { color: #221B2E; }
+  ::selection { background: #6B5BFF; color: #EDEBF2; }
+  input::placeholder, textarea::placeholder { color: #8A83A0; }
+  @keyframes clothse-drop-in { from { opacity: 0; transform: translateY(-10px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-fade-up { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+  @keyframes clothse-pop { 0% { transform: scale(1); } 35% { transform: scale(1.45); } 65% { transform: scale(0.9); } 100% { transform: scale(1); } }
+  @keyframes clothse-flash { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  @keyframes clothse-expand { from { opacity: 0; transform: scaleX(0.5); } to { opacity: 1; transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  }
+</style>
+  <script src="back-to-top.js"></script>
+</helmet>
+<div style="background: #EDEBF2; color: #221B2E; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+  <dc-import name="SiteHeader" accent="{{ accent }}" cart-count="{{ cartCount }}" hint-size="100%,72px" style="position: sticky; top: 0; z-index: 50"></dc-import>
+
+  <main id="top">
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: clamp(28px, 4vw, 64px) clamp(16px, 3vw, 40px) clamp(20px, 3vw, 40px)">
+      <div style="display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid #221B2E; padding: 6px 10px; margin-bottom: 22px">
+        <span style="width: 7px; height: 7px; borderRadius: 999px; background: {{ accent }}; display: block; animation: clothse-flash 1600ms ease-in-out infinite"></span>Replies within 1–2 business days
+      </div>
+      <h1 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(48px, 8.5vw, 120px); line-height: 0.86; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 20px">
+        Get in<br /><span style="display: inline-block; background: #221B2E; color: #EDEBF2; padding: 0 12px; transform: skewX(-7deg)">Touch</span>
+      </h1>
+      <p style="font-size: clamp(15px, 1.3vw, 18px); line-height: 1.5; max-width: 48ch; margin: 0; color: #4A4358; text-wrap: pretty">Questions about an order, a return, or anything else — we're here to help.</p>
+    </section>
+
+    <section style="max-width: 1440px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px) clamp(48px, 6vw, 96px); display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: clamp(24px, 3vw, 48px); align-items: start">
+
+      <div style="border: 1px solid #221B2E; padding: clamp(20px, 2.6vw, 36px)">
+        <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3vw, 38px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 22px">Send a message</h2>
+        <form onSubmit="{{ submit }}" style="display: flex; flex-direction: column; gap: 16px">
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Full name</span>
+            <input type="text" placeholder="Alex Mercer" value="{{ nameValue }}" onChange="{{ onName }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}" />
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Email</span>
+            <input type="email" placeholder="you@email.com" value="{{ emailValue }}" onChange="{{ onEmail }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}" />
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Subject</span>
+            <select value="{{ subjectValue }}" onChange="{{ onSubject }}" style="height: 50px; padding: 0 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #221B2E; outline: none; cursor: pointer; appearance: none; background-image: linear-gradient(45deg, transparent 50%, #221B2E 50%), linear-gradient(135deg, #221B2E 50%, transparent 50%); background-position: calc(100% - 20px) 22px, calc(100% - 14px) 22px; background-size: 6px 6px, 6px 6px; background-repeat: no-repeat; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}">
+              <sc-for list="{{ subjects }}" as="s" hint-placeholder-count="5">
+                <option value="{{ s }}">{{ s }}</option>
+              </sc-for>
+            </select>
+          </label>
+
+          <label style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">Message</span>
+            <textarea rows="6" placeholder="Tell us what you need — order number helps if it's about a purchase." value="{{ messageValue }}" onChange="{{ onMessage }}" style="padding: 14px; border: 1px solid #221B2E; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 15px; line-height: 1.5; color: #221B2E; outline: none; resize: vertical; min-height: 140px; transition: box-shadow 180ms ease-out, border-color 180ms ease-out" style-focus="box-shadow: 3px 3px 0 {{ accent }}; border-color: {{ accent }}"></textarea>
+          </label>
+
+          <button type="submit" style="margin-top: 6px; height: 54px; border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; cursor: pointer; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: {{ accent }}; border-color: {{ accent }}; box-shadow: 4px 4px 0 #221B2E" style-active="transform: scale(0.985)">Send message</button>
+
+          <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+            <div style="border: 1px solid #FF6A2B; background: rgba(255,106,43,0.12); padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #221B2E; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">{{ error }}</div>
+          </sc-if>
+
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="border: 1px solid #221B2E; background: rgba(107,91,255,0.12); padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; animation: clothse-fade-up 240ms cubic-bezier(.2,.7,.2,1) both">Thanks — we'll get back to you within 1–2 business days.</div>
+          </sc-if>
+        </form>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 18px">
+        <div style="border: 1px solid #221B2E; background: #221B2E; color: #EDEBF2; padding: clamp(20px, 2.6vw, 36px); display: flex; flex-direction: column; gap: 26px">
+          <h2 style="font-family: 'Instrument Serif', Georgia, serif; font-size: clamp(26px, 3vw, 38px); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; margin: 0">Reach us direct</h2>
+
+          <div style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Email</span>
+            <a href="mailto:hey@clothse.com" style="font-size: 18px; color: #EDEBF2; width: fit-content; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">hey@clothse.com</a>
+            <span style="font-size: 13px; line-height: 1.6; color: #B6AEC9">Orders, returns and everything else.</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Phone</span>
+            <a href="tel:0778222082" style="font-size: 18px; color: #EDEBF2; width: fit-content; transition: color 180ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="color: #9A8CFF; transform: translateX(5px)">0778 222 082</a>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 7px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Store</span>
+            <span style="font-size: 16px; line-height: 1.5; color: #EDEBF2">01 Phu Dong Thien Vuong<br />Da Lat</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 12px">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #9A8CFF">Follow</span>
+            <div style="display: flex; gap: 8px">
+              <a href="#instagram" aria-label="Instagram" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                  <circle cx="12" cy="12" r="4"></circle>
+                  <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"></circle>
+                </svg>
+              </a>
+              <a href="#facebook" aria-label="Facebook" style="width: 38px; height: 38px; border: 1px solid #4E4660; display: grid; place-items: center; color: #EDEBF2; transition: transform 200ms cubic-bezier(.2,.7,.2,1), background-color 200ms ease-out, border-color 200ms ease-out" style-hover="background: {{ accent }}; border-color: {{ accent }}; transform: translateY(-3px) scale(1.1)" style-active="transform: scale(0.95)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M13.5 21v-7.4h2.6l.4-3h-3V8.7c0-.9.3-1.5 1.6-1.5H16.6V4.4c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2h-2.6v3h2.6V21h3.6Z"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div style="border: 1px solid #221B2E; padding: clamp(18px, 2.2vw, 28px); display: flex; flex-direction: column; gap: 10px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: #5F5775">Order already placed?</span>
+          <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #4A4358; text-wrap: pretty">Tracking, returns and delivery updates live in your order history — fastest way to check status.</p>
+          <a href="My Bag & Orders.dc.html?tab=pending" style="margin-top: 4px; width: fit-content; padding: 13px 22px; border: 1px solid #221B2E; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; transition: transform 180ms cubic-bezier(.2,.7,.2,1), background-color 180ms ease-out, color 180ms ease-out, box-shadow 180ms ease-out" style-hover="transform: translateY(-2px); background: #221B2E; color: #EDEBF2; box-shadow: 3px 3px 0 {{ accent }}" style-active="transform: scale(0.97)">Track an order</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <dc-import name="SiteFooter" accent="{{ accent }}" hint-size="100%,420px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
+class Component extends DCLogic {
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, width: 1440, name: '', email: '', subject: 'Order Inquiry', message: '', sent: false, error: '', hover: null };
+
+  componentDidMount() {
+    try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
+    this.onResize = () => this.setState({ width: window.innerWidth });
+    this.onResize();
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  hoverProps(key) {
+    return {
+      onEnter: () => this.setState({ hover: key }),
+      onLeave: () => this.setState(s => (s.hover === key ? { hover: null } : null))
+    };
+  }
+  navLink(key, active) {
+    const on = this.state.hover === 'nav-' + key;
+    return { ...this.hoverProps('nav-' + key), lift: on ? 'translateY(-2px)' : 'translateY(0)', bar: on || active ? 'scaleX(1)' : 'scaleX(0)' };
+  }
+
+  renderVals() {
+    const accent = this.props.accent ?? '#6B5BFF';
+    const mobile = this.state.width < 900;
+    const user = this.state.user;
+    return {
+      accent,
+      cartCount: this.props.cartCount ?? 4,
+      showDesktopNav: !mobile,
+      showMobileToggle: mobile,
+      showLogin: !mobile && !user,
+      showAvatar: !!user,
+      avatarInitials: user ? (user.name || user.email || '').trim().split(/[\s@._-]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') : '',
+      shopOpen: this.state.shopOpen && !mobile,
+      shopArrow: this.state.shopOpen && !mobile ? 'rotate(0deg)' : 'rotate(180deg)',
+      searchOpen: this.state.searchOpen,
+      menuOpen: this.state.menuOpen && mobile,
+      openShop: () => this.setState({ shopOpen: true }),
+      closeShop: () => this.setState({ shopOpen: false }),
+      toggleSearch: () => this.setState(s => ({ searchOpen: !s.searchOpen })),
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      navHome: this.navLink('home'),
+      navNew: this.navLink('new'),
+      navShop: this.navLink('shop'),
+      shopLinks: [
+        { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
+        { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },
+        { label: 'Accessories', count: '22', delay: '120ms', href: 'Shop Listing.dc.html?cat=Accessories' },
+        { label: 'Footwear', count: '17', delay: '160ms', href: 'Shop Listing.dc.html?cat=Footwear' }
+      ],
+      subjects: ['Order Inquiry', 'Returns & Refunds', 'Brand Partnership', 'General Question', 'Other'],
+      nameValue: this.state.name,
+      emailValue: this.state.email,
+      subjectValue: this.state.subject,
+      messageValue: this.state.message,
+      onName: (e) => this.setState({ name: e.target.value, error: '' }),
+      onEmail: (e) => this.setState({ email: e.target.value, error: '' }),
+      onSubject: (e) => this.setState({ subject: e.target.value }),
+      onMessage: (e) => this.setState({ message: e.target.value, error: '' }),
+      sent: this.state.sent,
+      error: this.state.error,
+      submit: (e) => {
+        e.preventDefault();
+        const { name, email, message } = this.state;
+        if (!name.trim() || !email.trim() || !message.trim()) { this.setState({ error: 'Name, email and message are required', sent: false }); return; }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { this.setState({ error: 'That email address looks off', sent: false }); return; }
+        this.setState({ sent: true, error: '', name: '', email: '', message: '', subject: 'Order Inquiry' });
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>
