@@ -1,0 +1,24 @@
+.logo {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  line-height: 1.2;
+}
+
+.link {
+  transform-origin: left center;
+  transition: transform 200ms var(--ease-pop);
+}
+.link:hover { transform: scale(1.05); }
+.link:active { transform: scale(0.98); }
+
+.se {
+  background: var(--accent);
+  color: var(--paper);
+  padding: 0 6px;
+  transform: skewX(-8deg);
+  display: inline-block;
+}
