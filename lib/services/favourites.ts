@@ -15,3 +15,7 @@ export async function toggleFavourite(userId: number, productId: number): Promis
   await prisma.favourite.create({ data: { userId, productId } });
   return true;
 }
+
+export async function setFavouriteNotify(userId: number, productId: number, notify: boolean): Promise<void> {
+  await prisma.favourite.updateMany({ where: { userId, productId }, data: { notify } });
+}

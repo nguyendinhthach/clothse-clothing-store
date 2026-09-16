@@ -323,3 +323,18 @@ export async function getRelatedProducts(product: { id: number; category: string
   }
   return rows.map((p) => toCard(p, best, "default", now));
 }
+
+// ─── Favourites page ──────────────────────────────────────────────────────────
+
+export interface FavouriteCard extends ProductCardData {
+  notify: boolean;
+  savedAt: Date;
+}
+
+export async function getFavouriteCards(userId: number, now = new Date()): Promise<FavouriteCard[]> {
+  const [rows, best] = await Promise.all([
+    prisma.favourite.findMany({ where: { userId }, orderBy: { createdAt: "desc" }, include: { product: { include: cardInclude } } }),
+    getBestSellerIds(now),
+  ]);
+  return rows.map((f) => ({ ...toCard(f.product, best, "default", now), notify: f.notify, savedAt: f.createdAt }));
+}
