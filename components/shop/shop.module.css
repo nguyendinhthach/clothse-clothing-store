@@ -343,3 +343,61 @@
   transform: translateY(-2px);
   box-shadow: 4px 4px 0 var(--ink);
 }
+
+/* ── Round pills (New Arrivals / Sale) ──────────────────────── */
+
+.pillBar {
+  border-bottom: 1px solid var(--ink);
+  padding: clamp(16px, 2.4vw, 26px) 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+}
+.roundPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.roundPill {
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 27, 46, 0.3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out, transform 160ms var(--ease-pop);
+}
+.roundPill:hover { border-color: var(--ink); transform: translateY(-2px); }
+.roundPillOn {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.barRight {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 26px);
+  flex-wrap: wrap;
+}
+.browseAll {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(34, 27, 46, 0.3);
+  padding-bottom: 2px;
+  transition: color 160ms ease-out, border-color 160ms ease-out;
+}
+.browseAll:hover { color: var(--ink); border-color: var(--ink); }
+.gridSection { padding-top: clamp(26px, 3.6vw, 50px); }
+.sortInline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.sortInline .select { height: 38px; padding: 0 10px; font-size: 11px; }

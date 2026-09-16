@@ -33,13 +33,13 @@ export function parseShopParams(raw: Raw): ShopParams {
     min: clampPrice(typeof raw.min === "string" ? raw.min : undefined, PRICE_MIN),
     max: clampPrice(typeof raw.max === "string" ? raw.max : undefined, PRICE_MAX),
     q: typeof raw.q === "string" ? raw.q.trim() : "",
-    sort: sort === "asc" || sort === "desc" ? sort : "new",
+    sort: sort === "asc" || sort === "desc" || sort === "discount" ? sort : "new",
     show: Number.isFinite(show) && show > PAGE_SIZE ? Math.floor(show) : PAGE_SIZE,
   };
 }
 
 /** Serialise back to a query string; defaults are omitted so URLs stay short. */
-export function buildShopQuery(p: Partial<ShopParams>): string {
+export function buildShopQuery(p: Partial<ShopParams>, defaultSort: SortKey = "new"): string {
   const sp = new URLSearchParams();
   if (p.cats?.length) sp.set("cat", p.cats.join(","));
   if (p.tags?.length) sp.set("tag", p.tags.join(","));
@@ -47,7 +47,7 @@ export function buildShopQuery(p: Partial<ShopParams>): string {
   if (p.min != null && p.min > PRICE_MIN) sp.set("min", String(p.min));
   if (p.max != null && p.max < PRICE_MAX) sp.set("max", String(p.max));
   if (p.q) sp.set("q", p.q);
-  if (p.sort && p.sort !== "new") sp.set("sort", p.sort);
+  if (p.sort && p.sort !== defaultSort) sp.set("sort", p.sort);
   if (p.show && p.show > PAGE_SIZE) sp.set("show", String(p.show));
   const s = sp.toString();
   return s ? `?${s}` : "";

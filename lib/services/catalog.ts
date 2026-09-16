@@ -26,6 +26,7 @@ export interface ProductCardData {
   image: { url: string; alt: string | null } | null;
   /** In-stock size labels in the category's sort order. */
   sizesInStock: string[];
+  createdAt: Date;
 }
 
 const cardInclude = {
@@ -60,6 +61,7 @@ function toCard(p: ProductRow, bestSellerIds: Set<number>, context: BadgeContext
       now,
     ),
     image: p.images[0] ?? null,
+    createdAt: p.createdAt,
     sizesInStock: p.variants
       .filter((v) => v.stock > 0)
       .sort((a, b) => a.sizeOption.sortOrder - b.sizeOption.sortOrder)
@@ -210,12 +212,11 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
   items = items.filter((p) => effectivePrice(p) >= min && (max >= PRICE_MAX || effectivePrice(p) <= max));
 
   const sort = query.sort ?? "new";
+  const pctOff = (p: ProductCardData) => (p.onSale && p.salePrice != null ? 1 - p.salePrice / p.price : 0);
   if (sort === "asc") items.sort((a, b) => effectivePrice(a) - effectivePrice(b));
   else if (sort === "desc") items.sort((a, b) => effectivePrice(b) - effectivePrice(a));
-  else {
-    const created = new Map(rows.map((r) => [r.id, r.createdAt.getTime()]));
-    items.sort((a, b) => created.get(b.id)! - created.get(a.id)!);
-  }
+  else if (sort === "discount") items.sort((a, b) => pctOff(b) - pctOff(a) || b.createdAt.getTime() - a.createdAt.getTime());
+  else items.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 
   const show = Math.max(PAGE_SIZE, query.show ?? PAGE_SIZE);
   return { items: items.slice(0, show), total: items.length, shown: Math.min(show, items.length) };

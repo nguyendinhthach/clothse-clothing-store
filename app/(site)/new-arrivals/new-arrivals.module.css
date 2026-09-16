@@ -1,0 +1,118 @@
+.hero {
+  border-bottom: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+  overflow: hidden;
+}
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: stretch;
+}
+@media (max-width: 899px) {
+  .heroGrid { grid-template-columns: minmax(0, 1fr); }
+  .heroArt { display: none; }
+}
+.heroCopy {
+  padding: clamp(38px, 5.5vw, 84px) 0 clamp(32px, 4.5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 20px;
+}
+.crumbs {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-3);
+  display: flex;
+  gap: 8px;
+}
+.crumbs a { color: var(--paper-3); transition: color 160ms ease-out; }
+.crumbs a:hover { color: var(--orange); }
+.updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  align-self: start;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink-3);
+  padding: 7px 12px;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--orange);
+  display: block;
+}
+.h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(64px, 13vw, 190px);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  margin: 0;
+  padding-bottom: 10px;
+}
+.h1 em {
+  font-style: italic;
+  color: var(--orange);
+}
+.lead {
+  margin: 0;
+  max-width: 44ch;
+  font-size: clamp(15px, 1.5vw, 19px);
+  line-height: 1.5;
+  color: var(--paper-2);
+  text-wrap: pretty;
+}
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(18px, 3vw, 40px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-3);
+  padding-top: 6px;
+}
+.stats strong {
+  color: var(--paper);
+  font-size: 15px;
+  font-weight: 400;
+  margin-right: 4px;
+}
+.heroArt {
+  position: relative;
+  border-left: 1px solid var(--ink-2);
+  overflow: hidden;
+  min-height: 340px;
+  background: repeating-linear-gradient(135deg, #2c2440 0 14px, #241d34 14px 28px);
+  display: grid;
+  place-items: center;
+}
+.heroArtLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6c6285;
+}
+.heroTag {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background: var(--orange);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 8px 12px;
+}

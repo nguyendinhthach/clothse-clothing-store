@@ -4,4 +4,4 @@ export const PRICE_MAX = 2_000_000; // "2.000.000₫+" — treated as no upper b
 export const PRICE_STEP = 20_000;
 export const PAGE_SIZE = 8;
 
-export type SortKey = "new" | "asc" | "desc";
+export type SortKey = "new" | "asc" | "desc" | "discount";

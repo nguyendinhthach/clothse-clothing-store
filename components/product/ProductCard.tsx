@@ -17,6 +17,8 @@ interface Props {
   variant?: "tall" | "square" | "grid";
   /** true/false when signed in, null for guests, undefined to hide the heart. */
   favourite?: boolean | null;
+  /** Small right-aligned note under the name on "grid" cards (e.g. "3 days ago", "save 160.000₫"). */
+  note?: string;
   className?: string;
 }
 
@@ -25,7 +27,7 @@ function sizesLine(sizes: string[]) {
   return sizes.join(" · ");
 }
 
-export function ProductCard({ product: p, variant = "tall", favourite, className = "" }: Props) {
+export function ProductCard({ product: p, variant = "tall", favourite, note, className = "" }: Props) {
   const href = routes.product(p.id);
   const price = p.onSale && p.salePrice != null ? p.salePrice : p.price;
   const cta = p.sizesInStock.length ? "Add to bag" : "Sold out";
@@ -61,7 +63,12 @@ export function ProductCard({ product: p, variant = "tall", favourite, className
             {p.onSale && p.salePrice != null && <s className={styles.was}>{formatVnd(p.price)}</s>}
           </span>
         </div>
-        {variant === "grid" && <span className={styles.meta}>{p.category}</span>}
+        {variant === "grid" && (
+          <span className={styles.metaRow}>
+            <span className={styles.meta}>{p.category}</span>
+            {note && <span className={styles.note}>{note}</span>}
+          </span>
+        )}
         {variant === "tall" && (
           <>
             <span className={styles.meta}>

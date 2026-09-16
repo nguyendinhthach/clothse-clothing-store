@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { PAGE_SIZE } from "@/lib/catalog-constants";
-import type { Listing } from "@/lib/services/catalog";
+import { PAGE_SIZE, type SortKey } from "@/lib/catalog-constants";
+import type { Listing, ProductCardData } from "@/lib/services/catalog";
 import { buildShopQuery, type ShopParams } from "@/lib/shop-params";
 import { ProductCard } from "@/components/product/ProductCard";
 import styles from "./shop.module.css";
@@ -12,9 +12,12 @@ interface Props {
   favouriteIds: Set<number> | null; // null = guest
   emptyTitle?: string;
   emptyHint?: string;
+  /** Optional per-card note (New Arrivals: "3 days ago", Sale: "save 160.000₫"). */
+  noteFor?: (p: ProductCardData) => string;
+  defaultSort?: SortKey;
 }
 
-export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitle = "Nothing in that range", emptyHint = "Widen the price filter or drop a category." }: Props) {
+export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitle = "Nothing in that range", emptyHint = "Widen the price filter or drop a category.", noteFor, defaultSort = "new" }: Props) {
   if (listing.total === 0) {
     return (
       <div className={styles.empty}>
@@ -28,12 +31,12 @@ export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitl
     <>
       <div className={styles.grid}>
         {listing.items.map((p) => (
-          <ProductCard key={p.id} product={p} variant="grid" favourite={favouriteIds ? favouriteIds.has(p.id) : null} />
+          <ProductCard key={p.id} product={p} variant="grid" favourite={favouriteIds ? favouriteIds.has(p.id) : null} note={noteFor?.(p)} />
         ))}
       </div>
       {listing.shown < listing.total && (
         <div className={styles.more}>
-          <Link href={basePath + buildShopQuery({ ...params, show: listing.shown + PAGE_SIZE })} scroll={false} className={styles.moreBtn}>
+          <Link href={basePath + buildShopQuery({ ...params, show: listing.shown + PAGE_SIZE }, defaultSort)} scroll={false} className={styles.moreBtn}>
             Load more
           </Link>
         </div>

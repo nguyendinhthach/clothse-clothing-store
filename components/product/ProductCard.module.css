@@ -137,6 +137,20 @@
   color: var(--muted);
 }
 
+.metaRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #8a82a0;
+  white-space: nowrap;
+}
+
 .meta {
   font-family: var(--font-mono);
   font-size: 10px;
