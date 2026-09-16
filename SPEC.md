@@ -138,11 +138,15 @@ Variant         id, product_id, size_option_id, stock
                                                         biến thể CHỈ theo size,
                                                         không có màu
 
-Batch           id, variant_id, category, item_description,
-                received_at, qty_received, qty_remaining, unit_cost
+Batch           id, variant_id, brand_id, category_id, size_option_id,
+                item_description, received_at, qty_received,
+                qty_remaining, unit_cost
                                                      ← giá nhập của riêng lô này
                                                         variant_id rỗng = lô chưa
-                                                        liên kết, chờ niêm yết
+                                                        liên kết, chờ niêm yết;
+                                                        brand/category/size ghi
+                                                        ngay lúc nhập để Add
+                                                        Product khớp được, xem 6.5
 
 Order           id, code, user_id, status, payment_method, payment_status,
                                                      ← hai trục độc lập,
@@ -786,3 +790,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-16 | **Chốt quyết định 15 — badge.** Thêm mục 6.11: quy tắc ưu tiên 7 bậc, mọi badge tính tự động. Thêm `Product.restocked_at`. Đây là quy tắc thiết kế đã có sẵn mà SPEC bỏ sót |
 | 2026-09-16 | **Chốt quyết định 16 — tag.** `tags[]` thành bảng `Tag` + `ProductTag`. Bỏ 5 badge khỏi danh sách tag. Thêm mục 6.12 với bảng tách 4 khái niệm Category / Size / Badge / Tag. Badge `Sale` đọc cờ `on_sale` thay vì `sale_price` |
 | 2026-09-16 | **Chốt quyết định 17 — Favourite theo sản phẩm.** Không còn quyết định treo. Bắt đầu viết Prisma schema |
+| 2026-09-16 | Tuần 0 gần xong: design đóng băng vào `design/`, Next.js 16 + Prisma 7, schema 17 bảng, 2 migration, seed 24 sản phẩm / 263 lô / 14 đơn / 2 tài khoản. Mục 5: `Batch` thêm `brand_id`, `size_option_id` (form nhập lô có Brand và Size, mục 6.5); thêm `PasswordResetToken`, `Subscriber`, `Favourite.notify`. Còn lại của tuần 0: deploy Vercel |

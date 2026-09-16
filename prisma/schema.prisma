@@ -96,6 +96,7 @@ model Brand {
   id       Int       @id @default(autoincrement())
   name     String    @unique
   products Product[]
+  batches  Batch[]
 }
 
 /// Fixed at four (Tops, Bottoms, Accessories, Footwear). Seeded, no admin CRUD.
@@ -118,6 +119,7 @@ model SizeOption {
   category   Category  @relation(fields: [categoryId], references: [id])
   categoryId Int
   variants   Variant[]
+  batches    Batch[]
 
   @@unique([categoryId, label])
   @@index([categoryId, sortOrder])
@@ -221,11 +223,18 @@ model Batch {
   qtyRemaining    Int
   unitCost        Int
 
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  /// Brand, category and size are recorded at intake so an unlinked batch is
+  /// self-describing; for a linked batch they must equal the variant's
+  /// (service validates).
+  brand        Brand      @relation(fields: [brandId], references: [id])
+  brandId      Int
+  category     Category   @relation(fields: [categoryId], references: [id])
+  categoryId   Int
+  sizeOption   SizeOption @relation(fields: [sizeOptionId], references: [id])
+  sizeOptionId Int
   /// Restrict: a variant with batches cannot be deleted.
-  variant    Variant? @relation(fields: [variantId], references: [id], onDelete: Restrict)
-  variantId  Int?
+  variant      Variant?   @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  variantId    Int?
 
   /// FIFO consumes oldest receivedAt first.
   @@index([variantId, receivedAt])
