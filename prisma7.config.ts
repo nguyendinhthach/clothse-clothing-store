@@ -10,6 +10,6 @@ export default defineConfig({
   datasource: {
     url: process.env["DATABASE_URL"],
     // Optional. `npx prisma dev` prints one; hosted Postgres usually needs none.
-    shadowDatabaseUrl: process.env["SHADOW_DATABASE_URL"],
+    shadowDatabaseUrl: process.env["SHADOW_DATABASE_URL"] || undefined,
   },
 });
