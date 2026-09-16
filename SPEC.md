@@ -2,7 +2,7 @@
 
 Bài tập nhóm — website bán quần áo streetwear đa thương hiệu, có trang quản trị.
 
-**Trạng thái:** thiết kế đã rà soát sạch (19 trang, 0 lỗi), 14 quyết định chốt ở [mục 9](#9-quyết-định), công cụ chốt ở [mục 11](#11-công-cụ), lộ trình 6 tuần ở [mục 12](#12-lộ-trình-6-tuần). Sẵn sàng bắt đầu code.
+**Trạng thái:** thiết kế đã rà soát sạch (19 trang, 0 lỗi), 16 quyết định chốt ở [mục 9](#9-quyết-định), công cụ chốt ở [mục 11](#11-công-cụ), lộ trình 6 tuần ở [mục 12](#12-lộ-trình-6-tuần). Sẵn sàng bắt đầu code.
 
 Còn treo duy nhất: **báo hàng về theo sản phẩm hay theo size** ([mục 6.10](#610-gửi-email)).
 
@@ -25,7 +25,7 @@ Tài liệu này rút trích phần *nghiệp vụ* từ các trang đó, cộng
 | `My Bag & Orders` | Giỏ hàng, thanh toán, lịch sử đơn |
 | `Sign In & Sign Up` | Đăng nhập, đăng ký |
 | `Account` | Hồ sơ, sổ địa chỉ, đổi mật khẩu |
-| `Store Management` | 6 màn quản trị (xem mục 4) |
+| `Store Management` | 7 màn quản trị (xem mục 4) |
 
 ---
 
@@ -79,7 +79,7 @@ Mục tiêu: luồng mua hàng chạy thật từ đầu đến cuối, dữ li�
 - Đăng ký nhận tin, email chào mừng
 - Sổ địa chỉ nhiều mục, đổi mật khẩu
 - Bảng size guide theo số đo ([mục 6.6](#66-dữ-liệu-chỉ-để-hiển-thị) — cần xử lý số đo theo danh mục trước)
-- Bốn trang nội dung tĩnh: FAQ, Contact, Shipping, Returns ([mục 6b](#6b-trang-nội-dung-tĩnh))
+- Năm trang nội dung tĩnh: FAQ, Contact, About, Privacy, Terms ([mục 6b](#6b-trang-nội-dung-tĩnh))
 
 > **Nút VI/EN:** `lang-switch.js` chỉ ghi lựa chọn vào `localStorage` và bắn sự kiện — **không trang nào lắng nghe**, nên nút này đang là trang trí. Nhóm đã chốt **không làm đa ngôn ngữ**: toàn bộ giao diện dùng **tiếng Anh**. Xem [mục 8](#8-ngoài-phạm-vi).
 
@@ -87,7 +87,7 @@ Mục tiêu: luồng mua hàng chạy thật từ đầu đến cuối, dữ li�
 
 ## 4. Màn quản trị (Store Management)
 
-Sáu mục, đúng theo thiết kế:
+Bảy mục, đúng theo thiết kế:
 
 | Mục | Nội dung | Đợt |
 |---|---|---|
@@ -115,15 +115,20 @@ Brand           id, name
 Category        id, name                             ← cố định 4 mục, không CRUD
 SizeOption      id, category_id, label, sort_order, active
                                                      ← từ vựng size của danh mục
+Tag             id, name                             ← tự do, admin gõ tay,
+                                                        xem mục 6.12
+ProductTag      product_id, tag_id                   ← nhiều-nhiều
 Product         id, name, sku, brand_id, category_id, price, sale_price,
-                description, tags[], created_at,
+                on_sale, description, created_at, restocked_at,
+                                                     ← on_sale, restocked_at:
+                                                        xem mục 6.11
                 details, model_fit_note, size_guide
+                                                     ← 3 trường JSON chỉ để
+                                                        hiển thị, xem mục 6.6
 ProductImage    id, product_id, url, sort_order, alt
                                                      ← chỉ lưu đường dẫn,
                                                         file nằm ngoài DB,
                                                         xem mục 6.9
-                                                     ← 3 trường cuối chỉ để
-                                                        hiển thị, xem mục 6.6
 Variant         id, product_id, size_option_id, stock
                                                      ← tồn kho nằm ở đây
                                                         không nằm ở Product
@@ -176,7 +181,7 @@ Lấy nguyên từ thiết kế:
 Bảng trên chỉ là dữ liệu seed. **Mọi danh mục đều thêm size mới được** qua tab Sizes, kể cả định dạng chưa từng có trong danh mục đó.
 
 Riêng `Accessories` trộn định dạng nên không suy ra được thứ tự tự động — `sort_order` phải do admin tự sắp. Thiết kế đã hỗ trợ kéo thả (`moveSize`), nên thêm một size số vào giữa danh sách chữ vẫn đặt đúng chỗ được.
-- **Tag:** `New`, `Restocked`, `Unisex`, `Men`, `Women`, `Best seller`, `Core`, `Limited`, `Organic cotton`, `Sale`, `Waterproof`, `Heavyweight`
+- **Tag seed:** `Men`, `Women`, `Unisex`, `Limited`, `Organic cotton`, `Waterproof`, `Heavyweight` — chỉ là seed, admin gõ thêm tự do ([mục 6.12](#612-tag)). `TAG_LIBRARY` trong thiết kế còn lẫn `New`, `Restocked`, `Best seller`, `Core`, `Sale` — đó là **badge**, đã tách khỏi tag ở [quyết định 15](#9-quyết-định)
 - **Trạng thái đơn** (`status`): `pending`, `processing`, `shipping`, `completed`, `cancelled`, `refund`
   - `pending` hiển thị là **To Confirm** — đổi từ `pay` / *To Pay* của bản thiết kế cũ
 - **Trạng thái thanh toán** (`payment_status`): `unpaid`, `paid`, `refunded`
@@ -509,6 +514,64 @@ Kích hoạt ngay trong luồng cập nhật tồn kho: admin nhập lô → t�
 - **Nhận tin hàng tuần:** lưu email vào bảng `Subscriber` (kèm `unsubscribe_token`), **không xây bộ gửi định kỳ** — không ai vận hành nó thật.
 - **Đăng ký:** thiết kế viết *"check your inbox to confirm"*, hàm ý phải xác minh email mới dùng được tài khoản. Đó là cả một luồng. Đề xuất gửi **email chào mừng** và **không khoá tài khoản**, đồng thời sửa lại câu chữ.
 
+### 6.11 Badge sản phẩm
+
+Thiết kế ghi rõ: *"Every product carries exactly one badge; CORE is the muted default status."* Badge **không lưu trong database và không ai gán tay** — tính lúc hiển thị từ dữ liệu có sẵn.
+
+**Thứ tự ưu tiên** — badge đầu tiên thoả điều kiện là badge hiển thị:
+
+| # | Badge | Điều kiện | Màu |
+|---|---|---|---|
+| 1 | `Out of stock` | Mọi variant có `stock = 0` | Nền tối |
+| 2 | `Low stock` | Có variant `stock` trong khoảng 1–5 | Nền tối |
+| 3 | `Sale` | Cờ `on_sale = true` | Nền cam |
+| 4 | `Restocked` | `restocked_at` trong **14 ngày** gần nhất | Nền cam |
+| 5 | `Best seller` | Nằm trong **top 5 số lượng bán tháng hiện tại** | Nền cam |
+| 6 | `New` | `created_at` trong **30 ngày** gần nhất | Nền cam |
+| 7 | `Core` | Không điều kiện nào ở trên | Mờ, viền mỏng |
+
+**Ngoại lệ theo trang** — thiết kế tự ghi lý do:
+
+- Trang **New Arrivals**: `New` tụt xuống ngay trên `Core` — *"the page context already says new"*
+- Trang **Sale**: `Sale` tụt xuống ngay trên `Core` — *"the page context already says everything is reduced"*
+
+**Hai badge cần dữ liệu phụ trợ:**
+
+`Restocked` — thêm trường `Product.restocked_at`. Đặt khi một lô được gắn vào variant của sản phẩm đang **hết hàng hoàn toàn** (tổng `stock = 0` trước khi gắn). Không có mốc thời gian thì badge này dính vĩnh viễn — 14 ngày là đề xuất, chỉnh được.
+
+`Best seller` — cùng truy vấn với khối *Top selling* trong Dashboard: `SUM(OrderItem.qty)` theo sản phẩm, chỉ đơn `completed`, gom theo tháng dương lịch hiện tại, lấy 5. Tính lúc đọc; nếu chậm thì cache theo ngày.
+
+**Không thuộc quy tắc này:**
+
+- `Not listed yet` · `Partially listed` · `Fully listed` — trạng thái liên kết lô ↔ variant trong Storage, chỉ admin thấy
+- `Drop 04` · `Drop 03` — nhãn bộ sưu tập trên Product Detail, là dữ liệu mô tả, không phải trạng thái. Nếu giữ thì thêm `Product.collection` dạng text; nếu không thì bỏ
+
+> **Về `on_sale` và `sale_price`:** đã chốt dùng cờ `on_sale` riêng. Ràng buộc đi kèm để hai trường không lệch nhau: `on_sale = true` **bắt buộc** `sale_price` khác rỗng và nhỏ hơn `price` — kiểm tra ở tầng service khi lưu sản phẩm. Trang Sale và badge đều đọc `on_sale`, không đọc `sale_price`.
+
+### 6.12 Tag
+
+Bốn khái niệm hay bị trộn vào nhau — tách rõ:
+
+| Khái niệm | Bản chất | Ai tạo | Lưu ở đâu |
+|---|---|---|---|
+| **Category** | Phân loại cố định, 4 mục | Không ai — seed sẵn | `Category` |
+| **Size** | Từ vựng theo danh mục | Admin, tab Sizes | `SizeOption` |
+| **Badge** | Trạng thái **tính ra** lúc hiển thị | Không ai — hệ thống tính | Không lưu ([mục 6.11](#611-badge-sản-phẩm)) |
+| **Tag** | Nhãn mô tả **tự do** | Admin gõ tay khi thêm/sửa sản phẩm | `Tag` + `ProductTag` |
+
+**Tag là gì sau khi tách Size và Badge ra:** chủ yếu nhóm đối tượng và phong cách — `Men`, `Women`, `Unisex`, `Limited`, `Organic cotton`, `Waterproof`, `Heavyweight`. Không có danh sách đóng.
+
+**Cách nhập:** ô *"Type a tag, press Enter…"* trong form sản phẩm. Gõ chữ thì autocomplete gợi ý tag đã tồn tại; gõ tag mới rồi Enter thì tạo bản ghi `Tag` mới. Quan hệ nhiều-nhiều qua `ProductTag`.
+
+**Hai nơi dùng tag, hai cách khác nhau:**
+
+| Nơi | Cách dùng |
+|---|---|
+| **Homepage — khối "Shop by"** | **4 ô cố định** trong code: `Men`, `Women`, `Unisex`, `New Arrivals`. Tên và ảnh chọn tay. Chỉ **số lượng** (`52 styles`) là truy vấn động. Ba ô đầu đếm theo tag; ô `New Arrivals` đếm theo badge `New` — không phải tag |
+| **Shop Listing — bộ lọc "Details"** | Liệt kê **toàn bộ** tag trong database, hoàn toàn động. Admin thêm tag mới là tự xuất hiện, không sửa code |
+
+> Bộ lọc `TAGS` trong thiết kế Shop Listing còn lẫn `New`, `Restocked`, `Best Seller` — đó là badge. Trong app thật, bộ lọc Details chỉ hiện tag; muốn lọc "hàng mới" hay "giảm giá" thì đã có trang New Arrivals và Sale.
+
 ## 6b. Trang nội dung tĩnh
 
 Footer đang trỏ tới **10 trang chưa tồn tại**. Chúng không ngang giá trị nhau:
@@ -576,6 +639,8 @@ Ghi rõ để tránh hiểu nhầm khi chấm bài:
 | 13 | **Mã giảm giá** | Không làm. Gỡ ô Promo và dòng Discount khỏi thiết kế giỏ hàng |
 
 | 14 | **Công cụ** | Next.js + TypeScript + Prisma + PostgreSQL + Cloudinary + Nodemailer. Xem [mục 11](#11-công-cụ) |
+| 15 | **Badge sản phẩm** | Mỗi sản phẩm đúng một badge, **tính tự động** theo thứ tự ưu tiên, không ai gán tay. `Restocked` qua `restocked_at`, `Best seller` là top 5 bán chạy tháng hiện tại. Xem [mục 6.11](#611-badge-sản-phẩm) |
+| 16 | **Tag** | Nhãn tự do, admin gõ tay có autocomplete, bảng `Tag` + `ProductTag`. **Tách hẳn khỏi Category, Size và Badge.** Xem [mục 6.12](#612-tag) |
 
 ### Còn treo
 
@@ -707,3 +772,5 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-13 | Thêm mục 6.9: ảnh sản phẩm lưu **ngoài** database, bảng `ProductImage` chỉ giữ đường dẫn. Upload ảnh vào phạm vi (trước đây liệt kê ngoài phạm vi) |
 | 2026-09-13 | Thêm mục 6.10: **gửi email vào phạm vi** (trước ghi ngoài phạm vi). Nodemailer + SMTP Gmail. Bảng `PasswordResetToken` với token băm, hết hạn 30 phút, dùng một lần. Còn treo: báo hàng về theo sản phẩm hay theo size |
 | 2026-09-13 | **Chốt quyết định 14 — công cụ.** Viết lại mục 11, thêm mục 12 (lộ trình 6 tuần). SPEC hoàn tất, sẵn sàng code |
+| 2026-09-16 | **Chốt quyết định 15 — badge.** Thêm mục 6.11: quy tắc ưu tiên 7 bậc, mọi badge tính tự động. Thêm `Product.restocked_at`. Đây là quy tắc thiết kế đã có sẵn mà SPEC bỏ sót |
+| 2026-09-16 | **Chốt quyết định 16 — tag.** `tags[]` thành bảng `Tag` + `ProductTag`. Bỏ 5 badge khỏi danh sách tag. Thêm mục 6.12 với bảng tách 4 khái niệm Category / Size / Badge / Tag. Badge `Sale` đọc cờ `on_sale` thay vì `sale_price` |
