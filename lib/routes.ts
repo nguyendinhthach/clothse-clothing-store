@@ -23,6 +23,7 @@ export const routes = {
   },
   product: (id: number | string) => `/products/${id}`,
   bag: (tab: BagTab = "bag") => (tab === "bag" ? "/bag" : `/bag?tab=${tab}`),
+  checkout: "/checkout",
   favourites: "/favourites",
   account: (tab: AccountTab = "profile") => (tab === "profile" ? "/account" : `/account?tab=${tab}`),
   signIn: "/sign-in",
