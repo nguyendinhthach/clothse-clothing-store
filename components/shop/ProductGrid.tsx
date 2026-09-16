@@ -1,0 +1,43 @@
+import Link from "next/link";
+import { PAGE_SIZE } from "@/lib/catalog-constants";
+import type { Listing } from "@/lib/services/catalog";
+import { buildShopQuery, type ShopParams } from "@/lib/shop-params";
+import { ProductCard } from "@/components/product/ProductCard";
+import styles from "./shop.module.css";
+
+interface Props {
+  basePath: string;
+  params: ShopParams;
+  listing: Listing;
+  favouriteIds: Set<number> | null; // null = guest
+  emptyTitle?: string;
+  emptyHint?: string;
+}
+
+export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitle = "Nothing in that range", emptyHint = "Widen the price filter or drop a category." }: Props) {
+  if (listing.total === 0) {
+    return (
+      <div className={styles.empty}>
+        <h3 className={styles.emptyTitle}>{emptyTitle}</h3>
+        <p className={styles.emptyHint}>{emptyHint}</p>
+        <Link href={basePath} className={styles.emptyBtn}>Clear filters</Link>
+      </div>
+    );
+  }
+  return (
+    <>
+      <div className={styles.grid}>
+        {listing.items.map((p) => (
+          <ProductCard key={p.id} product={p} variant="grid" favourite={favouriteIds ? favouriteIds.has(p.id) : null} />
+        ))}
+      </div>
+      {listing.shown < listing.total && (
+        <div className={styles.more}>
+          <Link href={basePath + buildShopQuery({ ...params, show: listing.shown + PAGE_SIZE })} scroll={false} className={styles.moreBtn}>
+            Load more
+          </Link>
+        </div>
+      )}
+    </>
+  );
+}

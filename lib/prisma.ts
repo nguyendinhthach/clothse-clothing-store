@@ -6,7 +6,10 @@ import { PrismaPg } from "@prisma/adapter-pg";
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
 function createClient() {
-  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
+  // Short idle timeout: local `prisma dev` (and serverless Postgres) drop idle
+  // connections server-side; letting pg recycle them first avoids
+  // "Server has closed the connection" on the next query.
+  const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL, max: 10, idleTimeoutMillis: 5_000 });
   return new PrismaClient({ adapter });
 }
 

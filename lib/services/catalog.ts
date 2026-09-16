@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { BEST_SELLER_TOP, NEW_WINDOW_DAYS, computeBadge, type Badge, type BadgeContext } from "@/lib/badges";
 import type { Prisma } from "@/lib/generated/prisma/client";
+import { PAGE_SIZE, PRICE_MAX, PRICE_MIN, type SortKey } from "@/lib/catalog-constants";
 
 /** Product count per category, in the fixed display order (SPEC §5). */
 export async function getCategoryCounts() {
@@ -163,4 +164,73 @@ export async function getMaxSalePercent(): Promise<number> {
     if (pct > max) max = pct;
   }
   return Math.floor(max / 5) * 5;
+}
+
+// ─── Listing (Shop / New Arrivals / Sale) ─────────────────────────────────────
+
+
+export interface ListingQuery {
+  cats?: string[];
+  tags?: string[];
+  brands?: string[];
+  min?: number;
+  max?: number;
+  q?: string;
+  sort?: SortKey;
+  /** Page scope: only products on sale, or only "New" ones (created in the last 30 days). */
+  scope?: "all" | "sale" | "new";
+  context?: BadgeContext;
+  /** How many to return (load-more grows this). */
+  show?: number;
+}
+
+export interface Listing {
+  items: ProductCardData[];
+  total: number;
+  shown: number;
+}
+
+const effectivePrice = (p: ProductCardData) => (p.onSale && p.salePrice != null ? p.salePrice : p.price);
+
+export async function listProducts(query: ListingQuery, now = new Date()): Promise<Listing> {
+  const where: Prisma.ProductWhereInput = {};
+  if (query.cats?.length) where.category = { name: { in: query.cats } };
+  if (query.brands?.length) where.brand = { name: { in: query.brands } };
+  if (query.tags?.length) where.tags = { some: { tag: { name: { in: query.tags } } } };
+  if (query.q) where.OR = [{ name: { contains: query.q, mode: "insensitive" } }, { brand: { name: { contains: query.q, mode: "insensitive" } } }];
+  if (query.scope === "sale") where.onSale = true;
+  if (query.scope === "new") where.createdAt = { gte: new Date(now.getTime() - NEW_WINDOW_DAYS * 86_400_000) };
+
+  const [rows, best] = await Promise.all([prisma.product.findMany({ where, include: cardInclude }), getBestSellerIds(now)]);
+  let items = rows.map((p) => toCard(p, best, query.context ?? "default", now));
+
+  // Price filters use the price the customer pays, so they run after the sale price is known.
+  const min = query.min ?? PRICE_MIN;
+  const max = query.max ?? PRICE_MAX;
+  items = items.filter((p) => effectivePrice(p) >= min && (max >= PRICE_MAX || effectivePrice(p) <= max));
+
+  const sort = query.sort ?? "new";
+  if (sort === "asc") items.sort((a, b) => effectivePrice(a) - effectivePrice(b));
+  else if (sort === "desc") items.sort((a, b) => effectivePrice(b) - effectivePrice(a));
+  else {
+    const created = new Map(rows.map((r) => [r.id, r.createdAt.getTime()]));
+    items.sort((a, b) => created.get(b.id)! - created.get(a.id)!);
+  }
+
+  const show = Math.max(PAGE_SIZE, query.show ?? PAGE_SIZE);
+  return { items: items.slice(0, show), total: items.length, shown: Math.min(show, items.length) };
+}
+
+/** Sidebar vocab: categories, every tag in the database (SPEC §6.12), brands with product counts. */
+export async function getFilterFacets() {
+  const [categories, tags, brands] = await Promise.all([
+    prisma.category.findMany({ orderBy: { id: "asc" }, select: { name: true } }),
+    prisma.tag.findMany({ orderBy: { name: "asc" }, select: { name: true } }),
+    prisma.brand.findMany({ orderBy: { name: "asc" }, select: { name: true, _count: { select: { products: true } } } }),
+  ]);
+  return {
+    categories: categories.map((c) => c.name),
+    tags: tags.map((t) => t.name),
+    brands: brands.map((b) => ({ name: b.name, count: b._count.products })),
+  };
 }

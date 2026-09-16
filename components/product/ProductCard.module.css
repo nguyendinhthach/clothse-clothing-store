@@ -16,6 +16,11 @@
   overflow: hidden;
   border-bottom: 1px solid var(--ink);
 }
+.heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
 .tall { aspect-ratio: 4 / 5; }
 .square { aspect-ratio: 1 / 1; }
 
@@ -64,8 +69,8 @@
   transform: translateY(0);
 }
 
-/* Square: the CTA itself slides up on hover */
-.squareCta {
+/* Square / grid: the CTA itself slides up on hover */
+.revealCta {
   position: absolute;
   left: 10px;
   right: 10px;
@@ -83,11 +88,11 @@
   transform: translateY(10px);
   transition: opacity 220ms ease-out, transform 240ms var(--ease-pop), box-shadow 180ms ease-out;
 }
-.card:hover .squareCta {
+.card:hover .revealCta {
   opacity: 1;
   transform: translateY(0);
 }
-.squareCta:hover { box-shadow: 3px 3px 0 var(--ink); }
+.revealCta:hover { box-shadow: 3px 3px 0 var(--ink); }
 
 .body {
   padding: 14px;
@@ -96,8 +101,11 @@
   gap: 10px;
   flex: 1;
 }
-.bodySquare {
+.bodyCompact {
   padding: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .row {
@@ -113,7 +121,7 @@
   font-weight: 700;
   letter-spacing: -0.01em;
 }
-.bodySquare .name { font-size: 14px; }
+.bodyCompact .name { font-size: 14px; }
 
 .price {
   font-family: var(--font-mono);

@@ -1,0 +1,17 @@
+.btn {
+  border: 1px solid var(--ink);
+  background: rgba(237, 235, 242, 0.9);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  transition: transform 180ms var(--ease-pop), background-color 180ms ease-out, color 180ms ease-out;
+}
+.btn:hover { transform: scale(1.1); }
+.btn:active { transform: scale(0.94); }
+.btn:disabled { cursor: wait; }
+.on {
+  background: var(--orange);
+  color: var(--paper);
+}
