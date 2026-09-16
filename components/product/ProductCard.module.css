@@ -1,0 +1,165 @@
+.card {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  transition: transform 240ms var(--ease-pop), box-shadow 240ms ease-out;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+.media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-bottom: 1px solid var(--ink);
+}
+.tall { aspect-ratio: 4 / 5; }
+.square { aspect-ratio: 1 / 1; }
+
+.zoom {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: transform 420ms var(--ease-pop);
+}
+.card:hover .zoom { transform: scale(1.06); }
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+/* Tall: in-stock sizes slide up on hover */
+.sizes {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  text-align: center;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 240ms ease-out, transform 240ms var(--ease-pop);
+  pointer-events: none;
+}
+.card:hover .sizes {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Square: the CTA itself slides up on hover */
+.squareCta {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid var(--ink);
+  background: var(--accent);
+  color: var(--paper);
+  font-family: var(--font-serif);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 220ms ease-out, transform 240ms var(--ease-pop), box-shadow 180ms ease-out;
+}
+.card:hover .squareCta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.squareCta:hover { box-shadow: 3px 3px 0 var(--ink); }
+
+.body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+.bodySquare {
+  padding: 13px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.bodySquare .name { font-size: 14px; }
+
+.price {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+.was {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.meta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cta {
+  margin-top: auto;
+  padding: 12px;
+  border: 1px solid var(--ink);
+  text-align: center;
+  background-color: transparent;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background-size 280ms var(--ease-pop), color 220ms ease-out, transform 180ms var(--ease-pop), box-shadow 180ms ease-out;
+}
+.cta:hover {
+  background-size: 100% 100%;
+  color: var(--paper);
+  transform: scale(1.03);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+.cta:active {
+  transform: scale(0.97);
+  box-shadow: none;
+}

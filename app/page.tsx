@@ -1,8 +1,29 @@
-export default function HomePage() {
+import { Hero } from "@/components/home/Hero";
+import { Marquee } from "@/components/home/Marquee";
+import { ShopBy } from "@/components/home/ShopBy";
+import { ArrivalsScroller } from "@/components/home/ArrivalsScroller";
+import { SaleBanner } from "@/components/home/SaleBanner";
+import { BestSellers } from "@/components/home/BestSellers";
+import { Newsletter } from "@/components/home/Newsletter";
+import { getBestSellers, getMaxSalePercent, getNewArrivals, getShopByCounts } from "@/lib/services/catalog";
+
+export default async function HomePage() {
+  const [tiles, arrivals, best, maxPercent] = await Promise.all([
+    getShopByCounts(),
+    getNewArrivals(8),
+    getBestSellers(4),
+    getMaxSalePercent(),
+  ]);
+
   return (
-    <div className="container" style={{ paddingBlock: 80, minHeight: "60vh" }}>
-      <h1 style={{ fontFamily: "var(--font-serif)", fontSize: 48, margin: 0, textTransform: "uppercase" }}>Homepage</h1>
-      <p style={{ color: "var(--muted)" }}>Layout is in place. The real homepage is the next step.</p>
-    </div>
+    <>
+      <Hero />
+      <Marquee />
+      <ShopBy tiles={tiles} />
+      <ArrivalsScroller products={arrivals} />
+      <SaleBanner maxPercent={maxPercent} />
+      <BestSellers products={best} />
+      <Newsletter />
+    </>
   );
 }

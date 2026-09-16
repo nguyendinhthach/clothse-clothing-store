@@ -1,0 +1,16 @@
+.ph {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(135deg, #e1deea 0 10px, #d3cfe0 10px 20px);
+  display: grid;
+  place-items: center;
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  padding: 0 12px;
+}

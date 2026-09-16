@@ -13,9 +13,10 @@ export const routes = {
   home: "/",
   newArrivals: "/new-arrivals",
   sale: "/sale",
-  shop: (opts: { cat?: CategoryName | string; q?: string } = {}) => {
+  shop: (opts: { cat?: CategoryName | string; tag?: string; q?: string } = {}) => {
     const p = new URLSearchParams();
     if (opts.cat) p.set("cat", opts.cat);
+    if (opts.tag) p.set("tag", opts.tag);
     if (opts.q) p.set("q", opts.q);
     const qs = p.toString();
     return qs ? `/shop?${qs}` : "/shop";

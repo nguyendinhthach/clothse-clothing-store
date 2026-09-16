@@ -10,6 +10,9 @@ const sans = Space_Grotesk({ subsets: ["latin"], weight: ["400", "500", "700"], 
 const serif = Instrument_Serif({ subsets: ["latin"], weight: "400", style: ["normal", "italic"], variable: "--font-instrument-serif" });
 const mono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-jetbrains-mono" });
 
+// The whole store is live, per-user data (cart, session, stock) — never prerender.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: { default: "ClothSE", template: "%s · ClothSE" },
   description: "Curated streetwear from the brands you love, all in one place.",
