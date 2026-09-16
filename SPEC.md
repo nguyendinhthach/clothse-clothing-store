@@ -2,9 +2,9 @@
 
 Bài tập nhóm — website bán quần áo streetwear đa thương hiệu, có trang quản trị.
 
-**Trạng thái:** thiết kế đã rà soát sạch (19 trang, 0 lỗi), 16 quyết định chốt ở [mục 9](#9-quyết-định), công cụ chốt ở [mục 11](#11-công-cụ), lộ trình 6 tuần ở [mục 12](#12-lộ-trình-6-tuần). Sẵn sàng bắt đầu code.
+**Trạng thái:** thiết kế đã rà soát sạch (19 trang, 0 lỗi), 17 quyết định chốt ở [mục 9](#9-quyết-định), công cụ chốt ở [mục 11](#11-công-cụ), lộ trình 6 tuần ở [mục 12](#12-lộ-trình-6-tuần). Sẵn sàng bắt đầu code.
 
-Còn treo duy nhất: **báo hàng về theo sản phẩm hay theo size** ([mục 6.10](#610-gửi-email)).
+Không còn quyết định treo.
 
 ---
 
@@ -110,6 +110,9 @@ Thứ tự tab trong thiết kế: Dashboard · Revenue · Brands · **Sizes** �
 ```
 User            id, email, password_hash, name, phone, role, created_at
 Address         id, user_id, label, name, phone, line, city, is_default
+PasswordResetToken
+                id, user_id, token_hash, expires_at, used_at, created_at
+                                                     ← xem mục 6.10
 
 Brand           id, name
 Category        id, name                             ← cố định 4 mục, không CRUD
@@ -152,8 +155,15 @@ OrderItem       id, order_id, variant_id, qty, unit_price, unit_cogs
                                                        ← xem mục 6.4
 
 CartItem        id, user_id, variant_id, qty
-Favourite       id, user_id, product_id
+Favourite       id, user_id, product_id, notify, created_at
+                                                     ← theo sản phẩm (quyết định 17);
+                                                        notify = bật email
+                                                        restock/sale, xem mục 6.10
+Subscriber      id, email, unsubscribe_token, created_at
+                                                     ← đăng ký bản tin, xem mục 6.10
 ```
+
+Bản cài đặt thực tế là `prisma/schema.prisma`. Tên trường ở đó viết camelCase (`password_hash` → `passwordHash`), enum viết HOA (`pending` → `PENDING`), `Batch.category` là khoá ngoại `category_id`; ngoài ra một-một với bảng trên. Khi hai bên lệch nhau, sửa SPEC trước rồi mới sửa schema.
 
 ### Giá trị cố định
 
@@ -505,7 +515,7 @@ Trang `Reset Password` nhận token qua URL: `Reset Password?token=...`
 
 Thiết kế lưu `notify: { f2: true, f6: false }` — khoá theo **sản phẩm**. Nhưng FAQ lại viết *"we will email you once your **size** is back in stock"* — hàm ý theo **size**.
 
-→ Đề xuất: **theo sản phẩm**, đúng như giao diện đang làm (Favourites không có chỗ chọn size). Gửi email khi sản phẩm có bất kỳ size nào từ hết hàng trở lại còn hàng. Sửa lại câu trong FAQ cho khớp.
+→ **Chốt: theo sản phẩm** (quyết định 17). Khớp giao diện — nút tim trên thẻ sản phẩm không có chỗ chọn size. Gửi email khi sản phẩm có bất kỳ size nào từ hết hàng trở lại còn hàng, **liệt kê các size vừa về** trong email để giảm nhiễu. Báo sale luôn theo sản phẩm vì `on_sale` nằm trên Product. Sửa lại câu trong FAQ cho khớp.
 
 Kích hoạt ngay trong luồng cập nhật tồn kho: admin nhập lô → tồn kho từ 0 lên >0 → gửi cho những ai đã bật. Ở quy mô này không cần hàng đợi hay cron.
 
@@ -641,10 +651,11 @@ Ghi rõ để tránh hiểu nhầm khi chấm bài:
 | 14 | **Công cụ** | Next.js + TypeScript + Prisma + PostgreSQL + Cloudinary + Nodemailer. Xem [mục 11](#11-công-cụ) |
 | 15 | **Badge sản phẩm** | Mỗi sản phẩm đúng một badge, **tính tự động** theo thứ tự ưu tiên, không ai gán tay. `Restocked` qua `restocked_at`, `Best seller` là top 5 bán chạy tháng hiện tại. Xem [mục 6.11](#611-badge-sản-phẩm) |
 | 16 | **Tag** | Nhãn tự do, admin gõ tay có autocomplete, bảng `Tag` + `ProductTag`. **Tách hẳn khỏi Category, Size và Badge.** Xem [mục 6.12](#612-tag) |
+| 17 | **Favourite** | Theo **sản phẩm**, không theo size. Báo restock khi bất kỳ size nào về, email liệt kê size. Xem [mục 6.10](#610-gửi-email) |
 
 ### Còn treo
 
-1. **Báo hàng về theo sản phẩm hay theo size.** Xem [mục 6.10](#610-gửi-email).
+Không còn.
 
 ### Việc cần làm trên canvas
 
@@ -774,3 +785,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-13 | **Chốt quyết định 14 — công cụ.** Viết lại mục 11, thêm mục 12 (lộ trình 6 tuần). SPEC hoàn tất, sẵn sàng code |
 | 2026-09-16 | **Chốt quyết định 15 — badge.** Thêm mục 6.11: quy tắc ưu tiên 7 bậc, mọi badge tính tự động. Thêm `Product.restocked_at`. Đây là quy tắc thiết kế đã có sẵn mà SPEC bỏ sót |
 | 2026-09-16 | **Chốt quyết định 16 — tag.** `tags[]` thành bảng `Tag` + `ProductTag`. Bỏ 5 badge khỏi danh sách tag. Thêm mục 6.12 với bảng tách 4 khái niệm Category / Size / Badge / Tag. Badge `Sale` đọc cờ `on_sale` thay vì `sale_price` |
+| 2026-09-16 | **Chốt quyết định 17 — Favourite theo sản phẩm.** Không còn quyết định treo. Bắt đầu viết Prisma schema |
