@@ -609,7 +609,14 @@ Chưa có trang nào được thiết kế trên canvas. Nếu làm, dùng lại
 
 **Mã đơn hàng.** Dạng `#CSE-4417` như thiết kế. Sinh tuần tự.
 
-**SKU.** Dạng `CSE-JKT-186` — tiền tố `CSE`, viết tắt loại hàng, số thứ tự.
+**SKU.** Dạng `CSE-JKT-186` — tiền tố `CSE`, viết tắt loại hàng, số thứ tự. Sinh tự động khi nhập/tạo sản phẩm, admin không gõ tay. Bộ viết tắt loại hàng là danh sách đóng (chỉ để đặt mã, **không** lưu thành trường riêng — danh mục vẫn là 4 `Category`):
+
+| Danh mục | Mã |
+|---|---|
+| Tops | TEE tee · SHR shirt · HDY hoodie · FLC fleece · JKT jacket |
+| Bottoms | PNT pant · JEN jean · SHT short |
+| Footwear | SNK sneaker · RUN runner · BOT boot · SDL sandal |
+| Accessories | CAP cap · BNE beanie · BAG bag · BLT belt · SCK sock · ACC other |
 
 **Ngày giờ.** Lưu UTC, hiển thị theo giờ Việt Nam.
 
@@ -790,4 +797,5 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-16 | **Chốt quyết định 15 — badge.** Thêm mục 6.11: quy tắc ưu tiên 7 bậc, mọi badge tính tự động. Thêm `Product.restocked_at`. Đây là quy tắc thiết kế đã có sẵn mà SPEC bỏ sót |
 | 2026-09-16 | **Chốt quyết định 16 — tag.** `tags[]` thành bảng `Tag` + `ProductTag`. Bỏ 5 badge khỏi danh sách tag. Thêm mục 6.12 với bảng tách 4 khái niệm Category / Size / Badge / Tag. Badge `Sale` đọc cờ `on_sale` thay vì `sale_price` |
 | 2026-09-16 | **Chốt quyết định 17 — Favourite theo sản phẩm.** Không còn quyết định treo. Bắt đầu viết Prisma schema |
+| 2026-09-17 | Mục 7: SKU sinh tự động, thêm bảng mã loại hàng (danh sách đóng, không lưu thành trường). Phục vụ thu thập dữ liệu sản phẩm theo nhóm |
 | 2026-09-16 | Tuần 0 gần xong: design đóng băng vào `design/`, Next.js 16 + Prisma 7, schema 17 bảng, 2 migration, seed 24 sản phẩm / 263 lô / 14 đơn / 2 tài khoản. Mục 5: `Batch` thêm `brand_id`, `size_option_id` (form nhập lô có Brand và Size, mục 6.5); thêm `PasswordResetToken`, `Subscriber`, `Favourite.notify`. Còn lại của tuần 0: deploy Vercel |
