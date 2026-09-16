@@ -1,0 +1,108 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: sticky;
+  top: 96px;
+}
+@media (max-width: 899px) {
+  .gallery { position: static; }
+}
+
+.main {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  border: 1px solid var(--ink);
+  overflow: hidden;
+}
+.swap {
+  position: absolute;
+  inset: 0;
+  display: block;
+  animation: swap 320ms var(--ease-pop) both;
+}
+@keyframes swap {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: none; }
+}
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+.counter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(237, 235, 242, 0.9);
+  border: 1px solid var(--ink);
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stripWrap { position: relative; }
+.strip {
+  display: grid;
+  grid-auto-flow: column;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  padding: 3px 0;
+}
+.strip::-webkit-scrollbar { height: 0; }
+.thumb {
+  position: relative;
+  padding: 0;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  overflow: hidden;
+  transition: outline-color 160ms ease-out, transform 160ms var(--ease-pop);
+}
+.thumb:hover { transform: translateY(-2px); }
+.thumbOn { outline-color: var(--accent); }
+
+.fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 46px;
+  pointer-events: none;
+}
+.fadeL {
+  left: 0;
+  background: linear-gradient(90deg, rgba(237, 235, 242, 0.95), rgba(237, 235, 242, 0));
+}
+.fadeR {
+  right: 0;
+  background: linear-gradient(270deg, rgba(237, 235, 242, 0.95), rgba(237, 235, 242, 0));
+}
+.stripBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--ink);
+  background: rgba(237, 235, 242, 0.95);
+  color: var(--ink);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.stripBtnL { left: 4px; }
+.stripBtnR { right: 4px; }

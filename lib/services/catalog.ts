@@ -234,3 +234,91 @@ export async function getFilterFacets() {
     brands: brands.map((b) => ({ name: b.name, count: b._count.products })),
   };
 }
+
+// ─── Product detail ───────────────────────────────────────────────────────────
+
+export interface DetailLine {
+  label: string;
+  value: string;
+}
+
+export interface ProductDetail extends ProductCardData {
+  sku: string;
+  description: string | null;
+  details: DetailLine[];
+  modelFitNote: string | null;
+  /** Size label → guide text (SPEC §6.6, phase 2 — may be empty). */
+  sizeGuide: Record<string, string>;
+  images: { url: string; alt: string | null }[];
+  /** Every variant, in size order, including sold-out ones (rendered disabled). */
+  sizes: { variantId: number; label: string; stock: number }[];
+}
+
+function asDetailLines(json: unknown): DetailLine[] {
+  if (!Array.isArray(json)) return [];
+  return json
+    .filter((d): d is { label: unknown; value: unknown } => !!d && typeof d === "object")
+    .map((d) => ({ label: String(d.label ?? ""), value: String(d.value ?? "") }))
+    .filter((d) => d.label && d.value);
+}
+
+function asSizeGuide(json: unknown): Record<string, string> {
+  if (!json || typeof json !== "object" || Array.isArray(json)) return {};
+  return Object.fromEntries(Object.entries(json as Record<string, unknown>).map(([k, v]) => [k, String(v)]));
+}
+
+export async function getProductDetail(id: number, now = new Date()): Promise<ProductDetail | null> {
+  if (!Number.isInteger(id) || id <= 0) return null;
+  const [p, best] = await Promise.all([
+    prisma.product.findUnique({
+      where: { id },
+      include: {
+        ...cardInclude,
+        images: { orderBy: { sortOrder: "asc" }, select: { url: true, alt: true } },
+        variants: {
+          select: { id: true, stock: true, sizeOption: { select: { label: true, sortOrder: true, active: true } } },
+        },
+      },
+    }),
+    getBestSellerIds(now),
+  ]);
+  if (!p) return null;
+  const card = toCard({ ...p, images: p.images.slice(0, 1) }, best, "default", now);
+  return {
+    ...card,
+    sku: p.sku,
+    description: p.description,
+    details: asDetailLines(p.details),
+    modelFitNote: p.modelFitNote,
+    sizeGuide: asSizeGuide(p.sizeGuide),
+    images: p.images,
+    sizes: p.variants
+      .filter((v) => v.sizeOption.active || v.stock > 0)
+      .sort((a, b) => a.sizeOption.sortOrder - b.sizeOption.sortOrder)
+      .map((v) => ({ variantId: v.id, label: v.sizeOption.label, stock: v.stock })),
+  };
+}
+
+/** "You may also like": same category first, then anything else, never the product itself. */
+export async function getRelatedProducts(product: { id: number; category: string }, limit = 4, now = new Date()): Promise<ProductCardData[]> {
+  const [same, best] = await Promise.all([
+    prisma.product.findMany({
+      where: { id: { not: product.id }, category: { name: product.category } },
+      orderBy: { createdAt: "desc" },
+      take: limit,
+      include: cardInclude,
+    }),
+    getBestSellerIds(now),
+  ]);
+  let rows = same;
+  if (rows.length < limit) {
+    const more = await prisma.product.findMany({
+      where: { id: { notIn: [product.id, ...rows.map((r) => r.id)] } },
+      orderBy: { createdAt: "desc" },
+      take: limit - rows.length,
+      include: cardInclude,
+    });
+    rows = [...rows, ...more];
+  }
+  return rows.map((p) => toCard(p, best, "default", now));
+}
