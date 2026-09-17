@@ -1,12 +1,15 @@
-import styles from "@/components/admin/admin.module.css";
+import type { Metadata } from "next";
+import { RevenuePanel } from "@/components/admin/RevenuePanel";
+import { getRevenue, resolveRange, type RangeKey } from "@/lib/services/admin/analytics";
 
-/** Placeholder — this tab is ported in a later step. */
-export default function RevenuePage() {
-  return (
-    <div className={styles.empty}>
-      <span className={styles.emptyTag}>Revenue</span>
-      <h3 className={styles.emptyTitle}>Coming next</h3>
-      <p className={styles.emptyBody}>This tab isn&apos;t built yet.</p>
-    </div>
-  );
+export const metadata: Metadata = { title: "Revenue" };
+
+const str = (v: unknown) => (typeof v === "string" ? v : "");
+
+export default async function AdminRevenuePage({ searchParams }: PageProps<"/admin/revenue">) {
+  const sp = await searchParams;
+  const key: RangeKey = sp.range === "week" || sp.range === "year" || sp.range === "custom" ? sp.range : "month";
+  const custom = { from: str(sp.from), to: str(sp.to) };
+  const data = await getRevenue(resolveRange(key, custom));
+  return <RevenuePanel data={data} custom={custom} />;
 }
