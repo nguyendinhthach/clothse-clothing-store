@@ -57,13 +57,24 @@
           <span>Free shipping over 1.000.000₫</span><span>30-day returns</span><span>Ships nationwide</span>
         </div>
       </div>
-      <a href="#new-arrivals" onMouseEnter="{{ heroEnter }}" onMouseLeave="{{ heroLeave }}" style="position: relative; aspect-ratio: 4 / 5; border: 1px solid #221B2E; overflow: hidden; display: block; transition: box-shadow 240ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1)" style-hover="box-shadow: 10px 10px 0 #221B2E; transform: translateY(-4px)">
-        <span style="position: absolute; inset: 0; background: repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px); display: grid; place-items: center; transform: {{ heroZoom }}; transition: transform 420ms cubic-bezier(.2,.7,.2,1)">
-          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">hero lifestyle shot</span>
-        </span>
-        <span style="position: absolute; inset: 0; background: {{ accent }}; opacity: {{ heroOverlay }}; mix-blend-mode: multiply; transition: opacity 300ms ease-out; pointer-events: none"></span>
-        <span style="position: absolute; bottom: 0; left: 0; background: #221B2E; color: #EDEBF2; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em">SS26 / LOOK 01</span>
-      </a>
+      <div onMouseEnter="{{ heroEnter }}" onMouseLeave="{{ heroLeave }}" style="position: relative; aspect-ratio: 4 / 5; border: 1px solid #221B2E; overflow: hidden; transition: box-shadow 240ms ease-out, transform 240ms cubic-bezier(.2,.7,.2,1)" style-hover="box-shadow: 10px 10px 0 #221B2E; transform: translateY(-4px)">
+        <a href="#new-arrivals" aria-label="Shop new arrivals" style="position: absolute; inset: 0; display: block">
+          <sc-for list="{{ heroSlides }}" as="s" hint-placeholder-count="1">
+            <span style="position: absolute; inset: 0; background: {{ s.bg }}; display: grid; place-items: center; opacity: {{ s.opacity }}; transform: {{ heroZoom }}; transition: opacity 720ms ease-in-out, transform 420ms cubic-bezier(.2,.7,.2,1)">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5F5775">{{ s.ph }}</span>
+            </span>
+          </sc-for>
+          <span style="position: absolute; inset: 0; background: {{ accent }}; opacity: {{ heroOverlay }}; mix-blend-mode: multiply; transition: opacity 300ms ease-out; pointer-events: none"></span>
+          <span style="position: absolute; bottom: 0; left: 0; background: #221B2E; color: #EDEBF2; padding: 12px 16px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em">{{ heroCaption }}</span>
+        </a>
+        <button onClick="{{ heroPrev }}" aria-label="Previous look" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid #221B2E; background: rgba(237,235,242,0.82); color: #221B2E; cursor: pointer; font-size: 14px; opacity: {{ heroArrowOpacity }}; transition: opacity 240ms ease-out, background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">←</button>
+        <button onClick="{{ heroNext }}" aria-label="Next look" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid #221B2E; background: rgba(237,235,242,0.82); color: #221B2E; cursor: pointer; font-size: 14px; opacity: {{ heroArrowOpacity }}; transition: opacity 240ms ease-out, background-color 180ms ease-out, color 180ms ease-out" style-hover="background: #221B2E; color: #EDEBF2">→</button>
+        <div style="position: absolute; bottom: 14px; right: 14px; display: flex; gap: 8px; align-items: center">
+          <sc-for list="{{ heroDots }}" as="d" hint-placeholder-count="4">
+            <button onClick="{{ d.onClick }}" aria-label="{{ d.label }}" style="width: 9px; height: 9px; padding: 0; border-radius: 999px; border: 1px solid #221B2E; background: {{ d.fill }}; cursor: pointer; transition: background-color 240ms ease-out, transform 200ms cubic-bezier(.2,.7,.2,1)" style-hover="transform: scale(1.35)"></button>
+          </sc-for>
+        </div>
+      </div>
     </section>
 
     <section style="border-block: 1px solid #221B2E; background: {{ accent }}; color: #EDEBF2; overflow: hidden; padding: 12px 0">
@@ -188,8 +199,29 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#6B5BFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#6B5BFF&quot;,&quot;#FF6A2B&quot;,&quot;#221B2E&quot;,&quot;#3AC8B0&quot;],&quot;section&quot;:&quot;Brand&quot;},&quot;cartCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:0,&quot;max&quot;:99,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Shop&quot;}}">
 class Component extends DCLogic {
-  state = { shopOpen: false, searchOpen: false, menuOpen: false, cart: null, width: 1440, subscribed: false, hover: null, cartKey: 0 };
+  state = { shopOpen: false, searchOpen: false, menuOpen: false, cart: null, width: 1440, subscribed: false, hover: null, cartKey: 0, heroIndex: 0, reduceMotion: false };
   scroller = React.createRef();
+
+  heroImages = [
+    { ph: 'hero lifestyle shot', bg: 'repeating-linear-gradient(135deg, #E1DEEA 0 10px, #D3CFE0 10px 20px)' },
+    { ph: 'street editorial shot', bg: 'repeating-linear-gradient(135deg, #DCD8E8 0 10px, #CBC6DC 10px 20px)' },
+    { ph: 'denim detail shot', bg: 'repeating-linear-gradient(135deg, #E4E1EC 0 10px, #D0CCDF 10px 20px)' },
+    { ph: 'outerwear studio shot', bg: 'repeating-linear-gradient(135deg, #D8D4E5 0 10px, #C6C1D8 10px 20px)' }
+  ];
+
+  heroGo(i) {
+    const n = this.heroImages.length;
+    this.setState({ heroIndex: ((i % n) + n) % n });
+    this.startHeroTimer();
+  }
+  startHeroTimer() {
+    clearInterval(this.heroTimer);
+    if (this.state.reduceMotion) return;
+    this.heroTimer = setInterval(() => {
+      if (this.state.hover === 'hero') return;
+      this.setState(s => ({ heroIndex: (s.heroIndex + 1) % this.heroImages.length }));
+    }, 4500);
+  }
 
   componentDidMount() {
     try { const raw = localStorage.getItem('clothse-user'); if (raw) this.setState({ user: JSON.parse(raw) }); } catch (e) {}
@@ -198,9 +230,17 @@ class Component extends DCLogic {
     window.addEventListener('resize', this.onResize);
     this.onDocClick = (e) => { if (!this.state.accountOpen) return; if (e.target.closest && e.target.closest('[data-account-menu]')) return; this.setState({ accountOpen: false }); };
     document.addEventListener('click', this.onDocClick);
+    try {
+      this.mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      this.onMq = () => this.setState({ reduceMotion: this.mq.matches }, () => this.startHeroTimer());
+      this.mq.addEventListener('change', this.onMq);
+      this.setState({ reduceMotion: this.mq.matches }, () => this.startHeroTimer());
+    } catch (e) { this.startHeroTimer(); }
   }
   componentWillUnmount() { window.removeEventListener('resize', this.onResize);
-    document.removeEventListener('click', this.onDocClick); }
+    document.removeEventListener('click', this.onDocClick);
+    clearInterval(this.heroTimer);
+    if (this.mq && this.onMq) this.mq.removeEventListener('change', this.onMq); }
 
   hoverProps(key) {
     return {
@@ -311,6 +351,16 @@ class Component extends DCLogic {
       heroLeave: () => this.setState(s => (s.hover === 'hero' ? { hover: null } : null)),
       heroZoom: heroOn ? 'scale(1.05)' : 'scale(1)',
       heroOverlay: heroOn ? 0.22 : 0,
+      heroSlides: this.heroImages.map((s, i) => ({ ...s, opacity: i === this.state.heroIndex ? 1 : 0 })),
+      heroCaption: 'SS26 / LOOK ' + String(this.state.heroIndex + 1).padStart(2, '0'),
+      heroDots: this.heroImages.map((s, i) => ({
+        label: 'Show look ' + (i + 1),
+        fill: i === this.state.heroIndex ? '#221B2E' : 'rgba(34,27,46,0.18)',
+        onClick: (e) => { e.preventDefault(); this.heroGo(i); }
+      })),
+      heroArrowOpacity: heroOn ? 1 : 0,
+      heroPrev: (e) => { e.preventDefault(); this.heroGo(this.state.heroIndex - 1); },
+      heroNext: (e) => { e.preventDefault(); this.heroGo(this.state.heroIndex + 1); },
       shopLinks: [
         { label: 'Tops', count: '48', delay: '40ms', href: 'Shop Listing.dc.html?cat=Tops' },
         { label: 'Bottoms', count: '31', delay: '80ms', href: 'Shop Listing.dc.html?cat=Bottoms' },

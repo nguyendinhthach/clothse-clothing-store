@@ -173,12 +173,65 @@
   box-shadow: 10px 10px 0 var(--ink);
   transform: translateY(-4px);
 }
-.heroZoom {
+.heroLink { position: absolute; inset: 0; display: block; }
+.heroSlide {
   position: absolute;
   inset: 0;
-  transition: transform 420ms var(--ease-pop);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  transition: opacity 720ms ease-in-out, transform 420ms var(--ease-pop);
 }
-.heroArt:hover .heroZoom { transform: scale(1.05); }
+.heroSlideOn { opacity: 1; }
+.heroArt:hover .heroSlide { transform: scale(1.05); }
+.heroImg { object-fit: cover; }
+.heroPh {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.heroArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--ink);
+  background: rgba(237, 235, 242, 0.82);
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 240ms ease-out, background-color 180ms ease-out, color 180ms ease-out;
+}
+.heroArrowLeft { left: 10px; }
+.heroArrowRight { right: 10px; }
+.heroArt:hover .heroArrow, .heroArrow:focus-visible { opacity: 1; }
+.heroArrow:hover { background: var(--ink); color: var(--paper); }
+.heroDots {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.heroDot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--ink);
+  background: rgba(34, 27, 46, 0.18);
+  cursor: pointer;
+  transition: background-color 240ms ease-out, transform 200ms var(--ease-pop);
+}
+.heroDot:hover { transform: scale(1.35); }
+.heroDotOn { background: var(--ink); }
 .heroTint {
   position: absolute;
   inset: 0;

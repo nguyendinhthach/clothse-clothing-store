@@ -2,8 +2,16 @@ import Link from "next/link";
 import { routes } from "@/lib/routes";
 import { formatVnd } from "@/lib/format";
 import { FREE_SHIPPING_OVER } from "@/lib/shipping";
-import { Placeholder } from "@/components/product/Placeholder";
+import { HeroCarousel, type HeroSlide } from "./HeroCarousel";
 import styles from "./home.module.css";
+
+// Four looks per the design; swap `src` in once the photography exists (public/images/hero-N.jpg).
+const SLIDES: HeroSlide[] = [
+  { label: "hero lifestyle shot", tint: ["#e1deea", "#d3cfe0"] },
+  { label: "street editorial shot", tint: ["#dcd8e8", "#cbc6dc"] },
+  { label: "denim detail shot", tint: ["#e4e1ec", "#d0ccdf"] },
+  { label: "outerwear studio shot", tint: ["#d8d4e5", "#c6c1d8"] },
+];
 
 export function Hero() {
   return (
@@ -34,13 +42,7 @@ export function Hero() {
           <span>Ships nationwide</span>
         </div>
       </div>
-      <Link href={routes.newArrivals} className={styles.heroArt} aria-label="See new arrivals">
-        <span className={styles.heroZoom}>
-          <Placeholder label="hero lifestyle shot" />
-        </span>
-        <span className={styles.heroTint} />
-        <span className={styles.heroTag}>SS26 / LOOK 01</span>
-      </Link>
+      <HeroCarousel slides={SLIDES} />
     </section>
   );
 }
