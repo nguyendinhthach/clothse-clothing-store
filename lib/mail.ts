@@ -10,6 +10,7 @@ export interface Mail {
   subject: string;
   text: string;
   html?: string;
+  replyTo?: string;
 }
 
 const user = process.env.SMTP_USER;
