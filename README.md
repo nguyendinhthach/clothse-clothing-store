@@ -30,9 +30,22 @@ Xem/sửa dữ liệu bằng giao diện: `npm run db:studio`.
 |---|---|
 | `npm run db:migrate` | Sau khi sửa `prisma/schema.prisma` — tạo migration mới và apply |
 | `npm run db:seed` | Nạp lại dữ liệu mẫu (chạy lại bao nhiêu lần cũng ra cùng số liệu) |
+| `npm run db:import -- <file.xlsx> <thư-mục-ảnh> --dry-run` | Nhập sản phẩm nhóm thu thập (xem mục dưới) |
 | `npx prisma migrate reset` | Xoá sạch DB, chạy lại mọi migration, seed lại |
 | `npm run lint` | ESLint |
 | `npx tsc --noEmit` | Kiểm tra type |
+
+## Nhập sản phẩm từ file của nhóm
+
+File `clothse-products.xlsx` (sheet `products`, `batches`) và thư mục ảnh `<thư-mục-ảnh>/<id>/` (ảnh đầu tiên theo tên file là ảnh bìa).
+
+```bash
+npm run db:import -- clothse-products.xlsx ./images --dry-run   # chỉ kiểm tra, in lỗi từng dòng
+npm run db:import -- clothse-products.xlsx ./images             # upload ảnh lên Cloudinary + ghi DB
+npm run db:import -- clothse-products.xlsx ./images --owner Thach   # chỉ nhập hàng của một người
+```
+
+Có lỗi ở bất kỳ dòng nào thì không ghi gì cả. Sản phẩm đã có (trùng hãng + tên) được bỏ qua nên chạy lại thoải mái.
 
 ## Deploy (Vercel + Neon)
 
