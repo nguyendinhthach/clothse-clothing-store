@@ -3,6 +3,8 @@ import { Prisma } from "@/lib/generated/prisma/client";
 import { computeBadge, type Badge } from "@/lib/badges";
 import { getBestSellerIds } from "@/lib/services/catalog";
 import { SKU_TYPES } from "@/lib/sku-codes";
+import { notifySale } from "@/lib/services/notify";
+import { getWarehouseAvailability } from "@/lib/services/admin/storage";
 
 export type ProductResult = { ok: true; id: number } | { ok: false; error: string };
 
@@ -105,6 +107,8 @@ export interface ProductFormData {
   sizeGuide: GuideRow[];
   modelFitNote: string;
   images: { url: string; alt: string }[];
+  /** Edit mode: unlinked warehouse units per size label for this brand + category. */
+  warehouse?: Record<string, number>;
 }
 
 export async function getProductFormVocab() {
@@ -159,6 +163,7 @@ export async function getProductForm(id: number): Promise<ProductFormData | null
     sizeGuide: asGuide(p.sizeGuide),
     modelFitNote: p.modelFitNote ?? "",
     images: p.images.map((i) => ({ url: i.url, alt: i.alt ?? "" })),
+    warehouse: await getWarehouseAvailability(p.id),
   };
 }
 
@@ -171,7 +176,7 @@ export async function nextSku(code: string): Promise<string> {
   return `CSE-${code}-${String(max + 1).padStart(3, "0")}`;
 }
 
-export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku"> & { sku?: string };
+export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse"> & { sku?: string };
 
 export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const name = input.name.trim();
@@ -210,6 +215,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
     modelFitNote: input.modelFitNote.trim() || null,
   };
 
+  let saleTurnedOn = false;
   try {
     const id = await prisma.$transaction(async (tx) => {
       // Tags: create any new names, then replace the join rows (SPEC §6.12 free-form)
@@ -217,8 +223,9 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
 
       let productId = input.id;
       if (productId) {
-        const existing = await tx.product.findUnique({ where: { id: productId }, select: { categoryId: true } });
+        const existing = await tx.product.findUnique({ where: { id: productId }, select: { categoryId: true, onSale: true } });
         if (!existing) throw new Error("NOT_FOUND");
+        saleTurnedOn = input.onSale && !existing.onSale;
         if (existing.categoryId !== category.id) {
           const withHistory = await tx.variant.count({ where: { productId, OR: [{ stock: { gt: 0 } }, { orderItems: { some: {} } }, { batches: { some: {} } }] } });
           if (withHistory > 0) throw new Error("CATEGORY_LOCKED");
@@ -248,6 +255,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
 
       return productId;
     });
+    if (saleTurnedOn) void notifySale(id); // SPEC §6.10 #3 — price-drop alert for Favourites with notify on
     return { ok: true, id };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "";

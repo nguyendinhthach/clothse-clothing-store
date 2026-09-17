@@ -257,3 +257,36 @@ export async function getIntakeVocab() {
     })),
   };
 }
+
+/** Units sitting unlinked in the warehouse per size label, for one product's brand + category (edit form "Restock from warehouse"). */
+export async function getWarehouseAvailability(productId: number): Promise<Record<string, number>> {
+  const p = await prisma.product.findUnique({ where: { id: productId }, select: { brandId: true, categoryId: true } });
+  if (!p) return {};
+  const rows = await prisma.batch.groupBy({
+    by: ["sizeOptionId"],
+    where: { variantId: null, qtyRemaining: { gt: 0 }, brandId: p.brandId, categoryId: p.categoryId },
+    _sum: { qtyRemaining: true },
+  });
+  if (rows.length === 0) return {};
+  const sizes = await prisma.sizeOption.findMany({ where: { id: { in: rows.map((r) => r.sizeOptionId) } }, select: { id: true, label: true } });
+  const label = new Map(sizes.map((s) => [s.id, s.label]));
+  return Object.fromEntries(rows.map((r) => [label.get(r.sizeOptionId)!, r._sum.qtyRemaining ?? 0]));
+}
+
+/** Pull `qty` units for a variant from the warehouse, oldest unlinked batch first (may span several batches). */
+export async function pullFromWarehouse(variantId: number, qty: number): Promise<StorageResult> {
+  const v = await prisma.variant.findUnique({ where: { id: variantId }, include: { product: { select: { brandId: true, categoryId: true } }, sizeOption: { select: { label: true } } } });
+  if (!v) return { ok: false, error: "Size not found." };
+  const batches = await getLinkableBatches({ brandId: v.product.brandId, categoryId: v.product.categoryId, sizeLabel: v.sizeOption.label });
+  const available = batches.reduce((s, b) => s + b.qtyRemaining, 0);
+  if (qty > available) return { ok: false, error: `Only ${available} × ${v.sizeOption.label} in the warehouse.` };
+  let left = qty;
+  for (const b of batches) {
+    if (left === 0) break;
+    const take = Math.min(left, b.qtyRemaining);
+    const r = await linkBatch(b.id, variantId, take);
+    if (!r.ok) return r;
+    left -= take;
+  }
+  return { ok: true };
+}

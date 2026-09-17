@@ -2,7 +2,9 @@
 
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
-import { discardImageAction, saveProductAction, uploadImageAction } from "@/lib/actions/admin-products";
+import { discardImageAction, saveProductAction, uploadImageAction, type WarehouseRow } from "@/lib/actions/admin-products";
+import { linkableBatchesAction } from "@/lib/actions/admin-storage";
+import { formatVnd } from "@/lib/format";
 import type { ProductFormData, ProductInput } from "@/lib/services/admin/products";
 import { skuTypesFor } from "@/lib/sku-codes";
 import styles from "./admin.module.css";
@@ -37,6 +39,34 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
   const editing = !!f.id;
   const category = vocab.categories.find((c) => c.id === f.categoryId) ?? vocab.categories[0];
   const categoryLocked = editing && f.lockedSizes.length > 0;
+
+  // ── warehouse (SPEC §6.5 step 3) ──
+  type SrcRow = { size: string; batchId: string; qty: string };
+  type Option = { id: number; label: string; qtyRemaining: number };
+  const [srcRows, setSrcRows] = useState<SrcRow[]>([]);
+  const [options, setOptions] = useState<Record<string, Option[]>>({}); // size → linkable batches
+  const [restock, setRestock] = useState<Record<string, string>>({}); // size → qty to pull (edit mode)
+  // Options depend on brand + category; when they change, drop the cache and the picked batches.
+  const optKey = `${f.brandId}|${f.categoryId}`;
+  const [seenKey, setSeenKey] = useState(optKey);
+  if (seenKey !== optKey) {
+    setSeenKey(optKey);
+    setOptions({});
+    setSrcRows((rows) => rows.map((r) => ({ ...r, batchId: "" })));
+  }
+  async function loadOptions(size: string) {
+    if (!f.brandId || options[size]) return;
+    const rows = await linkableBatchesAction({ brandId: f.brandId, categoryId: f.categoryId, sizeLabel: size });
+    setOptions((o) => ({
+      ...o,
+      [size]: rows.map((b) => ({
+        id: b.id,
+        qtyRemaining: b.qtyRemaining,
+        label: `${b.itemDescription ?? "Batch"} · ${new Date(b.receivedAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })} · ${b.qtyRemaining} left @ ${formatVnd(b.unitCost)}`,
+      })),
+    }));
+  }
+  const srcSummary = srcRows.filter((r) => r.batchId && Number(r.qty) > 0);
 
   // ── tags ──
   const [tagDraft, setTagDraft] = useState("");
@@ -98,8 +128,11 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
   function submit(e: React.FormEvent) {
     e.preventDefault();
     const input: ProductInput = { ...f, price: f.price === "" ? "" : Number(f.price), salePrice: f.salePrice === "" ? "" : Number(f.salePrice) };
+    const warehouse: WarehouseRow[] = editing
+      ? Object.entries(restock).filter(([, q]) => Number(q) > 0).map(([size, q]) => ({ size, qty: Number(q) }))
+      : srcRows.filter((r) => r.size && r.batchId && Number(r.qty) > 0).map((r) => ({ size: r.size, batchId: Number(r.batchId), qty: Number(r.qty) }));
     start(async () => {
-      const r = await saveProductAction(input);
+      const r = await saveProductAction(input, warehouse);
       if (!r.ok) { setError(r.error); return; }
       onClose();
       router.refresh();
@@ -144,6 +177,47 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
               </select>
               <span className={styles.hint}>SKU is generated on save (SPEC §7), e.g. CSE-HDY-007.</span>
             </label>
+          )}
+
+          {!editing && (
+            <div className={`${styles.fieldWide} ${styles.subBox}`}>
+              <span className={styles.fieldLabel}>Source from warehouse · one row per size</span>
+              <span className={styles.hint}>
+                {f.brandId
+                  ? `Unlinked batches of ${vocab.brands.find((b) => b.id === f.brandId)?.name} in ${category.name}. Each batch is single-size, so one row links one batch to one product size.`
+                  : "Pick a brand first to see what is waiting in the warehouse."}
+              </span>
+              {srcRows.map((r, i) => {
+                const opts = options[r.size] ?? [];
+                const chosen = opts.find((o) => String(o.id) === r.batchId);
+                return (
+                  <div key={i} className={styles.srcRow}>
+                    <label className={styles.field}>
+                      <span className={styles.fieldLabel}>Size</span>
+                      <select value={r.size} onChange={(e) => { const size = e.target.value; setSrcRows((rows) => rows.map((x, k) => (k === i ? { size, batchId: "", qty: "" } : x))); if (size) void loadOptions(size); }} className={`${styles.input} ${styles.inputSm}`}>
+                        <option value="">Size…</option>
+                        {category.sizes.map((sz) => <option key={sz} value={sz}>{sz}</option>)}
+                      </select>
+                    </label>
+                    <label className={styles.field}>
+                      <span className={styles.fieldLabel}>Source batch</span>
+                      <select value={r.batchId} disabled={!r.size} onChange={(e) => setSrcRows((rows) => rows.map((x, k) => (k === i ? { ...x, batchId: e.target.value, qty: opts.find((o) => String(o.id) === e.target.value)?.qtyRemaining.toString() ?? "" } : x)))} className={`${styles.input} ${styles.inputSm}`}>
+                        <option value="">{!r.size ? "Pick a size" : opts.length ? "Choose a batch…" : "No unlinked stock for this size"}</option>
+                        {opts.filter((o) => !srcRows.some((x, k) => k !== i && x.batchId === String(o.id))).map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
+                      </select>
+                    </label>
+                    <label className={styles.field}>
+                      <span className={styles.fieldLabel}>Qty to list</span>
+                      <input value={r.qty} disabled={!r.batchId} onChange={(e) => setSrcRows((rows) => rows.map((x, k) => (k === i ? { ...x, qty: e.target.value.replace(/\D/g, "") } : x)))} inputMode="numeric" placeholder="0" className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
+                    </label>
+                    <button type="button" onClick={() => setSrcRows((rows) => rows.filter((_, k) => k !== i))} aria-label="Remove row" className={styles.closeBtn}>✕</button>
+                    {chosen && Number(r.qty) > chosen.qtyRemaining && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Only {chosen.qtyRemaining} left in that batch.</span>}
+                  </div>
+                );
+              })}
+              <button type="button" disabled={!f.brandId} onClick={() => setSrcRows((rows) => [...rows, { size: "", batchId: "", qty: "" }])} className={styles.linkBtn}>+ Add a size from the warehouse</button>
+              {srcSummary.length > 0 && <span className={styles.hintBox}>{srcSummary.reduce((n, r) => n + Number(r.qty), 0)} units across {srcSummary.length} {srcSummary.length === 1 ? "size" : "sizes"} will be listed on save</span>}
+            </div>
           )}
 
           <label className={styles.field}>
@@ -201,6 +275,34 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
             )}
             <span className={styles.hint}>Men / Women / Unisex and descriptive labels. New, Sale, Best seller and Restocked are computed — don&apos;t add them (SPEC §6.12).</span>
           </div>
+
+          {editing && (
+            <div className={`${styles.fieldWide} ${styles.subBox}`}>
+              <span className={styles.fieldLabel}>Restock from warehouse · per size</span>
+              {f.sizes.length === 0 ? (
+                <span className={styles.hintBox}>No sizes on this product yet</span>
+              ) : (
+                f.sizes.map((size) => {
+                  const avail = f.warehouse?.[size] ?? 0;
+                  const q = Number(restock[size] ?? 0);
+                  return (
+                    <div key={size} className={styles.restockRow}>
+                      <span className={styles.restockSize}>
+                        <span className={styles.guideSize}>{size}</span>
+                        <span className={styles.hint}>{avail > 0 ? `${avail} unlinked in warehouse` : "Nothing unlinked for this size — receive stock in Storage first"}</span>
+                      </span>
+                      <label className={styles.field}>
+                        <span className={styles.fieldLabel}>Restock</span>
+                        <input value={restock[size] ?? ""} disabled={avail === 0} onChange={(e) => setRestock((r) => ({ ...r, [size]: e.target.value.replace(/\D/g, "") }))} inputMode="numeric" placeholder={avail > 0 ? `up to ${avail}` : "0"} className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
+                      </label>
+                      {q > avail && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Only {avail} available.</span>}
+                    </div>
+                  );
+                })
+              )}
+              <span className={styles.hint}>Pulls oldest batches first (FIFO). Units move from the warehouse onto this product on save.</span>
+            </div>
+          )}
 
           <div className={`${styles.fieldWide} ${styles.saleBox}`}>
             <button type="button" role="switch" aria-checked={f.onSale} onClick={() => set("onSale", !f.onSale)} className={`${styles.switch} ${f.onSale ? styles.switchOn : ""}`}>

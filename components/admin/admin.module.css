@@ -1221,3 +1221,25 @@
 }
 .deltaUp { color: var(--orange-ink); }
 .deltaDown { color: #2f7a4c; }
+
+.srcRow {
+  display: grid;
+  grid-template-columns: 120px minmax(200px, 2fr) 110px 34px;
+  gap: 10px;
+  align-items: end;
+}
+.srcRow .input { background: var(--paper); }
+.restockRow {
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  padding: 13px;
+  display: grid;
+  grid-template-columns: minmax(200px, 1fr) 150px;
+  gap: 11px 14px;
+  align-items: end;
+}
+.restockSize { display: flex; flex-direction: column; gap: 6px; }
+.restockSize .guideSize { align-self: start; }
+@media (max-width: 640px) {
+  .srcRow, .restockRow { grid-template-columns: 1fr; }
+}
