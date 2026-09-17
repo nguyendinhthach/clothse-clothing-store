@@ -263,9 +263,19 @@ function asDetailLines(json: unknown): DetailLine[] {
     .filter((d) => d.label && d.value);
 }
 
+/** { M: { chest, length, sleeve } } → { M: "Chest 56 · Length 70 · Sleeve 62 cm" }; plain strings pass through. */
 function asSizeGuide(json: unknown): Record<string, string> {
   if (!json || typeof json !== "object" || Array.isArray(json)) return {};
-  return Object.fromEntries(Object.entries(json as Record<string, unknown>).map(([k, v]) => [k, String(v)]));
+  return Object.fromEntries(
+    Object.entries(json as Record<string, unknown>).map(([k, v]) => {
+      if (v && typeof v === "object") {
+        const o = v as Record<string, unknown>;
+        const parts = [["Chest", o.chest], ["Length", o.length], ["Sleeve", o.sleeve]].filter(([, n]) => n).map(([l, n]) => `${l} ${n}`);
+        return [k, parts.length ? parts.join(" · ") + " cm" : ""];
+      }
+      return [k, String(v)];
+    }).filter(([, v]) => v),
+  );
 }
 
 export async function getProductDetail(id: number, now = new Date()): Promise<ProductDetail | null> {
