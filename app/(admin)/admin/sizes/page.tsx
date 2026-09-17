@@ -1,12 +1,9 @@
-import styles from "@/components/admin/admin.module.css";
+import type { Metadata } from "next";
+import { SizesPanel } from "@/components/admin/SizesPanel";
+import { listSizeGroups } from "@/lib/services/admin/vocab";
 
-/** Placeholder — this tab is ported in a later step. */
-export default function SizesPage() {
-  return (
-    <div className={styles.empty}>
-      <span className={styles.emptyTag}>Sizes</span>
-      <h3 className={styles.emptyTitle}>Coming next</h3>
-      <p className={styles.emptyBody}>This tab isn&apos;t built yet.</p>
-    </div>
-  );
+export const metadata: Metadata = { title: "Sizes" };
+
+export default async function AdminSizesPage() {
+  return <SizesPanel groups={await listSizeGroups()} />;
 }

@@ -1,12 +1,9 @@
-import styles from "@/components/admin/admin.module.css";
+import type { Metadata } from "next";
+import { BrandsPanel } from "@/components/admin/BrandsPanel";
+import { listBrands } from "@/lib/services/admin/vocab";
 
-/** Placeholder — this tab is ported in a later step. */
-export default function BrandsPage() {
-  return (
-    <div className={styles.empty}>
-      <span className={styles.emptyTag}>Brands</span>
-      <h3 className={styles.emptyTitle}>Coming next</h3>
-      <p className={styles.emptyBody}>This tab isn&apos;t built yet.</p>
-    </div>
-  );
+export const metadata: Metadata = { title: "Brands" };
+
+export default async function AdminBrandsPage() {
+  return <BrandsPanel brands={await listBrands()} />;
 }

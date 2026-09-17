@@ -451,3 +451,263 @@
   flex-direction: column;
   gap: 3px;
 }
+
+/* ── Panels (Brands / Sizes / …) ────────────────────────────── */
+
+.panelHead {
+  border: 1px solid var(--ink);
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: end;
+  justify-content: space-between;
+}
+.panelHint {
+  margin: 0;
+  max-width: 340px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.h2 {
+  margin: 0 0 5px;
+  font-family: var(--font-serif);
+  font-size: clamp(24px, 3vw, 34px);
+  text-transform: uppercase;
+  line-height: 1;
+}
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.brandCard {
+  border: 1px solid var(--ink);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform 200ms var(--ease-pop), box-shadow 200ms ease-out;
+}
+.brandCard:hover { transform: translateY(-3px); box-shadow: 7px 7px 0 rgba(34, 27, 46, 0.12); }
+.brandTop { display: flex; align-items: center; gap: 13px; }
+.brandTile {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 auto;
+  border: 1px solid var(--ink);
+  background: repeating-linear-gradient(135deg, #e1deea 0 8px, #d3cfe0 8px 16px);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  color: var(--muted);
+}
+.brandText { display: flex; flex-direction: column; gap: 4px; }
+.brandName {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.brandMeta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.btnRow { display: flex; gap: 6px; }
+.smallBtn {
+  padding: 9px 15px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: background-color 160ms ease-out, color 160ms ease-out;
+}
+.smallBtn:hover:not(:disabled) { background: var(--ink); color: var(--paper); }
+.smallBtnDanger:hover:not(:disabled) { background: var(--orange); border-color: var(--orange); }
+.smallBtn:disabled { opacity: 0.5; cursor: wait; }
+
+/* Modal */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(34, 27, 46, 0.55);
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: clamp(12px, 4vh, 48px) 16px;
+  overflow-y: auto;
+}
+.modal {
+  width: min(760px, 100%);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  box-shadow: 12px 12px 0 rgba(34, 27, 46, 0.35);
+  animation: fade-up 220ms var(--ease-pop) both;
+}
+.modalHead {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modalHead .h2 { margin: 0; }
+.modalBody {
+  padding: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+}
+.modalFoot {
+  padding: 14px 18px;
+  border-top: 1px solid var(--ink);
+  display: flex;
+  justify-content: end;
+  gap: 8px;
+}
+.closeBtn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  flex: 0 0 auto;
+  transition: background-color 180ms ease-out, color 180ms ease-out;
+}
+.closeBtn:hover { background: var(--ink); color: var(--paper); }
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.fieldWide { grid-column: 1 / -1; }
+.fieldLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.input {
+  height: 48px;
+  padding: 0 13px;
+  border: 1px solid var(--ink);
+  background: transparent;
+  font-size: 15px;
+  outline: none;
+  min-width: 0;
+  transition: box-shadow 180ms ease-out, border-color 180ms ease-out;
+}
+.input:focus { box-shadow: 3px 3px 0 var(--accent); border-color: var(--accent); }
+
+/* Sizes */
+.sizeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 12px;
+  align-items: start;
+}
+.sizeCard {
+  border: 1px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+.sizeCardHead {
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--ink);
+  background: #e3e0ea;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.sizeRow {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(34, 27, 46, 0.14);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--paper);
+  transition: background-color 160ms ease-out, opacity 160ms ease-out;
+}
+.sizeRowDrag { background: rgba(107, 91, 255, 0.12); }
+.sizeRowOff { opacity: 0.55; }
+.grip {
+  width: 22px;
+  flex: 0 0 auto;
+  cursor: grab;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #9993a8;
+  letter-spacing: -1px;
+}
+.ord {
+  width: 20px;
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #9993a8;
+}
+.sizeInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 34px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 160ms ease-out, background-color 160ms ease-out;
+}
+.sizeInput:hover { border-color: rgba(34, 27, 46, 0.3); }
+.sizeInput:focus { border-color: var(--accent); background: rgba(107, 91, 255, 0.06); }
+.sizeUse {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #9993a8;
+  min-width: 44px;
+  text-align: right;
+}
+.togglePill {
+  flex: 0 0 auto;
+  padding: 6px 10px;
+  border: 1px solid rgba(34, 27, 46, 0.35);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  min-width: 58px;
+  transition: background-color 160ms ease-out, color 160ms ease-out, border-color 160ms ease-out;
+}
+.togglePillOn { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.togglePill:disabled { cursor: wait; }
+.sizeCardFoot { padding: 11px 12px; }
+.addRow {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  animation: fade-up 180ms ease-out both;
+}
+.addRow .input { flex: 1 1 auto; height: 40px; }
+.addRow .primaryBtn { height: 40px; padding: 0 14px; }
+.addRow .closeBtn { width: 40px; height: 40px; }
