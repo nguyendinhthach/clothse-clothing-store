@@ -1,12 +1,15 @@
-import styles from "@/components/admin/admin.module.css";
+import type { Metadata } from "next";
+import { StoragePanel } from "@/components/admin/StoragePanel";
+import { getIntakeVocab, getStorageStats, listBatches, type StorageFilters } from "@/lib/services/admin/storage";
 
-/** Placeholder — this tab is ported in a later step. */
-export default function StoragePage() {
-  return (
-    <div className={styles.empty}>
-      <span className={styles.emptyTag}>Storage</span>
-      <h3 className={styles.emptyTitle}>Coming next</h3>
-      <p className={styles.emptyBody}>This tab isn&apos;t built yet.</p>
-    </div>
-  );
+export const metadata: Metadata = { title: "Storage" };
+
+export default async function AdminStoragePage({ searchParams }: PageProps<"/admin/storage">) {
+  const sp = await searchParams;
+  const filters: StorageFilters = {
+    brand: typeof sp.brand === "string" && sp.brand ? sp.brand : undefined,
+    status: sp.status === "unlinked" || sp.status === "linked" ? sp.status : undefined,
+  };
+  const [rows, stats, vocab] = await Promise.all([listBatches(filters), getStorageStats(), getIntakeVocab()]);
+  return <StoragePanel rows={rows} stats={stats} filters={filters} vocab={vocab} />;
 }
