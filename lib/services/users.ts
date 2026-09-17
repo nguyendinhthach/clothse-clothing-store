@@ -69,3 +69,29 @@ export async function resetPassword(token: string, password: string): Promise<Re
   ]);
   return { ok: true };
 }
+
+// ─── Account (profile + password) ─────────────────────────────────────────────
+
+export type AccountResult = { ok: true } | { ok: false; error: string };
+
+export async function updateProfile(userId: number, input: { name: string; email: string; phone: string }): Promise<AccountResult> {
+  const name = input.name.trim();
+  const email = normalizeEmail(input.email);
+  const phone = input.phone.trim();
+  if (!name) return { ok: false, error: "Enter your name." };
+  if (!isEmail(email)) return { ok: false, error: "Enter a valid email address." };
+  const clash = await prisma.user.findFirst({ where: { email, NOT: { id: userId } }, select: { id: true } });
+  if (clash) return { ok: false, error: "That email is already used by another account." };
+  await prisma.user.update({ where: { id: userId }, data: { name, email, phone: phone || null } });
+  return { ok: true };
+}
+
+export async function changePassword(userId: number, current: string, next: string, confirm: string): Promise<AccountResult> {
+  if (next.length < PASSWORD_MIN) return { ok: false, error: `New password must be at least ${PASSWORD_MIN} characters.` };
+  if (next !== confirm) return { ok: false, error: "New passwords don't match." };
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user || !(await compare(current, user.passwordHash))) return { ok: false, error: "Current password is incorrect." };
+  if (await compare(next, user.passwordHash)) return { ok: false, error: "New password must differ from the current one." };
+  await prisma.user.update({ where: { id: userId }, data: { passwordHash: await hash(next, 10) } });
+  return { ok: true };
+}
