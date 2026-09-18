@@ -581,7 +581,7 @@ Bốn khái niệm hay bị trộn vào nhau — tách rõ:
 
 | Nơi | Cách dùng |
 |---|---|
-| **Homepage — khối "Shop by"** | **4 ô cố định** trong code: `Men`, `Women`, `Unisex`, `New Arrivals`. Tên và ảnh chọn tay. Chỉ **số lượng** (`52 styles`) là truy vấn động. Ba ô đầu đếm theo tag; ô `New Arrivals` đếm theo badge `New` — không phải tag |
+| **Homepage — khối "Bắt đầu từ đây"** | **4 ô cố định** trong code: `Nam`, `Nữ`, `Unisex`, `Tất cả`. Tên và ảnh chọn tay. Chỉ **số lượng** (`52 mẫu`) là truy vấn động. Ba ô đầu đếm theo tag; ô `Tất cả` đếm toàn bộ sản phẩm và trỏ về Cửa hàng (đổi từ `New Arrivals` ngày 2026-09-18 vì khối Hàng mới nằm ngay dưới) |
 | **Shop Listing — bộ lọc "Details"** | Liệt kê **toàn bộ** tag trong database, hoàn toàn động. Admin thêm tag mới là tự xuất hiện, không sửa code |
 
 > Bộ lọc `TAGS` trong thiết kế Shop Listing còn lẫn `New`, `Restocked`, `Best Seller` — đó là badge. Trong app thật, bộ lọc Details chỉ hiện tag; muốn lọc "hàng mới" hay "giảm giá" thì đã có trang New Arrivals và Sale.

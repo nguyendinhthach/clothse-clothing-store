@@ -6,7 +6,7 @@ import styles from "./home.module.css";
 interface Tile {
   label: string;
   count: number;
-  tag: string | null; // null = New Arrivals (badge-based, SPEC §6.12)
+  tag: string | null; // null = the whole shop
 }
 
 export function ShopBy({ tiles }: { tiles: Tile[] }) {
@@ -18,7 +18,7 @@ export function ShopBy({ tiles }: { tiles: Tile[] }) {
       </div>
       <div className={styles.tiles}>
         {tiles.map((t, i) => (
-          <Link key={t.label} href={t.tag ? routes.shop({ tag: t.tag }) : routes.newArrivals} className={styles.tile}>
+          <Link key={t.label} href={t.tag ? routes.shop({ tag: t.tag }) : routes.shop()} className={styles.tile}>
             <span className={styles.tileZoom}>
               <Placeholder label={t.label.toLowerCase()} />
             </span>

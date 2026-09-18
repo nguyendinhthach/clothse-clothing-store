@@ -136,21 +136,21 @@ export async function getBestSellers(limit = 4, now = new Date()): Promise<Produ
 }
 
 /** Homepage "Shop by" tiles: three tag counts plus the New badge count (SPEC §6.12). */
-export async function getShopByCounts(now = new Date()) {
-  const newSince = new Date(now.getTime() - NEW_WINDOW_DAYS * 86_400_000);
-  const [tags, newCount] = await Promise.all([
+/** Homepage "Bắt đầu từ đây" tiles: three gender tags + "everything" (SPEC §6.12; 4th tile changed from New Arrivals on 2026-09-18 — the arrivals row sits right below it). */
+export async function getShopByCounts() {
+  const [tags, total] = await Promise.all([
     prisma.tag.findMany({
       where: { name: { in: ["Men", "Women", "Unisex"] } },
       select: { name: true, _count: { select: { products: true } } },
     }),
-    prisma.product.count({ where: { createdAt: { gte: newSince } } }),
+    prisma.product.count(),
   ]);
   const count = (name: string) => tags.find((t) => t.name === name)?._count.products ?? 0;
   return [
     { label: "Nam", count: count("Men"), tag: "Men" },
     { label: "Nữ", count: count("Women"), tag: "Women" },
     { label: "Unisex", count: count("Unisex"), tag: "Unisex" },
-    { label: "Hàng mới", count: newCount, tag: null },
+    { label: "Tất cả", count: total, tag: null },
   ];
 }
 
