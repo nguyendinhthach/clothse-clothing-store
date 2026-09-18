@@ -21,10 +21,10 @@ export async function sendContactAction(_prev: ContactState, fd: FormData): Prom
   const subject = str(fd, "subject");
   const message = str(fd, "message");
 
-  if (!name || !email || !message) return { error: "Name, email and message are required" };
-  if (!isEmail(email)) return { error: "That email address looks off" };
-  if (message.length > 4000) return { error: "Keep the message under 4000 characters" };
-  const topic = (CONTACT_SUBJECTS as readonly string[]).includes(subject) ? subject : "Other";
+  if (!name || !email || !message) return { error: "Cần đủ họ tên, email và nội dung" };
+  if (!isEmail(email)) return { error: "Email này nhìn chưa đúng" };
+  if (message.length > 4000) return { error: "Nội dung tối đa 4000 ký tự" };
+  const topic = (CONTACT_SUBJECTS as readonly string[]).includes(subject) ? subject : "Khác";
 
   const to = process.env.CONTACT_TO || process.env.SMTP_USER;
   if (!to) {
@@ -33,17 +33,17 @@ export async function sendContactAction(_prev: ContactState, fd: FormData): Prom
   }
 
   const user = await getCurrentUser();
-  const who = user ? `Signed-in customer #${user.id} (${user.email})` : "Not signed in";
+  const who = user ? `Khách đã đăng nhập #${user.id} (${user.email})` : "Chưa đăng nhập";
   try {
     await sendMail({
       to,
       replyTo: `${name} <${email}>`,
-      subject: `[ClothSE contact] ${topic} — ${name}`,
-      text: `From: ${name} <${email}>\nSubject: ${topic}\n${who}\n\n${message}`,
+      subject: `[ClothSE liên hệ] ${topic} — ${name}`,
+      text: `Từ: ${name} <${email}>\nChủ đề: ${topic}\n${who}\n\n${message}`,
     });
   } catch (e) {
     console.error("[contact] send failed", e);
-    return { error: "Couldn't send right now — email us directly instead" };
+    return { error: "Chưa gửi được — bạn email thẳng cho shop nhé" };
   }
   return { sent: true, at: Date.now() };
 }

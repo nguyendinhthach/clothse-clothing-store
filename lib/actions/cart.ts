@@ -13,5 +13,5 @@ export async function addToCartAction(variantId: number, qty: number, returnTo: 
   const r = await addToCart(user.id, variantId, qty);
   if (!r.ok) return { ok: false, message: r.error };
   revalidatePath("/", "layout"); // header bag count
-  return { ok: true, message: "Added to bag ✓" };
+  return { ok: true, message: "Đã thêm vào giỏ ✓" };
 }

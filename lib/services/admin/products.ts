@@ -180,22 +180,22 @@ export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "wareho
 
 export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const name = input.name.trim();
-  if (!name) return { ok: false, error: "Product name is required." };
-  if (!input.brandId) return { ok: false, error: "Pick a brand." };
+  if (!name) return { ok: false, error: "Cần có tên sản phẩm." };
+  if (!input.brandId) return { ok: false, error: "Chọn hãng." };
   const price = Number(input.price);
-  if (!Number.isInteger(price) || price <= 0) return { ok: false, error: "Price must be a whole number of VND." };
+  if (!Number.isInteger(price) || price <= 0) return { ok: false, error: "Giá phải là số nguyên (VNĐ)." };
   const salePrice = input.onSale ? Number(input.salePrice) : null;
   if (input.onSale && (!Number.isInteger(salePrice) || salePrice! <= 0 || salePrice! >= price)) {
-    return { ok: false, error: "Sale price must be a whole number below the regular price (SPEC §6.11)." }; // on_sale ⇒ sale_price set and < price
+    return { ok: false, error: "Giá sale phải là số nguyên và thấp hơn giá gốc (SPEC §6.11)." }; // on_sale ⇒ sale_price set and < price
   }
-  if (!input.id && !SKU_TYPES.some((t) => t.code === input.typeCode)) return { ok: false, error: "Pick an item type for the SKU." };
+  if (!input.id && !SKU_TYPES.some((t) => t.code === input.typeCode)) return { ok: false, error: "Chọn loại món để tạo SKU." };
 
   const category = await prisma.category.findUnique({ where: { id: input.categoryId }, include: { sizes: true } });
-  if (!category) return { ok: false, error: "Category not found." };
+  if (!category) return { ok: false, error: "Không tìm thấy danh mục." };
   const sizeIds = new Map(category.sizes.map((s) => [s.label, s.id]));
   const wanted = [...new Set(input.sizes.map((s) => s.trim()).filter(Boolean))];
   const unknown = wanted.filter((l) => !sizeIds.has(l));
-  if (unknown.length) return { ok: false, error: `Sizes not in ${category.name}: ${unknown.join(", ")}.` };
+  if (unknown.length) return { ok: false, error: `Size không thuộc ${category.name}: ${unknown.join(", ")}.` };
 
   const details = input.details.map((d) => ({ label: d.label.trim(), value: d.value.trim() })).filter((d) => d.label && d.value);
   const sizeGuide: Record<string, { chest: string; length: string; sleeve: string }> = {};
@@ -259,9 +259,9 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
     return { ok: true, id };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "";
-    if (msg === "NOT_FOUND") return { ok: false, error: "Product not found." };
-    if (msg === "CATEGORY_LOCKED") return { ok: false, error: "Category can't change while sizes have stock, batches or orders." };
-    if (msg.startsWith("SIZE_LOCKED:")) return { ok: false, error: `Size ${msg.slice(12)} has stock, batches or orders and can't be removed.` };
+    if (msg === "NOT_FOUND") return { ok: false, error: "Không tìm thấy sản phẩm." };
+    if (msg === "CATEGORY_LOCKED") return { ok: false, error: "Không đổi được danh mục khi size đã có tồn, lô nhập hoặc đơn." };
+    if (msg.startsWith("SIZE_LOCKED:")) return { ok: false, error: `Size ${msg.slice(12)} đã có tồn, lô nhập hoặc đơn nên không bỏ được.` };
     throw e;
   }
 }
@@ -269,7 +269,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
 /** Only products that were never ordered can be deleted; the rest keep their history. */
 export async function deleteProduct(id: number): Promise<ProductResult> {
   const ordered = await prisma.orderItem.count({ where: { variant: { productId: id } } });
-  if (ordered > 0) return { ok: false, error: "This product is on past orders and can't be deleted. Set every size to 0 stock to retire it instead." };
+  if (ordered > 0) return { ok: false, error: "Sản phẩm đã có trong đơn cũ nên không xoá được. Muốn ngừng bán thì đưa tồn mọi size về 0." };
   await prisma.$transaction(async (tx) => {
     await tx.batch.updateMany({ where: { variant: { productId: id } }, data: { variantId: null } }); // batches stay as unlinked stock
     await tx.product.delete({ where: { id } }); // cascades variants, images, tags, favourites, cart lines

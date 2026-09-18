@@ -21,7 +21,7 @@ export function FavouriteButton({ productId, favourite, className = "", size = 3
   return (
     <button
       type="button"
-      aria-label={on ? "Remove from favourites" : "Add to favourites"}
+      aria-label={on ? "Bỏ khỏi yêu thích" : "Thêm vào yêu thích"}
       aria-pressed={on}
       disabled={pending}
       className={`${styles.btn} ${on ? styles.on : ""} ${className}`}

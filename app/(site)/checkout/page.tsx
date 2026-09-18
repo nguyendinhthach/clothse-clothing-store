@@ -8,7 +8,7 @@ import { getBagLines } from "@/lib/services/orders";
 import { requireUser } from "@/lib/session";
 import styles from "@/components/bag/bag.module.css";
 
-export const metadata: Metadata = { title: "Checkout" };
+export const metadata: Metadata = { title: "Thanh toán" };
 
 export default async function CheckoutPage({ searchParams }: PageProps<"/checkout">) {
   const sp = await searchParams;
@@ -26,13 +26,13 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
       <section className={styles.head}>
         <div>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <Link href={routes.home}>Home</Link>
+            <Link href={routes.home}>Trang chủ</Link>
             <span>/</span>
-            <Link href={routes.bag()}>My Bag</Link>
+            <Link href={routes.bag()}>Giỏ hàng</Link>
             <span>/</span>
-            <span className={styles.crumbCurrent}>Checkout</span>
+            <span className={styles.crumbCurrent}>Thanh toán</span>
           </nav>
-          <h1 className={styles.h1}>Checkout</h1>
+          <h1 className={styles.h1}>Thanh toán</h1>
         </div>
       </section>
       <CheckoutForm lines={lines} address={address ? { name: address.name, phone: address.phone, line: address.line, city: address.city } : { name: user.name, phone: "", line: "", city: "" }} />

@@ -19,8 +19,8 @@ export async function notifyRestock(productId: number): Promise<number> {
     users.map((u) =>
       sendMail({
         to: u.email,
-        subject: `${product.name} is back in stock`,
-        text: `Hi ${u.name},\n\n${product.name} just landed back in the warehouse. Sizes go fast — grab yours here:\n\n${link}\n\nYou're getting this because you turned on alerts for it in your Favourites.\n\n— ClothSE`,
+        subject: `${product.name} đã có hàng lại`,
+        text: `Chào ${u.name},\n\n${product.name} vừa về lại kho. Size đi nhanh lắm — lấy của bạn ở đây:\n\n${link}\n\nBạn nhận email này vì đã bật báo tin cho món này trong Yêu thích.\n\n— ClothSE`,
       }),
     ),
   );
@@ -36,8 +36,8 @@ export async function notifySale(productId: number): Promise<number> {
     users.map((u) =>
       sendMail({
         to: u.email,
-        subject: `Price drop: ${product.name} is now ${formatVnd(product.salePrice!)}`,
-        text: `Hi ${u.name},\n\n${product.name} just dropped from ${formatVnd(product.price)} to ${formatVnd(product.salePrice!)} (-${pct}%). Sale lines don't restock, so it's while sizes last:\n\n${link}\n\nYou're getting this because you turned on alerts for it in your Favourites.\n\n— ClothSE`,
+        subject: `Giảm giá: ${product.name} còn ${formatVnd(product.salePrice!)}`,
+        text: `Chào ${u.name},\n\n${product.name} vừa giảm từ ${formatVnd(product.price)} xuống ${formatVnd(product.salePrice!)} (-${pct}%). Hàng sale không nhập lại, nên còn size là còn cơ hội:\n\n${link}\n\nBạn nhận email này vì đã bật báo tin cho món này trong Yêu thích.\n\n— ClothSE`,
       }),
     ),
   );

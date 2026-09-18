@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { StoragePanel } from "@/components/admin/StoragePanel";
 import { getIntakeVocab, getStorageStats, listBatches, type StorageFilters } from "@/lib/services/admin/storage";
 
-export const metadata: Metadata = { title: "Storage" };
+export const metadata: Metadata = { title: "Kho" };
 
 export default async function AdminStoragePage({ searchParams }: PageProps<"/admin/storage">) {
   const sp = await searchParams;

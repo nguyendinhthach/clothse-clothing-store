@@ -101,7 +101,7 @@ export interface RevenueRange {
   label: string;
 }
 
-const fmt = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const fmt = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
 
 export function resolveRange(key: RangeKey, custom: { from?: string; to?: string } = {}, now = new Date()): RevenueRange {
   const today = startOfDay(now);
@@ -113,7 +113,7 @@ export function resolveRange(key: RangeKey, custom: { from?: string; to?: string
   }
   if (key === "year") {
     const from = new Date(now.getFullYear(), 0, 1);
-    return { key, from, to: new Date(now.getFullYear() + 1, 0, 1), label: `Jan – Dec ${now.getFullYear()} · YTD` };
+    return { key, from, to: new Date(now.getFullYear() + 1, 0, 1), label: `Năm ${now.getFullYear()} · tới hôm nay` };
   }
   if (key === "custom" && custom.from && custom.to) {
     let a = startOfDay(new Date(custom.from));
@@ -170,12 +170,12 @@ export async function getRevenue(range: RevenueRange): Promise<RevenueData> {
   if (useMonths) {
     for (let d = new Date(range.from.getFullYear(), range.from.getMonth(), 1); d < range.to; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
       index.set(`${d.getFullYear()}-${d.getMonth()}`, buckets.length);
-      buckets.push({ label: d.toLocaleDateString("en-GB", { month: "short" }), title: d.toLocaleDateString("en-GB", { month: "long", year: "numeric" }), revenue: 0, profit: 0 });
+      buckets.push({ label: `T${d.getMonth() + 1}`, title: `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`, revenue: 0, profit: 0 });
     }
   } else {
     for (let d = new Date(range.from); d < range.to; d = new Date(d.getTime() + DAY)) {
       index.set(startOfDay(d).toDateString(), buckets.length);
-      buckets.push({ label: range.key === "week" ? d.toLocaleDateString("en-GB", { weekday: "short" }) : String(d.getDate()), title: fmt(d), revenue: 0, profit: 0 });
+      buckets.push({ label: range.key === "week" ? ["CN", "T2", "T3", "T4", "T5", "T6", "T7"][d.getDay()] : String(d.getDate()), title: fmt(d), revenue: 0, profit: 0 });
     }
   }
   for (const i of items) {

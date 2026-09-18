@@ -5,13 +5,13 @@ import { getRailCounts } from "@/lib/services/admin/counts";
 import { requireAdmin } from "@/lib/session";
 import styles from "@/components/admin/admin.module.css";
 
-export const metadata: Metadata = { title: { default: "Store Management", template: "%s · Store Management" } };
+export const metadata: Metadata = { title: { default: "Quản lý cửa hàng", template: "%s · Quản lý cửa hàng" } };
 
 /** Store Management frame (SPEC §2: server-side admin guard; 404 for everyone else). */
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
   const user = await requireAdmin();
   const counts = await getRailCounts();
-  const synced = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  const synced = new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
 
   return (
     <>
@@ -20,10 +20,10 @@ export default async function AdminLayout({ children }: LayoutProps<"/admin">) {
         <section className={styles.head}>
           <div>
             <span className={styles.kicker}>Admin · ClothSE Đà Lạt</span>
-            <h1 className={styles.h1}>Store Management</h1>
+            <h1 className={styles.h1}>Quản lý cửa hàng</h1>
           </div>
           <div className={styles.headRight}>
-            <span className={styles.synced}>Synced {synced}</span>
+            <span className={styles.synced}>Đồng bộ {synced}</span>
           </div>
         </section>
         <div className={styles.shell}>

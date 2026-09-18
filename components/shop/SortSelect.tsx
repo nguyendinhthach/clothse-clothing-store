@@ -6,9 +6,9 @@ import { buildShopQuery, type ShopParams } from "@/lib/shop-params";
 import styles from "./shop.module.css";
 
 const DEFAULT_OPTIONS: [SortKey, string][] = [
-  ["new", "Newest"],
-  ["asc", "Price: Low to High"],
-  ["desc", "Price: High to Low"],
+  ["new", "Mới nhất"],
+  ["asc", "Giá thấp → cao"],
+  ["desc", "Giá cao → thấp"],
 ];
 
 interface Props {
@@ -25,10 +25,10 @@ export function SortSelect({ basePath, params, options = DEFAULT_OPTIONS, inline
   const router = useRouter();
   return (
     <div className={inline ? styles.sortInline : styles.sortWrap}>
-      <span className={styles.groupLabel}>Sort by</span>
+      <span className={styles.groupLabel}>Sắp xếp</span>
       <select
         value={params.sort}
-        aria-label="Sort products"
+        aria-label="Sắp xếp sản phẩm"
         className={styles.select}
         onChange={(e) => router.replace(basePath + buildShopQuery({ ...params, sort: e.target.value as SortKey, show: undefined }, defaultSort), { scroll: false })}
       >

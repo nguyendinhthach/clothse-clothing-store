@@ -3,7 +3,7 @@ import { ProductsPanel } from "@/components/admin/ProductsPanel";
 import { cloudinaryConfigured } from "@/lib/cloudinary";
 import { getProductForm, getProductFormVocab, listAdminProducts, type ProductFilters, type ProductFormData } from "@/lib/services/admin/products";
 
-export const metadata: Metadata = { title: "Products" };
+export const metadata: Metadata = { title: "Sản phẩm" };
 
 const str = (v: unknown) => (typeof v === "string" && v ? v : undefined);
 

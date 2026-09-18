@@ -22,8 +22,8 @@ export interface AddressInput {
 
 /** Create or update one of the user's addresses. The first address is always the default. */
 export async function saveAddress(userId: number, input: AddressInput): Promise<AddressResult> {
-  const data = { label: input.label.trim() || "Home", name: input.name.trim(), phone: input.phone.trim(), line: input.line.trim(), city: input.city.trim() };
-  if (!data.name || !data.phone || !data.line || !data.city) return { ok: false, error: "Name, phone, address line and city are required." };
+  const data = { label: input.label.trim() || "Nhà", name: input.name.trim(), phone: input.phone.trim(), line: input.line.trim(), city: input.city.trim() };
+  if (!data.name || !data.phone || !data.line || !data.city) return { ok: false, error: "Cần đủ họ tên, số điện thoại, địa chỉ và tỉnh/thành." };
   const count = await prisma.address.count({ where: { userId } });
   const makeDefault = input.isDefault || count === 0;
   await prisma.$transaction(async (tx) => {
@@ -35,13 +35,13 @@ export async function saveAddress(userId: number, input: AddressInput): Promise<
     } else {
       await tx.address.create({ data: { ...data, userId, isDefault: makeDefault } });
     }
-  }).catch((e) => { if (e instanceof Error && e.message === "NOT_FOUND") return { ok: false, error: "Address not found." }; throw e; });
+  }).catch((e) => { if (e instanceof Error && e.message === "NOT_FOUND") return { ok: false, error: "Không tìm thấy địa chỉ." }; throw e; });
   return { ok: true };
 }
 
 export async function deleteAddress(userId: number, id: number): Promise<AddressResult> {
   const a = await prisma.address.findFirst({ where: { id, userId } });
-  if (!a) return { ok: false, error: "Address not found." };
+  if (!a) return { ok: false, error: "Không tìm thấy địa chỉ." };
   await prisma.$transaction(async (tx) => {
     await tx.address.delete({ where: { id } });
     if (a.isDefault) {
@@ -54,7 +54,7 @@ export async function deleteAddress(userId: number, id: number): Promise<Address
 
 export async function setDefaultAddress(userId: number, id: number): Promise<AddressResult> {
   const a = await prisma.address.findFirst({ where: { id, userId } });
-  if (!a) return { ok: false, error: "Address not found." };
+  if (!a) return { ok: false, error: "Không tìm thấy địa chỉ." };
   await prisma.$transaction([
     prisma.address.updateMany({ where: { userId }, data: { isDefault: false } }),
     prisma.address.update({ where: { id }, data: { isDefault: true } }),

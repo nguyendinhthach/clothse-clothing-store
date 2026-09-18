@@ -3,7 +3,7 @@ import { OrdersQueue } from "@/components/admin/OrdersQueue";
 import { ORDER_TABS } from "@/lib/order-status";
 import { countAdminOrders, listAdminOrders } from "@/lib/services/admin/orders";
 
-export const metadata: Metadata = { title: "Orders" };
+export const metadata: Metadata = { title: "Đơn hàng" };
 
 export default async function AdminOrdersPage({ searchParams }: PageProps<"/admin/orders">) {
   const sp = await searchParams;

@@ -16,7 +16,7 @@ interface Props {
   highlight?: string;
 }
 
-const fmtDate = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
 
 export function OrderList({ orders, empty, highlight }: Props) {
   const router = useRouter();
@@ -26,7 +26,7 @@ export function OrderList({ orders, empty, highlight }: Props) {
   const act = (fn: () => Promise<{ ok: boolean; error?: string }>) =>
     start(async () => {
       const r = await fn();
-      setError(r.ok ? null : (r.error ?? "Something went wrong."));
+      setError(r.ok ? null : (r.error ?? "Có lỗi xảy ra, thử lại nhé."));
       router.refresh();
     });
 
@@ -36,7 +36,7 @@ export function OrderList({ orders, empty, highlight }: Props) {
         <span className={styles.emptyKicker}>{empty.label}</span>
         <h2 className={styles.emptyTabTitle}>{empty.title}</h2>
         <p className={styles.emptyBody}>{empty.body}</p>
-        <Link href={routes.shop()} className={styles.emptyBtnGhost}>Browse the shop</Link>
+        <Link href={routes.shop()} className={styles.emptyBtnGhost}>Dạo cửa hàng</Link>
       </div>
     );
   }
@@ -53,7 +53,7 @@ export function OrderList({ orders, empty, highlight }: Props) {
             </div>
             <div className={styles.orderPills}>
               <span className={`${styles.pill} ${styles[`pill_${o.status}`] ?? ""}`}>{STATUS_LABEL[o.status]}</span>
-              <span className={`${styles.pill} ${styles.pillMuted}`}>{o.paymentStatus === "PAID" ? "Paid" : o.paymentStatus === "REFUNDED" ? "Refunded" : "COD · unpaid"}</span>
+              <span className={`${styles.pill} ${styles.pillMuted}`}>{o.paymentStatus === "PAID" ? "Đã thanh toán" : o.paymentStatus === "REFUNDED" ? "Đã hoàn tiền" : "COD · chưa thanh toán"}</span>
             </div>
           </header>
 
@@ -69,24 +69,24 @@ export function OrderList({ orders, empty, highlight }: Props) {
 
           <footer className={styles.orderFoot}>
             <div className={styles.orderShip}>
-              <span className={styles.orderShipLabel}>Deliver to</span>
+              <span className={styles.orderShipLabel}>Giao đến</span>
               <span>{o.shipName} · {o.shipPhone}</span>
               <span className={styles.muted}>{o.shipAddress}</span>
             </div>
             <div className={styles.orderTotals}>
-              <span className={styles.muted}>Shipping {o.shippingFee === 0 ? "free" : formatVnd(o.shippingFee)}</span>
+              <span className={styles.muted}>Ship {o.shippingFee === 0 ? "miễn phí" : formatVnd(o.shippingFee)}</span>
               <span className={styles.orderTotal}>{formatVnd(o.total)}</span>
               {o.canCancel && (
-                <button type="button" disabled={pending} onClick={() => { if (confirm(`Cancel order #${o.code}?`)) act(() => cancelOrderAction(o.id)); }} className={`${styles.textBtn} ${styles.textBtnDanger}`}>
-                  Cancel order
+                <button type="button" disabled={pending} onClick={() => { if (confirm(`Huỷ đơn #${o.code}?`)) act(() => cancelOrderAction(o.id)); }} className={`${styles.textBtn} ${styles.textBtnDanger}`}>
+                  Huỷ đơn
                 </button>
               )}
               {o.canRequestRefund && (
-                <button type="button" disabled={pending} onClick={() => { if (confirm(`Open a return for #${o.code}?`)) act(() => requestRefundAction(o.id)); }} className={styles.textBtn}>
-                  Request return
+                <button type="button" disabled={pending} onClick={() => { if (confirm(`Gửi yêu cầu đổi trả cho đơn #${o.code}?`)) act(() => requestRefundAction(o.id)); }} className={styles.textBtn}>
+                  Yêu cầu đổi trả
                 </button>
               )}
-              {o.status === "REFUND" && o.paymentStatus !== "REFUNDED" && <span className={styles.muted}>Return under review</span>}
+              {o.status === "REFUND" && o.paymentStatus !== "REFUNDED" && <span className={styles.muted}>Đang xem xét yêu cầu</span>}
             </div>
           </footer>
         </article>

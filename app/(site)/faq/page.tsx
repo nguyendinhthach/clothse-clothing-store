@@ -11,19 +11,19 @@ export default function FaqPage() {
   return (
     <>
       <section className={`container ${styles.hero} ${styles.heroRuled}`}>
-        <span className={styles.tag}>Support · FAQ</span>
-        <h1 className={`${styles.h1} ${styles.h1Small}`}>Frequently<br /><span className={styles.h1Block}>Asked</span><br />Questions</h1>
-        <p className={styles.lead}>Can&apos;t find what you&apos;re looking for? <Link href={routes.contact}>Contact us</Link>.</p>
+        <span className={styles.tag}>Hỗ trợ · FAQ</span>
+        <h1 className={`${styles.h1} ${styles.h1Small}`}>Câu hỏi<br /><span className={styles.h1Block}>thường gặp</span></h1>
+        <p className={styles.lead}>Chưa thấy câu trả lời bạn cần? <Link href={routes.contact}>Nhắn cho shop</Link>.</p>
       </section>
 
       <div className={`container ${styles.faq}`}>
         <FaqList groups={FAQ_GROUPS} />
         <section className={styles.band}>
           <div className={styles.bandText}>
-            <h2 className={`${styles.h2} ${styles.h2Sm}`}>Still stuck?</h2>
-            <p>Send us the details and we&apos;ll answer within 1–2 business days.</p>
+            <h2 className={`${styles.h2} ${styles.h2Sm}`}>Vẫn còn vướng?</h2>
+            <p>Gửi chi tiết cho shop, bạn sẽ có trả lời trong 1–2 ngày làm việc.</p>
           </div>
-          <Link href={routes.contact} className={`${styles.mono} ${styles.monoInverse}`}>Contact us →</Link>
+          <Link href={routes.contact} className={`${styles.mono} ${styles.monoInverse}`}>Liên hệ →</Link>
         </section>
       </div>
     </>

@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { receiveStockAction } from "@/lib/actions/admin-storage";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import type { IntakeLine } from "@/lib/services/admin/storage";
 import styles from "./admin.module.css";
@@ -65,24 +66,24 @@ export function IntakeForm({ vocab, onClose }: { vocab: IntakeVocab; onClose: ()
     <div className={styles.modalBackdrop} onClick={onClose}>
       <form className={styles.modal} onClick={(e) => e.stopPropagation()} onSubmit={submit}>
         <div className={styles.modalHead}>
-          <h2 className={styles.h2}>New stock intake</h2>
-          <button type="button" onClick={onClose} aria-label="Close" className={styles.closeBtn}>✕</button>
+          <h2 className={styles.h2}>Nhập kho mới</h2>
+          <button type="button" onClick={onClose} aria-label="Đóng" className={styles.closeBtn}>✕</button>
         </div>
         <div className={styles.modalBody} style={{ display: "flex", flexDirection: "column" }}>
           <div className={styles.fields}>
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Brand</span>
+              <span className={styles.fieldLabel}>Hãng</span>
               <select value={brandId} onChange={(e) => { setBrandId(e.target.value); setLines((ls) => ls.map((l) => ({ ...l, productId: "", variantId: "" }))); }} className={styles.input}>
                 {vocab.brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
               </select>
             </label>
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Date received</span>
+              <span className={styles.fieldLabel}>Ngày nhận</span>
               <input type="date" value={date} max={today()} onChange={(e) => setDate(e.target.value)} className={`${styles.input} ${styles.mono}`} />
             </label>
           </div>
 
-          <span className={styles.fieldLabel}>Line items</span>
+          <span className={styles.fieldLabel}>Các dòng hàng</span>
           {lines.map((l, i) => {
             const product = brandProducts.find((p) => String(p.id) === l.productId);
             const category = vocab.categories.find((c) => String(c.id) === l.categoryId);
@@ -90,12 +91,12 @@ export function IntakeForm({ vocab, onClose }: { vocab: IntakeVocab; onClose: ()
               <div key={i} className={styles.lineBox}>
                 <div className={styles.lineTop}>
                   <span className={styles.modeToggle}>
-                    <button type="button" aria-pressed={l.mode === "existing"} onClick={() => setLine(i, { mode: "existing" })} className={`${styles.modeBtn} ${l.mode === "existing" ? styles.modeOn : ""}`}>Existing product</button>
-                    <button type="button" aria-pressed={l.mode === "new"} onClick={() => setLine(i, { mode: "new" })} className={`${styles.modeBtn} ${l.mode === "new" ? styles.modeOn : ""}`}>Not listed yet</button>
+                    <button type="button" aria-pressed={l.mode === "existing"} onClick={() => setLine(i, { mode: "existing" })} className={`${styles.modeBtn} ${l.mode === "existing" ? styles.modeOn : ""}`}>Sản phẩm đã có</button>
+                    <button type="button" aria-pressed={l.mode === "new"} onClick={() => setLine(i, { mode: "new" })} className={`${styles.modeBtn} ${l.mode === "new" ? styles.modeOn : ""}`}>Chưa lên kệ</button>
                   </span>
                   <span className={styles.lineMeta}>
                     <span>{String(i + 1).padStart(2, "0")} · {formatVnd(lineTotal(l))}</span>
-                    {lines.length > 1 && <button type="button" onClick={() => setLines((ls) => ls.filter((_, k) => k !== i))} className={styles.smallBtn}>Remove</button>}
+                    {lines.length > 1 && <button type="button" onClick={() => setLines((ls) => ls.filter((_, k) => k !== i))} className={styles.smallBtn}>Bỏ</button>}
                   </span>
                 </div>
 
@@ -103,62 +104,62 @@ export function IntakeForm({ vocab, onClose }: { vocab: IntakeVocab; onClose: ()
                   {l.mode === "existing" ? (
                     <>
                       <label className={styles.field}>
-                        <span className={styles.fieldLabel}>Product</span>
+                        <span className={styles.fieldLabel}>Sản phẩm</span>
                         <select value={l.productId} onChange={(e) => setLine(i, { productId: e.target.value, variantId: "" })} className={`${styles.input} ${styles.inputSm}`}>
-                          <option value="">Select a product…</option>
+                          <option value="">Chọn sản phẩm…</option>
                           {brandProducts.map((p) => <option key={p.id} value={p.id}>{p.name} · {p.sku}</option>)}
                         </select>
                       </label>
                       <label className={styles.field}>
                         <span className={styles.fieldLabel}>Size *</span>
                         <select value={l.variantId} disabled={!product} onChange={(e) => setLine(i, { variantId: e.target.value })} className={`${styles.input} ${styles.inputSm}`}>
-                          <option value="">{product ? "Choose size…" : "Pick a product first"}</option>
-                          {product?.sizes.map((s) => <option key={s.variantId} value={s.variantId}>{s.label} · {s.stock} in stock</option>)}
+                          <option value="">{product ? "Chọn size…" : "Chọn sản phẩm trước"}</option>
+                          {product?.sizes.map((s) => <option key={s.variantId} value={s.variantId}>{s.label} · {s.stock} trên kệ</option>)}
                         </select>
                       </label>
                     </>
                   ) : (
                     <>
                       <label className={`${styles.field} ${styles.lineWide}`}>
-                        <span className={styles.fieldLabel}>Item description</span>
-                        <input value={l.itemDescription} onChange={(e) => setLine(i, { itemDescription: e.target.value })} placeholder="Reverse weave hood — grey marl" className={`${styles.input} ${styles.inputSm}`} />
+                        <span className={styles.fieldLabel}>Mô tả món hàng</span>
+                        <input value={l.itemDescription} onChange={(e) => setLine(i, { itemDescription: e.target.value })} placeholder="Hoodie reverse weave — xám tiêu" className={`${styles.input} ${styles.inputSm}`} />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.fieldLabel}>Category *</span>
+                        <span className={styles.fieldLabel}>Danh mục *</span>
                         <select value={l.categoryId} onChange={(e) => setLine(i, { categoryId: e.target.value, sizeOptionId: "" })} className={`${styles.input} ${styles.inputSm}`}>
-                          <option value="">Choose…</option>
-                          {vocab.categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                          <option value="">Chọn…</option>
+                          {vocab.categories.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c.name)}</option>)}
                         </select>
                       </label>
                       <label className={styles.field}>
                         <span className={styles.fieldLabel}>Size *</span>
                         <select value={l.sizeOptionId} disabled={!category} onChange={(e) => setLine(i, { sizeOptionId: e.target.value })} className={`${styles.input} ${styles.inputSm}`}>
-                          <option value="">{category ? "Choose size…" : "Pick a category first"}</option>
+                          <option value="">{category ? "Chọn size…" : "Chọn danh mục trước"}</option>
                           {category?.sizes.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
                         </select>
                       </label>
                     </>
                   )}
                   <label className={styles.field}>
-                    <span className={styles.fieldLabel}>Quantity</span>
+                    <span className={styles.fieldLabel}>Số lượng</span>
                     <input value={l.qty} onChange={(e) => setLine(i, { qty: e.target.value.replace(/\D/g, "") })} inputMode="numeric" placeholder="40" className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
                   </label>
                   <label className={styles.field}>
-                    <span className={styles.fieldLabel}>Unit cost (VNĐ)</span>
+                    <span className={styles.fieldLabel}>Giá vốn / món (VNĐ)</span>
                     <input value={l.cost} onChange={(e) => setLine(i, { cost: e.target.value.replace(/\D/g, "") })} inputMode="numeric" placeholder="960000" className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
                   </label>
                 </div>
-                {l.mode === "new" && <span className={styles.hint}>Stays unlinked until you list it as a product — the size is recorded now so Add Product can match it.</span>}
+                {l.mode === "new" && <span className={styles.hint}>Lô này chưa gắn sản phẩm cho tới khi bạn tạo sản phẩm — size được ghi ngay để Thêm sản phẩm khớp được.</span>}
               </div>
             );
           })}
-          <button type="button" onClick={() => setLines((ls) => [...ls, empty()])} className={styles.linkBtn}>+ Add line</button>
-          <span className={styles.hintBox}>Intake total {formatVnd(total)} · {lines.length} {lines.length === 1 ? "line" : "lines"} · each line is one size at one cost</span>
+          <button type="button" onClick={() => setLines((ls) => [...ls, empty()])} className={styles.linkBtn}>+ Thêm dòng</button>
+          <span className={styles.hintBox}>Tổng nhập {formatVnd(total)} · {lines.length} dòng · mỗi dòng là một size với một giá vốn</span>
           {error && <div className={styles.error} role="alert">{error}</div>}
         </div>
         <div className={styles.modalFoot}>
-          <button type="button" onClick={onClose} className={styles.ghostBtn}>Cancel</button>
-          <button type="submit" disabled={pending} className={styles.primaryBtn}>{pending ? "Saving…" : "Confirm intake"}</button>
+          <button type="button" onClick={onClose} className={styles.ghostBtn}>Huỷ</button>
+          <button type="submit" disabled={pending} className={styles.primaryBtn}>{pending ? "Đang lưu…" : "Xác nhận nhập"}</button>
         </div>
       </form>
     </div>

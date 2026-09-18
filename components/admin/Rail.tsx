@@ -14,19 +14,19 @@ export interface RailCounts {
 }
 
 const SECTIONS: { href: string; label: string; count?: keyof RailCounts }[] = [
-  { href: routes.admin, label: "Dashboard" },
-  { href: routes.adminRevenue, label: "Revenue" },
-  { href: routes.adminBrands, label: "Brands", count: "brands" },
-  { href: routes.adminSizes, label: "Sizes", count: "sizes" },
-  { href: routes.adminStorage, label: "Storage", count: "storage" },
-  { href: routes.adminProducts, label: "Products", count: "products" },
-  { href: routes.adminOrders, label: "Orders", count: "orders" },
+  { href: routes.admin, label: "Tổng quan" },
+  { href: routes.adminRevenue, label: "Doanh thu" },
+  { href: routes.adminBrands, label: "Hãng", count: "brands" },
+  { href: routes.adminSizes, label: "Size", count: "sizes" },
+  { href: routes.adminStorage, label: "Kho", count: "storage" },
+  { href: routes.adminProducts, label: "Sản phẩm", count: "products" },
+  { href: routes.adminOrders, label: "Đơn hàng", count: "orders" },
 ];
 
 export function Rail({ counts }: { counts: RailCounts }) {
   const pathname = usePathname();
   return (
-    <nav aria-label="Admin sections" className={styles.rail}>
+    <nav aria-label="Mục quản lý" className={styles.rail}>
       {SECTIONS.map((s) => {
         const on = s.href === routes.admin ? pathname === routes.admin : pathname.startsWith(s.href);
         return (

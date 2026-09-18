@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CategoryPills } from "@/components/shop/CategoryPills";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { SortSelect } from "@/components/shop/SortSelect";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
 import { getFilterFacets, getMaxSalePercent, listProducts } from "@/lib/services/catalog";
@@ -31,7 +32,7 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
   ]);
   const lowStock = all.items.filter((p) => p.badge === "Low stock").length;
   const maxLabel = `${maxPercent}%`;
-  const marquee = `Final cuts ✱ Up to ${maxLabel} off ✱ While stock lasts ✱ No restocks ✱ Free shipping over ${formatVnd(FREE_SHIPPING_OVER)} ✱ `;
+  const marquee = `Giá chốt ✱ Giảm đến ${maxLabel} ✱ Hết là thôi ✱ Không nhập lại ✱ Miễn ship từ ${formatVnd(FREE_SHIPPING_OVER)} ✱ `;
 
   return (
     <>
@@ -40,14 +41,14 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
         <div className={`container ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
             <nav className={styles.crumbs} aria-label="Breadcrumb">
-              <Link href={routes.home}>Home</Link>
+              <Link href={routes.home}>Trang chủ</Link>
               <span>/</span>
               <span className={styles.crumbOn}>Sale</span>
             </nav>
             {all.total > 0 && (
               <div className={styles.live}>
                 <span className={styles.dot} />
-                Live now — up to {maxLabel} off
+                Đang diễn ra — giảm đến {maxLabel}
               </div>
             )}
             <h1 className={styles.h1}>
@@ -55,27 +56,27 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
               <span className={styles.bang}>!</span>
             </h1>
             <p className={styles.lead}>
-              Marked-down pieces, <strong>marked down once</strong>. When a size goes, it&apos;s gone — no restocks on sale lines.
+              Đồ giảm giá, <strong>giảm một lần duy nhất</strong>. Size nào hết là hết — hàng sale không nhập lại.
             </p>
             <div className={styles.statRow}>
               <div className={`${styles.stat} ${styles.statDark}`}>
                 <span className={styles.statNum}>{maxLabel}</span>
-                <span className={styles.statLabel}>biggest cut</span>
+                <span className={styles.statLabel}>giảm sâu nhất</span>
               </div>
               <div className={styles.stat}>
                 <span className={styles.statNum}>{all.total}</span>
-                <span className={styles.statLabel}>pieces reduced</span>
+                <span className={styles.statLabel}>món đang giảm</span>
               </div>
               <div className={styles.stat}>
                 <span className={styles.statNum}>{lowStock}</span>
-                <span className={styles.statLabel}>in low stock</span>
+                <span className={styles.statLabel}>món sắp hết</span>
               </div>
             </div>
           </div>
           <div className={styles.heroArt}>
-            <span className={styles.heroArtLabel}>Campaign image — sale</span>
-            <span className={styles.sticker}>Final cuts</span>
-            <span className={styles.heroTag}>No restocks</span>
+            <span className={styles.heroArtLabel}>Ảnh chiến dịch — sale</span>
+            <span className={styles.sticker}>Giá chốt</span>
+            <span className={styles.heroTag}>Không nhập lại</span>
           </div>
         </div>
       </section>
@@ -91,8 +92,8 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
         <section className={shop.pillBar}>
           <CategoryPills basePath={routes.sale} categories={facets.categories} active={cat} keep={{ sort: sort !== "discount" ? sort : undefined }} />
           <div className={shop.barRight}>
-            <SortSelect inline defaultSort="discount" basePath={routes.sale} params={{ ...params, sort }} options={[["discount", "Biggest discount first"], ["new", "Newest"], ["asc", "Price: Low to High"], ["desc", "Price: High to Low"]]} />
-            <Link href={routes.shop()} className={shop.browseAll}>Full-price shop →</Link>
+            <SortSelect inline defaultSort="discount" basePath={routes.sale} params={{ ...params, sort }} options={[["discount", "Giảm nhiều nhất"], ["new", "Mới nhất"], ["asc", "Giá thấp → cao"], ["desc", "Giá cao → thấp"]]} />
+            <Link href={routes.shop()} className={shop.browseAll}>Về cửa hàng →</Link>
           </div>
         </section>
         <section className={shop.gridSection}>
@@ -102,9 +103,9 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
             defaultSort="discount"
             listing={listing}
             favouriteIds={favouriteIds}
-            emptyTitle="No sales right now"
-            emptyHint={`Nothing is marked down${cat ? ` in ${cat}` : ""} at the moment. Check back at the end of the season.`}
-            noteFor={(p) => (p.onSale && p.salePrice != null ? `save ${formatVnd(p.price - p.salePrice)}` : "")}
+            emptyTitle="Hiện chưa có sale"
+            emptyHint={`Chưa có món nào giảm giá${cat ? ` ở nhóm ${categoryLabel(cat)}` : ""}. Quay lại vào cuối mùa nhé.`}
+            noteFor={(p) => (p.onSale && p.salePrice != null ? `tiết kiệm ${formatVnd(p.price - p.salePrice)}` : "")}
           />
         </section>
       </div>

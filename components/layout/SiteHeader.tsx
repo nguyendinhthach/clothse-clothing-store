@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { routes } from "@/lib/routes";
 import { Logo } from "./Logo";
 import styles from "./SiteHeader.module.css";
@@ -66,7 +67,7 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
   const active = (href: string) => (pathname === href ? styles.active : "");
 
   const shopLinks = categories.map((c, i) => ({
-    label: c.name,
+    label: categoryLabel(c.name),
     count: c.count,
     href: routes.shop({ cat: c.name }),
     delay: `${40 + i * 40}ms`,
@@ -85,16 +86,16 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
         <div className={styles.left}>
           <Logo />
 
-          <nav className={styles.nav} aria-label="Primary">
+          <nav className={styles.nav} aria-label="Chính">
             <Link href={routes.home} className={`${styles.navLink} ${active(routes.home)}`}>
-              Home<span className={styles.underline} />
+              Trang chủ<span className={styles.underline} />
             </Link>
             <Link href={routes.newArrivals} className={`${styles.navLink} ${active(routes.newArrivals)}`}>
-              New Arrivals<span className={styles.underline} />
+              Hàng mới<span className={styles.underline} />
             </Link>
             <div className={styles.shopWrap} onMouseEnter={() => setShopOpen(true)} onMouseLeave={() => setShopOpen(false)}>
               <Link href={routes.shop()} className={`${styles.navLink} ${styles.shopLink} ${pathname === "/shop" ? styles.active : ""}`}>
-                Shop <span className={`${styles.arrow} ${shopOpen ? styles.arrowOpen : ""}`}>▼</span>
+                Cửa hàng <span className={`${styles.arrow} ${shopOpen ? styles.arrowOpen : ""}`}>▼</span>
                 <span className={styles.underline} />
               </Link>
               {shopOpen && (
@@ -117,14 +118,14 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
         <div className={styles.right}>
           {searchOpen && (
             <form onSubmit={submitSearch} className={styles.searchForm}>
-              <input ref={searchRef} name="q" placeholder="Search cargos, tees, kicks…" className={styles.searchInput} aria-label="Search products" />
+              <input ref={searchRef} name="q" placeholder="Tìm cargo, tee, giày…" className={styles.searchInput} aria-label="Tìm sản phẩm" />
             </form>
           )}
-          <button type="button" onClick={() => setSearchOpen((v) => !v)} aria-label="Search" className={styles.iconBtn}>
+          <button type="button" onClick={() => setSearchOpen((v) => !v)} aria-label="Tìm kiếm" className={styles.iconBtn}>
             ⌕
           </button>
 
-          <Link href={routes.bag()} aria-label="Bag" className={styles.bagBtn}>
+          <Link href={routes.bag()} aria-label="Giỏ hàng" className={styles.bagBtn}>
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter" aria-hidden="true">
               <path d="M4 7h16l-1.4 12.2a1 1 0 0 1-1 .8H6.4a1 1 0 0 1-1-.8L4 7Z" />
               <path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2.1a3.5 3.5 0 0 1 3.5 3.5V7" />
@@ -134,41 +135,41 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
 
           {!user && (
             <Link href={routes.signIn} className={styles.loginBtn}>
-              Log in
+              Đăng nhập
             </Link>
           )}
 
           {user && (
             <div ref={accountRef} className={styles.accountWrap}>
-              <button type="button" onClick={() => setAccountOpen((v) => !v)} aria-label="Account" aria-expanded={accountOpen} className={styles.avatar}>
+              <button type="button" onClick={() => setAccountOpen((v) => !v)} aria-label="Tài khoản" aria-expanded={accountOpen} className={styles.avatar}>
                 {initials(user)}
               </button>
               {accountOpen && (
                 <div className={styles.accountMenu}>
                   <div className={styles.accountHead}>
-                    <div className={styles.accountRole}>{isAdmin ? "Signed in as (admin)" : "Signed in as"}</div>
+                    <div className={styles.accountRole}>{isAdmin ? "Đang đăng nhập (admin)" : "Đang đăng nhập"}</div>
                     <div className={styles.accountEmail}>{user.email}</div>
                   </div>
                   <Link href={routes.account()} className={styles.menuItem}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><circle cx="12" cy="8" r="3.6" /><path d="M4.8 20c0-3.6 3.2-5.6 7.2-5.6s7.2 2 7.2 5.6" /></svg>
-                    Account
+                    Tài khoản
                   </Link>
                   <Link href={routes.bag("pending")} className={styles.menuItem}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><path d="M4.5 6.5h15v13h-15z" /><path d="M8.5 6.5V4.2h7v2.3" /><path d="M8.5 11h7" /></svg>
-                    Orders
+                    Đơn hàng
                   </Link>
                   <Link href={routes.favourites} className={styles.menuItem}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><path d="M12 20s-7.5-4.6-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z" /></svg>
-                    Favourites
+                    Yêu thích
                   </Link>
                   <Link href={routes.account("settings")} className={styles.menuItem}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><circle cx="12" cy="12" r="3" /><path d="M12 3.4v2.2M12 18.4v2.2M4.6 12h2.2M17.2 12h2.2M6.6 6.6l1.6 1.6M15.8 15.8l1.6 1.6M17.4 6.6l-1.6 1.6M8.2 15.8l-1.6 1.6" /></svg>
-                    Settings
+                    Cài đặt
                   </Link>
                   {isAdmin ? (
                     <Link href={routes.admin} className={`${styles.menuItem} ${styles.menuAdmin}`}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><path d="M4 9.5h16v10.5H4z" /><path d="M4 9.5 6 4h12l2 5.5" /><path d="M9.5 20v-5.5h5V20" /></svg>
-                      Store Management
+                      Quản lý cửa hàng
                     </Link>
                   ) : (
                     <span className={styles.menuRule} />
@@ -176,7 +177,7 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
                   <form action={routes.signOut} method="post">
                     <button type="submit" className={`${styles.menuItem} ${styles.menuSignOut}`}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><path d="M14.5 4.5h-9v15h9" /><path d="M18.5 12h-8" /><path d="m15.5 9 3 3-3 3" /></svg>
-                      Sign Out
+                      Đăng xuất
                     </button>
                   </form>
                 </div>
@@ -193,11 +194,11 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
       </div>
 
       {menuOpen && (
-        <nav className={styles.mobileNav} aria-label="Mobile">
-          <Link href={routes.home} className={styles.mobileLink}>Home</Link>
-          <Link href={routes.newArrivals} className={styles.mobileLink}>New Arrivals</Link>
+        <nav className={styles.mobileNav} aria-label="Di động">
+          <Link href={routes.home} className={styles.mobileLink}>Trang chủ</Link>
+          <Link href={routes.newArrivals} className={styles.mobileLink}>Hàng mới</Link>
           <div className={styles.mobileGroup}>
-            <div className={styles.mobileTitle}>Shop</div>
+            <div className={styles.mobileTitle}>Cửa hàng</div>
             <div className={styles.mobileChips}>
               {shopLinks.map((l) => (
                 <Link key={l.label} href={l.href} className={styles.chip}>{l.label}</Link>
@@ -208,7 +209,7 @@ export function SiteHeader({ categories, user, cartCount }: Props) {
             <span>Sale</span>
           </Link>
           {!user && (
-            <Link href={routes.signIn} className={styles.mobileLogin}>Log in / Sign up</Link>
+            <Link href={routes.signIn} className={styles.mobileLogin}>Đăng nhập / Đăng ký</Link>
           )}
         </nav>
       )}

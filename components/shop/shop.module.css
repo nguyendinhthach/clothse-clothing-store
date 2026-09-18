@@ -28,7 +28,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(46px, 8vw, 108px);
-  line-height: 0.86;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0;

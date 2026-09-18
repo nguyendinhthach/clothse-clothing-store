@@ -5,28 +5,28 @@ import styles from "./SiteFooter.module.css";
 
 const COLUMNS = [
   {
-    title: "Shop",
+    title: "Mua sắm",
     items: [
-      { label: "New arrivals", href: routes.newArrivals },
-      { label: "Tops", href: routes.shop({ cat: "Tops" }) },
-      { label: "Bottoms", href: routes.shop({ cat: "Bottoms" }) },
-      { label: "Accessories", href: routes.shop({ cat: "Accessories" }) },
-      { label: "Footwear", href: routes.shop({ cat: "Footwear" }) },
+      { label: "Hàng mới", href: routes.newArrivals },
+      { label: "Áo", href: routes.shop({ cat: "Tops" }) },
+      { label: "Quần", href: routes.shop({ cat: "Bottoms" }) },
+      { label: "Phụ kiện", href: routes.shop({ cat: "Accessories" }) },
+      { label: "Giày", href: routes.shop({ cat: "Footwear" }) },
       { label: "Sale", href: routes.sale },
     ],
   },
   {
-    title: "Help",
+    title: "Hỗ trợ",
     items: [
       { label: "FAQ", href: routes.faq },
-      { label: "Track order", href: routes.bag("pending") },
-      { label: "Terms of Service", href: routes.terms },
-      { label: "Privacy", href: routes.privacy },
+      { label: "Theo dõi đơn hàng", href: routes.bag("pending") },
+      { label: "Điều khoản dịch vụ", href: routes.terms },
+      { label: "Chính sách bảo mật", href: routes.privacy },
     ],
   },
   {
-    title: "About",
-    items: [{ label: "About ClothSE", href: routes.about }],
+    title: "Thông tin",
+    items: [{ label: "Về ClothSE", href: routes.about }],
   },
 ];
 
@@ -38,7 +38,7 @@ export function SiteFooter() {
           <div className={styles.brand}>
             <Logo link={false} />
           </div>
-          <p className={styles.tagline}>Curated streetwear from the brands you love, all in one place.</p>
+          <p className={styles.tagline}>Đủ chất để mặc mỗi ngày. Đủ tự tin để khỏi giải thích.</p>
           <div className={styles.social}>
             <a href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className={styles.socialBtn}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
@@ -69,18 +69,18 @@ export function SiteFooter() {
         ))}
 
         <div>
-          <h3 className={styles.heading}>Contact</h3>
+          <h3 className={styles.heading}>Liên hệ</h3>
           <div className={styles.links}>
             <a href="mailto:hey@clothse.com" className={styles.link}>hey@clothse.com</a>
             <span>0778 222 082</span>
-            <span>01 Phu Dong Thien Vuong<br />Da Lat</span>
-            <Link href={routes.contact} className={styles.cta}>Send us a message →</Link>
+            <span>01 Phù Đổng Thiên Vương<br />Đà Lạt</span>
+            <Link href={routes.contact} className={styles.cta}>Nhắn cho chúng mình →</Link>
           </div>
         </div>
       </div>
 
       <div className={`container ${styles.legal}`}>
-        <span>© 2026 ClothSE — all rights reserved</span>
+        <span>© 2026 ClothSE — bảo lưu mọi quyền</span>
       </div>
     </footer>
   );

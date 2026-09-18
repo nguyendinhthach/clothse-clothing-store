@@ -41,7 +41,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(40px, 5.2vw, 76px);
-  line-height: 0.88;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 12px 0 0;
@@ -116,7 +116,7 @@
 .h2 {
   font-family: var(--font-serif);
   font-size: clamp(32px, 4.6vw, 62px);
-  line-height: 0.9;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0;

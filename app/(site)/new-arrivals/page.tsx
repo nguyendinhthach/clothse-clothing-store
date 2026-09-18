@@ -3,6 +3,7 @@ import Link from "next/link";
 import { CategoryPills } from "@/components/shop/CategoryPills";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { NEW_WINDOW_DAYS } from "@/lib/badges";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { routes } from "@/lib/routes";
 import { getFilterFacets, listProducts } from "@/lib/services/catalog";
 import { getFavouriteIds } from "@/lib/services/favourites";
@@ -11,24 +12,21 @@ import { parseShopParams } from "@/lib/shop-params";
 import shop from "@/components/shop/shop.module.css";
 import styles from "./new-arrivals.module.css";
 
-export const metadata: Metadata = { title: "New Arrivals" };
+export const metadata: Metadata = { title: "Hàng mới" };
 
 const days = (d: Date, now: Date) => (now.getTime() - d.getTime()) / 86_400_000;
 
 function updatedLabel(d: number) {
-  if (d < 1) return "today";
-  if (d < 2) return "yesterday";
-  if (d < 7) return `${Math.round(d)} days ago`;
-  const w = Math.floor(d / 7);
-  return w === 1 ? "1 week ago" : `${w} weeks ago`;
+  if (d < 1) return "hôm nay";
+  if (d < 2) return "hôm qua";
+  if (d < 7) return `${Math.round(d)} ngày trước`;
+  return `${Math.floor(d / 7)} tuần trước`;
 }
 function agoLabel(d: number) {
-  if (d < 1) return "today";
+  if (d < 1) return "hôm nay";
   const n = Math.floor(d);
-  if (n <= 1) return "1 day ago";
-  if (n < 7) return `${n} days ago`;
-  const w = Math.floor(n / 7);
-  return w === 1 ? "1 week ago" : `${w} weeks ago`;
+  if (n < 7) return `${Math.max(n, 1)} ngày trước`;
+  return `${Math.floor(n / 7)} tuần trước`;
 }
 
 export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-arrivals">) {
@@ -51,29 +49,29 @@ export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-
         <div className={`container ${styles.heroGrid}`}>
           <div className={styles.heroCopy}>
             <nav className={styles.crumbs} aria-label="Breadcrumb">
-              <Link href={routes.home}>Home</Link>
+              <Link href={routes.home}>Trang chủ</Link>
               <span>/</span>
-              <span>New Arrivals</span>
+              <span>Hàng mới</span>
             </nav>
             {newest && (
               <div className={styles.updated}>
                 <span className={styles.dot} />
-                Updated {updatedLabel(days(newest, now))}
+                Cập nhật {updatedLabel(days(newest, now))}
               </div>
             )}
             <h1 className={styles.h1}>
-              Just <em>landed</em>
+              Vừa <em>cập bến</em>
             </h1>
-            <p className={styles.lead}>Fresh drops from the last {NEW_WINDOW_DAYS} days. Curated weekly by the studio, ordered newest first.</p>
+            <p className={styles.lead}>Hàng về trong {NEW_WINDOW_DAYS} ngày gần nhất, tuyển mỗi tuần, mới nhất xếp trước.</p>
             <div className={styles.stats}>
-              <span><strong>{all.total}</strong> pieces in window</span>
-              <span><strong>{weekCount}</strong> landed this week</span>
-              <span><strong>{NEW_WINDOW_DAYS}</strong> day window</span>
+              <span><strong>{all.total}</strong> món trong đợt</span>
+              <span><strong>{weekCount}</strong> về tuần này</span>
+              <span><strong>{NEW_WINDOW_DAYS}</strong> ngày tính là mới</span>
             </div>
           </div>
           <div className={styles.heroArt}>
-            <span className={styles.heroArtLabel}>Editorial image — new drop</span>
-            <span className={styles.heroTag}>Drop 04 / Autumn</span>
+            <span className={styles.heroArtLabel}>Ảnh editorial — đợt hàng mới</span>
+            <span className={styles.heroTag}>Drop 04 / Thu</span>
           </div>
         </div>
       </section>
@@ -82,7 +80,7 @@ export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-
         <section className={shop.pillBar}>
           <CategoryPills basePath={routes.newArrivals} categories={facets.categories} active={cat} />
           <div className={shop.barRight}>
-            <Link href={routes.shop()} className={shop.browseAll}>Browse all products →</Link>
+            <Link href={routes.shop()} className={shop.browseAll}>Xem toàn bộ cửa hàng →</Link>
           </div>
         </section>
         <section className={shop.gridSection}>
@@ -91,8 +89,8 @@ export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-
             params={params}
             listing={{ ...listing, items: listing.items }}
             favouriteIds={favouriteIds}
-            emptyTitle="No new arrivals right now"
-            emptyHint={`Nothing has landed in the last ${NEW_WINDOW_DAYS} days${cat ? ` in ${cat}` : ""}. New drops go live every week — check back soon.`}
+            emptyTitle="Chưa có hàng mới"
+            emptyHint={`${NEW_WINDOW_DAYS} ngày gần đây chưa có gì về${cat ? ` ở nhóm ${categoryLabel(cat)}` : ""}. Hàng mới lên mỗi tuần — quay lại sớm nhé.`}
             noteFor={(p) => agoLabel(days(p.createdAt, now))}
           />
         </section>

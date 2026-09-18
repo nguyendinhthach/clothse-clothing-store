@@ -18,13 +18,13 @@ export async function updateProfileAction(_prev: AccountState, fd: FormData): Pr
   const r = await updateProfile(user.id, { name: str(fd, "name"), email: str(fd, "email"), phone: str(fd, "phone") });
   if (!r.ok) return { error: r.error };
   revalidatePath("/", "layout"); // header initials / email
-  return { done: "Saved just now" };
+  return { done: "Đã lưu" };
 }
 
 export async function changePasswordAction(_prev: AccountState, fd: FormData): Promise<AccountState> {
   const user = await requireUser(routes.account("settings"));
   const r = await changePassword(user.id, str(fd, "current"), str(fd, "next"), str(fd, "confirm"));
-  return r.ok ? { done: "Password updated" } : { error: r.error };
+  return r.ok ? { done: "Đã đổi mật khẩu" } : { error: r.error };
 }
 
 function after(r: AddressResult) {

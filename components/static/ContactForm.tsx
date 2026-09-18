@@ -11,26 +11,26 @@ export function ContactForm({ defaults }: { defaults: { name: string; email: str
   return (
     <form key={state.at ?? 0} action={action} className={styles.form}>
       <label className={styles.field}>
-        <span className={styles.label}>Full name</span>
-        <input name="name" defaultValue={defaults.name} placeholder="Alex Mercer" required autoComplete="name" className={styles.input} />
+        <span className={styles.label}>Họ tên</span>
+        <input name="name" defaultValue={defaults.name} placeholder="Nguyễn Văn A" required autoComplete="name" className={styles.input} />
       </label>
       <label className={styles.field}>
         <span className={styles.label}>Email</span>
-        <input name="email" type="email" defaultValue={defaults.email} placeholder="you@email.com" required autoComplete="email" className={styles.input} />
+        <input name="email" type="email" defaultValue={defaults.email} placeholder="ban@email.com" required autoComplete="email" className={styles.input} />
       </label>
       <label className={styles.field}>
-        <span className={styles.label}>Subject</span>
+        <span className={styles.label}>Chủ đề</span>
         <select name="subject" defaultValue={CONTACT_SUBJECTS[0]} className={styles.select}>
           {CONTACT_SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
         </select>
       </label>
       <label className={styles.field}>
-        <span className={styles.label}>Message</span>
-        <textarea name="message" rows={6} required maxLength={4000} placeholder="Tell us what you need — order number helps if it's about a purchase." className={styles.textarea} />
+        <span className={styles.label}>Nội dung</span>
+        <textarea name="message" rows={6} required maxLength={4000} placeholder="Bạn cần gì cứ nói — nếu về đơn hàng, kèm mã đơn sẽ nhanh hơn." className={styles.textarea} />
       </label>
-      <button type="submit" disabled={pending} className={styles.submit}>{pending ? "Sending…" : "Send message"}</button>
+      <button type="submit" disabled={pending} className={styles.submit}>{pending ? "Đang gửi…" : "Gửi tin nhắn"}</button>
       {state.error && <div role="alert" className={`${styles.notice} ${styles.noticeErr}`}>{state.error}</div>}
-      {state.sent && <div role="status" className={styles.notice}>Thanks — we&apos;ll get back to you within 1–2 business days.</div>}
+      {state.sent && <div role="status" className={styles.notice}>Cảm ơn bạn — shop sẽ trả lời trong 1–2 ngày làm việc.</div>}
     </form>
   );
 }

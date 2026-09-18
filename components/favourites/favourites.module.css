@@ -24,7 +24,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(46px, 8vw, 108px);
-  line-height: 0.86;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0;
@@ -241,7 +241,7 @@
 .emptyTitle {
   font-family: var(--font-serif);
   font-size: clamp(30px, 4.4vw, 56px);
-  line-height: 0.95;
+  line-height: 1.08;
   text-transform: uppercase;
   margin: 0;
 }

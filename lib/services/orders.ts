@@ -93,13 +93,13 @@ async function nextOrderCode(tx: Prisma.TransactionClient): Promise<string> {
  * oldest-first and the resulting average cost is frozen into unitCogs.
  */
 export async function placeOrder(userId: number, variantIds: number[], ship: ShipTo): Promise<PlaceOrderResult> {
-  if (variantIds.length === 0) return { ok: false, error: "Select at least one item." };
-  if (!ship.name.trim() || !ship.phone.trim() || !ship.address.trim()) return { ok: false, error: "Fill in the delivery name, phone and address." };
+  if (variantIds.length === 0) return { ok: false, error: "Chọn ít nhất một món." };
+  if (!ship.name.trim() || !ship.phone.trim() || !ship.address.trim()) return { ok: false, error: "Điền đủ họ tên, số điện thoại và địa chỉ giao hàng." };
 
   try {
     return await prisma.$transaction(async (tx) => {
       const rows = await tx.cartItem.findMany({ where: { userId, variantId: { in: variantIds } }, include: lineInclude });
-      if (rows.length === 0) return { ok: false as const, error: "Those items are no longer in your bag." };
+      if (rows.length === 0) return { ok: false as const, error: "Các món này không còn trong giỏ của bạn." };
 
       const items: { variantId: number; qty: number; unitPrice: number; unitCogs: number }[] = [];
       for (const r of rows) {
@@ -147,7 +147,7 @@ export async function placeOrder(userId: number, variantIds: number[], ship: Shi
     });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "";
-    if (msg.startsWith("OUT_OF_STOCK:")) return { ok: false, error: `Not enough stock for ${msg.slice(13)}. Adjust the quantity and try again.` };
+    if (msg.startsWith("OUT_OF_STOCK:")) return { ok: false, error: `Không đủ hàng cho ${msg.slice(13)}. Chỉnh lại số lượng rồi thử lại.` };
     throw e;
   }
 }
@@ -249,9 +249,9 @@ export type OrderActionResult = { ok: true } | { ok: false; error: string };
 export async function cancelOrder(userId: number, orderId: number): Promise<OrderActionResult> {
   return prisma.$transaction(async (tx) => {
     const o = await tx.order.findFirst({ where: { id: orderId, userId }, include: { items: true } });
-    if (!o) return { ok: false, error: "Order not found." };
-    if (o.status === "CANCELLED") return { ok: false, error: "This order is already cancelled." };
-    if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "This order has already left the warehouse and can't be cancelled." };
+    if (!o) return { ok: false, error: "Không tìm thấy đơn hàng." };
+    if (o.status === "CANCELLED") return { ok: false, error: "Đơn này đã huỷ rồi." };
+    if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Đơn đã rời kho nên không huỷ được nữa." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
     await tx.order.update({ where: { id: o.id }, data: { status: "CANCELLED" } });
     return { ok: true };
@@ -265,9 +265,9 @@ export async function cancelOrder(userId: number, orderId: number): Promise<Orde
  */
 export async function requestRefund(userId: number, orderId: number, now = new Date()): Promise<OrderActionResult> {
   const o = await prisma.order.findFirst({ where: { id: orderId, userId } });
-  if (!o) return { ok: false, error: "Order not found." };
-  if (o.status !== "COMPLETED") return { ok: false, error: "Only completed orders can be returned." };
-  if ((now.getTime() - o.createdAt.getTime()) / 86_400_000 > REFUND_WINDOW_DAYS) return { ok: false, error: `Returns are open for ${REFUND_WINDOW_DAYS} days after the order.` };
+  if (!o) return { ok: false, error: "Không tìm thấy đơn hàng." };
+  if (o.status !== "COMPLETED") return { ok: false, error: "Chỉ đơn đã hoàn thành mới đổi trả được." };
+  if ((now.getTime() - o.createdAt.getTime()) / 86_400_000 > REFUND_WINDOW_DAYS) return { ok: false, error: `Chỉ nhận đổi trả trong ${REFUND_WINDOW_DAYS} ngày kể từ khi đặt đơn.` };
   await prisma.order.update({ where: { id: o.id }, data: { status: "REFUND" } });
   return { ok: true };
 }

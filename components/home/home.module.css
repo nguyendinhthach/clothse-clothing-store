@@ -15,8 +15,8 @@
 
 .h2 {
   font-family: var(--font-serif);
-  font-size: clamp(30px, 4.4vw, 58px);
-  line-height: 1;
+  font-size: clamp(28px, 4vw, 52px);
+  line-height: 1.08;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0;
@@ -68,8 +68,8 @@
 
 .h1 {
   font-family: var(--font-serif);
-  font-size: clamp(52px, 9.5vw, 140px);
-  line-height: 0.86;
+  font-size: clamp(40px, 6.2vw, 88px);
+  line-height: 1.14; /* Vietnamese stacks marks above caps; the skewed block below must not cover them */
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0 0 22px;
@@ -79,11 +79,12 @@
   background: var(--ink);
   color: var(--paper);
   padding: 0 12px;
-  transform: skewX(-7deg);
+  transform: skewX(-7deg) translateZ(0); /* own layer → antialiased skewed edges */
+  backface-visibility: hidden;
   transition: transform 240ms var(--ease-pop), background-color 240ms ease-out;
 }
 .h1:hover .h1Mark {
-  transform: skewX(-7deg) scale(1.04);
+  transform: skewX(-7deg) scale(1.04) translateZ(0);
   background: var(--accent);
 }
 
@@ -346,8 +347,8 @@
 }
 .tileLabel {
   font-family: var(--font-serif);
-  font-size: clamp(26px, 2.6vw, 38px);
-  line-height: 0.9;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.05;
   text-transform: uppercase;
 }
 .tileArrow {
@@ -441,8 +442,8 @@
 }
 .saleH2 {
   font-family: var(--font-serif);
-  font-size: clamp(44px, 7.5vw, 110px);
-  line-height: 0.85;
+  font-size: clamp(40px, 6.6vw, 96px);
+  line-height: 1;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 14px 0 0;
@@ -509,8 +510,8 @@
 }
 .newsH2 {
   font-family: var(--font-serif);
-  font-size: clamp(30px, 4.6vw, 62px);
-  line-height: 0.92;
+  font-size: clamp(28px, 4.2vw, 56px);
+  line-height: 1.06;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 12px;

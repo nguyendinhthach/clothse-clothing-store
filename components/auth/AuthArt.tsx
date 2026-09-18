@@ -9,7 +9,7 @@ export function AuthArt({ pill, title, children }: { pill: string; title: ReactN
       <span className={styles.artFade} />
       <span className={styles.artTag}>
         <span className={`${styles.dot} ${styles.dotAccent}`} />
-        Member campaign image
+        Ảnh chiến dịch thành viên
       </span>
       <div className={styles.artCopy}>
         <span className={styles.artPill}>

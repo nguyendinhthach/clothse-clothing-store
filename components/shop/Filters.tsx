@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { PRICE_MAX, PRICE_MIN, PRICE_STEP } from "@/lib/catalog-constants";
+import { categoryLabel, PRICE_MAX, PRICE_MIN, PRICE_STEP, tagLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { buildShopQuery, filtersActive, type ShopParams } from "@/lib/shop-params";
 import styles from "./shop.module.css";
@@ -30,34 +30,34 @@ export function Filters({ basePath, params, facets, total }: Props) {
   return (
     <aside className={styles.aside}>
       <div className={styles.asideHead}>
-        <span className={styles.asideTitle}>Filters</span>
-        <span className={styles.asideCount}>{total} items</span>
+        <span className={styles.asideTitle}>Bộ lọc</span>
+        <span className={styles.asideCount}>{total} sản phẩm</span>
       </div>
 
       <div className={styles.group}>
-        <span className={styles.groupLabel}>Category</span>
+        <span className={styles.groupLabel}>Danh mục</span>
         <div className={styles.pills}>
           {facets.categories.map((c) => (
             <button key={c} type="button" onClick={() => go({ cats: toggle(params.cats, c) })} className={`${styles.pill} ${params.cats.includes(c) ? styles.pillOn : ""}`}>
-              {c}
+              {categoryLabel(c)}
             </button>
           ))}
         </div>
       </div>
 
       <div className={styles.group}>
-        <span className={styles.groupLabel}>Details</span>
+        <span className={styles.groupLabel}>Đặc điểm</span>
         <div className={styles.pills}>
           {facets.tags.map((t) => (
             <button key={t} type="button" onClick={() => go({ tags: toggle(params.tags, t) })} className={`${styles.pill} ${params.tags.includes(t) ? styles.pillOn : ""}`}>
-              {t}
+              {tagLabel(t)}
             </button>
           ))}
         </div>
       </div>
 
       <div className={styles.group}>
-        <span className={styles.groupLabel}>Brand</span>
+        <span className={styles.groupLabel}>Hãng</span>
         <div className={styles.brandList}>
           {facets.brands.map((b) => {
             const on = params.brands.includes(b.name);
@@ -73,13 +73,13 @@ export function Filters({ basePath, params, facets, total }: Props) {
       </div>
 
       <div className={styles.group}>
-        <span className={styles.groupLabel}>Price</span>
+        <span className={styles.groupLabel}>Giá</span>
         <PriceRange min={params.min} max={params.max} onCommit={(min, max) => go({ min, max })} />
       </div>
 
       {filtersActive(params) && (
         <button type="button" onClick={() => router.replace(basePath, { scroll: false })} className={styles.clear}>
-          Clear filters
+          Xoá bộ lọc
         </button>
       )}
     </aside>
@@ -153,8 +153,8 @@ function PriceRange({ min, max, onCommit }: { min: number; max: number; onCommit
       <div ref={track} onPointerDown={onTrackDown} className={styles.track}>
         <span className={styles.rail} />
         <span className={styles.railOn} style={{ left: `${pct(range.min)}%`, right: `${100 - pct(range.max)}%` }} />
-        <span role="slider" aria-label="Minimum price" aria-valuemin={PRICE_MIN} aria-valuemax={PRICE_MAX} aria-valuenow={range.min} tabIndex={0} onPointerDown={(e) => startDrag("min", e)} className={`${styles.thumb} ${styles.thumbMin}`} style={{ left: `${pct(range.min)}%` }} />
-        <span role="slider" aria-label="Maximum price" aria-valuemin={PRICE_MIN} aria-valuemax={PRICE_MAX} aria-valuenow={range.max} tabIndex={0} onPointerDown={(e) => startDrag("max", e)} className={`${styles.thumb} ${styles.thumbMax}`} style={{ right: `${100 - pct(range.max)}%` }} />
+        <span role="slider" aria-label="Giá thấp nhất" aria-valuemin={PRICE_MIN} aria-valuemax={PRICE_MAX} aria-valuenow={range.min} tabIndex={0} onPointerDown={(e) => startDrag("min", e)} className={`${styles.thumb} ${styles.thumbMin}`} style={{ left: `${pct(range.min)}%` }} />
+        <span role="slider" aria-label="Giá cao nhất" aria-valuemin={PRICE_MIN} aria-valuemax={PRICE_MAX} aria-valuenow={range.max} tabIndex={0} onPointerDown={(e) => startDrag("max", e)} className={`${styles.thumb} ${styles.thumbMax}`} style={{ right: `${100 - pct(range.max)}%` }} />
       </div>
       <div className={styles.priceLabels}>
         <span>{formatVnd(range.min)}</span>

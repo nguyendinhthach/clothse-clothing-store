@@ -6,7 +6,7 @@ import { getFavouriteCards } from "@/lib/services/catalog";
 import { requireUser } from "@/lib/session";
 import styles from "@/components/favourites/favourites.module.css";
 
-export const metadata: Metadata = { title: "Favourites" };
+export const metadata: Metadata = { title: "Yêu thích" };
 
 export default async function FavouritesPage() {
   const user = await requireUser(routes.favourites);
@@ -18,29 +18,29 @@ export default async function FavouritesPage() {
       <section className={styles.head}>
         <div>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <Link href={routes.home}>Home</Link>
+            <Link href={routes.home}>Trang chủ</Link>
             <span>/</span>
-            <span className={styles.crumbOn}>Favourites</span>
+            <span className={styles.crumbOn}>Yêu thích</span>
           </nav>
-          <h1 className={styles.h1}>Favourites</h1>
+          <h1 className={styles.h1}>Yêu thích</h1>
         </div>
         <div className={styles.meta}>
-          <span className={styles.metaKicker}>Saved</span>
+          <span className={styles.metaKicker}>Đã lưu</span>
           <span className={styles.metaCount}>
-            {items.length} {items.length === 1 ? "item" : "items"} saved
+            {items.length} món đã lưu
           </span>
-          <span className={styles.metaNote}>{alerts > 0 ? `${alerts} with alerts on` : "No alerts set"}</span>
+          <span className={styles.metaNote}>{alerts > 0 ? `${alerts} món đang bật báo tin` : "Chưa bật báo tin"}</span>
         </div>
       </section>
 
       {items.length === 0 ? (
         <div className={styles.empty}>
-          <span className={styles.emptyKicker}>0 items saved</span>
-          <h3 className={styles.emptyTitle}>No favourites yet</h3>
+          <span className={styles.emptyKicker}>0 món đã lưu</span>
+          <h3 className={styles.emptyTitle}>Chưa có món nào</h3>
           <p className={styles.emptyBody}>
-            Tap the heart on anything you like — we&apos;ll keep it here and can ping you when it restocks or drops in price.
+            Chạm vào tim ở món bạn thích — shop giữ ở đây và có thể báo bạn khi món đó có hàng lại hoặc giảm giá.
           </p>
-          <Link href={routes.shop()} className={styles.emptyBtn}>Start browsing</Link>
+          <Link href={routes.shop()} className={styles.emptyBtn}>Dạo cửa hàng</Link>
         </div>
       ) : (
         <div className={styles.grid}>

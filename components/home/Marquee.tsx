@@ -2,7 +2,7 @@ import { formatVnd } from "@/lib/format";
 import { FREE_SHIPPING_OVER } from "@/lib/shipping";
 import styles from "./home.module.css";
 
-const ITEMS = ["New arrivals weekly", `Free shipping over ${formatVnd(FREE_SHIPPING_OVER)}`, "30-day returns", "Ships nationwide"];
+const ITEMS = ["Hàng mới mỗi tuần", `Miễn ship từ ${formatVnd(FREE_SHIPPING_OVER)}`, "Đổi trả trong 30 ngày", "Giao toàn quốc"];
 
 export function Marquee() {
   const half = ITEMS.map((t) => `${t} ✱`).join(" ");

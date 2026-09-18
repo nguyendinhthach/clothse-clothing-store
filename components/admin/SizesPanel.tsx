@@ -28,7 +28,7 @@ export function SizesPanel({ groups }: { groups: Group[] }) {
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>) =>
     start(async () => {
       const r = await fn();
-      setError(r.ok ? null : (r.error ?? "Something went wrong."));
+      setError(r.ok ? null : (r.error ?? "Có lỗi xảy ra."));
       router.refresh();
     });
 
@@ -36,12 +36,12 @@ export function SizesPanel({ groups }: { groups: Group[] }) {
     <div className={styles.stack}>
       <div className={styles.panelHead}>
         <div>
-          <h2 className={styles.h2}>Sizes</h2>
+          <h2 className={styles.h2}>Size</h2>
           <p className={styles.note}>
-            {total} sizes across {groups.length} categories · {total - off} active{off ? ` · ${off} inactive` : ""}
+            {total} size trong {groups.length} danh mục · {total - off} đang dùng{off ? ` · ${off} đã tắt` : ""}
           </p>
         </div>
-        <p className={styles.panelHint}>Each category keeps its own size list. Drag to set the order shoppers see; disable a size to hide it from new selections without touching past orders.</p>
+        <p className={styles.panelHint}>Mỗi danh mục có bộ size riêng. Kéo để xếp thứ tự khách thấy; tắt một size để ẩn khỏi lựa chọn mới mà không ảnh hưởng đơn cũ.</p>
       </div>
       {error && <div className={styles.error} role="alert">{error}</div>}
 
@@ -94,7 +94,7 @@ function SizeGroup({ group: g, pending, run }: { group: Group; pending: boolean;
     <div className={styles.sizeCard}>
       <div className={styles.sizeCardHead}>
         <span className={styles.brandName}>{g.name}</span>
-        <span className={styles.brandMeta}>{active} active · {g.sizes.length} total</span>
+        <span className={styles.brandMeta}>{active} đang dùng · {g.sizes.length} tổng</span>
       </div>
       <div>
         {ids.map((id, i) => {
@@ -109,18 +109,18 @@ function SizeGroup({ group: g, pending, run }: { group: Group; pending: boolean;
               onDragEnd={commitOrder}
               className={`${styles.sizeRow} ${dragId === s.id ? styles.sizeRowDrag : ""} ${s.active ? "" : styles.sizeRowOff}`}
             >
-              <span className={styles.grip} aria-hidden="true" title="Drag to reorder">⋮⋮</span>
+              <span className={styles.grip} aria-hidden="true" title="Kéo để xếp lại">⋮⋮</span>
               <span className={styles.ord}>{String(i + 1).padStart(2, "0")}</span>
               <input
                 defaultValue={s.label}
-                aria-label="Size label"
+                aria-label="Tên size"
                 className={styles.sizeInput}
                 onBlur={(e) => { const v = e.target.value.trim(); if (v && v !== s.label) run(() => renameSizeAction(s.id, v)); else e.target.value = s.label; }}
                 onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
               />
-              <span className={styles.sizeUse} title="Products selling this size">{s.variants > 0 ? `${s.variants} var.` : ""}</span>
+              <span className={styles.sizeUse} title="Số biến thể đang dùng size này">{s.variants > 0 ? `${s.variants} var.` : ""}</span>
               <button type="button" disabled={pending} onClick={() => run(() => setSizeActiveAction(s.id, !s.active))} className={`${styles.togglePill} ${s.active ? styles.togglePillOn : ""}`}>
-                {s.active ? "Active" : "Off"}
+                {s.active ? "Đang dùng" : "Tắt"}
               </button>
             </div>
           );
@@ -129,12 +129,12 @@ function SizeGroup({ group: g, pending, run }: { group: Group; pending: boolean;
       <div className={styles.sizeCardFoot}>
         {adding ? (
           <div className={styles.addRow}>
-            <input autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") submitAdd(); if (e.key === "Escape") setAdding(false); }} placeholder="New size label…" aria-label="New size label" className={styles.input} />
-            <button type="button" onClick={submitAdd} disabled={pending} className={styles.primaryBtn}>Add</button>
-            <button type="button" onClick={() => setAdding(false)} aria-label="Cancel" className={styles.closeBtn}>✕</button>
+            <input autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => { if (e.key === "Enter") submitAdd(); if (e.key === "Escape") setAdding(false); }} placeholder="Tên size mới…" aria-label="Tên size mới" className={styles.input} />
+            <button type="button" onClick={submitAdd} disabled={pending} className={styles.primaryBtn}>Thêm</button>
+            <button type="button" onClick={() => setAdding(false)} aria-label="Huỷ" className={styles.closeBtn}>✕</button>
           </div>
         ) : (
-          <button type="button" onClick={() => setAdding(true)} className={styles.smallBtn}>+ Add size</button>
+          <button type="button" onClick={() => setAdding(true)} className={styles.smallBtn}>+ Thêm size</button>
         )}
       </div>
     </div>

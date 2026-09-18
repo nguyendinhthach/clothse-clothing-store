@@ -26,10 +26,10 @@ export type CreateUserResult = { ok: true; id: number } | { ok: false; error: st
 export async function createUser(input: { email: string; name: string; password: string }): Promise<CreateUserResult> {
   const email = normalizeEmail(input.email);
   const name = input.name.trim() || email.split("@")[0];
-  if (!isEmail(email)) return { ok: false, error: "Enter a valid email address." };
-  if (input.password.length < PASSWORD_MIN) return { ok: false, error: `Password must be at least ${PASSWORD_MIN} characters.` };
+  if (!isEmail(email)) return { ok: false, error: "Email chưa đúng định dạng." };
+  if (input.password.length < PASSWORD_MIN) return { ok: false, error: `Mật khẩu cần ít nhất ${PASSWORD_MIN} ký tự.` };
   if (await prisma.user.findUnique({ where: { email }, select: { id: true } })) {
-    return { ok: false, error: "An account with this email already exists. Sign in instead." };
+    return { ok: false, error: "Email này đã có tài khoản. Bạn đăng nhập nhé." };
   }
   const user = await prisma.user.create({
     data: { email, name, passwordHash: await hash(input.password, 10), role: "USER" },
@@ -58,10 +58,10 @@ export async function createPasswordReset(rawEmail: string): Promise<{ token: st
 export type ResetResult = { ok: true } | { ok: false; error: string };
 
 export async function resetPassword(token: string, password: string): Promise<ResetResult> {
-  if (password.length < PASSWORD_MIN) return { ok: false, error: `Password must be at least ${PASSWORD_MIN} characters.` };
+  if (password.length < PASSWORD_MIN) return { ok: false, error: `Mật khẩu cần ít nhất ${PASSWORD_MIN} ký tự.` };
   const row = await prisma.passwordResetToken.findUnique({ where: { tokenHash: sha256(token) } });
   if (!row || row.usedAt || row.expiresAt < new Date()) {
-    return { ok: false, error: "This reset link is invalid or has expired. Request a new one." };
+    return { ok: false, error: "Link đặt lại không hợp lệ hoặc đã hết hạn. Yêu cầu link mới nhé." };
   }
   await prisma.$transaction([
     prisma.user.update({ where: { id: row.userId }, data: { passwordHash: await hash(password, 10) } }),
@@ -78,20 +78,20 @@ export async function updateProfile(userId: number, input: { name: string; email
   const name = input.name.trim();
   const email = normalizeEmail(input.email);
   const phone = input.phone.trim();
-  if (!name) return { ok: false, error: "Enter your name." };
-  if (!isEmail(email)) return { ok: false, error: "Enter a valid email address." };
+  if (!name) return { ok: false, error: "Nhập họ tên của bạn." };
+  if (!isEmail(email)) return { ok: false, error: "Email chưa đúng định dạng." };
   const clash = await prisma.user.findFirst({ where: { email, NOT: { id: userId } }, select: { id: true } });
-  if (clash) return { ok: false, error: "That email is already used by another account." };
+  if (clash) return { ok: false, error: "Email này đang được tài khoản khác dùng." };
   await prisma.user.update({ where: { id: userId }, data: { name, email, phone: phone || null } });
   return { ok: true };
 }
 
 export async function changePassword(userId: number, current: string, next: string, confirm: string): Promise<AccountResult> {
-  if (next.length < PASSWORD_MIN) return { ok: false, error: `New password must be at least ${PASSWORD_MIN} characters.` };
-  if (next !== confirm) return { ok: false, error: "New passwords don't match." };
+  if (next.length < PASSWORD_MIN) return { ok: false, error: `Mật khẩu mới cần ít nhất ${PASSWORD_MIN} ký tự.` };
+  if (next !== confirm) return { ok: false, error: "Hai mật khẩu mới không khớp." };
   const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user || !(await compare(current, user.passwordHash))) return { ok: false, error: "Current password is incorrect." };
-  if (await compare(next, user.passwordHash)) return { ok: false, error: "New password must differ from the current one." };
+  if (!user || !(await compare(current, user.passwordHash))) return { ok: false, error: "Mật khẩu hiện tại không đúng." };
+  if (await compare(next, user.passwordHash)) return { ok: false, error: "Mật khẩu mới phải khác mật khẩu hiện tại." };
   await prisma.user.update({ where: { id: userId }, data: { passwordHash: await hash(next, 10) } });
   return { ok: true };
 }

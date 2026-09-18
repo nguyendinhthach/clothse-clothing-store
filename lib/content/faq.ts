@@ -6,24 +6,24 @@ export interface FaqGroup {
 }
 
 export const FAQ_GROUPS: FaqGroup[] = [
-  { title: "Orders & Payment", items: [
-    { q: "What payment methods do you accept?", lines: ["Cash on delivery only for now — you pay the courier in full when the parcel arrives.", "No card details are collected or stored on the site."] },
-    { q: "Can I change or cancel my order?", lines: ["You can cancel any order that is still pending from Orders in your account — stock goes straight back on the shelf.", "Once we start processing it, message us with your order number and we will sort it out; after dispatch it has to be handled as a return."] },
-    { q: "How do I know my order was confirmed?", lines: ["Every order is reviewed manually before it moves into processing. You can follow its status under Orders in your account."] },
+  { title: "Đơn hàng & thanh toán", items: [
+    { q: "Shop nhận thanh toán kiểu gì?", lines: ["Hiện chỉ thanh toán khi nhận hàng (COD) — bạn trả đủ cho shipper lúc gói hàng tới.", "Web không thu và không lưu thông tin thẻ."] },
+    { q: "Đặt rồi có đổi hoặc huỷ được không?", lines: ["Đơn còn ở Chờ xác nhận thì bạn tự huỷ được trong mục Đơn hàng của tài khoản — hàng trả về kệ ngay.", "Khi shop đã bắt đầu xử lý, nhắn kèm mã đơn để shop lo; đơn đã gửi đi thì xử lý theo dạng đổi trả."] },
+    { q: "Làm sao biết đơn đã được xác nhận?", lines: ["Mọi đơn đều được shop xem tay trước khi chuyển sang xử lý. Bạn theo dõi trạng thái trong mục Đơn hàng của tài khoản."] },
   ] },
-  { title: "Shipping", items: [
-    { q: "How long does delivery take?", lines: ["1–2 business days within Da Lat, 2–4 business days elsewhere in Vietnam.", "Confirmed orders are packed and handed to the courier within 1–2 business days."] },
-    { q: "Do you ship outside Da Lat?", lines: ["Yes — we ship nationwide. Delivery outside Da Lat typically takes 2–4 business days."] },
-    { q: "How much is shipping?", lines: ["A flat 30.000₫, free on orders over 1.000.000₫."] },
+  { title: "Giao hàng", items: [
+    { q: "Giao mất bao lâu?", lines: ["1–2 ngày làm việc trong Đà Lạt, 2–4 ngày làm việc ở các tỉnh khác.", "Đơn đã xác nhận được đóng gói và giao cho đơn vị vận chuyển trong 1–2 ngày làm việc."] },
+    { q: "Có giao ngoài Đà Lạt không?", lines: ["Có — shop giao toàn quốc. Ngoài Đà Lạt thường mất 2–4 ngày làm việc."] },
+    { q: "Phí ship bao nhiêu?", lines: ["Cố định 30.000₫, miễn phí cho đơn từ 1.000.000₫."] },
   ] },
-  { title: "Returns & Refunds", items: [
-    { q: "What's your return policy?", lines: ["30 days from delivery, on items that are unworn, unwashed and still have their original tags attached.", "Footwear must come back in its original box. Underwear, socks and face coverings cannot be returned for hygiene reasons."] },
-    { q: "How do I request a return?", lines: ["Open the completed order under Orders in your account and press “Request refund” — it is available for 30 days after delivery. We reply with return instructions.", "Once the return arrives and is checked, the refund is issued by bank transfer within 5 business days."] },
-    { q: "Who pays for return shipping?", lines: ["The customer, unless the item arrived faulty or was not what was ordered — then it is on us."] },
+  { title: "Đổi trả & hoàn tiền", items: [
+    { q: "Chính sách đổi trả thế nào?", lines: ["30 ngày kể từ khi nhận, với món chưa mặc, chưa giặt và còn nguyên tag.", "Giày phải trả về trong hộp gốc. Đồ lót, tất và khẩu trang không nhận đổi trả vì lý do vệ sinh."] },
+    { q: "Yêu cầu đổi trả bằng cách nào?", lines: ["Mở đơn đã hoàn thành trong mục Đơn hàng và bấm “Yêu cầu đổi trả” — nút này có trong 30 ngày sau khi nhận. Shop sẽ trả lời kèm hướng dẫn gửi trả.", "Khi hàng trả về và kiểm xong, shop hoàn tiền qua chuyển khoản trong 5 ngày làm việc."] },
+    { q: "Ai chịu phí ship trả hàng?", lines: ["Khách chịu, trừ khi món bị lỗi hoặc giao sai — khi đó shop chịu."] },
   ] },
-  { title: "Account", items: [
-    { q: "Do I need an account to shop?", lines: ["You can browse the whole store without one, but you will need to sign in (or create an account — it only takes a few seconds) to add items to your bag or favourites and to check out.", "An account also saves your addresses and order history, and lets you turn on restock alerts."] },
-    { q: "How do I reset my password?", lines: ["Use the “Forgot password?” link on the sign-in page and follow the emailed reset link."] },
-    { q: "How do restock alerts work?", lines: ["Turn on “Notify me” for any item in Favourites and we will email you once it is back in stock — and when it goes on sale."] },
+  { title: "Tài khoản", items: [
+    { q: "Có cần tài khoản để mua không?", lines: ["Dạo cả cửa hàng không cần, nhưng để thêm vào giỏ, lưu yêu thích và thanh toán thì cần đăng nhập (tạo tài khoản chỉ mất vài giây).", "Tài khoản còn lưu địa chỉ, lịch sử đơn và cho bật báo tin khi có hàng lại."] },
+    { q: "Quên mật khẩu thì sao?", lines: ["Bấm “Quên mật khẩu?” ở trang đăng nhập rồi làm theo link trong email."] },
+    { q: "Báo tin có hàng lại hoạt động thế nào?", lines: ["Bật “Báo tôi” cho món bất kỳ trong Yêu thích — shop sẽ email khi món đó có hàng lại, và khi nó giảm giá."] },
   ] },
 ];

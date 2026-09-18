@@ -7,12 +7,12 @@ export function SaleBanner({ maxPercent }: { maxPercent: number }) {
     <section id="sale" className={styles.sale}>
       <div className={`container ${styles.saleInner}`}>
         <div>
-          <span className={styles.saleKicker}>End of season / final cuts</span>
-          <h2 className={styles.saleH2}>{maxPercent > 0 ? `Up to ${maxPercent}% off` : "Final cuts"}</h2>
+          <span className={styles.saleKicker}>Cuối mùa / giá chốt</span>
+          <h2 className={styles.saleH2}>{maxPercent > 0 ? `Giảm đến ${maxPercent}%` : "Giá chốt"}</h2>
         </div>
         <div className={styles.saleRight}>
-          <p className={styles.saleLead}>Last-chance sizes from past seasons. Marked down once, then off the shelf for good.</p>
-          <Link href={routes.sale} className={styles.btnDark}>Shop the sale</Link>
+          <p className={styles.saleLead}>Size cuối của các mùa trước. Giảm một lần, hết là thôi — không nhập lại.</p>
+          <Link href={routes.sale} className={styles.btnDark}>Săn sale</Link>
         </div>
       </div>
     </section>

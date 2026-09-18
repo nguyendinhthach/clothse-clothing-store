@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { categoryLabel } from "@/lib/catalog-constants";
 import styles from "./shop.module.css";
 
 interface Props {
@@ -20,10 +21,10 @@ export function CategoryPills({ basePath, categories, active, keep = {} }: Props
   };
   return (
     <div className={styles.roundPills}>
-      <span className={styles.groupLabel} style={{ marginRight: 4 }}>Category</span>
-      <Link href={href(null)} className={`${styles.roundPill} ${!active ? styles.roundPillOn : ""}`}>All</Link>
+      <span className={styles.groupLabel} style={{ marginRight: 4 }}>Danh mục</span>
+      <Link href={href(null)} className={`${styles.roundPill} ${!active ? styles.roundPillOn : ""}`}>Tất cả</Link>
       {categories.map((c) => (
-        <Link key={c} href={href(c)} className={`${styles.roundPill} ${active === c ? styles.roundPillOn : ""}`}>{c}</Link>
+        <Link key={c} href={href(c)} className={`${styles.roundPill} ${active === c ? styles.roundPillOn : ""}`}>{categoryLabel(c)}</Link>
       ))}
     </div>
   );

@@ -7,12 +7,12 @@ import { getAddresses } from "@/lib/services/addresses";
 import { requireUser } from "@/lib/session";
 import styles from "@/components/account/account.module.css";
 
-export const metadata: Metadata = { title: "My Account" };
+export const metadata: Metadata = { title: "Tài khoản" };
 
 const TABS: { tab: AccountTab; label: string }[] = [
-  { tab: "profile", label: "Profile" },
-  { tab: "addresses", label: "Addresses" },
-  { tab: "settings", label: "Password & Security" },
+  { tab: "profile", label: "Hồ sơ" },
+  { tab: "addresses", label: "Địa chỉ" },
+  { tab: "settings", label: "Mật khẩu & bảo mật" },
 ];
 
 const initials = (name: string, email: string) =>
@@ -26,27 +26,27 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
     prisma.user.findUniqueOrThrow({ where: { id: session.id }, select: { name: true, email: true, phone: true, createdAt: true } }),
     getAddresses(session.id),
   ]);
-  const since = user.createdAt.toLocaleDateString("en-US", { month: "short", year: "numeric" }).toUpperCase();
+  const since = user.createdAt.toLocaleDateString("vi-VN", { month: "numeric", year: "numeric" });
 
   return (
     <div className={`container ${styles.page}`}>
       <section className={styles.head}>
         <div>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <Link href={routes.home}>Home</Link>
+            <Link href={routes.home}>Trang chủ</Link>
             <span>/</span>
-            <span className={styles.crumbOn}>Account</span>
+            <span className={styles.crumbOn}>Tài khoản</span>
           </nav>
-          <h1 className={styles.h1}>My Account</h1>
+          <h1 className={styles.h1}>Tài khoản</h1>
         </div>
         <div className={styles.meta}>
-          <span className={styles.metaKicker}>Member since</span>
-          <span className={styles.metaValue}>{since} · {addresses.length} {addresses.length === 1 ? "address" : "addresses"} saved</span>
+          <span className={styles.metaKicker}>Thành viên từ</span>
+          <span className={styles.metaValue}>{since} · {addresses.length} địa chỉ đã lưu</span>
         </div>
       </section>
 
       <div className={styles.shell}>
-        <nav className={styles.rail} aria-label="Account sections">
+        <nav className={styles.rail} aria-label="Mục tài khoản">
           {TABS.map((t) => (
             <Link key={t.tab} href={routes.account(t.tab)} aria-current={t.tab === tab ? "page" : undefined} className={`${styles.railItem} ${t.tab === tab ? styles.railOn : ""}`}>
               <span>{t.label}</span>

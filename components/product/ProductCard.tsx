@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
 import type { ProductCardData } from "@/lib/services/catalog";
@@ -23,14 +24,14 @@ interface Props {
 }
 
 function sizesLine(sizes: string[]) {
-  if (sizes.length === 0) return "Sold out";
+  if (sizes.length === 0) return "Hết hàng";
   return sizes.join(" · ");
 }
 
 export function ProductCard({ product: p, variant = "tall", favourite, note, className = "" }: Props) {
   const href = routes.product(p.id);
   const price = p.onSale && p.salePrice != null ? p.salePrice : p.price;
-  const cta = p.sizesInStock.length ? "Add to bag" : "Sold out";
+  const cta = p.sizesInStock.length ? "Thêm vào giỏ" : "Hết hàng";
 
   return (
     <article className={`${styles.card} ${className}`}>
@@ -65,14 +66,14 @@ export function ProductCard({ product: p, variant = "tall", favourite, note, cla
         </div>
         {variant === "grid" && (
           <span className={styles.metaRow}>
-            <span className={styles.meta}>{p.category}</span>
+            <span className={styles.meta}>{categoryLabel(p.category)}</span>
             {note && <span className={styles.note}>{note}</span>}
           </span>
         )}
         {variant === "tall" && (
           <>
             <span className={styles.meta}>
-              {p.brand} / {p.category}
+              {p.brand} / {categoryLabel(p.category)}
             </span>
             <Link href={href} className={styles.cta}>{cta}</Link>
           </>

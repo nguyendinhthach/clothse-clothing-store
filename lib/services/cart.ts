@@ -14,10 +14,10 @@ export type AddResult = { ok: true; qty: number } | { ok: false; error: string }
  * (SPEC §6.3: no ordering beyond stock); the real deduction happens at checkout.
  */
 export async function addToCart(userId: number, variantId: number, qty: number): Promise<AddResult> {
-  if (!Number.isInteger(qty) || qty < 1) return { ok: false, error: "Choose a quantity." };
+  if (!Number.isInteger(qty) || qty < 1) return { ok: false, error: "Chọn số lượng." };
   const variant = await prisma.variant.findUnique({ where: { id: variantId }, select: { stock: true } });
-  if (!variant) return { ok: false, error: "That size is no longer available." };
-  if (variant.stock === 0) return { ok: false, error: "That size is sold out." };
+  if (!variant) return { ok: false, error: "Size này không còn nữa." };
+  if (variant.stock === 0) return { ok: false, error: "Size này đã hết hàng." };
 
   const existing = await prisma.cartItem.findUnique({ where: { userId_variantId: { userId, variantId } } });
   const wanted = Math.min((existing?.qty ?? 0) + qty, CART_MAX_PER_LINE);
@@ -25,7 +25,7 @@ export async function addToCart(userId: number, variantId: number, qty: number):
   if (existing && next === existing.qty) {
     return {
       ok: false,
-      error: next >= CART_MAX_PER_LINE ? `Max ${CART_MAX_PER_LINE} per size — your bag is at the limit.` : `Only ${variant.stock} in stock — your bag already has them.`,
+      error: next >= CART_MAX_PER_LINE ? `Tối đa ${CART_MAX_PER_LINE} món mỗi size — giỏ của bạn đã đủ.` : `Chỉ còn ${variant.stock} món — giỏ của bạn đã có đủ số đó.`,
     };
   }
 

@@ -21,10 +21,10 @@ export function FavouriteCard({ item: p }: { item: Data }) {
   const price = sale ? p.salePrice! : p.price;
 
   const note = oos
-    ? "We’ll email you the moment it’s back in stock."
+    ? "Shop sẽ email bạn ngay khi món này có hàng lại."
     : sale
-      ? "You’ll hear about the next price drop on this one."
-      : "Alerts on for restocks and price drops.";
+      ? "Lần giảm giá tiếp theo của món này bạn sẽ được báo."
+      : "Đang bật báo tin khi có hàng lại hoặc giảm giá.";
 
   return (
     <article className={styles.card}>
@@ -40,14 +40,14 @@ export function FavouriteCard({ item: p }: { item: Data }) {
         <Badge badge={p.badge} className={styles.badge} />
         <button
           type="button"
-          aria-label="Remove from favourites"
+          aria-label="Bỏ khỏi yêu thích"
           disabled={pending}
           className={styles.unfav}
           onClick={() => start(async () => { await toggleFavouriteAction(p.id, routes.favourites); router.refresh(); })}
         >
           <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="M12 20.5 4.6 13.3a4.7 4.7 0 0 1 0-6.7 4.7 4.7 0 0 1 6.7 0l.7.7.7-.7a4.7 4.7 0 0 1 6.7 0 4.7 4.7 0 0 1 0 6.7L12 20.5Z" /></svg>
         </button>
-        {!oos && <Link href={href} className={styles.cta}>Add to bag</Link>}
+        {!oos && <Link href={href} className={styles.cta}>Thêm vào giỏ</Link>}
       </div>
 
       <div className={styles.body}>
@@ -69,9 +69,9 @@ export function FavouriteCard({ item: p }: { item: Data }) {
             onClick={() => start(async () => { setNotify(!notify); await setNotifyAction(p.id, !notify); })}
           >
             <span className={styles.track}><span className={styles.knob} /></span>
-            Notify me
+            Báo tôi
           </button>
-          {(oos || sale) && <span className={`${styles.status} ${oos ? styles.statusOos : styles.statusSale}`}>{oos ? "Out of stock" : "On sale"}</span>}
+          {(oos || sale) && <span className={`${styles.status} ${oos ? styles.statusOos : styles.statusSale}`}>{oos ? "Hết hàng" : "Đang sale"}</span>}
         </div>
         {notify && <span className={styles.note}>{note}</span>}
       </div>

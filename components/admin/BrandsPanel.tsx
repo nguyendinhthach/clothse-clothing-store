@@ -20,7 +20,7 @@ export function BrandsPanel({ brands }: { brands: Brand[] }) {
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>, onOk?: () => void) =>
     start(async () => {
       const r = await fn();
-      setError(r.ok ? null : (r.error ?? "Something went wrong."));
+      setError(r.ok ? null : (r.error ?? "Có lỗi xảy ra."));
       if (r.ok) onOk?.();
       router.refresh();
     });
@@ -31,10 +31,10 @@ export function BrandsPanel({ brands }: { brands: Brand[] }) {
     <div className={styles.stack}>
       <div className={styles.panelHead}>
         <div>
-          <h2 className={styles.h2}>Brands</h2>
-          <p className={styles.note}>{brands.length} brands · {total} products listed</p>
+          <h2 className={styles.h2}>Hãng</h2>
+          <p className={styles.note}>{brands.length} hãng · {total} sản phẩm đang bán</p>
         </div>
-        <button type="button" onClick={() => { setForm({ name: "" }); setError(null); }} className={styles.primaryBtn}>Add brand</button>
+        <button type="button" onClick={() => { setForm({ name: "" }); setError(null); }} className={styles.primaryBtn}>Thêm hãng</button>
       </div>
       {error && <div className={styles.error} role="alert">{error}</div>}
 
@@ -45,18 +45,18 @@ export function BrandsPanel({ brands }: { brands: Brand[] }) {
               <span className={styles.brandTile}>{b.name.slice(0, 2).toUpperCase()}</span>
               <span className={styles.brandText}>
                 <span className={styles.brandName}>{b.name}</span>
-                <span className={styles.brandMeta}>{b.products} {b.products === 1 ? "product" : "products"}</span>
+                <span className={styles.brandMeta}>{b.products} sản phẩm</span>
               </span>
             </div>
             <div className={styles.btnRow}>
-              <button type="button" onClick={() => { setForm({ id: b.id, name: b.name }); setError(null); }} className={styles.smallBtn}>Edit</button>
+              <button type="button" onClick={() => { setForm({ id: b.id, name: b.name }); setError(null); }} className={styles.smallBtn}>Sửa</button>
               <button
                 type="button"
                 disabled={pending}
-                onClick={() => { if (confirm(`Delete ${b.name}?`)) run(() => deleteBrandAction(b.id)); }}
+                onClick={() => { if (confirm(`Xoá hãng ${b.name}?`)) run(() => deleteBrandAction(b.id)); }}
                 className={`${styles.smallBtn} ${styles.smallBtnDanger}`}
               >
-                Delete
+                Xoá
               </button>
             </div>
           </div>
@@ -74,19 +74,19 @@ export function BrandsPanel({ brands }: { brands: Brand[] }) {
             }}
           >
             <div className={styles.modalHead}>
-              <h2 className={styles.h2}>{form.id ? "Edit brand" : "New brand"}</h2>
-              <button type="button" onClick={() => setForm(null)} aria-label="Close" className={styles.closeBtn}>✕</button>
+              <h2 className={styles.h2}>{form.id ? "Sửa hãng" : "Hãng mới"}</h2>
+              <button type="button" onClick={() => setForm(null)} aria-label="Đóng" className={styles.closeBtn}>✕</button>
             </div>
             <div className={styles.modalBody}>
               <label className={styles.field}>
-                <span className={styles.fieldLabel}>Brand name</span>
+                <span className={styles.fieldLabel}>Tên hãng</span>
                 <input autoFocus value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="Stüssy" className={styles.input} />
               </label>
               {error && <div className={styles.error} role="alert">{error}</div>}
             </div>
             <div className={styles.modalFoot}>
-              <button type="button" onClick={() => setForm(null)} className={styles.ghostBtn}>Cancel</button>
-              <button type="submit" disabled={pending} className={styles.primaryBtn}>{pending ? "Saving…" : "Save brand"}</button>
+              <button type="button" onClick={() => setForm(null)} className={styles.ghostBtn}>Huỷ</button>
+              <button type="submit" disabled={pending} className={styles.primaryBtn}>{pending ? "Đang lưu…" : "Lưu hãng"}</button>
             </div>
           </form>
         </div>

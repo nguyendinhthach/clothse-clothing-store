@@ -13,8 +13,8 @@ export function ShopBy({ tiles }: { tiles: Tile[] }) {
   return (
     <section id="categories" className={`container ${styles.section}`}>
       <div className={styles.sectionHead}>
-        <h2 className={styles.h2}>Shop by</h2>
-        <span className={styles.eyebrow}>{String(tiles.length).padStart(2, "0")} groups</span>
+        <h2 className={styles.h2}>Bắt đầu từ đây</h2>
+        <span className={styles.eyebrow}>{String(tiles.length).padStart(2, "0")} nhóm</span>
       </div>
       <div className={styles.tiles}>
         {tiles.map((t, i) => (
@@ -25,7 +25,7 @@ export function ShopBy({ tiles }: { tiles: Tile[] }) {
             <span className={styles.tileTint} />
             <span className={styles.tileText}>
               <span className={styles.tileTag}>
-                {String(i + 1).padStart(2, "0")} / {t.count} {t.count === 1 ? "style" : "styles"}
+                {String(i + 1).padStart(2, "0")} / {t.count} mẫu
               </span>
               <span className={styles.tileBottom}>
                 <span className={styles.tileLabel}>{t.label}</span>

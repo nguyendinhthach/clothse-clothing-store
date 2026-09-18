@@ -24,13 +24,13 @@ const str = (fd: FormData, key: string) => {
 export async function signInAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const email = normalizeEmail(str(fd, "email"));
   const password = str(fd, "password");
-  if (!email || !password) return { error: "Enter your email and password to continue." };
+  if (!email || !password) return { error: "Nhập email và mật khẩu để tiếp tục." };
 
   try {
     // On success Auth.js throws a Next redirect — it must propagate.
     await signIn("credentials", { email, password, redirectTo: safeNext(str(fd, "next")) });
   } catch (e) {
-    if (e instanceof AuthError) return { error: "Email or password is incorrect." };
+    if (e instanceof AuthError) return { error: "Email hoặc mật khẩu không đúng." };
     throw e;
   }
   return {};
@@ -41,7 +41,7 @@ export async function signInAction(_prev: FormState, fd: FormData): Promise<Form
 export async function signUpAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const email = str(fd, "email");
   const password = str(fd, "password");
-  if (!email || !password) return { error: "Enter an email and password to continue." };
+  if (!email || !password) return { error: "Nhập email và mật khẩu để tiếp tục." };
 
   const created = await createUser({ email, name: str(fd, "name"), password });
   if (!created.ok) return { error: created.error };
@@ -52,7 +52,7 @@ export async function signUpAction(_prev: FormState, fd: FormData): Promise<Form
   try {
     await signIn("credentials", { email: normalizeEmail(email), password, redirectTo: safeNext(str(fd, "next")) });
   } catch (e) {
-    if (e instanceof AuthError) return { error: "Account created, but sign-in failed. Try signing in." };
+    if (e instanceof AuthError) return { error: "Đã tạo tài khoản nhưng đăng nhập lỗi. Bạn thử đăng nhập lại nhé." };
     throw e;
   }
   return {};
@@ -62,15 +62,15 @@ export async function signUpAction(_prev: FormState, fd: FormData): Promise<Form
 
 export async function forgotPasswordAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const email = normalizeEmail(str(fd, "email"));
-  if (!isEmail(email)) return { error: "Enter a valid email address." };
+  if (!isEmail(email)) return { error: "Email chưa đúng định dạng." };
 
   const reset = await createPasswordReset(email);
   if (reset) {
     const link = appUrl(`${routes.resetPassword}?token=${reset.token}`);
     await sendMail({
       to: email,
-      subject: "Reset your ClothSE password",
-      text: `Hi ${reset.name},\n\nSomeone asked to reset the password for this ClothSE account. Open the link below within 30 minutes to choose a new one:\n\n${link}\n\nIf this wasn't you, ignore this email — your password stays the same.\n\n— ClothSE`,
+      subject: "Đặt lại mật khẩu ClothSE",
+      text: `Chào ${reset.name},\n\nCó yêu cầu đặt lại mật khẩu cho tài khoản ClothSE này. Mở link dưới đây trong 30 phút để chọn mật khẩu mới:\n\n${link}\n\nNếu không phải bạn, cứ bỏ qua email này — mật khẩu vẫn giữ nguyên.\n\n— ClothSE`,
     });
   }
   // Same answer whether or not the account exists — never reveal which.
@@ -80,8 +80,8 @@ export async function forgotPasswordAction(_prev: FormState, fd: FormData): Prom
 export async function resetPasswordAction(_prev: FormState, fd: FormData): Promise<FormState> {
   const token = str(fd, "token");
   const password = str(fd, "password");
-  if (!token) return { error: "This reset link is invalid or has expired. Request a new one." };
-  if (password !== str(fd, "confirm")) return { error: "Passwords don't match." };
+  if (!token) return { error: "Link đặt lại không hợp lệ hoặc đã hết hạn. Yêu cầu link mới nhé." };
+  if (password !== str(fd, "confirm")) return { error: "Hai mật khẩu không khớp." };
 
   const result = await resetPassword(token, password);
   if (!result.ok) return { error: result.error };

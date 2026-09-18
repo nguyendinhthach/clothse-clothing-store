@@ -5,6 +5,7 @@ import { Accordions, type AccordionSection } from "@/components/product/Accordio
 import { Gallery } from "@/components/product/Gallery";
 import { ProductCard } from "@/components/product/ProductCard";
 import { PurchasePanel } from "@/components/product/PurchasePanel";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
 import { getProductDetail, getRelatedProducts } from "@/lib/services/catalog";
@@ -16,7 +17,7 @@ import styles from "./product.module.css";
 export async function generateMetadata({ params }: PageProps<"/products/[id]">): Promise<Metadata> {
   const { id } = await params;
   const p = await getProductDetail(Number(id));
-  return { title: p ? `${p.name} — ${p.brand}` : "Product" };
+  return { title: p ? `${p.name} — ${p.brand}` : "Sản phẩm" };
 }
 
 export default async function ProductPage({ params }: PageProps<"/products/[id]">) {
@@ -34,23 +35,23 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
   const sections: AccordionSection[] = [
     {
       id: "details",
-      title: "Product details",
-      lines: [...product.details, ...(product.modelFitNote ? [{ label: "Model", value: product.modelFitNote }] : [])],
+      title: "Chi tiết sản phẩm",
+      lines: [...product.details, ...(product.modelFitNote ? [{ label: "Người mẫu", value: product.modelFitNote }] : [])],
     },
     {
       id: "size-guide",
-      title: "Size guide",
+      title: "Hướng dẫn chọn size",
       lines: Object.keys(product.sizeGuide).length
         ? Object.entries(product.sizeGuide).map(([label, value]) => ({ label, value }))
-        : [{ label: "Fit", value: product.modelFitNote ?? "True to size. Between sizes? Size up for a relaxed fit." }],
+        : [{ label: "Form", value: product.modelFitNote ?? "Đúng size. Lỡ cỡ giữa hai size thì lấy size lớn hơn cho thoải mái." }],
     },
     {
       id: "shipping",
-      title: "Shipping & returns",
+      title: "Giao hàng & đổi trả",
       lines: [
-        { label: "Delivery", value: `Nationwide. ${formatVnd(SHIPPING_FEE)} flat, free on orders over ${formatVnd(FREE_SHIPPING_OVER)}. Dispatched in 1–2 days.` },
-        { label: "Payment", value: "Cash on delivery — pay the courier when your order arrives." },
-        { label: "Returns", value: "30 days, unworn with tags. Request a return from your orders page." },
+        { label: "Giao hàng", value: `Toàn quốc. Phí cố định ${formatVnd(SHIPPING_FEE)}, miễn phí cho đơn từ ${formatVnd(FREE_SHIPPING_OVER)}. Gửi trong 1–2 ngày.` },
+        { label: "Thanh toán", value: "Thanh toán khi nhận hàng (COD) — trả tiền cho shipper lúc nhận." },
+        { label: "Đổi trả", value: "30 ngày, chưa mặc và còn tag. Gửi yêu cầu ngay trong trang Đơn hàng." },
       ],
     },
   ];
@@ -58,11 +59,11 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
   return (
     <div className={`container ${styles.page}`}>
       <nav aria-label="Breadcrumb" className={styles.crumbs}>
-        <Link href={routes.home}>Home</Link>
+        <Link href={routes.home}>Trang chủ</Link>
         <span>/</span>
-        <Link href={routes.shop()}>Shop</Link>
+        <Link href={routes.shop()}>Cửa hàng</Link>
         <span>/</span>
-        <Link href={routes.shop({ cat: product.category })}>{product.category}</Link>
+        <Link href={routes.shop({ cat: product.category })}>{categoryLabel(product.category)}</Link>
         <span>/</span>
         <span className={styles.crumbCurrent}>{product.name}</span>
       </nav>
@@ -72,7 +73,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
 
         <div className={styles.info}>
           <span className={styles.kicker}>
-            {product.category} — {product.sku}
+            {categoryLabel(product.category)} — {product.sku}
           </span>
           <h1 className={styles.h1}>{product.name}</h1>
           <div className={styles.priceRow}>
@@ -90,7 +91,7 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
           <div className={styles.rule} />
 
           <PurchasePanel productId={product.id} price={paying} sizes={product.sizes} favourite={fav(product.id)} />
-          <span className={styles.shipNote}>Free shipping over {formatVnd(FREE_SHIPPING_OVER)} — dispatched in 1–2 days</span>
+          <span className={styles.shipNote}>Miễn ship từ {formatVnd(FREE_SHIPPING_OVER)} — gửi trong 1–2 ngày</span>
 
           <Accordions sections={sections} initial="details" />
         </div>
@@ -99,9 +100,9 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
       {related.length > 0 && (
         <section className={styles.related}>
           <div className={styles.relatedHead}>
-            <h2 className={styles.h2}>You may also like</h2>
+            <h2 className={styles.h2}>Có thể bạn cũng thích</h2>
             <Link href={routes.shop({ cat: product.category })} className={styles.viewAll}>
-              View all {product.category}
+              Xem tất cả {categoryLabel(product.category)}
             </Link>
           </div>
           <div className={styles.grid}>

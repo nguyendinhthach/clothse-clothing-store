@@ -13,12 +13,12 @@ export const IMAGE_MAX_BYTES = 4 * 1024 * 1024; // design: "max 4MB"
 
 /** Upload one image file; returns the delivery URL (auto format/quality, 4:5 fill for cards is applied at render). */
 export async function uploadProductImage(file: File, folder = "clothse/products"): Promise<{ url: string; publicId: string }> {
-  if (!cloudinaryConfigured) throw new Error("Cloudinary is not configured (CLOUDINARY_* in .env).");
-  if (file.size > IMAGE_MAX_BYTES) throw new Error("Image is over 4 MB.");
-  if (!file.type.startsWith("image/")) throw new Error("Only image files are accepted.");
+  if (!cloudinaryConfigured) throw new Error("Chưa cấu hình Cloudinary (CLOUDINARY_* trong .env).");
+  if (file.size > IMAGE_MAX_BYTES) throw new Error("Ảnh nặng quá 4 MB.");
+  if (!file.type.startsWith("image/")) throw new Error("Chỉ nhận file ảnh.");
   const buf = Buffer.from(await file.arrayBuffer());
   const res = await new Promise<{ secure_url: string; public_id: string }>((resolve, reject) => {
-    cloudinary.uploader.upload_stream({ folder, resource_type: "image", transformation: [{ quality: "auto", fetch_format: "auto" }] }, (err, r) => (err || !r ? reject(err ?? new Error("Upload failed")) : resolve(r))).end(buf);
+    cloudinary.uploader.upload_stream({ folder, resource_type: "image", transformation: [{ quality: "auto", fetch_format: "auto" }] }, (err, r) => (err || !r ? reject(err ?? new Error("Tải ảnh thất bại")) : resolve(r))).end(buf);
   });
   return { url: res.secure_url, publicId: res.public_id };
 }

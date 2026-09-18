@@ -151,7 +151,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(38px, 5.6vw, 76px);
-  line-height: 0.9;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0;
@@ -1098,7 +1098,7 @@
 .statValue {
   font-family: var(--font-serif);
   font-size: clamp(30px, 3.4vw, 44px);
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: -0.02em;
 }
 .statNote {

@@ -147,17 +147,17 @@ async function noteRestock(tx: Prisma.TransactionClient, productId: number, tota
 }
 
 export async function receiveStock(input: IntakeInput): Promise<StorageResult> {
-  if (!input.lines.length) return { ok: false, error: "Add at least one line." };
+  if (!input.lines.length) return { ok: false, error: "Thêm ít nhất một dòng." };
   const receivedAt = new Date(input.receivedAt);
-  if (Number.isNaN(receivedAt.getTime())) return { ok: false, error: "Pick the date received." };
+  if (Number.isNaN(receivedAt.getTime())) return { ok: false, error: "Chọn ngày nhận hàng." };
   const brand = await prisma.brand.findUnique({ where: { id: input.brandId } });
-  if (!brand) return { ok: false, error: "Pick a brand." };
+  if (!brand) return { ok: false, error: "Chọn hãng." };
 
   for (const [i, l] of input.lines.entries()) {
-    if (!Number.isInteger(l.qty) || l.qty <= 0) return { ok: false, error: `Line ${i + 1}: quantity must be a whole number above 0.` };
-    if (!Number.isInteger(l.unitCost) || l.unitCost <= 0) return { ok: false, error: `Line ${i + 1}: unit cost must be a whole number of VND.` };
-    if (l.mode === "existing" && !l.variantId) return { ok: false, error: `Line ${i + 1}: pick the product and size.` };
-    if (l.mode === "new" && (!l.itemDescription?.trim() || !l.categoryId || !l.sizeOptionId)) return { ok: false, error: `Line ${i + 1}: describe the item and pick its category and size.` };
+    if (!Number.isInteger(l.qty) || l.qty <= 0) return { ok: false, error: `Dòng ${i + 1}: số lượng phải là số nguyên lớn hơn 0.` };
+    if (!Number.isInteger(l.unitCost) || l.unitCost <= 0) return { ok: false, error: `Dòng ${i + 1}: giá vốn phải là số nguyên (VNĐ).` };
+    if (l.mode === "existing" && !l.variantId) return { ok: false, error: `Dòng ${i + 1}: chọn sản phẩm và size.` };
+    if (l.mode === "new" && (!l.itemDescription?.trim() || !l.categoryId || !l.sizeOptionId)) return { ok: false, error: `Dòng ${i + 1}: mô tả món hàng và chọn danh mục, size.` };
   }
 
   const restocked: number[] = [];
@@ -205,7 +205,7 @@ export async function getLinkableBatches(opts: { brandId?: number; categoryId: n
  * batch keeps one cost and one date for FIFO.
  */
 export async function linkBatch(batchId: number, variantId: number, qty: number): Promise<StorageResult> {
-  if (!Number.isInteger(qty) || qty <= 0) return { ok: false, error: "Quantity must be a whole number above 0." };
+  if (!Number.isInteger(qty) || qty <= 0) return { ok: false, error: "Số lượng phải là số nguyên lớn hơn 0." };
   let restockedProduct: number | null = null;
   try {
     await prisma.$transaction(async (tx) => {
@@ -213,8 +213,8 @@ export async function linkBatch(batchId: number, variantId: number, qty: number)
       if (b.variantId) throw new Error("This batch is already linked.");
       if (qty > b.qtyRemaining) throw new Error(`Only ${b.qtyRemaining} left in this batch.`);
       const v = await tx.variant.findUniqueOrThrow({ where: { id: variantId }, include: { product: { select: { categoryId: true } } } });
-      if (v.sizeOptionId !== b.sizeOptionId) throw new Error("Batch size doesn't match the product size.");
-      if (v.product.categoryId !== b.categoryId) throw new Error("Batch category doesn't match the product.");
+      if (v.sizeOptionId !== b.sizeOptionId) throw new Error("Size của lô không khớp size sản phẩm.");
+      if (v.product.categoryId !== b.categoryId) throw new Error("Danh mục của lô không khớp sản phẩm.");
 
       const before = await tx.variant.aggregate({ where: { productId: v.productId }, _sum: { stock: true } });
       if (qty === b.qtyRemaining && b.qtyRemaining === b.qtyReceived) {
@@ -229,7 +229,7 @@ export async function linkBatch(batchId: number, variantId: number, qty: number)
       if (await noteRestock(tx, v.productId, before._sum.stock ?? 0)) restockedProduct = v.productId;
     });
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : "Could not link the batch." };
+    return { ok: false, error: e instanceof Error ? e.message : "Không gắn được lô hàng." };
   }
   if (restockedProduct) void notifyRestock(restockedProduct);
   return { ok: true };
@@ -276,10 +276,10 @@ export async function getWarehouseAvailability(productId: number): Promise<Recor
 /** Pull `qty` units for a variant from the warehouse, oldest unlinked batch first (may span several batches). */
 export async function pullFromWarehouse(variantId: number, qty: number): Promise<StorageResult> {
   const v = await prisma.variant.findUnique({ where: { id: variantId }, include: { product: { select: { brandId: true, categoryId: true } }, sizeOption: { select: { label: true } } } });
-  if (!v) return { ok: false, error: "Size not found." };
+  if (!v) return { ok: false, error: "Không tìm thấy size." };
   const batches = await getLinkableBatches({ brandId: v.product.brandId, categoryId: v.product.categoryId, sizeLabel: v.sizeOption.label });
   const available = batches.reduce((s, b) => s + b.qtyRemaining, 0);
-  if (qty > available) return { ok: false, error: `Only ${available} × ${v.sizeOption.label} in the warehouse.` };
+  if (qty > available) return { ok: false, error: `Trong kho chỉ còn ${available} × ${v.sizeOption.label}.` };
   let left = qty;
   for (const b of batches) {
     if (left === 0) break;

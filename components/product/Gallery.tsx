@@ -28,9 +28,9 @@ export function Gallery({ name, images, badge }: Props) {
   const render = (i: number, cls: string) =>
     images[i] ? (
       // eslint-disable-next-line @next/next/no-img-element -- remote host list is set up in the Cloudinary step
-      <img src={images[i].url} alt={images[i].alt ?? `${name} — image ${i + 1}`} className={cls} />
+      <img src={images[i].url} alt={images[i].alt ?? `${name} — ảnh ${i + 1}`} className={cls} />
     ) : (
-      <Placeholder label={`${name} — shot ${String(i + 1).padStart(2, "0")}`} />
+      <Placeholder label={`${name} — ảnh ${String(i + 1).padStart(2, "0")}`} />
     );
 
   return (
@@ -47,7 +47,7 @@ export function Gallery({ name, images, badge }: Props) {
         <div className={styles.stripWrap}>
           <div ref={strip} className={styles.strip} style={{ gridAutoColumns: `calc((100% - ${(cols - 1) * 12}px) / ${cols})` }}>
             {Array.from({ length: count }, (_, i) => (
-              <button key={i} type="button" onClick={() => setActive(i)} aria-label={`View image ${i + 1}`} aria-current={i === idx} className={`${styles.thumb} ${i === idx ? styles.thumbOn : ""}`}>
+              <button key={i} type="button" onClick={() => setActive(i)} aria-label={`Xem ảnh ${i + 1}`} aria-current={i === idx} className={`${styles.thumb} ${i === idx ? styles.thumbOn : ""}`}>
                 {render(i, styles.img)}
               </button>
             ))}
@@ -56,10 +56,10 @@ export function Gallery({ name, images, badge }: Props) {
             <>
               <span className={`${styles.fade} ${styles.fadeL}`} />
               <span className={`${styles.fade} ${styles.fadeR}`} />
-              <button type="button" onClick={() => scroll(-1)} aria-label="Previous images" className={`${styles.stripBtn} ${styles.stripBtnL}`}>
+              <button type="button" onClick={() => scroll(-1)} aria-label="Ảnh trước" className={`${styles.stripBtn} ${styles.stripBtnL}`}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" aria-hidden="true"><path d="m14.5 5.5-7 6.5 7 6.5" /></svg>
               </button>
-              <button type="button" onClick={() => scroll(1)} aria-label="More images" className={`${styles.stripBtn} ${styles.stripBtnR}`}>
+              <button type="button" onClick={() => scroll(1)} aria-label="Ảnh tiếp" className={`${styles.stripBtn} ${styles.stripBtnR}`}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="square" aria-hidden="true"><path d="m9.5 5.5 7 6.5-7 6.5" /></svg>
               </button>
             </>

@@ -13,15 +13,15 @@ import { Placeholder } from "@/components/product/Placeholder";
 import styles from "./admin.module.css";
 
 const NOTE: Record<OrderStatus, string> = {
-  PENDING: "New orders awaiting confirmation before processing begins.",
-  PROCESSING: "Confirmed orders being picked and packed.",
-  SHIPPING: "Dispatched parcels in transit to customers. Delivered = cash collected.",
-  COMPLETED: "Delivered orders, closed out.",
-  CANCELLED: "Orders cancelled before dispatch — stock already returned.",
-  REFUND: "Open return cases. Approving refunds the customer and returns stock.",
+  PENDING: "Đơn mới, chờ xác nhận trước khi xử lý.",
+  PROCESSING: "Đơn đã xác nhận, đang soạn và đóng gói.",
+  SHIPPING: "Gói hàng đang trên đường tới khách. Đã giao = đã thu tiền.",
+  COMPLETED: "Đơn đã giao, đã đóng.",
+  CANCELLED: "Đơn huỷ trước khi gửi — hàng đã trả về kệ.",
+  REFUND: "Yêu cầu đổi trả đang mở. Duyệt = hoàn tiền cho khách và trả hàng về kệ.",
 };
 
-const fmtDate = (d: Date) => d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
 
 interface Props {
   status: OrderStatus;
@@ -38,7 +38,7 @@ export function OrdersQueue({ status, counts, orders }: Props) {
   const run = (fn: () => Promise<{ ok: boolean; error?: string }>) =>
     start(async () => {
       const r = await fn();
-      setError(r.ok ? null : (r.error ?? "Something went wrong."));
+      setError(r.ok ? null : (r.error ?? "Có lỗi xảy ra."));
       router.refresh();
     });
 
@@ -57,9 +57,9 @@ export function OrdersQueue({ status, counts, orders }: Props) {
 
       {orders.length === 0 ? (
         <div className={styles.empty}>
-          <span className={styles.emptyTag}>{STATUS_LABEL[status]} · 0 orders</span>
-          <h3 className={styles.emptyTitle}>Nothing here right now</h3>
-          <p className={styles.emptyBody}>Orders will appear in this queue as they reach that stage.</p>
+          <span className={styles.emptyTag}>{STATUS_LABEL[status]} · 0 đơn</span>
+          <h3 className={styles.emptyTitle}>Chưa có gì ở đây</h3>
+          <p className={styles.emptyBody}>Đơn sẽ hiện ở hàng chờ này khi tới giai đoạn đó.</p>
         </div>
       ) : (
         orders.map((o) => {
@@ -87,13 +87,13 @@ export function OrdersQueue({ status, counts, orders }: Props) {
                       </span>
                     ))}
                   </span>
-                  <span className={styles.itemsLabel}>{o.units} {o.units === 1 ? "item" : "items"} {open ? "▴" : "▾"}</span>
+                  <span className={styles.itemsLabel}>{o.units} món {open ? "▴" : "▾"}</span>
                 </button>
                 <div className={styles.orderMoney}>
                   <span className={styles.orderTotal}>{formatVnd(o.total)}</span>
                   <span className={styles.paidLine}>
-                    <span className={`${styles.paidPill} ${paid || refunded ? styles.paidOn : styles.paidOff}`}>{refunded ? "Refunded" : paid ? "Paid" : "Unpaid"}</span>
-                    {refunded ? "money returned" : paid ? "cash received" : "collect on delivery"}
+                    <span className={`${styles.paidPill} ${paid || refunded ? styles.paidOn : styles.paidOff}`}>{refunded ? "Đã hoàn" : paid ? "Đã thu" : "Chưa thu"}</span>
+                    {refunded ? "đã trả lại tiền" : paid ? "đã nhận tiền mặt" : "thu khi giao"}
                   </span>
                 </div>
                 <div className={styles.orderActions}>
@@ -103,13 +103,13 @@ export function OrdersQueue({ status, counts, orders }: Props) {
                     </button>
                   )}
                   {o.canApproveRefund && (
-                    <button type="button" disabled={pending} onClick={() => { if (confirm(`Approve the refund for #${o.code}? Stock returns to the shelf.`)) run(() => approveRefundAction(o.id)); }} className={styles.primaryBtn}>
-                      Approve refund
+                    <button type="button" disabled={pending} onClick={() => { if (confirm(`Duyệt hoàn tiền cho đơn #${o.code}? Hàng sẽ trả về kệ.`)) run(() => approveRefundAction(o.id)); }} className={styles.primaryBtn}>
+                      Duyệt hoàn tiền
                     </button>
                   )}
                   {o.canCancel && (
-                    <button type="button" disabled={pending} onClick={() => { if (confirm(`Cancel order #${o.code}?`)) run(() => adminCancelOrderAction(o.id)); }} className={styles.ghostBtn}>
-                      Cancel
+                    <button type="button" disabled={pending} onClick={() => { if (confirm(`Huỷ đơn #${o.code}?`)) run(() => adminCancelOrderAction(o.id)); }} className={styles.ghostBtn}>
+                      Huỷ
                     </button>
                   )}
                   {!o.primaryLabel && !o.canApproveRefund && !o.canCancel && <span className={styles.viewOnly}>{STATUS_LABEL[o.status]}</span>}
@@ -126,7 +126,7 @@ export function OrdersQueue({ status, counts, orders }: Props) {
                     ))}
                   </ul>
                   <div className={styles.detailShip}>
-                    <span className={styles.kickerSm}>Deliver to</span>
+                    <span className={styles.kickerSm}>Giao đến</span>
                     <span>{o.shipName} · {o.shipPhone}</span>
                     <span className={styles.muted}>{o.shipAddress}</span>
                   </div>

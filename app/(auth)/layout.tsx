@@ -10,16 +10,16 @@ export default function AuthLayout({ children }: LayoutProps<"/">) {
       <div className={styles.topbar}>
         <Logo size={22} />
         <Link href={routes.home} className={styles.backLink}>
-          <span>←</span>Back to home
+          <span>←</span>Về trang chủ
         </Link>
       </div>
       <main className={styles.main}>{children}</main>
       <footer className={styles.bottombar}>
-        <span>© 2026 ClothSE — multi-brand streetwear</span>
+        <span>© 2026 ClothSE — streetwear đa thương hiệu</span>
         <span className={styles.bottomLinks}>
           <Link href={routes.faq}>FAQ</Link>
-          <Link href={routes.privacy}>Privacy</Link>
-          <Link href={routes.shop()}>Shop</Link>
+          <Link href={routes.privacy}>Bảo mật</Link>
+          <Link href={routes.shop()}>Cửa hàng</Link>
         </span>
       </footer>
     </div>

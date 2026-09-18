@@ -36,9 +36,9 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
   if (lines.length === 0) {
     return (
       <div className={styles.empty}>
-        <h3 className={styles.emptyTitle}>Your bag is empty</h3>
-        <p className={styles.emptyBody}>Nothing reserved yet. New arrivals are live.</p>
-        <Link href={routes.shop()} className={styles.emptyBtn}>Shop now</Link>
+        <h3 className={styles.emptyTitle}>Giỏ hàng đang trống</h3>
+        <p className={styles.emptyBody}>Chưa có gì được giữ. Hàng mới đã lên rồi đó.</p>
+        <Link href={routes.shop()} className={styles.emptyBtn}>Mua ngay</Link>
       </div>
     );
   }
@@ -48,14 +48,14 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
       <section className={styles.lines}>
         <div className={styles.linesHead}>
           <label className={styles.selectAll}>
-            <button type="button" onClick={() => setSelected(allOn ? [] : ids)} aria-label="Select all items" className={`${styles.check} ${allOn ? styles.checkOn : ""}`}>
+            <button type="button" onClick={() => setSelected(allOn ? [] : ids)} aria-label="Chọn tất cả" className={`${styles.check} ${allOn ? styles.checkOn : ""}`}>
               {allOn ? "✓" : ""}
             </button>
-            <span>Select all ({lines.length})</span>
+            <span>Chọn tất cả ({lines.length})</span>
           </label>
           {sel.length > 0 && (
             <button type="button" disabled={pending} onClick={() => run(() => removeBagLinesAction(sel))} className={styles.removeSel}>
-              Remove selected ({sel.length})
+              Bỏ món đã chọn ({sel.length})
             </button>
           )}
         </div>
@@ -66,7 +66,7 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
           const max = Math.min(l.stock, CART_MAX_PER_LINE);
           return (
             <article key={l.variantId} className={styles.line}>
-              <button type="button" onClick={() => toggle(l.variantId)} aria-label={`Select ${l.name}`} aria-pressed={on} className={`${styles.check} ${on ? styles.checkOn : ""}`}>
+              <button type="button" onClick={() => toggle(l.variantId)} aria-label={`Chọn ${l.name}`} aria-pressed={on} className={`${styles.check} ${on ? styles.checkOn : ""}`}>
                 {on ? "✓" : ""}
               </button>
               <Link href={routes.product(l.productId)} className={styles.thumb}>
@@ -87,18 +87,18 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
                   <span className={`${styles.chip} ${styles.chipMuted}`}>{l.sku}</span>
                 </div>
                 <span className={`${styles.stockNote} ${low ? styles.warn : ""}`}>
-                  {l.stock === 0 ? "Sold out — remove to continue" : low ? `Only ${l.stock} left — ships from Đà Lạt` : "In stock — ships in 1–2 days"}
+                  {l.stock === 0 ? "Hết hàng — bỏ món này để tiếp tục" : low ? `Chỉ còn ${l.stock} — gửi từ Đà Lạt` : "Còn hàng — gửi trong 1–2 ngày"}
                 </span>
                 <div className={styles.lineActions}>
                   <div className={styles.stepper}>
-                    <button type="button" aria-label="Decrease quantity" disabled={pending || l.qty <= 1} onClick={() => run(() => setBagQtyAction(l.variantId, l.qty - 1))} className={styles.stepBtn}>−</button>
+                    <button type="button" aria-label="Giảm số lượng" disabled={pending || l.qty <= 1} onClick={() => run(() => setBagQtyAction(l.variantId, l.qty - 1))} className={styles.stepBtn}>−</button>
                     <span className={styles.qty}>{l.qty}</span>
-                    <button type="button" aria-label="Increase quantity" disabled={pending || l.qty >= max} onClick={() => run(() => setBagQtyAction(l.variantId, l.qty + 1))} className={styles.stepBtn}>+</button>
+                    <button type="button" aria-label="Tăng số lượng" disabled={pending || l.qty >= max} onClick={() => run(() => setBagQtyAction(l.variantId, l.qty + 1))} className={styles.stepBtn}>+</button>
                   </div>
-                  <span className={styles.unit}>{formatVnd(l.unitPrice)} each</span>
+                  <span className={styles.unit}>{formatVnd(l.unitPrice)} / món</span>
                   <div className={styles.lineLinks}>
-                    <button type="button" disabled={pending} onClick={() => run(() => saveForLaterAction(l.variantId))} className={styles.textBtn}>Save for later</button>
-                    <button type="button" disabled={pending} onClick={() => run(() => removeBagLinesAction([l.variantId]))} className={`${styles.textBtn} ${styles.textBtnDanger}`}>Remove</button>
+                    <button type="button" disabled={pending} onClick={() => run(() => saveForLaterAction(l.variantId))} className={styles.textBtn}>Để dành</button>
+                    <button type="button" disabled={pending} onClick={() => run(() => removeBagLinesAction([l.variantId]))} className={`${styles.textBtn} ${styles.textBtnDanger}`}>Bỏ</button>
                   </div>
                 </div>
               </div>
@@ -106,34 +106,34 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
           );
         })}
 
-        <Link href={routes.shop()} className={styles.continue}>← Continue shopping</Link>
+        <Link href={routes.shop()} className={styles.continue}>← Tiếp tục mua sắm</Link>
       </section>
 
       <aside className={styles.summary}>
-        <span className={styles.summaryTitle}>Summary</span>
+        <span className={styles.summaryTitle}>Tóm tắt</span>
         <div className={styles.summaryRows}>
-          <div className={styles.summaryRow}><span>Subtotal ({units} {units === 1 ? "item" : "items"})</span><span>{formatVnd(subtotal)}</span></div>
-          <div className={styles.summaryRow}><span>Shipping</span><span>{subtotal === 0 ? "—" : shipping === 0 ? "Free" : formatVnd(shipping)}</span></div>
-          <div className={styles.summaryRow}><span>Payment</span><span className={styles.muted}>Cash on delivery</span></div>
+          <div className={styles.summaryRow}><span>Tạm tính ({units} món)</span><span>{formatVnd(subtotal)}</span></div>
+          <div className={styles.summaryRow}><span>Phí ship</span><span>{subtotal === 0 ? "—" : shipping === 0 ? "Miễn phí" : formatVnd(shipping)}</span></div>
+          <div className={styles.summaryRow}><span>Thanh toán</span><span className={styles.muted}>Khi nhận hàng (COD)</span></div>
         </div>
         <div className={styles.totalRow}>
-          <span className={styles.totalLabel}>Total</span>
+          <span className={styles.totalLabel}>Tổng</span>
           <span className={styles.totalValue}>{formatVnd(total)}</span>
         </div>
         {sel.length > 0 && selLines.every((l) => l.stock > 0) ? (
           <Link href={`${routes.checkout}?lines=${sel.join(",")}`} className={styles.checkoutBtn}>
-            Checkout — {formatVnd(total)}
+            Thanh toán — {formatVnd(total)}
           </Link>
         ) : (
-          <span className={`${styles.checkoutBtn} ${styles.checkoutOff}`}>{sel.length === 0 ? "Select an item" : "Remove sold-out items"}</span>
+          <span className={`${styles.checkoutBtn} ${styles.checkoutOff}`}>{sel.length === 0 ? "Chọn ít nhất một món" : "Bỏ các món đã hết hàng"}</span>
         )}
         <div className={styles.summaryFoot}>
           <span className={styles.shipNote}>
-            {subtotal > 0 && subtotal < FREE_SHIPPING_OVER ? `${formatVnd(FREE_SHIPPING_OVER - subtotal)} away from free shipping` : "Free shipping unlocked · 30-day returns"}
+            {subtotal > 0 && subtotal < FREE_SHIPPING_OVER ? `Thêm ${formatVnd(FREE_SHIPPING_OVER - subtotal)} nữa để được miễn ship` : "Đã được miễn ship · Đổi trả 30 ngày"}
           </span>
           <span className={styles.codChip}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10" /><circle cx="12" cy="12" r="2.4" /></svg>
-            Cash on delivery
+            Thanh toán khi nhận hàng
           </span>
         </div>
       </aside>

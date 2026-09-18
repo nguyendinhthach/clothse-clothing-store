@@ -4,20 +4,20 @@ import { prisma } from "@/lib/prisma";
 import { routes } from "@/lib/routes";
 import styles from "@/components/static/static.module.css";
 
-export const metadata: Metadata = { title: "About ClothSE" };
+export const metadata: Metadata = { title: "Về ClothSE" };
 
 const STEPS = [
-  { title: "Source", body: "We buy directly from established brands — Nike, Carhartt, Stüssy, Champion and others." },
-  { title: "Inspect", body: "Every piece is checked for condition and true fit before it's listed." },
-  { title: "Measure & Photograph", body: "Real measurements, real photos — never brand stock images." },
-  { title: "List", body: "Published with honest specs and no inflated claims." },
+  { title: "Nhập hàng", body: "Mua thẳng từ các hãng streetwear đã có tên — không qua trung gian, không hàng trôi nổi." },
+  { title: "Kiểm tra", body: "Từng món được xem lại tình trạng và form thật trước khi lên kệ." },
+  { title: "Đo & chụp", body: "Số đo thật, ảnh thật — không dùng ảnh mẫu của hãng." },
+  { title: "Lên kệ", body: "Đăng bán với thông số trung thực, không thổi phồng." },
 ];
 
 const VALUES = [
-  { title: "Authenticity guaranteed", body: "Every item is checked and verified before listing — no counterfeits, no fakes." },
-  { title: "Fast local delivery", body: "1–2 days in Da Lat, 2–4 days nationwide, packed the day after you order." },
-  { title: "Easy returns", body: "30 days to send anything back, unworn and with tags, no questions asked." },
-  { title: "Pay on delivery", body: "Cash on delivery only — you pay the courier once the parcel is in your hands." },
+  { title: "Cam kết hàng thật", body: "Mọi món đều được kiểm tra và xác minh trước khi bán — không hàng giả, không hàng nhái." },
+  { title: "Giao nhanh", body: "1–2 ngày trong Đà Lạt, 2–4 ngày toàn quốc, đóng gói ngay hôm sau khi bạn đặt." },
+  { title: "Đổi trả dễ", body: "30 ngày để gửi trả, miễn chưa mặc và còn tag — không hỏi nhiều." },
+  { title: "Nhận hàng rồi trả tiền", body: "Chỉ thanh toán khi nhận hàng — bạn trả cho shipper khi gói hàng đã trong tay." },
 ];
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -30,17 +30,17 @@ export default async function AboutPage() {
     <>
       <section className={`container ${styles.hero} ${styles.heroSplit}`}>
         <div>
-          <span className={styles.tag}><span className={styles.dot} />Multi-brand streetwear · Da Lat</span>
-          <h1 className={`${styles.h1} ${styles.h1Big}`}>About<br /><span className={styles.h1Block}>ClothSE</span></h1>
-          <p className={styles.lead} style={{ maxWidth: "46ch" }}>Streetwear from the brands you already love, curated in one place — picked by size, fit and wearability, not hype.</p>
+          <span className={styles.tag}><span className={styles.dot} />Streetwear đa thương hiệu · Đà Lạt</span>
+          <h1 className={`${styles.h1} ${styles.h1Big}`}>Về<br /><span className={styles.h1Block}>ClothSE</span></h1>
+          <p className={styles.lead} style={{ maxWidth: "46ch" }}>Streetwear từ những hãng bạn đã mê, tuyển về một chỗ — chọn theo size, form và độ mặc được, không theo hype.</p>
           <div className={styles.heroActions}>
-            <Link href={routes.shop()} className={styles.primary}>Shop the store</Link>
-            <Link href={routes.contact} className={styles.ghost}>Contact us</Link>
+            <Link href={routes.shop()} className={styles.primary}>Vào cửa hàng</Link>
+            <Link href={routes.contact} className={styles.ghost}>Liên hệ</Link>
           </div>
         </div>
         <div className={styles.art}>
-          <span className={styles.artLabel}>lifestyle / editorial shot</span>
-          <span className={styles.artCaption}>ClothSE / Da Lat</span>
+          <span className={styles.artLabel}>ảnh lifestyle / editorial</span>
+          <span className={styles.artCaption}>ClothSE / Đà Lạt</span>
         </div>
       </section>
 
@@ -48,19 +48,19 @@ export default async function AboutPage() {
         <section className={`${styles.section} ${styles.sectionTop}`}>
           <div className={styles.sectionHead}>
             <span className={styles.index}>01</span>
-            <h2 className={styles.h2}>What we do</h2>
+            <h2 className={styles.h2}>ClothSE làm gì</h2>
           </div>
           <div className={styles.body}>
-            <p>ClothSE is a multi-brand retail store. We buy, curate and sell streetwear from established labels — Nike, Carhartt, Stüssy, Champion and others — rather than producing our own line.</p>
-            <p>Every drop is chosen piece by piece: the fits that work, in sizes people actually wear, at prices that aren&apos;t inflated by resale. If something doesn&apos;t hold up in fabric, cut or value, it doesn&apos;t make the floor.</p>
-            <p>New stock lands weekly, listed with real measurements and honest condition notes so you can buy with the same confidence as trying it on.</p>
+            <p>ClothSE là cửa hàng bán lẻ đa thương hiệu. Shop nhập, tuyển và bán streetwear của các hãng đã có tên — chứ không tự sản xuất dòng riêng.</p>
+            <p>Mỗi đợt hàng được chọn từng món: form nào mặc đẹp, size nào người ta mặc thật, giá không bị đẩy lên bởi resale. Món nào không đạt về vải, đường cắt hay giá trị thì không lên kệ.</p>
+            <p>Hàng mới về mỗi tuần, đăng với số đo thật và ghi chú tình trạng trung thực để bạn mua tự tin như thử tại chỗ.</p>
           </div>
         </section>
 
         <section className={styles.section}>
           <div className={styles.sectionHead}>
             <span className={styles.index}>02</span>
-            <h2 className={styles.h2}>How we curate</h2>
+            <h2 className={styles.h2}>Cách shop tuyển hàng</h2>
           </div>
           <div className={`${styles.bodyWide} ${styles.cards}`}>
             {STEPS.map((s, i) => (
@@ -77,16 +77,16 @@ export default async function AboutPage() {
           <div className={styles.rowHead}>
             <div className={styles.sectionHead}>
               <span className={styles.index}>03</span>
-              <h2 className={`${styles.h2} ${styles.h2Lg}`}>Our brands</h2>
+              <h2 className={`${styles.h2} ${styles.h2Lg}`}>Các hãng đang có</h2>
             </div>
-            <span className={styles.index}>{brands.length} {brands.length === 1 ? "brand" : "brands"} currently carried</span>
+            <span className={styles.index}>đang bán {brands.length} hãng</span>
           </div>
           <div className={styles.brands}>
             {brands.map((b) => (
               <Link key={b.id} href={routes.shop({ q: b.name })} className={styles.brand}>
                 <span>
                   <span className={styles.brandName}>{b.name}</span>
-                  <span className={styles.brandMeta}>{b._count.products} {b._count.products === 1 ? "piece" : "pieces"} in store</span>
+                  <span className={styles.brandMeta}>{b._count.products} mẫu trong kho</span>
                 </span>
               </Link>
             ))}
@@ -98,7 +98,7 @@ export default async function AboutPage() {
         <div className={`container ${styles.darkInner}`}>
           <div className={styles.sectionHead}>
             <span className={styles.index}>04</span>
-            <h2 className={`${styles.h2} ${styles.h2Lg}`}>Why ClothSE</h2>
+            <h2 className={`${styles.h2} ${styles.h2Lg}`}>Vì sao chọn ClothSE</h2>
           </div>
           <div className={styles.values}>
             {VALUES.map((v, i) => (
@@ -114,13 +114,13 @@ export default async function AboutPage() {
 
       <section className={`container ${styles.split}`}>
         <div className={styles.splitText}>
-          <span className={styles.index}>05 · Where we are</span>
-          <h2 className={`${styles.h2} ${styles.h2Lg}`}>Based in Da Lat,<br />Vietnam</h2>
-          <p className={styles.lead}>01 Phu Dong Thien Vuong — orders ship nationwide, and questions get a reply within 1–2 business days.</p>
-          <Link href={routes.contact} className={styles.mono} style={{ marginTop: 6 }}>Get in touch →</Link>
+          <span className={styles.index}>05 · Shop ở đâu</span>
+          <h2 className={`${styles.h2} ${styles.h2Lg}`}>Đặt tại<br />Đà Lạt</h2>
+          <p className={styles.lead}>01 Phù Đổng Thiên Vương — đơn giao toàn quốc, thắc mắc được trả lời trong 1–2 ngày làm việc.</p>
+          <Link href={routes.contact} className={styles.mono} style={{ marginTop: 6 }}>Liên hệ →</Link>
         </div>
         <div className={`${styles.art} ${styles.artWide}`}>
-          <span className={styles.artLabel}>map — Da Lat, Vietnam</span>
+          <span className={styles.artLabel}>bản đồ — Đà Lạt</span>
         </div>
       </section>
     </>

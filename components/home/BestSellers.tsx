@@ -7,8 +7,8 @@ export function BestSellers({ products }: { products: ProductCardData[] }) {
   return (
     <section className={`container ${styles.section}`}>
       <div className={styles.sectionHead}>
-        <h2 className={styles.h2}>Best sellers</h2>
-        <span className={styles.eyebrow}>Restocked by demand</span>
+        <h2 className={styles.h2}>Bán chạy</h2>
+        <span className={styles.eyebrow}>Nhập lại theo nhu cầu</span>
       </div>
       <div className={styles.bestGrid}>
         {products.map((p) => (

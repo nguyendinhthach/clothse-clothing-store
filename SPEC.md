@@ -81,7 +81,7 @@ Mục tiêu: luồng mua hàng chạy thật từ đầu đến cuối, dữ li�
 - Bảng size guide theo số đo ([mục 6.6](#66-dữ-liệu-chỉ-để-hiển-thị) — cần xử lý số đo theo danh mục trước)
 - Năm trang nội dung tĩnh: FAQ, Contact, About, Privacy, Terms ([mục 6b](#6b-trang-nội-dung-tĩnh))
 
-> **Nút VI/EN:** `lang-switch.js` chỉ ghi lựa chọn vào `localStorage` và bắn sự kiện — **không trang nào lắng nghe**, nên nút này đang là trang trí. Nhóm đã chốt **không làm đa ngôn ngữ**: toàn bộ giao diện dùng **tiếng Anh**. Xem [mục 8](#8-ngoài-phạm-vi).
+> **Nút VI/EN:** `lang-switch.js` chỉ ghi lựa chọn vào `localStorage` và bắn sự kiện — **không trang nào lắng nghe**, nên nút này đang là trang trí. Nhóm đã chốt **không làm đa ngôn ngữ**: toàn bộ giao diện dùng **tiếng Việt** (đổi từ tiếng Anh ngày 2026-09-18; font display đổi sang Playfair Display vì Instrument Serif không có glyph tiếng Việt). Xem [mục 8](#8-ngoài-phạm-vi).
 
 ---
 
@@ -634,7 +634,7 @@ Ghi rõ để tránh hiểu nhầm khi chấm bài:
 - Không có đánh giá / bình luận sản phẩm
 - Không có mã giảm giá, khuyến mãi theo combo
 - Ảnh tĩnh của giao diện (hero, banner, ảnh minh hoạ trang About) đặt tay vào mã nguồn, không quản lý qua admin
-- **Không đa ngôn ngữ.** Toàn bộ giao diện tiếng Anh. Nút VI/EN trong thiết kế không nối vào đâu cả — hoặc bỏ hẳn khỏi giao diện, hoặc để nguyên như phần trang trí, nhóm tự quyết lúc code
+- **Không đa ngôn ngữ.** Toàn bộ giao diện tiếng Việt (viết theo ngữ cảnh, không dịch máy); giữ nguyên tên hãng, *Sale*, *Unisex*, SKU, các từ streetwear thông dụng. Tên category/tag trong DB vẫn tiếng Anh làm khoá (`?cat=Tops`), chỉ nhãn hiển thị đổi qua `categoryLabel()`/`tagLabel()`. Nút VI/EN trong thiết kế đã bỏ
 - Không có biến thể màu sắc — sản phẩm chỉ phân biệt theo size
 
 ---
@@ -649,7 +649,7 @@ Ghi rõ để tránh hiểu nhầm khi chấm bài:
 | 2 | **Phạm vi** | Chia hai đợt — xem [mục 3](#3-phạm-vi-theo-đợt) |
 | 3 | **Biến thể sản phẩm** | **Chỉ theo size, không có màu.** Thiết kế đã được sửa lại ngày 11/09 để bỏ màu khỏi giỏ hàng |
 | 4 | **Đơn vị tiền** | Số nguyên VND — xem [mục 7](#7-quy-ước) |
-| 5 | **Đa ngôn ngữ** | Không làm. Giao diện tiếng Anh |
+| 5 | **Đa ngôn ngữ** | Không làm. Giao diện tiếng Việt (đổi 2026-09-18) |
 | 6 | **Giỏ hàng cho khách vãng lai** | Không có. Bắt đăng nhập trước khi thêm giỏ |
 | 7 | **Phí vận chuyển** | **30.000₫ cố định, miễn phí từ 1.000.000₫.** Chỉ giao nội địa Việt Nam. Xem [mục 6.8](#68-vận-chuyển) |
 | 8 | **Hoàn hàng** | Theo toàn bộ đơn, không hoàn từng món |
@@ -799,3 +799,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-16 | **Chốt quyết định 17 — Favourite theo sản phẩm.** Không còn quyết định treo. Bắt đầu viết Prisma schema |
 | 2026-09-17 | Mục 7: SKU sinh tự động, thêm bảng mã loại hàng (danh sách đóng, không lưu thành trường). Phục vụ thu thập dữ liệu sản phẩm theo nhóm |
 | 2026-09-16 | Tuần 0 gần xong: design đóng băng vào `design/`, Next.js 16 + Prisma 7, schema 17 bảng, 2 migration, seed 24 sản phẩm / 263 lô / 14 đơn / 2 tài khoản. Mục 5: `Batch` thêm `brand_id`, `size_option_id` (form nhập lô có Brand và Size, mục 6.5); thêm `PasswordResetToken`, `Subscriber`, `Favourite.notify`. Còn lại của tuần 0: deploy Vercel |
+| 2026-09-18 | Đổi toàn bộ giao diện sang tiếng Việt (slogan mới "Đủ chất / Đủ tự tin / Khỏi cần chứng minh"). Instrument Serif → Playfair Display (có tiếng Việt), bật subset `vietnamese` cho cả 3 font, nới line-height heading vì dấu |

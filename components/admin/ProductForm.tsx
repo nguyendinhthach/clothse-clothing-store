@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import { discardImageAction, saveProductAction, uploadImageAction, type WarehouseRow } from "@/lib/actions/admin-products";
 import { linkableBatchesAction } from "@/lib/actions/admin-storage";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import type { ProductFormData, ProductInput } from "@/lib/services/admin/products";
 import { skuTypesFor } from "@/lib/sku-codes";
@@ -22,11 +23,13 @@ interface Props {
   onClose: () => void;
 }
 
+const GUIDE_LABEL = { chest: "ngực", length: "dài", sleeve: "tay" } as const;
+
 const DETAIL_HINTS = [
-  { label: "Fabric", value: "480gsm brushed loopback, 100% organic cotton" },
-  { label: "Fit", value: "Boxy, true to size" },
-  { label: "Made in", value: "Portugal" },
-  { label: "Care", value: "Cold wash, dry flat" },
+  { label: "Chất liệu", value: "Nỉ bông 480gsm, 100% cotton organic" },
+  { label: "Form", value: "Boxy, đúng size" },
+  { label: "Sản xuất tại", value: "Portugal" },
+  { label: "Bảo quản", value: "Giặt lạnh, phơi phẳng" },
 ];
 
 export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props) {
@@ -62,7 +65,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
       [size]: rows.map((b) => ({
         id: b.id,
         qtyRemaining: b.qtyRemaining,
-        label: `${b.itemDescription ?? "Batch"} · ${new Date(b.receivedAt).toLocaleDateString("en-GB", { day: "2-digit", month: "short" })} · ${b.qtyRemaining} left @ ${formatVnd(b.unitCost)}`,
+        label: `${b.itemDescription ?? "Lô"} · ${new Date(b.receivedAt).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })} · còn ${b.qtyRemaining} @ ${formatVnd(b.unitCost)}`,
       })),
     }));
   }
@@ -143,49 +146,49 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
     <div className={styles.modalBackdrop} onClick={onClose}>
       <form className={`${styles.modal} ${styles.modalWide}`} onClick={(e) => e.stopPropagation()} onSubmit={submit}>
         <div className={styles.modalHead}>
-          <h2 className={styles.h2}>{editing ? `Edit · ${f.sku}` : "Add product"}</h2>
-          <button type="button" onClick={onClose} aria-label="Close" className={styles.closeBtn}>✕</button>
+          <h2 className={styles.h2}>{editing ? `Sửa · ${f.sku}` : "Thêm sản phẩm"}</h2>
+          <button type="button" onClick={onClose} aria-label="Đóng" className={styles.closeBtn}>✕</button>
         </div>
 
         <div className={styles.modalBody}>
           <label className={`${styles.field} ${styles.fieldWide}`}>
-            <span className={styles.fieldLabel}>Product name</span>
+            <span className={styles.fieldLabel}>Tên sản phẩm</span>
             <input value={f.name} onChange={(e) => set("name", e.target.value)} placeholder="Panel Work Jacket" required className={styles.input} />
           </label>
 
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Brand</span>
+            <span className={styles.fieldLabel}>Hãng</span>
             <select value={f.brandId ?? ""} onChange={(e) => set("brandId", Number(e.target.value) || null)} required className={styles.input}>
-              <option value="">Select a brand…</option>
+              <option value="">Chọn hãng…</option>
               {vocab.brands.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
             </select>
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Category</span>
+            <span className={styles.fieldLabel}>Danh mục</span>
             <select value={f.categoryId} disabled={categoryLocked} onChange={(e) => changeCategory(Number(e.target.value))} className={styles.input}>
-              {vocab.categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {vocab.categories.map((c) => <option key={c.id} value={c.id}>{categoryLabel(c.name)}</option>)}
             </select>
-            {categoryLocked && <span className={styles.hint}>Locked — sizes already have stock, batches or orders.</span>}
+            {categoryLocked && <span className={styles.hint}>Đã khoá — size đã có tồn, lô nhập hoặc đơn hàng.</span>}
           </label>
 
           {!editing && (
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Item type (sets the SKU)</span>
+              <span className={styles.fieldLabel}>Loại món (tạo SKU)</span>
               <select value={f.typeCode ?? ""} onChange={(e) => set("typeCode", e.target.value || undefined)} required className={styles.input}>
-                <option value="">Select…</option>
+                <option value="">Chọn…</option>
                 {skuTypesFor(category.name).map((t) => <option key={t.code} value={t.code}>{t.label} · CSE-{t.code}-…</option>)}
               </select>
-              <span className={styles.hint}>SKU is generated on save (SPEC §7), e.g. CSE-HDY-007.</span>
+              <span className={styles.hint}>SKU sinh khi lưu (SPEC §7), ví dụ CSE-HDY-007.</span>
             </label>
           )}
 
           {!editing && (
             <div className={`${styles.fieldWide} ${styles.subBox}`}>
-              <span className={styles.fieldLabel}>Source from warehouse · one row per size</span>
+              <span className={styles.fieldLabel}>Lấy từ kho · mỗi dòng một size</span>
               <span className={styles.hint}>
                 {f.brandId
-                  ? `Unlinked batches of ${vocab.brands.find((b) => b.id === f.brandId)?.name} in ${category.name}. Each batch is single-size, so one row links one batch to one product size.`
-                  : "Pick a brand first to see what is waiting in the warehouse."}
+                  ? `Lô chưa gắn của ${vocab.brands.find((b) => b.id === f.brandId)?.name} trong ${categoryLabel(category.name)}. Mỗi lô chỉ một size, nên một dòng gắn một lô với một size sản phẩm.`
+                  : "Chọn hãng trước để xem hàng đang chờ trong kho."}
               </span>
               {srcRows.map((r, i) => {
                 const opts = options[r.size] ?? [];
@@ -200,49 +203,49 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                       </select>
                     </label>
                     <label className={styles.field}>
-                      <span className={styles.fieldLabel}>Source batch</span>
+                      <span className={styles.fieldLabel}>Lô nguồn</span>
                       <select value={r.batchId} disabled={!r.size} onChange={(e) => setSrcRows((rows) => rows.map((x, k) => (k === i ? { ...x, batchId: e.target.value, qty: opts.find((o) => String(o.id) === e.target.value)?.qtyRemaining.toString() ?? "" } : x)))} className={`${styles.input} ${styles.inputSm}`}>
-                        <option value="">{!r.size ? "Pick a size" : opts.length ? "Choose a batch…" : "No unlinked stock for this size"}</option>
+                        <option value="">{!r.size ? "Chọn size trước" : opts.length ? "Chọn lô…" : "Size này không có hàng chưa gắn"}</option>
                         {opts.filter((o) => !srcRows.some((x, k) => k !== i && x.batchId === String(o.id))).map((o) => <option key={o.id} value={o.id}>{o.label}</option>)}
                       </select>
                     </label>
                     <label className={styles.field}>
-                      <span className={styles.fieldLabel}>Qty to list</span>
+                      <span className={styles.fieldLabel}>SL lên kệ</span>
                       <input value={r.qty} disabled={!r.batchId} onChange={(e) => setSrcRows((rows) => rows.map((x, k) => (k === i ? { ...x, qty: e.target.value.replace(/\D/g, "") } : x)))} inputMode="numeric" placeholder="0" className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
                     </label>
-                    <button type="button" onClick={() => setSrcRows((rows) => rows.filter((_, k) => k !== i))} aria-label="Remove row" className={styles.closeBtn}>✕</button>
-                    {chosen && Number(r.qty) > chosen.qtyRemaining && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Only {chosen.qtyRemaining} left in that batch.</span>}
+                    <button type="button" onClick={() => setSrcRows((rows) => rows.filter((_, k) => k !== i))} aria-label="Bỏ dòng" className={styles.closeBtn}>✕</button>
+                    {chosen && Number(r.qty) > chosen.qtyRemaining && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Lô đó chỉ còn {chosen.qtyRemaining}.</span>}
                   </div>
                 );
               })}
-              <button type="button" disabled={!f.brandId} onClick={() => setSrcRows((rows) => [...rows, { size: "", batchId: "", qty: "" }])} className={styles.linkBtn}>+ Add a size from the warehouse</button>
-              {srcSummary.length > 0 && <span className={styles.hintBox}>{srcSummary.reduce((n, r) => n + Number(r.qty), 0)} units across {srcSummary.length} {srcSummary.length === 1 ? "size" : "sizes"} will be listed on save</span>}
+              <button type="button" disabled={!f.brandId} onClick={() => setSrcRows((rows) => [...rows, { size: "", batchId: "", qty: "" }])} className={styles.linkBtn}>+ Thêm một size từ kho</button>
+              {srcSummary.length > 0 && <span className={styles.hintBox}>{srcSummary.reduce((n, r) => n + Number(r.qty), 0)} món ở {srcSummary.length} size sẽ lên kệ khi lưu</span>}
             </div>
           )}
 
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Price (VNĐ)</span>
+            <span className={styles.fieldLabel}>Giá (VNĐ)</span>
             <input value={f.price} onChange={(e) => set("price", e.target.value.replace(/\D/g, "") === "" ? "" : Number(e.target.value.replace(/\D/g, "")))} inputMode="numeric" placeholder="1860000" required className={`${styles.input} ${styles.mono}`} />
           </label>
 
           <div className={`${styles.fieldWide} ${styles.sizeBox}`}>
-            <span className={styles.fieldLabel}>Sizes offered · {category.name}</span>
+            <span className={styles.fieldLabel}>Size bán · {categoryLabel(category.name)}</span>
             <div className={styles.sizeChips}>
               {category.sizes.map((label) => {
                 const on = f.sizes.includes(label);
                 const locked = on && f.lockedSizes.includes(label);
                 return (
-                  <button key={label} type="button" onClick={() => toggleSize(label)} aria-pressed={on} title={locked ? "Has stock, batches or orders" : undefined} className={`${styles.sizeChip} ${on ? styles.sizeChipOn : ""} ${locked ? styles.sizeChipLocked : ""}`}>
+                  <button key={label} type="button" onClick={() => toggleSize(label)} aria-pressed={on} title={locked ? "Đã có tồn, lô nhập hoặc đơn" : undefined} className={`${styles.sizeChip} ${on ? styles.sizeChipOn : ""} ${locked ? styles.sizeChipLocked : ""}`}>
                     {label}
                   </button>
                 );
               })}
             </div>
-            <span className={styles.hint}>Each size becomes a variant at 0 stock; stock arrives through Storage batches (SPEC §6.5).</span>
+            <span className={styles.hint}>Mỗi size thành một biến thể tồn 0; hàng về qua lô nhập ở mục Kho (SPEC §6.5).</span>
           </div>
 
           <div className={`${styles.field} ${styles.fieldWide}`}>
-            <span className={styles.fieldLabel}>Tags</span>
+            <span className={styles.fieldLabel}>Tag</span>
             <div className={styles.tagWrap}>
               <input
                 value={tagDraft}
@@ -250,14 +253,14 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 onFocus={() => setTagFocus(true)}
                 onBlur={() => setTimeout(() => setTagFocus(false), 120)}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(tagDraft); } if (e.key === "Backspace" && !tagDraft && f.tags.length) set("tags", f.tags.slice(0, -1)); }}
-                placeholder="Type a tag, press Enter…"
+                placeholder="Gõ tag, nhấn Enter…"
                 className={styles.input}
               />
               {tagFocus && suggestions.length > 0 && (
                 <div role="listbox" className={styles.tagList}>
                   {suggestions.map((s) => (
                     <button key={s} type="button" role="option" aria-selected={false} onMouseDown={() => addTag(s)} className={styles.tagOption}>
-                      <span>{s}</span><span className={styles.muted}>existing</span>
+                      <span>{s}</span><span className={styles.muted}>đã có</span>
                     </button>
                   ))}
                 </div>
@@ -273,14 +276,14 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 ))}
               </div>
             )}
-            <span className={styles.hint}>Men / Women / Unisex and descriptive labels. New, Sale, Best seller and Restocked are computed — don&apos;t add them (SPEC §6.12).</span>
+            <span className={styles.hint}>Men / Women / Unisex và nhãn mô tả. New, Sale, Best seller, Restocked được tính tự động — đừng thêm tay (SPEC §6.12).</span>
           </div>
 
           {editing && (
             <div className={`${styles.fieldWide} ${styles.subBox}`}>
-              <span className={styles.fieldLabel}>Restock from warehouse · per size</span>
+              <span className={styles.fieldLabel}>Lên kệ từ kho · theo size</span>
               {f.sizes.length === 0 ? (
-                <span className={styles.hintBox}>No sizes on this product yet</span>
+                <span className={styles.hintBox}>Sản phẩm chưa có size nào</span>
               ) : (
                 f.sizes.map((size) => {
                   const avail = f.warehouse?.[size] ?? 0;
@@ -289,36 +292,36 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                     <div key={size} className={styles.restockRow}>
                       <span className={styles.restockSize}>
                         <span className={styles.guideSize}>{size}</span>
-                        <span className={styles.hint}>{avail > 0 ? `${avail} unlinked in warehouse` : "Nothing unlinked for this size — receive stock in Storage first"}</span>
+                        <span className={styles.hint}>{avail > 0 ? `${avail} chưa gắn trong kho` : "Size này không có hàng chưa gắn — nhập kho trước"}</span>
                       </span>
                       <label className={styles.field}>
-                        <span className={styles.fieldLabel}>Restock</span>
-                        <input value={restock[size] ?? ""} disabled={avail === 0} onChange={(e) => setRestock((r) => ({ ...r, [size]: e.target.value.replace(/\D/g, "") }))} inputMode="numeric" placeholder={avail > 0 ? `up to ${avail}` : "0"} className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
+                        <span className={styles.fieldLabel}>Lên kệ</span>
+                        <input value={restock[size] ?? ""} disabled={avail === 0} onChange={(e) => setRestock((r) => ({ ...r, [size]: e.target.value.replace(/\D/g, "") }))} inputMode="numeric" placeholder={avail > 0 ? `tối đa ${avail}` : "0"} className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
                       </label>
-                      {q > avail && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Only {avail} available.</span>}
+                      {q > avail && <span className={`${styles.hint} ${styles.saleOn}`} style={{ gridColumn: "1 / -1" }}>Chỉ còn {avail}.</span>}
                     </div>
                   );
                 })
               )}
-              <span className={styles.hint}>Pulls oldest batches first (FIFO). Units move from the warehouse onto this product on save.</span>
+              <span className={styles.hint}>Lấy lô cũ trước (FIFO). Hàng chuyển từ kho lên sản phẩm này khi lưu.</span>
             </div>
           )}
 
           <div className={`${styles.fieldWide} ${styles.saleBox}`}>
             <button type="button" role="switch" aria-checked={f.onSale} onClick={() => set("onSale", !f.onSale)} className={`${styles.switch} ${f.onSale ? styles.switchOn : ""}`}>
               <span className={styles.switchTrack}><span className={styles.switchKnob} /></span>
-              On sale
+              Đang sale
             </button>
             {f.onSale && (
               <label className={styles.inlineField}>
-                <span className={styles.fieldLabel}>Sale price</span>
+                <span className={styles.fieldLabel}>Giá sale</span>
                 <input value={f.salePrice} onChange={(e) => set("salePrice", e.target.value.replace(/\D/g, "") === "" ? "" : Number(e.target.value.replace(/\D/g, "")))} inputMode="numeric" placeholder="1490000" className={`${styles.input} ${styles.mono}`} style={{ width: 160, height: 44 }} />
               </label>
             )}
           </div>
 
           <div className={`${styles.field} ${styles.fieldWide}`}>
-            <span className={styles.fieldLabel}>Images</span>
+            <span className={styles.fieldLabel}>Ảnh</span>
             <div className={styles.imageGrid}>
               {f.images.map((im, i) => (
                 <div
@@ -331,50 +334,50 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={im.url} alt="" className={styles.thumbImg} />
-                  <span className={styles.imageGrip} title="Drag to reorder">⋮⋮</span>
-                  <button type="button" onClick={() => removeImage(i)} aria-label="Remove image" className={styles.imageX}>✕</button>
-                  {i === 0 && <span className={styles.coverTag}>Cover</span>}
+                  <span className={styles.imageGrip} title="Kéo để xếp lại">⋮⋮</span>
+                  <button type="button" onClick={() => removeImage(i)} aria-label="Bỏ ảnh" className={styles.imageX}>✕</button>
+                  {i === 0 && <span className={styles.coverTag}>Bìa</span>}
                   <span className={styles.imageNum}>{String(i + 1).padStart(2, "0")}</span>
                 </div>
               ))}
               <button type="button" disabled={!cloudinaryReady || uploading > 0} onClick={() => fileInput.current?.click()} className={styles.imageAdd}>
                 <span>{uploading > 0 ? "…" : "+"}</span>
-                <span>{uploading > 0 ? `Uploading ${uploading}` : "Add"}</span>
+                <span>{uploading > 0 ? `Đang tải ${uploading}` : "Thêm"}</span>
               </button>
               <input ref={fileInput} type="file" accept="image/*" multiple hidden onChange={(e) => onFiles(e.target.files)} />
             </div>
-            <span className={styles.hint}>{cloudinaryReady ? "Drag to reorder — first image is the cover · JPG, PNG or WebP · max 4 MB" : "Image upload needs CLOUDINARY_* in .env — products still save without images."}</span>
+            <span className={styles.hint}>{cloudinaryReady ? "Kéo để xếp lại — ảnh đầu là ảnh bìa · JPG, PNG hoặc WebP · tối đa 4 MB" : "Tải ảnh cần CLOUDINARY_* trong .env — không có ảnh vẫn lưu được sản phẩm."}</span>
           </div>
 
           <label className={`${styles.field} ${styles.fieldWide}`}>
-            <span className={styles.fieldLabel}>Description</span>
-            <textarea value={f.description} onChange={(e) => set("description", e.target.value)} rows={4} placeholder="Fabric, fit, care notes…" className={`${styles.input} ${styles.textarea}`} />
+            <span className={styles.fieldLabel}>Mô tả</span>
+            <textarea value={f.description} onChange={(e) => set("description", e.target.value)} rows={4} placeholder="Chất liệu, form, cách bảo quản…" className={`${styles.input} ${styles.textarea}`} />
           </label>
 
           <div className={`${styles.fieldWide} ${styles.subBox}`}>
-            <span className={styles.fieldLabel}>Product details</span>
+            <span className={styles.fieldLabel}>Chi tiết sản phẩm</span>
             {f.details.map((d, i) => (
               <div key={i} className={styles.detailRow}>
                 <input value={d.label} onChange={(e) => set("details", f.details.map((x, k) => (k === i ? { ...x, label: e.target.value } : x)))} placeholder={DETAIL_HINTS[i % DETAIL_HINTS.length].label} className={`${styles.input} ${styles.inputSm}`} />
                 <input value={d.value} onChange={(e) => set("details", f.details.map((x, k) => (k === i ? { ...x, value: e.target.value } : x)))} placeholder={DETAIL_HINTS[i % DETAIL_HINTS.length].value} className={`${styles.input} ${styles.inputSm}`} />
-                <button type="button" disabled={f.details.length === 1} onClick={() => set("details", f.details.filter((_, k) => k !== i))} aria-label="Remove detail row" className={styles.closeBtn}>✕</button>
+                <button type="button" disabled={f.details.length === 1} onClick={() => set("details", f.details.filter((_, k) => k !== i))} aria-label="Bỏ dòng" className={styles.closeBtn}>✕</button>
               </div>
             ))}
-            <button type="button" onClick={() => set("details", [...f.details, { label: "", value: "" }])} className={styles.linkBtn}>+ Add row</button>
-            <span className={styles.hint}>Shows as the Product Details accordion on the product page.</span>
+            <button type="button" onClick={() => set("details", [...f.details, { label: "", value: "" }])} className={styles.linkBtn}>+ Thêm dòng</button>
+            <span className={styles.hint}>Hiện trong mục “Chi tiết sản phẩm” ở trang sản phẩm.</span>
           </div>
 
           <div className={`${styles.fieldWide} ${styles.subBox}`}>
-            <span className={styles.fieldLabel}>Size guide · measurements in cm</span>
+            <span className={styles.fieldLabel}>Hướng dẫn size · số đo cm</span>
             {guideRows.length === 0 ? (
-              <span className={styles.hintBox}>Pick the sizes offered first — one row per size appears here.</span>
+              <span className={styles.hintBox}>Chọn size bán trước — mỗi size sẽ có một dòng ở đây.</span>
             ) : (
               guideRows.map((g) => (
                 <div key={g.size} className={styles.guideRow}>
                   <span className={styles.guideSize}>{g.size}</span>
                   {(["chest", "length", "sleeve"] as const).map((k) => (
                     <label key={k} className={styles.field}>
-                      <span className={styles.fieldLabel}>{k}</span>
+                      <span className={styles.fieldLabel}>{GUIDE_LABEL[k]}</span>
                       <input value={g[k]} onChange={(e) => setGuide(g.size, k, e.target.value)} inputMode="decimal" placeholder={k === "chest" ? "56" : k === "length" ? "70" : "62"} className={`${styles.input} ${styles.inputSm} ${styles.mono}`} />
                     </label>
                   ))}
@@ -382,8 +385,8 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
               ))
             )}
             <label className={styles.field}>
-              <span className={styles.fieldLabel}>Model fit note</span>
-              <input value={f.modelFitNote} onChange={(e) => set("modelFitNote", e.target.value)} placeholder="183cm / 74kg wearing size M" className={`${styles.input} ${styles.inputSm}`} />
+              <span className={styles.fieldLabel}>Ghi chú người mẫu</span>
+              <input value={f.modelFitNote} onChange={(e) => set("modelFitNote", e.target.value)} placeholder="1m83 / 74kg mặc size M" className={`${styles.input} ${styles.inputSm}`} />
             </label>
           </div>
 
@@ -391,8 +394,8 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
         </div>
 
         <div className={styles.modalFoot}>
-          <button type="button" onClick={onClose} className={styles.ghostBtn}>Cancel</button>
-          <button type="submit" disabled={pending || uploading > 0} className={styles.primaryBtn}>{pending ? "Saving…" : editing ? "Save changes" : "Create product"}</button>
+          <button type="button" onClick={onClose} className={styles.ghostBtn}>Huỷ</button>
+          <button type="submit" disabled={pending || uploading > 0} className={styles.primaryBtn}>{pending ? "Đang lưu…" : editing ? "Lưu thay đổi" : "Tạo sản phẩm"}</button>
         </div>
       </form>
     </div>

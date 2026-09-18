@@ -31,10 +31,10 @@ export function LegalBand() {
   return (
     <section className={styles.band}>
       <div className={styles.bandText}>
-        <h2 className={`${styles.h2} ${styles.h2Sm}`}>Still unsure?</h2>
-        <p>Ask us directly — we answer every message within 1–2 business days.</p>
+        <h2 className={`${styles.h2} ${styles.h2Sm}`}>Còn băn khoăn?</h2>
+        <p>Hỏi thẳng shop — mọi tin nhắn được trả lời trong 1–2 ngày làm việc.</p>
       </div>
-      <Link href={routes.contact} className={`${styles.mono} ${styles.monoInverse}`}>Contact us →</Link>
+      <Link href={routes.contact} className={`${styles.mono} ${styles.monoInverse}`}>Liên hệ →</Link>
     </section>
   );
 }

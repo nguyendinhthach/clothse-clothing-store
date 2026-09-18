@@ -3,9 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { sizeHistoryAction } from "@/lib/actions/admin-storage";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
-import type { BatchRow, StorageFilters } from "@/lib/services/admin/storage";
+import type { BatchRow, BatchStatus, StorageFilters } from "@/lib/services/admin/storage";
 import { IntakeForm, type IntakeVocab } from "./IntakeForm";
 import styles from "./admin.module.css";
 
@@ -25,8 +26,16 @@ interface Props {
   vocab: IntakeVocab;
 }
 
-const fmtDate = (d: Date) => d.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" });
-const monthLabel = (d: Date) => d.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+// Status keys stay English (compared below); only the chip text is Vietnamese.
+const BATCH_STATUS_LABEL: Record<BatchStatus, string> = {
+  "Not listed yet": "Chưa lên kệ",
+  "Partially listed": "Lên kệ một phần",
+  "Fully listed": "Đã lên kệ hết",
+  Linked: "Đã gắn sản phẩm",
+};
+
+const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+const monthLabel = (d: Date) => `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
 
 export function StoragePanel({ rows, stats, filters, vocab }: Props) {
   const router = useRouter();
@@ -47,44 +56,44 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
     <div className={styles.stack}>
       <div className={styles.statGrid}>
         <div className={`${styles.stat} ${styles.statDark}`}>
-          <span className={styles.statLabel}>Unlisted stock value</span>
+          <span className={styles.statLabel}>Giá trị hàng chưa lên kệ</span>
           <span className={styles.statValue}>{formatVnd(stats.unlistedValue)}</span>
-          <span className={styles.statNote}>{stats.unlistedUnits} units awaiting listing</span>
+          <span className={styles.statNote}>{stats.unlistedUnits} món chờ lên kệ</span>
         </div>
         <div className={styles.stat}>
-          <span className={styles.statLabel}>Batches this month</span>
+          <span className={styles.statLabel}>Lô nhập tháng này</span>
           <span className={styles.statValue}>{stats.thisMonth}</span>
           <span className={styles.statNote}>{monthLabel(new Date())}</span>
         </div>
         <div className={`${styles.stat} ${styles.statAccent}`}>
-          <span className={styles.statLabel}>Awaiting listing</span>
+          <span className={styles.statLabel}>Chờ lên kệ</span>
           <span className={styles.statValue}>{stats.awaiting}</span>
-          <span className={styles.statNote}>Batches with stock left</span>
+          <span className={styles.statNote}>Lô còn hàng trong kho</span>
         </div>
       </div>
 
       <div className={styles.panelHead}>
         <div>
-          <h2 className={styles.h2}>Stock intake</h2>
-          <p className={styles.note}>{stats.total} intake batches · {stats.unlistedUnits} units in warehouse not yet listed</p>
+          <h2 className={styles.h2}>Nhập kho</h2>
+          <p className={styles.note}>{stats.total} lô đã nhập · {stats.unlistedUnits} món trong kho chưa lên kệ</p>
         </div>
         <div className={styles.filterRow}>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Brand</span>
+            <span className={styles.fieldLabel}>Hãng</span>
             <select value={filters.brand ?? ""} onChange={(e) => go({ brand: e.target.value || undefined })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="">All brands</option>
+              <option value="">Mọi hãng</option>
               {vocab.brands.map((b) => <option key={b.id} value={b.name}>{b.name}</option>)}
             </select>
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Status</span>
+            <span className={styles.fieldLabel}>Trạng thái</span>
             <select value={filters.status ?? ""} onChange={(e) => go({ status: (e.target.value || undefined) as StorageFilters["status"] })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="">All batches</option>
-              <option value="unlinked">Unlinked</option>
-              <option value="linked">Linked</option>
+              <option value="">Mọi lô</option>
+              <option value="unlinked">Chưa gắn sản phẩm</option>
+              <option value="linked">Đã gắn sản phẩm</option>
             </select>
           </label>
-          <button type="button" onClick={() => setIntake(true)} className={styles.primaryBtn} style={{ height: 44 }}>Receive stock</button>
+          <button type="button" onClick={() => setIntake(true)} className={styles.primaryBtn} style={{ height: 44 }}>Nhập kho</button>
         </div>
       </div>
 
@@ -93,13 +102,13 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Brand</th>
-                <th>Item</th>
-                <th>Received</th>
-                <th className={styles.right}>Qty in</th>
-                <th className={styles.right}>Remaining</th>
-                <th className={styles.right}>Unit cost</th>
-                <th>Status</th>
+                <th>Hãng</th>
+                <th>Món hàng</th>
+                <th>Ngày nhận</th>
+                <th className={styles.right}>Nhập</th>
+                <th className={styles.right}>Còn lại</th>
+                <th className={styles.right}>Giá vốn</th>
+                <th>Trạng thái</th>
                 <th />
               </tr>
             </thead>
@@ -110,7 +119,7 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
                   <td>
                     <span className={styles.prodText}>
                       <span className={styles.prodName}>{b.item}</span>
-                      <span className={`${styles.prodSku} ${b.linked ? "" : styles.saleOn}`}>{b.linked ? `Linked product · ${b.size}` : `Unlinked · ${b.category} · ${b.size}`}</span>
+                      <span className={`${styles.prodSku} ${b.linked ? "" : styles.saleOn}`}>{b.linked ? `Đã gắn sản phẩm · ${b.size}` : `Chưa gắn · ${categoryLabel(b.category)} · ${b.size}`}</span>
                     </span>
                   </td>
                   <td className={styles.cellNum} style={{ color: "var(--muted)", whiteSpace: "nowrap" }}>{fmtDate(b.receivedAt)}</td>
@@ -118,11 +127,11 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
                   <td className={`${styles.right} ${styles.cellNum} ${b.qtyRemaining === 0 ? styles.muted : ""}`}>{b.qtyRemaining}</td>
                   <td className={`${styles.right} ${styles.cellNum}`} style={{ whiteSpace: "nowrap" }}>{formatVnd(b.unitCost)}</td>
                   <td>
-                    <span className={`${styles.pill} ${b.status === "Linked" ? styles.pillMuted : b.status === "Fully listed" ? styles.pillAccent : b.status === "Partially listed" ? "" : styles.pillOutline}`}>{b.status}</span>
+                    <span className={`${styles.pill} ${b.status === "Linked" ? styles.pillMuted : b.status === "Fully listed" ? styles.pillAccent : b.status === "Partially listed" ? "" : styles.pillOutline}`}>{BATCH_STATUS_LABEL[b.status]}</span>
                   </td>
                   <td className={styles.right}>
                     {b.variantId && (
-                      <button type="button" disabled={pending} onClick={() => openHistory(b.variantId!)} className={styles.smallBtn}>View history</button>
+                      <button type="button" disabled={pending} onClick={() => openHistory(b.variantId!)} className={styles.smallBtn}>Lịch sử</button>
                     )}
                   </td>
                 </tr>
@@ -132,13 +141,13 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
         </div>
         {rows.length === 0 && (
           <div className={styles.tableEmpty}>
-            <span className={styles.brandName}>No batches match</span>
-            <button type="button" onClick={() => router.replace(routes.adminStorage)} className={styles.smallBtn}>Clear filters</button>
+            <span className={styles.brandName}>Không có lô nào khớp</span>
+            <button type="button" onClick={() => router.replace(routes.adminStorage)} className={styles.smallBtn}>Xoá bộ lọc</button>
           </div>
         )}
         <div className={styles.tableFoot}>
-          <span>{stats.awaiting} batches awaiting listing</span>
-          <span>FIFO · oldest batch sells first</span>
+          <span>{stats.awaiting} lô chờ lên kệ</span>
+          <span>FIFO · lô cũ bán trước</span>
         </div>
       </div>
 
@@ -149,24 +158,24 @@ export function StoragePanel({ rows, stats, filters, vocab }: Props) {
           <aside className={styles.drawer} onClick={(e) => e.stopPropagation()}>
             <div className={styles.drawerHead}>
               <div>
-                <span className={styles.kickerSm}>Intake history · {history.rows.length} {history.rows.length === 1 ? "batch" : "batches"}</span>
-                <h2 className={styles.h2} style={{ marginTop: 7 }}>{history.product} — {history.size === "One size" ? "One size" : `Size ${history.size}`}</h2>
+                <span className={styles.kickerSm}>Lịch sử nhập · {history.rows.length} lô</span>
+                <h2 className={styles.h2} style={{ marginTop: 7 }}>{history.product} — {history.size === "One size" ? "Một size" : `Size ${history.size}`}</h2>
               </div>
-              <button type="button" onClick={() => setHistory(null)} aria-label="Close" className={styles.closeBtn}>✕</button>
+              <button type="button" onClick={() => setHistory(null)} aria-label="Đóng" className={styles.closeBtn}>✕</button>
             </div>
             <div className={styles.drawerSummary}>
-              In stock: {history.stock} · Average cost {formatVnd(history.avgCost)} · Lowest {formatVnd(history.minCost)} · Highest {formatVnd(history.maxCost)}
+              Trên kệ: {history.stock} · Giá vốn TB {formatVnd(history.avgCost)} · Thấp nhất {formatVnd(history.minCost)} · Cao nhất {formatVnd(history.maxCost)}
             </div>
             <div className={styles.tableScroll}>
               <table className={styles.table} style={{ minWidth: 480 }}>
                 <thead>
-                  <tr><th>Received</th><th className={styles.right}>Qty</th><th className={styles.right}>Left</th><th className={styles.right}>Unit cost</th><th>Source</th></tr>
+                  <tr><th>Ngày nhận</th><th className={styles.right}>SL</th><th className={styles.right}>Còn</th><th className={styles.right}>Giá vốn</th><th>Nguồn</th></tr>
                 </thead>
                 <tbody>
                   {history.rows.map((h) => (
                     <tr key={h.id}>
                       <td className={styles.cellNum} style={{ whiteSpace: "nowrap" }}>{fmtDate(h.receivedAt)}</td>
-                      <td className={`${styles.right} ${styles.cellNum}`}>{h.qtyReceived} pcs</td>
+                      <td className={`${styles.right} ${styles.cellNum}`}>{h.qtyReceived}</td>
                       <td className={`${styles.right} ${styles.cellNum} ${h.qtyRemaining === 0 ? styles.muted : ""}`}>{h.qtyRemaining}</td>
                       <td className={styles.right}>
                         <span className={styles.costCell}>

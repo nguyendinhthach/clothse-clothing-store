@@ -26,7 +26,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(46px, 8vw, 108px);
-  line-height: 0.86;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin: 0;
@@ -472,7 +472,7 @@
 .emptyTabTitle {
   font-family: var(--font-serif);
   font-size: clamp(28px, 4vw, 46px);
-  line-height: 0.95;
+  line-height: 1.08;
   text-transform: uppercase;
   margin: 0;
 }

@@ -23,7 +23,7 @@ export function BackToTop() {
   return (
     <button
       type="button"
-      aria-label="Back to top"
+      aria-label="Lên đầu trang"
       className={`${styles.btn} ${on ? styles.on : ""}`}
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
     >

@@ -8,7 +8,7 @@ export type SubscribeResult = { ok: true; already: boolean } | { ok: false; erro
 /** SPEC §6.10 — store the signup; no weekly sender is built. Idempotent per email. */
 export async function subscribe(rawEmail: string): Promise<SubscribeResult> {
   const email = rawEmail.trim().toLowerCase();
-  if (!EMAIL_RE.test(email)) return { ok: false, error: "Enter a valid email address." };
+  if (!EMAIL_RE.test(email)) return { ok: false, error: "Email chưa đúng định dạng." };
 
   const existing = await prisma.subscriber.findUnique({ where: { email } });
   if (existing) return { ok: true, already: true };

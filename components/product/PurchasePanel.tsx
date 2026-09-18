@@ -35,13 +35,13 @@ export function PurchasePanel({ productId, price, sizes, favourite }: Props) {
   const soldOut = !firstInStock;
   const maxQty = size ? Math.min(size.stock, CART_MAX_PER_LINE) : 1;
 
-  let note = "Choose a size";
+  let note = "Chọn size";
   let noteTone = styles.noteMuted;
-  if (soldOut) note = "Sold out in every size";
+  if (soldOut) note = "Hết hàng ở mọi size";
   else if (size && size.stock <= LOW) {
-    note = `Only ${size.stock} left in ${size.label}`;
+    note = `Size ${size.label} chỉ còn ${size.stock}`;
     noteTone = styles.noteWarn;
-  } else if (size) note = `Selected: ${size.label} — in stock`;
+  } else if (size) note = `Đã chọn size ${size.label} — còn hàng`;
 
   function pick(s: Size) {
     setSize(s);
@@ -62,7 +62,7 @@ export function PurchasePanel({ productId, price, sizes, favourite }: Props) {
       <div className={styles.sizes}>
         <div className={styles.sizesHead}>
           <span className={styles.label}>Size</span>
-          <a href="#size-guide" className={styles.guideLink}>Size guide</a>
+          <a href="#size-guide" className={styles.guideLink}>Hướng dẫn chọn size</a>
         </div>
         <div className={styles.pills}>
           {sizes.map((s) => {
@@ -80,12 +80,12 @@ export function PurchasePanel({ productId, price, sizes, favourite }: Props) {
 
       <div className={styles.buyRow}>
         <div className={styles.stepper}>
-          <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Decrease quantity" disabled={qty <= 1} className={styles.stepBtn}>−</button>
+          <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} aria-label="Giảm số lượng" disabled={qty <= 1} className={styles.stepBtn}>−</button>
           <span className={styles.qty}>{qty}</span>
-          <button type="button" onClick={() => setQty((q) => Math.min(maxQty, q + 1))} aria-label="Increase quantity" disabled={qty >= maxQty} className={styles.stepBtn}>+</button>
+          <button type="button" onClick={() => setQty((q) => Math.min(maxQty, q + 1))} aria-label="Tăng số lượng" disabled={qty >= maxQty} className={styles.stepBtn}>+</button>
         </div>
         <button type="button" onClick={add} disabled={soldOut || !size || pending} className={styles.addBtn}>
-          {soldOut ? "Sold out" : pending ? "Adding…" : msg?.ok ? msg.text : `Add to bag — ${formatVnd(price * qty)}`}
+          {soldOut ? "Hết hàng" : pending ? "Đang thêm…" : msg?.ok ? msg.text : `Thêm vào giỏ — ${formatVnd(price * qty)}`}
         </button>
         <FavouriteButton productId={productId} favourite={favourite} size={58} className={styles.heart} />
       </div>

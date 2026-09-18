@@ -4,60 +4,60 @@ import { Callout, LegalBand, LegalHero, LegalSection } from "@/components/static
 import { routes } from "@/lib/routes";
 import styles from "@/components/static/static.module.css";
 
-export const metadata: Metadata = { title: "Terms of Service" };
+export const metadata: Metadata = { title: "Điều khoản dịch vụ" };
 
 export default function TermsPage() {
   return (
     <>
-      <LegalHero kicker="Legal · Updated September 2026" title="Terms of" block="Service" lead="The rules for shopping with ClothSE — plus our full shipping and returns policy, in one place." />
+      <LegalHero kicker="Pháp lý · Cập nhật tháng 9/2026" title="Điều khoản" block="Dịch vụ" lead="Luật chơi khi mua ở ClothSE — kèm đầy đủ chính sách giao hàng và đổi trả, gom về một chỗ." />
       <div className={`container ${styles.legal}`}>
-        <LegalSection n={1} title="Agreement">
-          <p>By browsing ClothSE or placing an order you agree to these terms. We stock streetwear from third-party brands; product descriptions, measurements and imagery are supplied by those brands and reproduced in good faith.</p>
-          <p>We may update these terms as the store changes. The version shown on this page is the one that applies to your order.</p>
+        <LegalSection n={1} title="Thoả thuận">
+          <p>Khi dạo ClothSE hoặc đặt đơn, bạn đồng ý với các điều khoản này. Shop bán streetwear của các hãng bên thứ ba; mô tả, số đo và hình ảnh sản phẩm do các hãng cung cấp và được đăng lại một cách trung thực.</p>
+          <p>Điều khoản có thể được cập nhật khi cửa hàng thay đổi. Bản đang hiển thị trên trang này là bản áp dụng cho đơn của bạn.</p>
         </LegalSection>
 
-        <LegalSection n={2} title="Orders & acceptance">
-          <p>An order is a request to buy, not a confirmed sale. We confirm each order manually before it moves into processing — you can follow its status in <Link href={routes.bag("pending")}>Orders</Link>.</p>
+        <LegalSection n={2} title="Đặt đơn & xác nhận">
+          <p>Đặt đơn là yêu cầu mua, chưa phải giao dịch đã chốt. Shop xác nhận tay từng đơn trước khi chuyển sang xử lý — bạn theo dõi trạng thái trong <Link href={routes.bag("pending")}>Đơn hàng</Link>.</p>
           <ul>
-            <li>We may decline an order if stock has sold out, pricing was listed in error, or the delivery details are incomplete.</li>
-            <li>Prices are shown in Vietnamese đồng and include VAT where applicable.</li>
-            <li>Stock is shared with our physical inventory, so sizes can sell out between adding to bag and confirmation.</li>
+            <li>Shop có thể từ chối đơn nếu hàng vừa hết, giá bị đăng nhầm, hoặc thông tin giao hàng thiếu.</li>
+            <li>Giá hiển thị bằng đồng Việt Nam và đã gồm VAT (nếu có).</li>
+            <li>Kho dùng chung với cửa hàng thật, nên size có thể hết trong lúc từ thêm vào giỏ tới khi xác nhận.</li>
           </ul>
         </LegalSection>
 
-        <LegalSection n={3} title="Payment">
-          <p>ClothSE accepts cash on delivery (COD) only. You pay the courier in full when the parcel arrives — no card details are collected, stored or processed by us at any point.</p>
-          <Callout>COD only · have the exact amount ready for the courier</Callout>
+        <LegalSection n={3} title="Thanh toán">
+          <p>ClothSE chỉ nhận thanh toán khi nhận hàng (COD). Bạn trả đủ cho shipper lúc gói hàng tới — shop không thu, không lưu và không xử lý thông tin thẻ ở bất kỳ bước nào.</p>
+          <Callout>Chỉ COD · chuẩn bị đúng số tiền cho shipper</Callout>
         </LegalSection>
 
-        <LegalSection n={4} title="Shipping policy">
+        <LegalSection n={4} title="Chính sách giao hàng">
           <ul>
-            <li><strong>Dispatch:</strong> confirmed orders are packed and handed to the courier within 1–2 business days.</li>
-            <li><strong>Delivery:</strong> 1–2 business days within Da Lat, 2–4 business days elsewhere in Vietnam.</li>
-            <li><strong>Shipping fee:</strong> 30.000₫ flat.</li>
-            <li><strong>Free shipping:</strong> on orders over 1.000.000₫.</li>
-            <li><strong>Failed delivery:</strong> couriers attempt delivery twice; undelivered COD parcels return to us and the order is cancelled.</li>
+            <li><strong>Gửi hàng:</strong> đơn đã xác nhận được đóng gói và giao cho đơn vị vận chuyển trong 1–2 ngày làm việc.</li>
+            <li><strong>Thời gian giao:</strong> 1–2 ngày làm việc trong Đà Lạt, 2–4 ngày làm việc ở các tỉnh khác.</li>
+            <li><strong>Phí ship:</strong> cố định 30.000₫.</li>
+            <li><strong>Miễn ship:</strong> đơn từ 1.000.000₫.</li>
+            <li><strong>Giao không thành:</strong> shipper giao tối đa hai lần; gói COD không giao được sẽ quay về shop và đơn bị huỷ.</li>
           </ul>
         </LegalSection>
 
-        <LegalSection n={5} title="Returns & refunds">
-          <p>You have 30 days from delivery to return an item.</p>
+        <LegalSection n={5} title="Đổi trả & hoàn tiền">
+          <p>Bạn có 30 ngày kể từ khi nhận hàng để trả lại.</p>
           <ul>
-            <li>Items must be unworn, unwashed and returned with all original tags attached.</li>
-            <li>Footwear must come back in its original box, undamaged.</li>
-            <li>Underwear, socks and face coverings cannot be returned for hygiene reasons.</li>
-            <li>Sale items follow the same 30-day window unless marked final sale.</li>
+            <li>Món phải chưa mặc, chưa giặt và còn nguyên tag.</li>
+            <li>Giày phải trả về trong hộp gốc, không hư hỏng.</li>
+            <li>Đồ lót, tất và khẩu trang không nhận đổi trả vì lý do vệ sinh.</li>
+            <li>Hàng sale cũng áp dụng 30 ngày, trừ khi ghi rõ không đổi trả.</li>
           </ul>
-          <p>To request a return, open the completed order under <Link href={routes.bag("completed")}>Orders</Link> and press “Request refund”, or message us from the Contact page with your order number. We reply with return instructions; once the return is received and checked, refunds are issued by bank transfer within 5 business days. Return shipping is paid by the customer unless the item arrived faulty or incorrect.</p>
+          <p>Để yêu cầu đổi trả, mở đơn đã hoàn thành trong <Link href={routes.bag("completed")}>Đơn hàng</Link> và bấm “Yêu cầu đổi trả”, hoặc nhắn từ trang Liên hệ kèm mã đơn. Shop trả lời kèm hướng dẫn gửi trả; khi hàng về và kiểm xong, tiền được hoàn qua chuyển khoản trong 5 ngày làm việc. Phí ship trả hàng do khách chịu, trừ khi món bị lỗi hoặc giao sai.</p>
         </LegalSection>
 
-        <LegalSection n={6} title="Cancellations">
-          <p>Pending orders can be cancelled free of charge from Orders in your account. Once we have started processing an order, message us with your order number; once a parcel has left with the courier it must be handled as a return.</p>
-          <p>Repeatedly refusing COD parcels at the door may result in us declining future orders.</p>
+        <LegalSection n={6} title="Huỷ đơn">
+          <p>Đơn còn Chờ xác nhận có thể huỷ miễn phí trong mục Đơn hàng của tài khoản. Khi shop đã bắt đầu xử lý, nhắn kèm mã đơn; gói hàng đã đi cùng shipper thì phải xử lý theo dạng đổi trả.</p>
+          <p>Từ chối nhận gói COD nhiều lần có thể khiến shop từ chối các đơn sau.</p>
         </LegalSection>
 
-        <LegalSection n={7} title="Site usage">
-          <p>Content on this site — copy, layout and photography — belongs to ClothSE or the brands we stock, and may not be reused commercially without permission. Accounts are personal; keep your login details to yourself and let us know if you suspect misuse.</p>
+        <LegalSection n={7} title="Sử dụng website">
+          <p>Nội dung trên web — chữ, bố cục và hình ảnh — thuộc về ClothSE hoặc các hãng shop bán, không được dùng lại cho mục đích thương mại khi chưa có phép. Tài khoản là của riêng bạn; giữ kín thông tin đăng nhập và báo shop nếu nghi ngờ bị dùng trái phép.</p>
         </LegalSection>
 
         <LegalBand />

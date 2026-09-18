@@ -41,7 +41,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
 
   return (
     <div className={styles.heroArt} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      <Link href={routes.newArrivals} aria-label="Shop new arrivals" className={styles.heroLink}>
+      <Link href={routes.newArrivals} aria-label="Xem hàng mới" className={styles.heroLink}>
         {slides.map((s, i) => (
           <span
             key={s.label}
@@ -57,11 +57,11 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
       </Link>
       {n > 1 && (
         <>
-          <button type="button" onClick={() => go(index - 1)} aria-label="Previous look" className={`${styles.heroArrow} ${styles.heroArrowLeft}`}>←</button>
-          <button type="button" onClick={() => go(index + 1)} aria-label="Next look" className={`${styles.heroArrow} ${styles.heroArrowRight}`}>→</button>
+          <button type="button" onClick={() => go(index - 1)} aria-label="Look trước" className={`${styles.heroArrow} ${styles.heroArrowLeft}`}>←</button>
+          <button type="button" onClick={() => go(index + 1)} aria-label="Look sau" className={`${styles.heroArrow} ${styles.heroArrowRight}`}>→</button>
           <div className={styles.heroDots}>
             {slides.map((s, i) => (
-              <button key={s.label} type="button" onClick={() => go(i)} aria-label={`Show look ${i + 1}`} aria-current={i === index ? "true" : undefined} className={`${styles.heroDot} ${i === index ? styles.heroDotOn : ""}`} />
+              <button key={s.label} type="button" onClick={() => go(i)} aria-label={`Xem look ${i + 1}`} aria-current={i === index ? "true" : undefined} className={`${styles.heroDot} ${i === index ? styles.heroDotOn : ""}`} />
             ))}
           </div>
         </>

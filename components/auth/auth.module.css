@@ -129,7 +129,7 @@
 .artH2 {
   font-family: var(--font-serif);
   font-size: clamp(40px, 5.4vw, 78px);
-  line-height: 0.88;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   color: var(--paper);
@@ -186,7 +186,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(38px, 4.4vw, 58px);
-  line-height: 0.94;
+  line-height: 1.08;
   letter-spacing: -0.02em;
   text-transform: uppercase;
   margin: 0 0 12px;

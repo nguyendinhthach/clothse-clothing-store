@@ -17,13 +17,13 @@ interface Props {
   defaultSort?: SortKey;
 }
 
-export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitle = "Nothing in that range", emptyHint = "Widen the price filter or drop a category.", noteFor, defaultSort = "new" }: Props) {
+export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitle = "Không có món nào khớp", emptyHint = "Nới khoảng giá hoặc bỏ một danh mục thử xem.", noteFor, defaultSort = "new" }: Props) {
   if (listing.total === 0) {
     return (
       <div className={styles.empty}>
         <h3 className={styles.emptyTitle}>{emptyTitle}</h3>
         <p className={styles.emptyHint}>{emptyHint}</p>
-        <Link href={basePath} className={styles.emptyBtn}>Clear filters</Link>
+        <Link href={basePath} className={styles.emptyBtn}>Xoá bộ lọc</Link>
       </div>
     );
   }
@@ -37,7 +37,7 @@ export function ProductGrid({ basePath, params, listing, favouriteIds, emptyTitl
       {listing.shown < listing.total && (
         <div className={styles.more}>
           <Link href={basePath + buildShopQuery({ ...params, show: listing.shown + PAGE_SIZE }, defaultSort)} scroll={false} className={styles.moreBtn}>
-            Load more
+            Xem thêm
           </Link>
         </div>
       )}

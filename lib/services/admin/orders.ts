@@ -7,9 +7,9 @@ import { restock } from "@/lib/services/orders";
 const NEXT: Partial<Record<OrderStatus, OrderStatus>> = { PENDING: "PROCESSING", PROCESSING: "SHIPPING", SHIPPING: "COMPLETED" };
 
 export const PRIMARY_LABEL: Partial<Record<OrderStatus, string>> = {
-  PENDING: "Confirm order",
-  PROCESSING: "Mark as shipped",
-  SHIPPING: "Mark as delivered",
+  PENDING: "Xác nhận đơn",
+  PROCESSING: "Đã gửi hàng",
+  SHIPPING: "Đã giao",
 };
 
 export interface AdminOrderRow {
@@ -78,9 +78,9 @@ export type AdminOrderResult = { ok: true; status: OrderStatus } | { ok: false; 
 /** Move one step down the pipeline. Delivered ⇒ paid, in the same write. */
 export async function advanceOrder(orderId: number): Promise<AdminOrderResult> {
   const o = await prisma.order.findUnique({ where: { id: orderId }, select: { status: true } });
-  if (!o) return { ok: false, error: "Order not found." };
+  if (!o) return { ok: false, error: "Không tìm thấy đơn." };
   const next = NEXT[o.status];
-  if (!next) return { ok: false, error: "This order can't move further." };
+  if (!next) return { ok: false, error: "Đơn này không chuyển tiếp được nữa." };
   await prisma.order.update({
     where: { id: orderId },
     data: { status: next, ...(next === "COMPLETED" ? { paymentStatus: "PAID" } : {}) },
@@ -92,8 +92,8 @@ export async function advanceOrder(orderId: number): Promise<AdminOrderResult> {
 export async function adminCancelOrder(orderId: number): Promise<AdminOrderResult> {
   return prisma.$transaction(async (tx) => {
     const o = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } });
-    if (!o) return { ok: false, error: "Order not found." };
-    if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Only To Confirm / Processing orders can be cancelled." };
+    if (!o) return { ok: false, error: "Không tìm thấy đơn." };
+    if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Chỉ huỷ được đơn Chờ xác nhận / Đang xử lý." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
     await tx.order.update({ where: { id: o.id }, data: { status: "CANCELLED" } });
     return { ok: true, status: "CANCELLED" };
@@ -104,8 +104,8 @@ export async function adminCancelOrder(orderId: number): Promise<AdminOrderResul
 export async function approveRefund(orderId: number): Promise<AdminOrderResult> {
   return prisma.$transaction(async (tx) => {
     const o = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } });
-    if (!o) return { ok: false, error: "Order not found." };
-    if (o.status !== "REFUND" || o.paymentStatus !== "PAID") return { ok: false, error: "No open return on this order." };
+    if (!o) return { ok: false, error: "Không tìm thấy đơn." };
+    if (o.status !== "REFUND" || o.paymentStatus !== "PAID") return { ok: false, error: "Đơn này không có yêu cầu đổi trả đang mở." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
     await tx.order.update({ where: { id: o.id }, data: { paymentStatus: "REFUNDED" } });
     return { ok: true, status: "REFUND" };

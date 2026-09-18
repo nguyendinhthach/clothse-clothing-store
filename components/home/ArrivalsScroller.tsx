@@ -17,11 +17,11 @@ export function ArrivalsScroller({ products }: { products: ProductCardData[] }) 
   return (
     <section id="new-arrivals" className={`${styles.section} ${styles.arrivals}`}>
       <div className={`container ${styles.sectionHead}`}>
-        <h2 className={styles.h2}>New arrivals</h2>
+        <h2 className={styles.h2}>Hàng mới về</h2>
         <div className={styles.arrowBtns}>
-          <Link href={routes.newArrivals} className={styles.viewAll}>View all</Link>
-          <button type="button" onClick={() => scroll(-1)} aria-label="Previous" className={styles.arrowBtn}>←</button>
-          <button type="button" onClick={() => scroll(1)} aria-label="Next" className={styles.arrowBtn}>→</button>
+          <Link href={routes.newArrivals} className={styles.viewAll}>Xem tất cả</Link>
+          <button type="button" onClick={() => scroll(-1)} aria-label="Lùi" className={styles.arrowBtn}>←</button>
+          <button type="button" onClick={() => scroll(1)} aria-label="Tiến" className={styles.arrowBtn}>→</button>
         </div>
       </div>
       <div ref={ref} className={styles.scroller}>

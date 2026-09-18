@@ -53,7 +53,7 @@
 .h1 {
   font-family: var(--font-serif);
   font-size: clamp(64px, 13vw, 190px);
-  line-height: 0.82;
+  line-height: 1.08;
   letter-spacing: -0.04em;
   text-transform: uppercase;
   margin: 0;

@@ -8,7 +8,7 @@ import { countOrdersByStatus, getBagLines, listOrders } from "@/lib/services/ord
 import { requireUser } from "@/lib/session";
 import styles from "@/components/bag/bag.module.css";
 
-export const metadata: Metadata = { title: "My Bag & Orders" };
+export const metadata: Metadata = { title: "Giỏ hàng & Đơn hàng" };
 
 const isTab = (t: unknown): t is BagTab => t === "bag" || ORDER_TABS.some((x) => x.tab === t);
 
@@ -28,29 +28,29 @@ export default async function BagPage({ searchParams }: PageProps<"/bag">) {
       <section className={styles.head}>
         <div>
           <nav className={styles.crumbs} aria-label="Breadcrumb">
-            <Link href={routes.home}>Home</Link>
+            <Link href={routes.home}>Trang chủ</Link>
             <span>/</span>
-            <span>Account</span>
+            <span>Tài khoản</span>
             <span>/</span>
-            <span className={styles.crumbCurrent}>{tab === "bag" ? "My Bag" : "My Orders"}</span>
+            <span className={styles.crumbCurrent}>{tab === "bag" ? "Giỏ hàng" : "Đơn hàng"}</span>
           </nav>
-          <h1 className={styles.h1}>{tab === "bag" ? "My Bag" : "My Orders"}</h1>
+          <h1 className={styles.h1}>{tab === "bag" ? "Giỏ hàng" : "Đơn hàng"}</h1>
         </div>
         <div className={styles.headMeta}>
-          <span className={styles.count}>{units} {units === 1 ? "item" : "items"} in bag</span>
-          <span className={styles.countSub}>Stock is reserved when you place the order</span>
+          <span className={styles.count}>{units} món trong giỏ</span>
+          <span className={styles.countSub}>Hàng chỉ được giữ khi bạn đặt đơn</span>
         </div>
       </section>
 
       {placed && (
         <div className={styles.placed} role="status">
-          Order <strong>#{placed}</strong> placed — we&apos;ll confirm it shortly. Pay the courier on delivery.
+          Đã đặt đơn <strong>#{placed}</strong> — shop sẽ xác nhận sớm. Bạn thanh toán cho shipper khi nhận hàng.
         </div>
       )}
 
       <div role="tablist" className={styles.tabs}>
         <Link href={routes.bag()} role="tab" aria-selected={tab === "bag"} className={`${styles.tab} ${tab === "bag" ? styles.tabOn : ""}`}>
-          Bag
+          Giỏ hàng
           {units > 0 && <span className={styles.tabBadge}>{units}</span>}
         </Link>
         {ORDER_TABS.map((t) => (

@@ -147,10 +147,10 @@ export async function getShopByCounts(now = new Date()) {
   ]);
   const count = (name: string) => tags.find((t) => t.name === name)?._count.products ?? 0;
   return [
-    { label: "Men", count: count("Men"), tag: "Men" },
-    { label: "Women", count: count("Women"), tag: "Women" },
+    { label: "Nam", count: count("Men"), tag: "Men" },
+    { label: "Nữ", count: count("Women"), tag: "Women" },
     { label: "Unisex", count: count("Unisex"), tag: "Unisex" },
-    { label: "New Arrivals", count: newCount, tag: null },
+    { label: "Hàng mới", count: newCount, tag: null },
   ];
 }
 

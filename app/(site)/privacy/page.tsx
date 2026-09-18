@@ -4,55 +4,55 @@ import { Callout, LegalBand, LegalHero, LegalSection } from "@/components/static
 import { routes } from "@/lib/routes";
 import styles from "@/components/static/static.module.css";
 
-export const metadata: Metadata = { title: "Privacy Policy" };
+export const metadata: Metadata = { title: "Chính sách bảo mật" };
 
 export default function PrivacyPage() {
   return (
     <>
-      <LegalHero kicker="Privacy · Updated September 2026" title="Privacy" block="Policy" lead="What we collect, why we need it, and how to get it changed or deleted. Short version: only what an order needs." />
+      <LegalHero kicker="Bảo mật · Cập nhật tháng 9/2026" title="Chính sách" block="Bảo mật" lead="Shop thu gì, dùng để làm gì, và cách sửa hay xoá. Nói gọn: chỉ những gì một đơn hàng cần." />
       <div className={`container ${styles.legal}`}>
-        <LegalSection n={1} title="What we collect">
+        <LegalSection n={1} title="Shop thu thập gì">
           <ul>
-            <li>Name</li>
-            <li>Email address</li>
-            <li>Phone number</li>
-            <li>Delivery address</li>
-            <li>Order history — what you bought, sizes, and order status</li>
+            <li>Họ tên</li>
+            <li>Email</li>
+            <li>Số điện thoại</li>
+            <li>Địa chỉ giao hàng</li>
+            <li>Lịch sử đơn — bạn mua gì, size nào, trạng thái đơn</li>
           </ul>
-          <p>If you create an account we also store your saved addresses and your Favourites list. We do not collect payment card data at all.</p>
+          <p>Nếu bạn tạo tài khoản, shop lưu thêm địa chỉ đã lưu và danh sách Yêu thích. Shop hoàn toàn không thu thông tin thẻ.</p>
         </LegalSection>
 
-        <LegalSection n={2} title="Why we use it">
+        <LegalSection n={2} title="Dùng để làm gì">
           <ul>
-            <li><strong>Processing orders:</strong> confirming, packing and handing your parcel to the courier.</li>
-            <li><strong>COD delivery contact:</strong> your phone number and address go to the courier so they can reach you at the door and collect payment.</li>
-            <li><strong>Restock and sale notifications:</strong> only if you turned on “Notify me” for an item in Favourites, or opted into the weekly email.</li>
-            <li><strong>Support:</strong> answering messages you send from the Contact page.</li>
+            <li><strong>Xử lý đơn:</strong> xác nhận, đóng gói và giao gói hàng cho đơn vị vận chuyển.</li>
+            <li><strong>Liên hệ giao COD:</strong> số điện thoại và địa chỉ được chuyển cho shipper để liên lạc và thu tiền lúc giao.</li>
+            <li><strong>Báo có hàng lại / giảm giá:</strong> chỉ khi bạn bật “Báo tôi” cho món trong Yêu thích, hoặc đăng ký email hàng tuần.</li>
+            <li><strong>Hỗ trợ:</strong> trả lời tin nhắn bạn gửi từ trang Liên hệ.</li>
           </ul>
-          <p>We do not sell your data, and we do not use it for profiling or advertising.</p>
+          <p>Shop không bán dữ liệu của bạn, không dùng để phân tích hồ sơ hay chạy quảng cáo.</p>
         </LegalSection>
 
-        <LegalSection n={3} title="Payment data">
-          <p>ClothSE supports cash on delivery only. No card or bank details are collected on this site, so there is nothing to pass to a payment processor — no third-party payment provider receives your data.</p>
-          <Callout>No card data collected · COD only</Callout>
+        <LegalSection n={3} title="Dữ liệu thanh toán">
+          <p>ClothSE chỉ nhận thanh toán khi nhận hàng. Web không thu thông tin thẻ hay tài khoản ngân hàng, nên không có gì để chuyển cho cổng thanh toán — không bên thứ ba nào nhận dữ liệu của bạn.</p>
+          <Callout>Không thu thông tin thẻ · Chỉ COD</Callout>
         </LegalSection>
 
-        <LegalSection n={4} title="Who sees your data">
-          <p>Only the ClothSE team, and the delivery courier assigned to your order — who receives your name, phone number, address and the amount to collect. Nothing else is shared with anyone else unless we are legally required to.</p>
+        <LegalSection n={4} title="Ai thấy dữ liệu của bạn">
+          <p>Chỉ đội ClothSE và shipper được giao đơn của bạn — người này nhận họ tên, số điện thoại, địa chỉ và số tiền cần thu. Không chia sẻ cho ai khác, trừ khi pháp luật yêu cầu.</p>
         </LegalSection>
 
-        <LegalSection n={5} title="How long we keep it">
-          <p>Order records are kept for as long as we need them for accounting and returns. Account details stay until you ask us to delete the account; marketing consent ends the moment you unsubscribe.</p>
+        <LegalSection n={5} title="Giữ trong bao lâu">
+          <p>Hồ sơ đơn hàng được giữ chừng nào shop còn cần cho kế toán và đổi trả. Thông tin tài khoản giữ tới khi bạn yêu cầu xoá; đồng ý nhận tin kết thúc ngay khi bạn huỷ đăng ký.</p>
         </LegalSection>
 
-        <LegalSection n={6} title="Your choices">
+        <LegalSection n={6} title="Quyền của bạn">
           <ul>
-            <li>Ask for a copy of the data we hold about you.</li>
-            <li>Ask us to correct anything wrong — name, email and phone can be changed any time under <Link href={routes.account()}>Account</Link>.</li>
-            <li>Ask us to delete your account and personal details.</li>
-            <li>Turn off restock alerts in Favourites, or unsubscribe from any email in one click.</li>
+            <li>Yêu cầu bản sao dữ liệu shop đang giữ về bạn.</li>
+            <li>Yêu cầu sửa thông tin sai — họ tên, email và số điện thoại bạn tự đổi được trong <Link href={routes.account()}>Tài khoản</Link>.</li>
+            <li>Yêu cầu xoá tài khoản và thông tin cá nhân.</li>
+            <li>Tắt báo tin trong Yêu thích, hoặc huỷ đăng ký email bằng một cú bấm.</li>
           </ul>
-          <p>Send any of these requests through the <Link href={routes.contact}>Contact page</Link> and we will action them within 30 days.</p>
+          <p>Gửi các yêu cầu này qua <Link href={routes.contact}>trang Liên hệ</Link>, shop xử lý trong 30 ngày.</p>
         </LegalSection>
 
         <LegalBand />

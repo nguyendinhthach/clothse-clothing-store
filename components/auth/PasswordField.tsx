@@ -24,11 +24,11 @@ function score(pw: string) {
   return Math.min(4, s);
 }
 const META = [
-  { label: "Too short", color: "#8A83A0" },
-  { label: "Weak", color: "var(--orange)" },
-  { label: "Fair", color: "var(--orange)" },
-  { label: "Good", color: "var(--accent)" },
-  { label: "Strong", color: "var(--accent)" },
+  { label: "Quá ngắn", color: "#8A83A0" },
+  { label: "Yếu", color: "var(--orange)" },
+  { label: "Tạm", color: "var(--orange)" },
+  { label: "Khá", color: "var(--accent)" },
+  { label: "Mạnh", color: "var(--accent)" },
 ];
 
 export function PasswordField({ name, label, placeholder = "••••••••", autoComplete, minLength, meter }: Props) {
@@ -42,7 +42,7 @@ export function PasswordField({ name, label, placeholder = "••••••�
       <span className={styles.label}>
         <span>{label}</span>
         <button type="button" onClick={() => setReveal((v) => !v)} className={styles.reveal}>
-          {reveal ? "Hide" : "Show"}
+          {reveal ? "Ẩn" : "Hiện"}
         </button>
       </span>
       <input
@@ -63,7 +63,7 @@ export function PasswordField({ name, label, placeholder = "••••••�
             ))}
           </span>
           <span className={styles.meterLabel} style={{ color: value ? m.color : "#8A83A0" }}>
-            {value ? m.label : "Strength"}
+            {value ? m.label : "Độ mạnh"}
           </span>
         </span>
       )}

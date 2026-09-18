@@ -32,9 +32,9 @@ export async function saveProductAction(input: ProductInput, warehouse: Warehous
 
   for (const w of rows) {
     const v = await prisma.variant.findFirst({ where: { productId: r.id, sizeOption: { label: w.size } }, select: { id: true } });
-    if (!v) return { ok: false, error: `Saved, but size ${w.size} was not found for linking.` };
+    if (!v) return { ok: false, error: `Đã lưu, nhưng không tìm thấy size ${w.size} để gắn lô.` };
     const lr = w.batchId ? await linkBatch(w.batchId, v.id, w.qty) : await pullFromWarehouse(v.id, w.qty);
-    if (!lr.ok) { refresh(r.id); return { ok: false, error: `Saved, but linking size ${w.size} failed: ${lr.error}` }; }
+    if (!lr.ok) { refresh(r.id); return { ok: false, error: `Đã lưu, nhưng gắn lô cho size ${w.size} lỗi: ${lr.error}` }; }
   }
   refresh(r.id);
   return r;
@@ -50,12 +50,12 @@ export async function deleteProductAction(id: number): Promise<ProductResult> {
 export async function uploadImageAction(fd: FormData): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
   await requireAdmin();
   const file = fd.get("file");
-  if (!(file instanceof File)) return { ok: false, error: "No file received." };
+  if (!(file instanceof File)) return { ok: false, error: "Chưa nhận được file." };
   try {
     const { url } = await uploadProductImage(file);
     return { ok: true, url };
   } catch (e) {
-    return { ok: false, error: e instanceof Error ? e.message : "Upload failed." };
+    return { ok: false, error: e instanceof Error ? e.message : "Tải ảnh thất bại." };
   }
 }
 

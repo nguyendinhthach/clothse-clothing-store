@@ -11,9 +11,9 @@ export async function listBrands() {
 
 export async function saveBrand(input: { id?: number; name: string }): Promise<VocabResult> {
   const name = input.name.trim();
-  if (!name) return { ok: false, error: "Enter a brand name." };
+  if (!name) return { ok: false, error: "Nhập tên hãng." };
   const clash = await prisma.brand.findFirst({ where: { name: { equals: name, mode: "insensitive" }, NOT: input.id ? { id: input.id } : undefined } });
-  if (clash) return { ok: false, error: `"${clash.name}" already exists.` };
+  if (clash) return { ok: false, error: `"${clash.name}" đã có rồi.` };
   if (input.id) await prisma.brand.update({ where: { id: input.id }, data: { name } });
   else await prisma.brand.create({ data: { name } });
   return { ok: true };
@@ -22,8 +22,8 @@ export async function saveBrand(input: { id?: number; name: string }): Promise<V
 /** A brand with products (or batches) cannot go — reassign them first. */
 export async function deleteBrand(id: number): Promise<VocabResult> {
   const b = await prisma.brand.findUnique({ where: { id }, include: { _count: { select: { products: true, batches: true } } } });
-  if (!b) return { ok: false, error: "Brand not found." };
-  if (b._count.products > 0 || b._count.batches > 0) return { ok: false, error: `${b.name} still has ${b._count.products} products and ${b._count.batches} batches.` };
+  if (!b) return { ok: false, error: "Không tìm thấy hãng." };
+  if (b._count.products > 0 || b._count.batches > 0) return { ok: false, error: `${b.name} vẫn còn ${b._count.products} sản phẩm và ${b._count.batches} lô hàng.` };
   await prisma.brand.delete({ where: { id } });
   return { ok: true };
 }
@@ -44,9 +44,9 @@ export async function listSizeGroups() {
 
 export async function addSize(categoryId: number, rawLabel: string): Promise<VocabResult> {
   const label = rawLabel.trim();
-  if (!label) return { ok: false, error: "Enter a size label." };
+  if (!label) return { ok: false, error: "Nhập tên size." };
   const clash = await prisma.sizeOption.findFirst({ where: { categoryId, label: { equals: label, mode: "insensitive" } } });
-  if (clash) return { ok: false, error: `"${clash.label}" already exists in this category.` };
+  if (clash) return { ok: false, error: `"${clash.label}" đã có trong danh mục này.` };
   const last = await prisma.sizeOption.aggregate({ where: { categoryId }, _max: { sortOrder: true } });
   await prisma.sizeOption.create({ data: { categoryId, label, sortOrder: (last._max.sortOrder ?? 0) + 1 } });
   return { ok: true };
@@ -54,11 +54,11 @@ export async function addSize(categoryId: number, rawLabel: string): Promise<Voc
 
 export async function renameSize(id: number, rawLabel: string): Promise<VocabResult> {
   const label = rawLabel.trim();
-  if (!label) return { ok: false, error: "A size needs a label." };
+  if (!label) return { ok: false, error: "Size cần có tên." };
   const s = await prisma.sizeOption.findUnique({ where: { id } });
-  if (!s) return { ok: false, error: "Size not found." };
+  if (!s) return { ok: false, error: "Không tìm thấy size." };
   const clash = await prisma.sizeOption.findFirst({ where: { categoryId: s.categoryId, label: { equals: label, mode: "insensitive" }, NOT: { id } } });
-  if (clash) return { ok: false, error: `"${clash.label}" already exists in this category.` };
+  if (clash) return { ok: false, error: `"${clash.label}" đã có trong danh mục này.` };
   await prisma.sizeOption.update({ where: { id }, data: { label } });
   return { ok: true };
 }
@@ -72,7 +72,7 @@ export async function setSizeActive(id: number, active: boolean): Promise<VocabR
 export async function reorderSizes(categoryId: number, ids: number[]): Promise<VocabResult> {
   const existing = await prisma.sizeOption.findMany({ where: { categoryId }, select: { id: true } });
   const known = new Set(existing.map((s) => s.id));
-  if (ids.length !== known.size || ids.some((id) => !known.has(id))) return { ok: false, error: "Size list is out of date — reload and try again." };
+  if (ids.length !== known.size || ids.some((id) => !known.has(id))) return { ok: false, error: "Danh sách size đã cũ — tải lại rồi thử lại." };
   await prisma.$transaction(ids.map((id, i) => prisma.sizeOption.update({ where: { id }, data: { sortOrder: i + 1 } })));
   return { ok: true };
 }

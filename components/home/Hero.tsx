@@ -7,10 +7,10 @@ import styles from "./home.module.css";
 
 // Four looks per the design; swap `src` in once the photography exists (public/images/hero-N.jpg).
 const SLIDES: HeroSlide[] = [
-  { label: "hero lifestyle shot", tint: ["#e1deea", "#d3cfe0"] },
-  { label: "street editorial shot", tint: ["#dcd8e8", "#cbc6dc"] },
-  { label: "denim detail shot", tint: ["#e4e1ec", "#d0ccdf"] },
-  { label: "outerwear studio shot", tint: ["#d8d4e5", "#c6c1d8"] },
+  { label: "ảnh lifestyle", tint: ["#e1deea", "#d3cfe0"] },
+  { label: "ảnh street editorial", tint: ["#dcd8e8", "#cbc6dc"] },
+  { label: "ảnh chi tiết denim", tint: ["#e4e1ec", "#d0ccdf"] },
+  { label: "ảnh studio áo khoác", tint: ["#d8d4e5", "#c6c1d8"] },
 ];
 
 export function Hero() {
@@ -19,27 +19,28 @@ export function Hero() {
       <div>
         <div className={styles.pill}>
           <span className={styles.dot} />
-          New arrivals weekly
+          Hàng mới mỗi tuần
         </div>
         <h1 className={styles.h1}>
-          The brands
+          Đủ chất
           <br />
-          <span className={styles.h1Mark}>You want</span>
+          <span className={styles.h1Mark}>Đủ tự tin</span>
           <br />
-          One place.
+          Khỏi cần
+          <br />
+          Chứng minh.
         </h1>
         <p className={styles.lead}>
-          Carhartt, Stüssy, Nike, Champion and more — the streetwear labels worth wearing, stocked in one place. Fresh
-          arrivals every week, real sizes, no hype tax.
+          Những label streetwear đáng mặc, gom về một chỗ. Hàng mới mỗi tuần, size thật, giá niêm yết.
         </p>
         <div className={styles.ctas}>
-          <Link href={routes.shop()} className={styles.btnPrimary}>Shop Now</Link>
-          <Link href={routes.newArrivals} className={styles.btnGhost}>New arrivals</Link>
+          <Link href={routes.shop()} className={styles.btnPrimary}>Mua ngay</Link>
+          <Link href={routes.newArrivals} className={styles.btnGhost}>Xem hàng mới</Link>
         </div>
         <div className={styles.usps}>
-          <span>Free shipping over {formatVnd(FREE_SHIPPING_OVER)}</span>
-          <span>30-day returns</span>
-          <span>Ships nationwide</span>
+          <span>Miễn ship từ {formatVnd(FREE_SHIPPING_OVER)}</span>
+          <span>Đổi trả trong 30 ngày</span>
+          <span>Giao toàn quốc</span>
         </div>
       </div>
       <HeroCarousel slides={SLIDES} />

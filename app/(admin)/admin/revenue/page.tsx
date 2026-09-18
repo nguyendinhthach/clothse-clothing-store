@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { RevenuePanel } from "@/components/admin/RevenuePanel";
 import { getRevenue, resolveRange, type RangeKey } from "@/lib/services/admin/analytics";
 
-export const metadata: Metadata = { title: "Revenue" };
+export const metadata: Metadata = { title: "Doanh thu" };
 
 const str = (v: unknown) => (typeof v === "string" ? v : "");
 

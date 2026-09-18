@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { deleteProductAction } from "@/lib/actions/admin-products";
+import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
 import type { AdminProductRow, ProductFilters } from "@/lib/services/admin/products";
@@ -39,42 +40,42 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
       <div className={styles.panelHead}>
         <div className={styles.filterRow}>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Search</span>
-            <input defaultValue={filters.q ?? ""} placeholder="Product name or SKU…" className={`${styles.input} ${styles.inputSm}`} onKeyDown={(e) => { if (e.key === "Enter") go({ q: (e.target as HTMLInputElement).value.trim() || undefined }); }} onBlur={(e) => { const v = e.target.value.trim() || undefined; if (v !== filters.q) go({ q: v }); }} />
+            <span className={styles.fieldLabel}>Tìm</span>
+            <input defaultValue={filters.q ?? ""} placeholder="Tên sản phẩm hoặc SKU…" className={`${styles.input} ${styles.inputSm}`} onKeyDown={(e) => { if (e.key === "Enter") go({ q: (e.target as HTMLInputElement).value.trim() || undefined }); }} onBlur={(e) => { const v = e.target.value.trim() || undefined; if (v !== filters.q) go({ q: v }); }} />
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Brand</span>
+            <span className={styles.fieldLabel}>Hãng</span>
             <select value={filters.brand ?? ""} onChange={(e) => go({ brand: e.target.value || undefined })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="">All brands</option>
+              <option value="">Mọi hãng</option>
               {brands.map((b) => <option key={b} value={b}>{b}</option>)}
             </select>
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Category</span>
+            <span className={styles.fieldLabel}>Danh mục</span>
             <select value={filters.category ?? ""} onChange={(e) => go({ category: e.target.value || undefined })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="">All categories</option>
-              {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              <option value="">Mọi danh mục</option>
+              {categories.map((c) => <option key={c} value={c}>{categoryLabel(c)}</option>)}
             </select>
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Status</span>
+            <span className={styles.fieldLabel}>Trạng thái</span>
             <select value={filters.status ?? ""} onChange={(e) => go({ status: (e.target.value || undefined) as ProductFilters["status"] })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="">All statuses</option>
-              <option value="in">In stock</option>
-              <option value="low">Low stock</option>
-              <option value="out">Out of stock</option>
+              <option value="">Mọi trạng thái</option>
+              <option value="in">Còn hàng</option>
+              <option value="low">Sắp hết</option>
+              <option value="out">Hết hàng</option>
             </select>
           </label>
           <label className={styles.field}>
-            <span className={styles.fieldLabel}>Sort by</span>
+            <span className={styles.fieldLabel}>Sắp xếp</span>
             <select value={filters.sort ?? "new"} onChange={(e) => go({ sort: e.target.value as ProductFilters["sort"] })} className={`${styles.input} ${styles.inputSm}`}>
-              <option value="new">Newest</option>
-              <option value="name">Name A–Z</option>
-              <option value="stock">Stock, low first</option>
+              <option value="new">Mới nhất</option>
+              <option value="name">Tên A–Z</option>
+              <option value="stock">Tồn ít trước</option>
             </select>
           </label>
         </div>
-        <button type="button" onClick={() => onEdit(null)} className={styles.primaryBtn}>Add product</button>
+        <button type="button" onClick={() => onEdit(null)} className={styles.primaryBtn}>Thêm sản phẩm</button>
       </div>
       {error && <div className={styles.error} role="alert">{error}</div>}
 
@@ -83,13 +84,13 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Product</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th className={styles.right}>Price</th>
-                <th className={styles.right}>Sale</th>
-                <th className={styles.right}>Stock</th>
-                <th>Status</th>
+                <th>Sản phẩm</th>
+                <th>Hãng</th>
+                <th>Danh mục</th>
+                <th className={styles.right}>Giá</th>
+                <th className={styles.right}>Giá sale</th>
+                <th className={styles.right}>Tồn</th>
+                <th>Trạng thái</th>
                 <th />
               </tr>
             </thead>
@@ -111,22 +112,22 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
                     </span>
                   </td>
                   <td>{p.brand}</td>
-                  <td className={styles.cellMono}>{p.category}</td>
+                  <td className={styles.cellMono}>{categoryLabel(p.category)}</td>
                   <td className={`${styles.right} ${styles.cellNum}`}>{formatVnd(p.price)}</td>
                   <td className={`${styles.right} ${styles.cellNum} ${p.onSale ? styles.saleOn : styles.muted}`}>{p.onSale && p.salePrice != null ? formatVnd(p.salePrice) : "—"}</td>
                   <td className={`${styles.right} ${styles.cellNum}`}>{p.stock}</td>
                   <td><Badge badge={p.badge} /></td>
                   <td>
                     <span className={styles.rowBtns}>
-                      <button type="button" onClick={() => onEdit(p.id)} className={styles.smallBtn}>Edit</button>
+                      <button type="button" onClick={() => onEdit(p.id)} className={styles.smallBtn}>Sửa</button>
                       <button
                         type="button"
                         disabled={pending || p.ordered}
-                        title={p.ordered ? "On past orders — can't delete" : undefined}
-                        onClick={() => { if (confirm(`Delete ${p.name}? Its batches stay in the warehouse as unlinked stock.`)) start(async () => { const r = await deleteProductAction(p.id); setError(r.ok ? null : r.error); router.refresh(); }); }}
+                        title={p.ordered ? "Đã có trong đơn cũ — không xoá được" : undefined}
+                        onClick={() => { if (confirm(`Xoá ${p.name}? Các lô nhập vẫn nằm trong kho dưới dạng chưa gắn.`)) start(async () => { const r = await deleteProductAction(p.id); setError(r.ok ? null : r.error); router.refresh(); }); }}
                         className={`${styles.smallBtn} ${styles.smallBtnDanger}`}
                       >
-                        Delete
+                        Xoá
                       </button>
                     </span>
                   </td>
@@ -137,13 +138,13 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
         </div>
         {rows.length === 0 && (
           <div className={styles.tableEmpty}>
-            <span className={styles.brandName}>No matching products</span>
-            <button type="button" onClick={() => router.replace(routes.adminProducts)} className={styles.smallBtn}>Clear filters</button>
+            <span className={styles.brandName}>Không có sản phẩm khớp</span>
+            <button type="button" onClick={() => router.replace(routes.adminProducts)} className={styles.smallBtn}>Xoá bộ lọc</button>
           </div>
         )}
         <div className={styles.tableFoot}>
-          <span>{rows.length} {rows.length === 1 ? "product" : "products"}</span>
-          <span>{low} need attention</span>
+          <span>{rows.length} sản phẩm</span>
+          <span>{low} cần chú ý</span>
         </div>
       </div>
     </div>
