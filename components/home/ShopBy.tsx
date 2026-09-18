@@ -17,16 +17,14 @@ export function ShopBy({ tiles }: { tiles: Tile[] }) {
         <span className={styles.eyebrow}>{String(tiles.length).padStart(2, "0")} nhóm</span>
       </div>
       <div className={styles.tiles}>
-        {tiles.map((t, i) => (
+        {tiles.map((t) => (
           <Link key={t.label} href={t.tag ? routes.shop({ tag: t.tag }) : routes.shop()} className={styles.tile}>
             <span className={styles.tileZoom}>
               <Placeholder label={t.label.toLowerCase()} />
             </span>
             <span className={styles.tileTint} />
             <span className={styles.tileText}>
-              <span className={styles.tileTag}>
-                {String(i + 1).padStart(2, "0")} / {t.count} mẫu
-              </span>
+              <span className={styles.tileTag}>{t.count} mẫu</span>
               <span className={styles.tileBottom}>
                 <span className={styles.tileLabel}>{t.label}</span>
                 <span className={styles.tileArrow}>→</span>
