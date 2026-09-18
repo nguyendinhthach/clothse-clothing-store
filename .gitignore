@@ -165,5 +165,11 @@ yarn-error.log*
 # Prisma generated client (rebuilt by `prisma generate` / postinstall)
 /lib/generated/
 
-# symlink to .agents/skills created by prisma init; the real copy is tracked there
-.claude/skills/
+# AI assistant helpers — local only, the app never reads them.
+# .agents/skills + skills-lock.json come from `prisma init`, .claude/ is Claude Code,
+# AGENTS.md is re-written by `next dev` on every run and CLAUDE.md just points at it.
+.agents/
+.claude/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
