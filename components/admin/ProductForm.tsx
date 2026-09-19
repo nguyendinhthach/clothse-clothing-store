@@ -124,7 +124,9 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
   };
 
   // ── size guide rows follow the chosen sizes ──
-  const guideRows = f.sizes.map((size) => f.sizeGuide.find((g) => g.size === size) ?? { size, chest: "", length: "", sleeve: "" });
+  // Rows follow the category's size order (sortOrder), not the order the chips were clicked.
+  const orderedSizes = category.sizes.filter((size) => f.sizes.includes(size));
+  const guideRows = orderedSizes.map((size) => f.sizeGuide.find((g) => g.size === size) ?? { size, chest: "", length: "", sleeve: "" });
   const setGuide = (size: string, key: "chest" | "length" | "sleeve", v: string) => set("sizeGuide", guideRows.map((g) => (g.size === size ? { ...g, [key]: v } : g)));
 
   function submit(e: React.FormEvent) {
@@ -284,7 +286,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
               {f.sizes.length === 0 ? (
                 <span className={styles.hintBox}>Sản phẩm chưa có size nào</span>
               ) : (
-                f.sizes.map((size) => {
+                orderedSizes.map((size) => {
                   const avail = f.warehouse?.[size] ?? 0;
                   const shelf = f.shelf?.[size] ?? 0;
                   const q = Number(restock[size] ?? 0);
