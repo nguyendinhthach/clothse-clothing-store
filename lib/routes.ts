@@ -35,6 +35,7 @@ export const routes = {
   adminRevenue: "/admin/revenue",
   adminBrands: "/admin/brands",
   adminSizes: "/admin/sizes",
+  adminTypes: "/admin/types",
   adminStorage: "/admin/storage",
   adminProducts: "/admin/products",
   adminOrders: "/admin/orders",

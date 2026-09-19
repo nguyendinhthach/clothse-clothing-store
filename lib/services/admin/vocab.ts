@@ -76,3 +76,53 @@ export async function reorderSizes(categoryId: number, ids: number[]): Promise<V
   await prisma.$transaction(ids.map((id, i) => prisma.sizeOption.update({ where: { id }, data: { sortOrder: i + 1 } })));
   return { ok: true };
 }
+
+// ─── Item types (SPEC §7: per-category codes that mint SKUs; a code with products is frozen) ──
+
+const CODE_RE = /^[A-Z]{3}$/;
+
+export async function listItemTypeGroups() {
+  const cats = await prisma.category.findMany({
+    orderBy: { id: "asc" },
+    include: { types: { orderBy: { code: "asc" }, include: { _count: { select: { products: true } } } } },
+  });
+  return cats.map((c) => ({
+    id: c.id,
+    name: c.name,
+    types: c.types.map((t) => ({ id: t.id, code: t.code, label: t.label, products: t._count.products })),
+  }));
+}
+
+/** Suggest a code from a label: first three consonant-ish ASCII letters, e.g. "Váy" → "VAY". */
+export function suggestTypeCode(label: string): string {
+  const ascii = label.normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/gi, "d").toUpperCase().replace(/[^A-Z]/g, "");
+  return ascii.slice(0, 3);
+}
+
+export async function saveItemType(input: { id?: number; categoryId: number; code: string; label: string }): Promise<VocabResult> {
+  const label = input.label.trim();
+  const code = input.code.trim().toUpperCase();
+  if (!label) return { ok: false, error: "Nhập tên loại món." };
+  if (!CODE_RE.test(code)) return { ok: false, error: "Mã phải đúng 3 chữ cái A–Z, ví dụ HDY." };
+  const existing = input.id ? await prisma.itemType.findUnique({ where: { id: input.id }, include: { _count: { select: { products: true } } } }) : null;
+  if (input.id && !existing) return { ok: false, error: "Không tìm thấy loại món." };
+  // The code is printed inside every SKU of its products — once used it never changes.
+  if (existing && existing._count.products > 0 && (existing.code !== code || existing.categoryId !== input.categoryId)) {
+    return { ok: false, error: `${existing.code} đã có ${existing._count.products} sản phẩm — chỉ đổi được tên, không đổi mã hay danh mục.` };
+  }
+  const codeClash = await prisma.itemType.findFirst({ where: { code, NOT: input.id ? { id: input.id } : undefined } });
+  if (codeClash) return { ok: false, error: `Mã ${code} đang dùng cho "${codeClash.label}".` };
+  const labelClash = await prisma.itemType.findFirst({ where: { categoryId: input.categoryId, label: { equals: label, mode: "insensitive" }, NOT: input.id ? { id: input.id } : undefined } });
+  if (labelClash) return { ok: false, error: `"${labelClash.label}" đã có trong danh mục này.` };
+  if (input.id) await prisma.itemType.update({ where: { id: input.id }, data: { code, label, categoryId: input.categoryId } });
+  else await prisma.itemType.create({ data: { code, label, categoryId: input.categoryId } });
+  return { ok: true };
+}
+
+export async function deleteItemType(id: number): Promise<VocabResult> {
+  const t = await prisma.itemType.findUnique({ where: { id }, include: { _count: { select: { products: true } } } });
+  if (!t) return { ok: false, error: "Không tìm thấy loại món." };
+  if (t._count.products > 0) return { ok: false, error: `${t.label} (${t.code}) vẫn còn ${t._count.products} sản phẩm.` };
+  await prisma.itemType.delete({ where: { id } });
+  return { ok: true };
+}

@@ -7,12 +7,11 @@ import { linkableBatchesAction } from "@/lib/actions/admin-storage";
 import { categoryLabel } from "@/lib/catalog-constants";
 import { formatDate, formatVnd } from "@/lib/format";
 import type { ProductFormData, ProductInput } from "@/lib/services/admin/products";
-import { skuTypesFor } from "@/lib/sku-codes";
 import styles from "./admin.module.css";
 
 export interface FormVocab {
   brands: { id: number; name: string }[];
-  categories: { id: number; name: string; sizes: string[] }[];
+  categories: { id: number; name: string; sizes: string[]; types: { id: number; code: string; label: string }[] }[];
   tags: string[];
 }
 
@@ -90,7 +89,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
     set("sizes", f.sizes.includes(label) ? f.sizes.filter((s) => s !== label) : [...f.sizes, label]);
   };
   const changeCategory = (id: number) => {
-    setF((s) => ({ ...s, categoryId: id, sizes: [], sizeGuide: [], typeCode: undefined }));
+    setF((s) => ({ ...s, categoryId: id, sizes: [], sizeGuide: [], typeId: undefined }));
   };
 
   // ── images ──
@@ -174,11 +173,11 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
           {!editing && (
             <label className={styles.field}>
               <span className={styles.fieldLabel}>Loại món (tạo SKU)</span>
-              <select value={f.typeCode ?? ""} onChange={(e) => set("typeCode", e.target.value || undefined)} required className={styles.input}>
+              <select value={f.typeId ?? ""} onChange={(e) => set("typeId", e.target.value ? Number(e.target.value) : undefined)} required className={styles.input}>
                 <option value="">Chọn…</option>
-                {skuTypesFor(category.name).map((t) => <option key={t.code} value={t.code}>{t.label} · CSE-{t.code}-…</option>)}
+                {category.types.map((t) => <option key={t.id} value={t.id}>{t.label} · CSE-{t.code}-…</option>)}
               </select>
-              <span className={styles.hint}>SKU sinh tự động khi lưu, ví dụ CSE-HDY-007.</span>
+              <span className={styles.hint}>SKU sinh tự động khi lưu, ví dụ CSE-HDY-007. Thiếu loại thì thêm ở tab Loại món.</span>
             </label>
           )}
 

@@ -9,6 +9,7 @@ export interface RailCounts {
   products: number;
   brands: number;
   sizes: number;
+  types: number;
   storage: number;
   orders: number;
 }
@@ -18,6 +19,7 @@ const SECTIONS: { href: string; label: string; count?: keyof RailCounts }[] = [
   { href: routes.adminRevenue, label: "Doanh thu" },
   { href: routes.adminBrands, label: "Hãng", count: "brands" },
   { href: routes.adminSizes, label: "Size", count: "sizes" },
+  { href: routes.adminTypes, label: "Loại món", count: "types" },
   { href: routes.adminStorage, label: "Kho", count: "storage" },
   { href: routes.adminProducts, label: "Sản phẩm", count: "products" },
   { href: routes.adminOrders, label: "Đơn hàng", count: "orders" },

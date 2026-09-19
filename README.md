@@ -45,7 +45,7 @@ npm run db:import -- clothse-products.xlsx ./images             # upload ảnh l
 npm run db:import -- clothse-products.xlsx ./images --owner Thach   # chỉ nhập hàng của một người
 ```
 
-Có lỗi ở bất kỳ dòng nào thì không ghi gì cả. Sản phẩm đã có (trùng hãng + tên) được bỏ qua nên chạy lại thoải mái.
+Cột `type` phải khớp tên/mã trong **Store Management → Loại món** (thiếu thì thêm ở đó trước). Có lỗi ở bất kỳ dòng nào thì không ghi gì cả. Sản phẩm đã có (trùng hãng + tên) được bỏ qua nên chạy lại thoải mái.
 
 ## Deploy (Vercel + Neon)
 

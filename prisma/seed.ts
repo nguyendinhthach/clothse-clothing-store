@@ -6,6 +6,7 @@
 // numbers always match the design.
 
 import "dotenv/config";
+import { DEFAULT_ITEM_TYPES } from "../lib/sku-codes";
 import { hash } from "bcryptjs";
 import { prisma } from "../lib/prisma";
 import type { OrderStatus, PaymentStatus } from "../lib/generated/prisma/client";
@@ -65,21 +66,21 @@ const PRODUCTS: Seed[] = [
   { name: "Panel Work Jacket", code: "JKT", brand: "Stüssy", cat: "Tops", price: 186, added: 20, tags: ["Men"], stock: "full" },
   { name: "Loop Cross Bag", code: "BAG", brand: "Champion", cat: "Accessories", price: 74, added: 19, tags: ["Women"], stock: "full" },
   { name: "Court Low Sneaker", code: "SNK", brand: "Nike", cat: "Footwear", price: 154, added: 18, tags: ["Unisex"], stock: "out" },
-  { name: "Wide Denim 001", code: "DNM", brand: "Carhartt", cat: "Bottoms", price: 128, added: 17, tags: ["Women"], stock: "full" },
+  { name: "Wide Denim 001", code: "JEN", brand: "Carhartt", cat: "Bottoms", price: 128, added: 17, tags: ["Women"], stock: "full" },
   { name: "Blank Heavy Tee", code: "TEE", brand: "Stüssy", cat: "Tops", price: 42, added: 16, tags: ["Unisex", "Heavyweight"], stock: "full" },
   { name: "Logo Crew Sock 3pk", code: "SCK", brand: "Champion", cat: "Accessories", price: 24, added: 15, tags: ["Unisex"], stock: "full" },
   { name: "Trail Runner GT", code: "RUN", brand: "Nike", cat: "Footwear", price: 172, added: 14, tags: ["Men", "Waterproof"], stock: "mixed" },
   { name: "Nylon Track Pant", code: "PNT", brand: "Carhartt", cat: "Bottoms", price: 96, added: 13, tags: ["Men"], stock: "full", restocked: true },
   { name: "Half-Zip Fleece", code: "FLC", brand: "Stüssy", cat: "Tops", price: 142, added: 12, tags: ["Unisex"], stock: "full", restocked: true },
   { name: "Canvas Tote XL", code: "BAG", brand: "Champion", cat: "Accessories", price: 58, added: 11, tags: ["Women"], stock: "full" },
-  { name: "Mule Slide 02", code: "SLD", brand: "Nike", cat: "Footwear", price: 88, sale: 62, added: 10, tags: ["Women"], stock: "mixed" },
+  { name: "Mule Slide 02", code: "SDL", brand: "Nike", cat: "Footwear", price: 88, sale: 62, added: 10, tags: ["Women"], stock: "mixed" },
   { name: "Pleated Skate Short", code: "SHT", brand: "Carhartt", cat: "Bottoms", price: 76, added: 9, tags: ["Women"], stock: "full", restocked: true },
-  { name: "Boxy Rugby Shirt", code: "RGB", brand: "Stüssy", cat: "Tops", price: 112, added: 8, tags: ["Men"], stock: "full", restocked: true },
+  { name: "Boxy Rugby Shirt", code: "SHR", brand: "Stüssy", cat: "Tops", price: 112, added: 8, tags: ["Men"], stock: "full", restocked: true },
   { name: "Chain Belt Nº7", code: "BLT", brand: "Champion", cat: "Accessories", price: 46, added: 7, tags: ["Unisex"], stock: "full" },
   { name: "Suede Court Hi", code: "SNK", brand: "Nike", cat: "Footwear", price: 198, added: 6, tags: ["Men", "Limited"], stock: "mixed" },
   { name: "Carpenter Jean", code: "JEN", brand: "Carhartt", cat: "Bottoms", price: 134, added: 5, tags: ["Men"], stock: "full" },
   { name: "Mesh Layer Tee", code: "TEE", brand: "Stüssy", cat: "Tops", price: 52, sale: 36, added: 4, tags: ["Women"], stock: "full" },
-  { name: "Bucket Hat 01", code: "HAT", brand: "Champion", cat: "Accessories", price: 38, added: 3, tags: ["Unisex"], stock: "full" },
+  { name: "Bucket Hat 01", code: "CAP", brand: "Champion", cat: "Accessories", price: 38, added: 3, tags: ["Unisex"], stock: "full" },
   { name: "Sport Sandal FX", code: "SDL", brand: "Nike", cat: "Footwear", price: 92, sale: 64, added: 2, tags: ["Women"], stock: "full" },
   { name: "Utility Flare Pant", code: "PNT", brand: "Carhartt", cat: "Bottoms", price: 148, added: 1, tags: ["Women"], stock: "full" },
 ];
@@ -187,6 +188,10 @@ async function main() {
       sizeId[`${cat}/${label}`] = s.id;
     }
   }
+  const typeId: Record<string, number> = {}; // code → id
+  for (const t of DEFAULT_ITEM_TYPES) {
+    typeId[t.code] = (await prisma.itemType.upsert({ where: { code: t.code }, update: { label: t.label }, create: { code: t.code, label: t.label, categoryId: catId[t.category] } })).id;
+  }
   const tagId: Record<string, number> = {};
   for (const name of TAGS) {
     tagId[name] = (await prisma.tag.upsert({ where: { name }, update: {}, create: { name } })).id;
@@ -238,6 +243,7 @@ async function main() {
       data: {
         name: p.name,
         sku: `CSE-${p.code}-${String(p.price).padStart(3, "0")}`,
+        typeId: typeId[p.code],
         price: vnd(p.price),
         salePrice: p.sale ? vnd(p.sale) : null,
         onSale: !!p.sale,

@@ -20,7 +20,6 @@ import path from "node:path";
 import { uploadProductImage, cloudinaryConfigured, IMAGE_MAX_BYTES } from "../lib/cloudinary";
 import { prisma } from "../lib/prisma";
 import { nextSku } from "../lib/services/admin/products";
-import { SKU_TYPES } from "../lib/sku-codes";
 
 // ─── CLI ─────────────────────────────────────────────────────────────────────
 
@@ -83,6 +82,7 @@ interface ProductRow {
   brand: string;
   category: string;
   typeCode: string;
+  typeId: number;
   price: number;
   salePrice: number | null;
   description: string;
@@ -112,6 +112,8 @@ async function main() {
     categoryIds.set(c.name, c.id);
     sizesByCategory.set(c.name, new Map(c.sizes.filter((s) => s.active).map((s) => [s.label.toLowerCase(), s.id])));
   }
+  // Item types come from Store Management → Loại món (matched by label or code, case-insensitive).
+  const itemTypes = (await prisma.itemType.findMany({ include: { category: { select: { name: true } } } })).map((t) => ({ id: t.id, code: t.code, label: t.label, category: t.category.name }));
 
   // products
   const products: ProductRow[] = [];
@@ -132,8 +134,8 @@ async function main() {
     if (!brand) err(where, "brand is required");
     const category = CATEGORIES.find((c) => c.toLowerCase() === (r.category ?? "").toLowerCase()) ?? "";
     if (!category) err(where, `category "${r.category}" must be one of ${CATEGORIES.join(" / ")}`);
-    const type = SKU_TYPES.find((t) => t.label.toLowerCase() === (r.type ?? "").toLowerCase() || t.code === (r.type ?? "").toUpperCase());
-    if (!type) err(where, `type "${r.type}" is not in the list (sheet lists, column B)`);
+    const type = itemTypes.find((t) => t.label.toLowerCase() === (r.type ?? "").toLowerCase() || t.code === (r.type ?? "").toUpperCase());
+    if (!type) err(where, `type "${r.type}" is not in Store Management → Loại món (add it there first)`);
     else if (category && type.category !== category) err(where, `type ${type.label} belongs to ${type.category}, not ${category}`);
 
     const price = int(r.price ?? "");
@@ -183,7 +185,7 @@ async function main() {
       else if (images.length < 4) warn(where, `only ${images.length} image(s); 4+ recommended`);
     }
 
-    products.push({ row: Number(r._row), id, name, brand, category, typeCode: type?.code ?? "", price, salePrice, description, tags, sizes, details, modelFitNote: r.model_fit_note ?? "", owner: r.owner ?? "", images });
+    products.push({ row: Number(r._row), id, name, brand, category, typeCode: type?.code ?? "", typeId: type?.id ?? 0, price, salePrice, description, tags, sizes, details, modelFitNote: r.model_fit_note ?? "", owner: r.owner ?? "", images });
   }
 
   // batches
@@ -255,6 +257,7 @@ async function main() {
       data: {
         name: p.name,
         sku,
+        typeId: p.typeId,
         brandId: brand.id,
         categoryId,
         price: p.price,

@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
 import { computeBadge, type Badge } from "@/lib/badges";
 import { getBestSellerIds } from "@/lib/services/catalog";
-import { SKU_TYPES } from "@/lib/sku-codes";
 import { notifySale } from "@/lib/services/notify";
 import { getWarehouseAvailability } from "@/lib/services/admin/storage";
 
@@ -93,7 +92,8 @@ export interface ProductFormData {
   sku?: string;
   brandId: number | null;
   categoryId: number;
-  typeCode?: string;
+  /** Create only: the ItemType that mints the SKU. Frozen after creation. */
+  typeId?: number;
   price: number | "";
   onSale: boolean;
   salePrice: number | "";
@@ -116,12 +116,15 @@ export interface ProductFormData {
 export async function getProductFormVocab() {
   const [brands, categories, tags] = await Promise.all([
     prisma.brand.findMany({ orderBy: { name: "asc" }, select: { id: true, name: true } }),
-    prisma.category.findMany({ orderBy: { id: "asc" }, select: { id: true, name: true, sizes: { where: { active: true }, orderBy: { sortOrder: "asc" }, select: { label: true } } } }),
+    prisma.category.findMany({
+      orderBy: { id: "asc" },
+      select: { id: true, name: true, sizes: { where: { active: true }, orderBy: { sortOrder: "asc" }, select: { label: true } }, types: { orderBy: { label: "asc" }, select: { id: true, code: true, label: true } } },
+    }),
     prisma.tag.findMany({ orderBy: { name: "asc" }, select: { name: true } }),
   ]);
   return {
     brands,
-    categories: categories.map((c) => ({ id: c.id, name: c.name, sizes: c.sizes.map((s) => s.label) })),
+    categories: categories.map((c) => ({ id: c.id, name: c.name, sizes: c.sizes.map((s) => s.label), types: c.types })),
     tags: tags.map((t) => t.name),
   };
 }
@@ -191,10 +194,11 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   if (input.onSale && (!Number.isInteger(salePrice) || salePrice! <= 0 || salePrice! >= price)) {
     return { ok: false, error: "Giá sale phải là số nguyên và thấp hơn giá gốc (SPEC §6.11)." }; // on_sale ⇒ sale_price set and < price
   }
-  if (!input.id && !SKU_TYPES.some((t) => t.code === input.typeCode)) return { ok: false, error: "Chọn loại món để tạo SKU." };
-
   const category = await prisma.category.findUnique({ where: { id: input.categoryId }, include: { sizes: true } });
   if (!category) return { ok: false, error: "Không tìm thấy danh mục." };
+  const type = !input.id && input.typeId ? await prisma.itemType.findUnique({ where: { id: input.typeId } }) : null;
+  if (!input.id && !type) return { ok: false, error: "Chọn loại món để tạo SKU." };
+  if (type && type.categoryId !== category.id) return { ok: false, error: `Loại ${type.label} thuộc danh mục khác.` };
   const sizeIds = new Map(category.sizes.map((s) => [s.label, s.id]));
   const wanted = [...new Set(input.sizes.map((s) => s.trim()).filter(Boolean))];
   const unknown = wanted.filter((l) => !sizeIds.has(l));
@@ -237,7 +241,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
         await tx.product.update({ where: { id: productId }, data: { ...data, details: details.length ? details : Prisma.JsonNull, sizeGuide: Object.keys(sizeGuide).length ? sizeGuide : Prisma.JsonNull } });
         await tx.productTag.deleteMany({ where: { productId } });
       } else {
-        const created = await tx.product.create({ data: { ...data, sku: await nextSku(input.typeCode!) }, select: { id: true } });
+        const created = await tx.product.create({ data: { ...data, typeId: type!.id, sku: await nextSku(type!.code) }, select: { id: true } });
         productId = created.id;
       }
       if (tags.length) await tx.productTag.createMany({ data: tags.map((t) => ({ productId: productId!, tagId: t.id })) });

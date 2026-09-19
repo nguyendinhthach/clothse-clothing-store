@@ -104,8 +104,24 @@ model Category {
   id       Int          @id @default(autoincrement())
   name     String       @unique
   sizes    SizeOption[]
+  types    ItemType[]
   products Product[]
   batches  Batch[]
+}
+
+/// SPEC §7 — item types mint SKUs (CSE-<code>-<seq>). Per-category vocabulary the admin
+/// manages (Store Management → Loại món). A code is never edited once a product carries it.
+model ItemType {
+  id    Int    @id @default(autoincrement())
+  /// Three uppercase letters, unique store-wide: HDY, TEE, SNK…
+  code  String @unique
+  label String
+
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  products   Product[]
+
+  @@unique([categoryId, label])
 }
 
 /// SPEC §6.5 — the size vocabulary, per category. Deactivate, never delete:
@@ -159,6 +175,9 @@ model Product {
   brandId    Int
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
+  /// The type whose code is in the SKU. Nullable only for rows that predate the table.
+  type       ItemType? @relation(fields: [typeId], references: [id])
+  typeId     Int?
 
   tags       ProductTag[]
   images     ProductImage[]
@@ -167,6 +186,7 @@ model Product {
 
   @@index([categoryId])
   @@index([brandId])
+  @@index([typeId])
   @@index([createdAt])
 }
 

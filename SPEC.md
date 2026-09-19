@@ -609,14 +609,18 @@ Chưa có trang nào được thiết kế trên canvas. Nếu làm, dùng lại
 
 **Mã đơn hàng.** Dạng `#CSE-4417` như thiết kế. Sinh tuần tự.
 
-**SKU.** Dạng `CSE-JKT-186` — tiền tố `CSE`, viết tắt loại hàng, số thứ tự. Sinh tự động khi nhập/tạo sản phẩm, admin không gõ tay. Bộ viết tắt loại hàng là danh sách đóng (chỉ để đặt mã, **không** lưu thành trường riêng — danh mục vẫn là 4 `Category`):
+**SKU.** Dạng `CSE-JKT-186` — tiền tố `CSE`, mã loại món, số thứ tự (đếm riêng theo mã). Sinh tự động khi nhập/tạo sản phẩm, admin không gõ tay và không đổi được sau khi cấp.
+
+**Loại món** (`ItemType`, đổi 2026-09-19 — trước là danh sách đóng trong code): bảng từ vựng theo danh mục như Size, chủ shop quản ở **Store Management → Loại món**. Mỗi loại có `code` 3 chữ in hoa (duy nhất toàn cửa hàng) + `label` + `categoryId`. Sản phẩm lưu `typeId`. Quy tắc: loại đã có sản phẩm thì **chỉ đổi được tên** (mã đã in trong SKU); xoá chỉ khi không còn sản phẩm. Mỗi danh mục có sẵn một mã "khác" để không bao giờ kẹt. Bộ khởi tạo:
 
 | Danh mục | Mã |
 |---|---|
-| Tops | TEE tee · SHR shirt · HDY hoodie · FLC fleece · JKT jacket |
-| Bottoms | PNT pant · JEN jean · SHT short |
-| Footwear | SNK sneaker · RUN runner · BOT boot · SDL sandal |
-| Accessories | CAP cap · BNE beanie · BAG bag · BLT belt · SCK sock · ACC other |
+| Tops | TEE tee · SHR shirt · HDY hoodie · FLC fleece · JKT jacket · TOP áo khác |
+| Bottoms | PNT pant · JEN jean · SHT short · BTM quần khác |
+| Footwear | SNK sneaker · RUN runner · BOT boot · SDL sandal · FTW giày khác |
+| Accessories | CAP cap · BNE beanie · BAG bag · BLT belt · SCK sock · ACC phụ kiện khác |
+
+Cột `type` trong xlsx thu thập khớp theo tên hoặc mã của bảng này; thiếu loại thì thêm ở tab trước rồi mới nhập. Việc còn treo: bộ lọc "Loại" ở trang Cửa hàng và meta thẻ sản phẩm dùng `typeId`.
 
 **Ngày giờ.** Lưu UTC, hiển thị theo giờ Việt Nam.
 
@@ -800,3 +804,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-17 | Mục 7: SKU sinh tự động, thêm bảng mã loại hàng (danh sách đóng, không lưu thành trường). Phục vụ thu thập dữ liệu sản phẩm theo nhóm |
 | 2026-09-16 | Tuần 0 gần xong: design đóng băng vào `design/`, Next.js 16 + Prisma 7, schema 17 bảng, 2 migration, seed 24 sản phẩm / 263 lô / 14 đơn / 2 tài khoản. Mục 5: `Batch` thêm `brand_id`, `size_option_id` (form nhập lô có Brand và Size, mục 6.5); thêm `PasswordResetToken`, `Subscriber`, `Favourite.notify`. Còn lại của tuần 0: deploy Vercel |
 | 2026-09-18 | Đổi toàn bộ giao diện sang tiếng Việt (slogan mới "Đủ chất / Đủ tự tin / Khỏi cần chứng minh"). Instrument Serif → Playfair Display (có tiếng Việt), bật subset `vietnamese` cho cả 3 font, nới line-height heading vì dấu |
+| 2026-09-19 | **Loại món thành bảng `ItemType`** + tab Loại món trong Store Management; `Product.typeId`; seed/xlsx đọc từ bảng. Sửa mục 7 |
