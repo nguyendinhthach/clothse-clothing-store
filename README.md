@@ -19,7 +19,8 @@ Lần đầu (hoặc khi DB trống):
 
 ```bash
 npm run db:migrate          # tạo bảng
-npm run db:seed             # nạp dữ liệu mẫu + 2 tài khoản demo (từ .env)
+npm run db:seed             # khung: danh mục, size, tag, loại món + tài khoản admin (từ .env)
+npm run db:seed:demo        # thêm dữ liệu mẫu (24 sản phẩm, lô, đơn, khách demo) — XOÁ sản phẩm/đơn đang có
 ```
 
 Xem/sửa dữ liệu bằng giao diện: `npm run db:studio`.
@@ -29,9 +30,10 @@ Xem/sửa dữ liệu bằng giao diện: `npm run db:studio`.
 | Lệnh | Việc |
 |---|---|
 | `npm run db:migrate` | Sau khi sửa `prisma/schema.prisma` — tạo migration mới và apply |
-| `npm run db:seed` | Nạp lại dữ liệu mẫu (chạy lại bao nhiêu lần cũng ra cùng số liệu) |
+| `npm run db:seed` | Khung + admin từ `.env`; an toàn trên DB đang dùng |
+| `npm run db:seed:demo` | Dữ liệu mẫu theo thiết kế (xoá sản phẩm/đơn cũ rồi nạp lại) — chỉ khi chưa có hàng thật |
 | `npm run db:import -- <file.xlsx> <thư-mục-ảnh> --dry-run` | Nhập sản phẩm nhóm thu thập (xem mục dưới) |
-| `npx prisma migrate reset` | Xoá sạch DB, chạy lại mọi migration, seed lại |
+| `npx prisma migrate reset` | Xoá sạch DB, chạy lại mọi migration, seed khung |
 | `npm run lint` | ESLint |
 | `npx tsc --noEmit` | Kiểm tra type |
 
@@ -50,9 +52,9 @@ Cột `type` phải khớp tên/mã trong **Store Management → Loại món** (
 ## Deploy (Vercel + Neon)
 
 1. Trên [vercel.com](https://vercel.com) → Add New Project → import repo GitHub này.
-2. Environment Variables: sao chép mọi biến trong `.env.example` (`DATABASE_URL` của Neon, `AUTH_SECRET` mới, `APP_URL` = domain Vercel, `TZ=Asia/Ho_Chi_Minh` để báo cáo tháng/tuần tính theo giờ Việt Nam, SMTP, Cloudinary, SEED_*).
+2. Environment Variables: sao chép mọi biến trong `.env.example` (`DATABASE_URL` của Neon, `AUTH_SECRET` mới, `APP_URL` = domain Vercel, `TZ=Asia/Ho_Chi_Minh` để báo cáo tháng/tuần tính theo giờ Việt Nam, SMTP, Cloudinary, `SEED_ADMIN_*`).
 3. Deploy. `npm run build` tự chạy `prisma migrate deploy` trước `next build`, nên bảng luôn khớp code.
-4. Nếu DB còn trống, nạp dữ liệu mẫu **một lần** từ máy local: `npm run db:seed` (dùng cùng `DATABASE_URL`).
+4. Nếu DB còn trống, từ máy local (cùng `DATABASE_URL`): `npm run db:seed` để có khung + admin, rồi `npm run db:import -- <xlsx> <ảnh>` nạp hàng thật — hoặc `npm run db:seed:demo` nếu chỉ cần dữ liệu mẫu.
 
 Từ đó mỗi lần push lên `main`, Vercel tự build và deploy.
 

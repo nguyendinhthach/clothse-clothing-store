@@ -8,33 +8,18 @@ import { routes } from "@/lib/routes";
 import { PasswordField } from "./PasswordField";
 import styles from "./auth.module.css";
 
-export interface DemoAccount {
-  label: string;
-  email: string;
-  password: string;
-}
-
 interface Props {
   mode: "signin" | "signup";
   next: string;
-  demo: DemoAccount[];
 }
 
-export function SignInForm({ mode, next, demo }: Props) {
+export function SignInForm({ mode, next }: Props) {
   const signUp = mode === "signup";
   const [state, action, pending] = useActionState<FormState, FormData>(signUp ? signUpAction : signInAction, {});
   const emailRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const withNext = (path: string) => (next && next !== routes.home ? `${path}${path.includes("?") ? "&" : "?"}next=${encodeURIComponent(next)}` : path);
-
-  function fill(a: DemoAccount) {
-    const form = formRef.current;
-    if (!form) return;
-    (form.elements.namedItem("email") as HTMLInputElement).value = a.email;
-    (form.elements.namedItem("password") as HTMLInputElement).value = a.password;
-    emailRef.current?.focus();
-  }
 
   return (
     <section className={styles.panel}>
@@ -97,16 +82,6 @@ export function SignInForm({ mode, next, demo }: Props) {
 
           {state.error && <div className={styles.error} role="alert">{state.error}</div>}
         </form>
-
-        {!signUp &&
-          demo.map((a) => (
-            <button key={a.email} type="button" onClick={() => fill(a)} className={styles.demo}>
-              <span className={styles.demoLabel}>{a.label} — chạm để điền</span>
-              <span className={styles.demoValue}>
-                {a.email} / {a.password}
-              </span>
-            </button>
-          ))}
 
         <p className={styles.switch}>
           {signUp ? "Đã có tài khoản? " : "Lần đầu tới đây? "}

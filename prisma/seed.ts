@@ -1,9 +1,13 @@
-// Seed: fixed vocabulary + demo catalogue/orders lifted from the design files.
-// Run:  npx prisma db seed      (also runs after `prisma migrate reset`)
+// Seed — two layers:
 //
-// Idempotent. Vocabulary and accounts are upserted; demo data (products,
-// batches, orders, cart, favourites) is wiped and rebuilt every run so the
-// numbers always match the design.
+//   npm run db:seed         framework only: categories, sizes, tags, item types and
+//                           the admin account from .env. Safe on a live database;
+//                           also what `prisma migrate reset` runs.
+//   npm run db:seed:demo    framework + the demo catalogue from the design files
+//                           (brands, 24 products, batches, orders, a demo customer).
+//                           WIPES products/batches/orders first — never run on real data.
+//
+// Idempotent. Framework rows are upserted; demo data is rebuilt every run.
 
 import "dotenv/config";
 import { DEFAULT_ITEM_TYPES } from "../lib/sku-codes";
@@ -28,8 +32,12 @@ function env(name: string): string {
 const CATEGORIES = ["Tops", "Bottoms", "Accessories", "Footwear"] as const;
 type Cat = (typeof CATEGORIES)[number];
 
+// Demo only — a real store adds its own brands in Store Management.
 const BRANDS = ["Carhartt", "Stüssy", "Nike", "Champion"] as const;
 type BrandName = (typeof BRANDS)[number];
+
+// Demo customer (the design's "Mai Tran"). Fixed, not from .env — it only exists with demo data.
+const DEMO_USER = { email: "mai.tran@clothse.test", password: "clothse123", name: "Mai Tran", phone: "0912 345 678" };
 
 const SIZES: Record<Cat, string[]> = {
   Tops: ["XS", "S", "M", "L", "XL", "XXL"],
@@ -167,15 +175,13 @@ const paymentFor = (s: OrderStatus): PaymentStatus =>
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
+const DEMO = process.argv.includes("--demo") || process.env.SEED_DEMO === "1";
+
 async function main() {
   // 1. Vocabulary — upsert, never wiped (orders reference sizes)
   const catId: Record<string, number> = {};
   for (const name of CATEGORIES) {
     catId[name] = (await prisma.category.upsert({ where: { name }, update: {}, create: { name } })).id;
-  }
-  const brandId: Record<string, number> = {};
-  for (const name of BRANDS) {
-    brandId[name] = (await prisma.brand.upsert({ where: { name }, update: {}, create: { name } })).id;
   }
   const sizeId: Record<string, number> = {}; // "Tops/M" → id
   for (const cat of CATEGORIES) {
@@ -197,26 +203,32 @@ async function main() {
     tagId[name] = (await prisma.tag.upsert({ where: { name }, update: {}, create: { name } })).id;
   }
 
-  // 2. Accounts — upsert; password reset on every seed so .env stays the truth
+  // 2. Admin — upsert; password reset on every seed so .env stays the truth
+  const adminEmail = env("SEED_ADMIN_EMAIL").trim().toLowerCase();
   const admin = await prisma.user.upsert({
-    where: { email: env("SEED_ADMIN_EMAIL") },
+    where: { email: adminEmail },
     update: { passwordHash: await hash(env("SEED_ADMIN_PASSWORD"), 10), role: "ADMIN" },
-    create: { email: env("SEED_ADMIN_EMAIL"), passwordHash: await hash(env("SEED_ADMIN_PASSWORD"), 10), name: "Bon Nguyen", role: "ADMIN" },
+    create: { email: adminEmail, passwordHash: await hash(env("SEED_ADMIN_PASSWORD"), 10), name: "ClothSE Admin", role: "ADMIN" },
   });
+
+  if (!DEMO) {
+    console.log(`Seeded framework: ${CATEGORIES.length} categories, ${TAGS.length} tags, ${DEFAULT_ITEM_TYPES.length} item types, admin ${admin.email}. (Add --demo for the sample catalogue.)`);
+    return;
+  }
+
+  // ── Demo layer ──────────────────────────────────────────────────────────────
+  const brandId: Record<string, number> = {};
+  for (const name of BRANDS) {
+    brandId[name] = (await prisma.brand.upsert({ where: { name }, update: {}, create: { name } })).id;
+  }
   const user = await prisma.user.upsert({
-    where: { email: env("SEED_USER_EMAIL") },
-    update: { passwordHash: await hash(env("SEED_USER_PASSWORD"), 10), role: "USER" },
-    create: {
-      email: env("SEED_USER_EMAIL"),
-      passwordHash: await hash(env("SEED_USER_PASSWORD"), 10),
-      name: "Mai Tran",
-      phone: "0912 345 678",
-      role: "USER",
-    },
+    where: { email: DEMO_USER.email },
+    update: { passwordHash: await hash(DEMO_USER.password, 10), role: "USER" },
+    create: { email: DEMO_USER.email, passwordHash: await hash(DEMO_USER.password, 10), name: DEMO_USER.name, phone: DEMO_USER.phone, role: "USER" },
   });
   await prisma.address.deleteMany({ where: { userId: user.id } });
   const home = await prisma.address.create({
-    data: { userId: user.id, label: "Home", name: "Mai Tran", phone: "0912 345 678", line: "12 Nguyễn Chí Thanh, Phường 1", city: "Đà Lạt", isDefault: true },
+    data: { userId: user.id, label: "Nhà", name: DEMO_USER.name, phone: DEMO_USER.phone, line: "12 Nguyễn Chí Thanh, Phường 1", city: "Đà Lạt", isDefault: true },
   });
 
   // 3. Demo data — wipe in FK order, then rebuild
@@ -392,7 +404,7 @@ async function main() {
     batches: await prisma.batch.count(),
     orders: await prisma.order.count(),
   };
-  console.log(`Seeded: admin ${admin.email}, user ${user.email}`, counts);
+  console.log(`Seeded framework + demo: admin ${admin.email}, demo customer ${user.email} / ${DEMO_USER.password}`, counts);
 }
 
 main()

@@ -39,14 +39,9 @@ Tài liệu này rút trích phần *nghiệp vụ* từ các trang đó, cộng
 
 **Vai trò lấy từ `User.role` trong database, kiểm tra ở phía server.** Bản thiết kế đang mô phỏng bằng `localStorage` và so sánh email cứng trong JS — đó là mô phỏng cho prototype, tài khoản admin thật sẽ tạo trong database khi dựng app.
 
-### Tài khoản demo
+### Tài khoản
 
-Hai tài khoản trong bản thiết kế là **dữ liệu demo có chủ đích**, dùng để thử nhanh hai vai trò. Nên seed lại y hệt khi dựng app để phần demo vẫn chạy:
-
-| Vai trò | Email | Mật khẩu |
-|---|---|---|
-| `admin` | `ngbon2220805@gmail.com` | `123456789` |
-| `user` | `mai.tran@clothse.test` | `clothse123` |
+Seed có hai lớp (đổi 2026-09-19): **khung** (`npm run db:seed` — danh mục, size, tag, loại món và **một tài khoản admin thật** lấy từ `SEED_ADMIN_EMAIL/PASSWORD` trong `.env`, chạy được trên DB đang dùng) và **demo** (`npm run db:seed:demo` — thêm hãng, 24 sản phẩm, lô, đơn và một khách demo `mai.tran@clothse.test` / `clothse123`, **xoá sạch sản phẩm/đơn trước khi nạp**). Hai tài khoản thử của thiết kế đã bỏ; nút "chạm để điền" trên trang đăng nhập cũng bỏ vì sẽ lộ mật khẩu admin thật.
 
 Mật khẩu phải **băm** khi lưu vào database, không lưu thẳng như bản thiết kế.
 
@@ -805,3 +800,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-16 | Tuần 0 gần xong: design đóng băng vào `design/`, Next.js 16 + Prisma 7, schema 17 bảng, 2 migration, seed 24 sản phẩm / 263 lô / 14 đơn / 2 tài khoản. Mục 5: `Batch` thêm `brand_id`, `size_option_id` (form nhập lô có Brand và Size, mục 6.5); thêm `PasswordResetToken`, `Subscriber`, `Favourite.notify`. Còn lại của tuần 0: deploy Vercel |
 | 2026-09-18 | Đổi toàn bộ giao diện sang tiếng Việt (slogan mới "Đủ chất / Đủ tự tin / Khỏi cần chứng minh"). Instrument Serif → Playfair Display (có tiếng Việt), bật subset `vietnamese` cho cả 3 font, nới line-height heading vì dấu |
 | 2026-09-19 | **Loại món thành bảng `ItemType`** + tab Loại món trong Store Management; `Product.typeId`; seed/xlsx đọc từ bảng. Sửa mục 7 |
+| 2026-09-19 | Tách seed: `db:seed` chỉ khung + admin thật; `db:seed:demo` nạp dữ liệu mẫu. Bỏ 2 tài khoản thử và nút chạm-để-điền |

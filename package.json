@@ -11,6 +11,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "prisma db seed",
+    "db:seed:demo": "tsx prisma/seed.ts --demo",
     "db:import": "tsx prisma/import-xlsx.ts"
   },
   "dependencies": {
