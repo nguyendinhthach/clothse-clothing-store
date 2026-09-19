@@ -23,15 +23,16 @@ interface Props {
   className?: string;
 }
 
-function sizesLine(sizes: string[]) {
-  if (sizes.length === 0) return "Hết hàng";
-  return sizes.join(" · ");
+function sizesLine(p: ProductCardData) {
+  if (!p.active) return "Ngừng bán";
+  if (p.sizesInStock.length === 0) return "Hết hàng";
+  return p.sizesInStock.join(" · ");
 }
 
 export function ProductCard({ product: p, variant = "tall", favourite, note, className = "" }: Props) {
   const href = routes.product(p.id);
   const price = p.onSale && p.salePrice != null ? p.salePrice : p.price;
-  const cta = p.sizesInStock.length ? "Thêm vào giỏ" : "Hết hàng";
+  const cta = !p.active ? "Ngừng bán" : p.sizesInStock.length ? "Thêm vào giỏ" : "Hết hàng";
 
   return (
     <article className={`${styles.card} ${className}`}>
@@ -47,7 +48,7 @@ export function ProductCard({ product: p, variant = "tall", favourite, note, cla
         <Badge badge={p.badge} className={styles.badge} />
         {favourite !== undefined && <FavouriteButton productId={p.id} favourite={favourite} className={styles.heart} />}
         {variant === "tall" ? (
-          <span className={styles.sizes}>{sizesLine(p.sizesInStock)}</span>
+          <span className={styles.sizes}>{sizesLine(p)}</span>
         ) : (
           <Link href={href} className={styles.revealCta}>{cta}</Link>
         )}

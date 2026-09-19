@@ -16,11 +16,14 @@ export function FavouriteCard({ item: p }: { item: Data }) {
   const [pending, start] = useTransition();
   const [notify, setNotify] = useOptimistic(p.notify);
   const href = routes.product(p.id);
-  const oos = p.sizesInStock.length === 0;
+  const off = !p.active;
+  const oos = off || p.sizesInStock.length === 0;
   const sale = p.onSale && p.salePrice != null;
   const price = sale ? p.salePrice! : p.price;
 
-  const note = oos
+  const note = off
+    ? "Món này đã ngừng bán — shop sẽ báo nếu bán lại."
+    : oos
     ? "Shop sẽ email bạn ngay khi món này có hàng lại."
     : sale
       ? "Lần giảm giá tiếp theo của món này bạn sẽ được báo."
@@ -71,7 +74,7 @@ export function FavouriteCard({ item: p }: { item: Data }) {
             <span className={styles.track}><span className={styles.knob} /></span>
             Báo tôi
           </button>
-          {(oos || sale) && <span className={`${styles.status} ${oos ? styles.statusOos : styles.statusSale}`}>{oos ? "Hết hàng" : "Đang sale"}</span>}
+          {(oos || sale) && <span className={`${styles.status} ${oos ? styles.statusOos : styles.statusSale}`}>{off ? "Ngừng bán" : oos ? "Hết hàng" : "Đang sale"}</span>}
         </div>
         {notify && <span className={styles.note}>{note}</span>}
       </div>

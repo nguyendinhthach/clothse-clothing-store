@@ -170,6 +170,9 @@ model Product {
   updatedAt    DateTime  @updatedAt
   /// SPEC §6.11 — set when a batch lands on a fully sold-out product.
   restockedAt  DateTime?
+  /// Store Management "Gỡ khỏi kệ": false hides the product from every customer page
+  /// (404 on its URL, bag lines blocked) while stock, batches and order history stay intact.
+  active       Boolean   @default(true)
 
   brand      Brand    @relation(fields: [brandId], references: [id])
   brandId    Int
@@ -187,6 +190,7 @@ model Product {
   @@index([categoryId])
   @@index([brandId])
   @@index([typeId])
+  @@index([active])
   @@index([createdAt])
 }
 

@@ -16,7 +16,7 @@ export default async function CheckoutPage({ searchParams }: PageProps<"/checkou
   const wanted = String(sp.lines ?? "").split(",").map(Number).filter((n) => Number.isInteger(n) && n > 0);
 
   const all = await getBagLines(user.id);
-  const lines = (wanted.length ? all.filter((l) => wanted.includes(l.variantId)) : all).filter((l) => l.stock > 0);
+  const lines = (wanted.length ? all.filter((l) => wanted.includes(l.variantId)) : all).filter((l) => l.stock > 0 && l.active);
   if (lines.length === 0) redirect(routes.bag());
 
   const address = await getDefaultAddress(user.id);

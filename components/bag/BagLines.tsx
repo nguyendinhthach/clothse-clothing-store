@@ -62,7 +62,7 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
 
         {lines.map((l) => {
           const on = sel.includes(l.variantId);
-          const low = l.stock <= LOW;
+          const low = l.stock <= LOW || !l.active;
           const max = Math.min(l.stock, CART_MAX_PER_LINE);
           return (
             <article key={l.variantId} className={styles.line}>
@@ -87,7 +87,7 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
                   <span className={`${styles.chip} ${styles.chipMuted}`}>{l.sku}</span>
                 </div>
                 <span className={`${styles.stockNote} ${low ? styles.warn : ""}`}>
-                  {l.stock === 0 ? "Hết hàng — bỏ món này để tiếp tục" : low ? `Chỉ còn ${l.stock} — gửi từ Đà Lạt` : "Còn hàng — gửi trong 1–2 ngày"}
+                  {!l.active ? "Ngừng bán — bỏ món này để tiếp tục" : l.stock === 0 ? "Hết hàng — bỏ món này để tiếp tục" : low ? `Chỉ còn ${l.stock} — gửi từ Đà Lạt` : "Còn hàng — gửi trong 1–2 ngày"}
                 </span>
                 <div className={styles.lineActions}>
                   <div className={styles.stepper}>
@@ -120,12 +120,12 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
           <span className={styles.totalLabel}>Tổng</span>
           <span className={styles.totalValue}>{formatVnd(total)}</span>
         </div>
-        {sel.length > 0 && selLines.every((l) => l.stock > 0) ? (
+        {sel.length > 0 && selLines.every((l) => l.stock > 0 && l.active) ? (
           <Link href={`${routes.checkout}?lines=${sel.join(",")}`} className={styles.checkoutBtn}>
             Thanh toán — {formatVnd(total)}
           </Link>
         ) : (
-          <span className={`${styles.checkoutBtn} ${styles.checkoutOff}`}>{sel.length === 0 ? "Chọn ít nhất một món" : "Bỏ các món đã hết hàng"}</span>
+          <span className={`${styles.checkoutBtn} ${styles.checkoutOff}`}>{sel.length === 0 ? "Chọn ít nhất một món" : "Bỏ các món đã hết hàng / ngừng bán"}</span>
         )}
         <div className={styles.summaryFoot}>
           <span className={styles.shipNote}>

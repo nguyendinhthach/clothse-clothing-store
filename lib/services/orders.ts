@@ -14,6 +14,8 @@ export interface BagLine {
   size: string;
   qty: number;
   stock: number;
+  /** false once the admin takes the product off the shelf — the line cannot be ordered. */
+  active: boolean;
   /** Price the customer pays now (sale price if on sale). */
   unitPrice: number;
   image: { url: string; alt: string | null } | null;
@@ -24,7 +26,7 @@ const lineInclude = {
     include: {
       sizeOption: { select: { label: true } },
       product: {
-        select: { id: true, name: true, sku: true, price: true, salePrice: true, onSale: true, images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } } },
+        select: { id: true, name: true, sku: true, price: true, salePrice: true, onSale: true, active: true, images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true, alt: true } } },
       },
     },
   },
@@ -44,6 +46,7 @@ function toLine(r: CartRow): BagLine {
     size: r.variant.sizeOption.label,
     qty: r.qty,
     stock: r.variant.stock,
+    active: p.active,
     unitPrice: payingPrice(p),
     image: p.images[0] ?? null,
   };
@@ -118,6 +121,7 @@ async function placeOrderOnce(userId: number, variantIds: number[], ship: ShipTo
       const items: { variantId: number; qty: number; unitPrice: number; unitCogs: number }[] = [];
       for (const r of rows) {
         const line = toLine(r);
+        if (!line.active) throw new Error(`INACTIVE:${line.name}`);
         // Guarded deduction: fails if stock changed underneath us.
         const dec = await tx.variant.updateMany({ where: { id: line.variantId, stock: { gte: line.qty } }, data: { stock: { decrement: line.qty } } });
         if (dec.count === 0) throw new Error(`OUT_OF_STOCK:${line.name} (${line.size})`);
@@ -162,6 +166,7 @@ async function placeOrderOnce(userId: number, variantIds: number[], ship: ShipTo
   } catch (e) {
     const msg = e instanceof Error ? e.message : "";
     if (msg.startsWith("OUT_OF_STOCK:")) return { ok: false, error: `Không đủ hàng cho ${msg.slice(13)}. Chỉnh lại số lượng rồi thử lại.` };
+    if (msg.startsWith("INACTIVE:")) return { ok: false, error: `${msg.slice(9)} đã ngừng bán — bỏ món này khỏi giỏ rồi đặt lại.` };
     throw e;
   }
 }

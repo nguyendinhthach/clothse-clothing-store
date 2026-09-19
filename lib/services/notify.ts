@@ -12,8 +12,8 @@ async function recipients(productId: number) {
 }
 
 export async function notifyRestock(productId: number): Promise<number> {
-  const [product, users] = await Promise.all([prisma.product.findUnique({ where: { id: productId }, select: { name: true } }), recipients(productId)]);
-  if (!product || users.length === 0) return 0;
+  const [product, users] = await Promise.all([prisma.product.findUnique({ where: { id: productId }, select: { name: true, active: true } }), recipients(productId)]);
+  if (!product || !product.active || users.length === 0) return 0;
   const link = appUrl(routes.product(productId));
   await Promise.allSettled(
     users.map((u) =>
@@ -28,8 +28,8 @@ export async function notifyRestock(productId: number): Promise<number> {
 }
 
 export async function notifySale(productId: number): Promise<number> {
-  const [product, users] = await Promise.all([prisma.product.findUnique({ where: { id: productId }, select: { name: true, price: true, salePrice: true } }), recipients(productId)]);
-  if (!product || !product.salePrice || users.length === 0) return 0;
+  const [product, users] = await Promise.all([prisma.product.findUnique({ where: { id: productId }, select: { name: true, price: true, salePrice: true, active: true } }), recipients(productId)]);
+  if (!product || !product.active || !product.salePrice || users.length === 0) return 0;
   const link = appUrl(routes.product(productId));
   const pct = Math.round((1 - product.salePrice / product.price) * 100);
   await Promise.allSettled(

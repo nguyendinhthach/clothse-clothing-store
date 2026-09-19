@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { deleteProductAction } from "@/lib/actions/admin-products";
+import { setProductActiveAction } from "@/lib/actions/admin-products";
 import { categoryLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { routes } from "@/lib/routes";
 import type { AdminProductRow, ProductFilters } from "@/lib/services/admin/products";
 import { Badge } from "@/components/product/Badge";
+import { ConfirmDialog } from "./ConfirmDialog";
 import styles from "./admin.module.css";
 
 interface Props {
@@ -24,6 +25,7 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
   const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<AdminProductRow | null>(null);
 
   const go = (patch: Partial<ProductFilters>) => {
     const f = { ...filters, ...patch };
@@ -33,7 +35,17 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
     router.replace(routes.adminProducts + (q ? `?${q}` : ""), { scroll: false });
   };
 
-  const low = rows.filter((r) => r.badge === "Low stock" || r.badge === "Out of stock").length;
+  const low = rows.filter((r) => r.active && (r.badge === "Low stock" || r.badge === "Out of stock")).length;
+  const off = rows.filter((r) => !r.active).length;
+
+  function toggleActive(p: AdminProductRow) {
+    start(async () => {
+      const r = await setProductActiveAction(p.id, !p.active);
+      setError(r.ok ? null : r.error);
+      setConfirm(null);
+      router.refresh();
+    });
+  }
 
   return (
     <div className={styles.stack}>
@@ -64,6 +76,7 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
               <option value="in">Còn hàng</option>
               <option value="low">Sắp hết</option>
               <option value="out">Hết hàng</option>
+              <option value="off">Ngừng bán</option>
             </select>
           </label>
           <label className={styles.field}>
@@ -96,7 +109,7 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
             </thead>
             <tbody>
               {rows.map((p) => (
-                <tr key={p.id}>
+                <tr key={p.id} style={p.active ? undefined : { opacity: 0.6 }}>
                   <td>
                     <span className={styles.prodCell}>
                       <span className={styles.prodThumb}>
@@ -116,19 +129,15 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
                   <td className={`${styles.right} ${styles.cellNum}`}>{formatVnd(p.price)}</td>
                   <td className={`${styles.right} ${styles.cellNum} ${p.onSale ? styles.saleOn : styles.muted}`}>{p.onSale && p.salePrice != null ? formatVnd(p.salePrice) : "—"}</td>
                   <td className={`${styles.right} ${styles.cellNum}`}>{p.stock}</td>
-                  <td><Badge badge={p.badge} /></td>
+                  <td>{p.active ? <Badge badge={p.badge} /> : <span className={`${styles.pill} ${styles.pillOff}`}>Ngừng bán</span>}</td>
                   <td>
                     <span className={styles.rowBtns}>
                       <button type="button" onClick={() => onEdit(p.id)} className={styles.smallBtn}>Sửa</button>
-                      <button
-                        type="button"
-                        disabled={pending || p.ordered}
-                        title={p.ordered ? "Đã có trong đơn cũ — không xoá được" : undefined}
-                        onClick={() => { if (confirm(`Xoá ${p.name}? Các lô nhập vẫn nằm trong kho dưới dạng chưa gắn.`)) start(async () => { const r = await deleteProductAction(p.id); setError(r.ok ? null : r.error); router.refresh(); }); }}
-                        className={`${styles.smallBtn} ${styles.smallBtnDanger}`}
-                      >
-                        Xoá
-                      </button>
+                      {p.active ? (
+                        <button type="button" disabled={pending} onClick={() => setConfirm(p)} className={`${styles.smallBtn} ${styles.smallBtnDanger}`}>Gỡ khỏi kệ</button>
+                      ) : (
+                        <button type="button" disabled={pending} onClick={() => toggleActive(p)} className={styles.smallBtn}>Lên kệ lại</button>
+                      )}
                     </span>
                   </td>
                 </tr>
@@ -144,9 +153,27 @@ export function ProductsTable({ rows, filters, brands, categories, onEdit }: Pro
         )}
         <div className={styles.tableFoot}>
           <span>{rows.length} sản phẩm</span>
-          <span>{low} cần chú ý</span>
+          <span>{low} cần chú ý{off ? ` · ${off} ngừng bán` : ""}</span>
         </div>
       </div>
+
+      {confirm && (
+        <ConfirmDialog
+          title={`Gỡ “${confirm.name}” khỏi kệ?`}
+          risks={[
+            "Khách không còn thấy món này ở Cửa hàng, Hàng mới, Sale, tìm kiếm và trang chủ.",
+            "Link sản phẩm cũ trả về “không tìm thấy”; ai đang có nó trong giỏ sẽ phải bỏ ra mới thanh toán được.",
+            "Người đã lưu Yêu thích vẫn thấy, nhưng hiện “Ngừng bán” và không nhận email báo hàng.",
+            <>Tồn <strong>{confirm.stock}</strong> món, lô nhập và lịch sử đơn <strong>giữ nguyên</strong> — không mất số liệu.</>,
+          ]}
+          note="Đảo ngược được bất cứ lúc nào bằng nút “Lên kệ lại” ở cùng chỗ này."
+          confirmLabel="Gỡ khỏi kệ"
+          danger
+          pending={pending}
+          onConfirm={() => toggleActive(confirm)}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
     </div>
   );
 }

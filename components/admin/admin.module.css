@@ -1479,3 +1479,42 @@
 }
 .roundPill:hover { transform: translateY(-2px); }
 .roundPillOn { background: var(--ink); color: var(--paper); }
+
+/* ── Confirm dialog + danger zone ─────────────────────────────── */
+.confirm { width: min(560px, 100%); }
+.confirm .modalBody { display: block; }
+.riskList {
+  margin: 10px 0 0;
+  padding: 0 0 0 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.riskList li::marker { color: var(--orange); }
+.confirmNote {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.dangerBtn { background-color: var(--orange); }
+.dangerBtn:hover:not(:disabled) { color: var(--orange); }
+.pillOff { background: #d3cde2; color: var(--ink-2); border-color: #d3cde2; }
+.dangerZone {
+  border: 1px dashed var(--orange-ink);
+  padding: 14px 16px;
+  display: grid;
+  gap: 10px;
+}
+.dangerZone .fieldLabel { color: var(--orange-ink); }
+.dangerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+.dangerRow p { margin: 0; font-size: 13px; color: var(--muted); max-width: 52ch; line-height: 1.45; }

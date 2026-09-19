@@ -2,7 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
-import { discardImageAction, saveProductAction, uploadImageAction, type WarehouseRow } from "@/lib/actions/admin-products";
+import { deleteProductAction, discardImageAction, saveProductAction, setProductActiveAction, uploadImageAction, type WarehouseRow } from "@/lib/actions/admin-products";
+import { ConfirmDialog } from "./ConfirmDialog";
 import { linkableBatchesAction } from "@/lib/actions/admin-storage";
 import { categoryLabel } from "@/lib/catalog-constants";
 import { formatDate, formatVnd } from "@/lib/format";
@@ -35,6 +36,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
   const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<"off" | "delete" | null>(null);
   const [f, setF] = useState<ProductFormData>(() => ({ ...initial, details: initial.details.length ? initial.details : [{ label: "", value: "" }] }));
   const set = <K extends keyof ProductFormData>(k: K, v: ProductFormData[K]) => setF((s) => ({ ...s, [k]: v }));
 
@@ -390,6 +392,32 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
             )}
           </div>
 
+          {editing && (
+            <div className={`${styles.fieldWide} ${styles.dangerZone}`}>
+              <span className={styles.fieldLabel}>Vùng nguy hiểm</span>
+              <div className={styles.dangerRow}>
+                <p>
+                  {initial.active === false
+                    ? "Đang ngừng bán — khách không thấy món này. Lên kệ lại để bán tiếp."
+                    : "Gỡ khỏi kệ để ngừng bán mà vẫn giữ tồn, lô nhập và lịch sử đơn. Đảo ngược được."}
+                </p>
+                {initial.active === false ? (
+                  <button type="button" disabled={pending} onClick={() => start(async () => { const r = await setProductActiveAction(initial.id!, true); if (!r.ok) { setError(r.error); return; } onClose(); router.refresh(); })} className={styles.smallBtn}>Lên kệ lại</button>
+                ) : (
+                  <button type="button" disabled={pending} onClick={() => setConfirm("off")} className={`${styles.smallBtn} ${styles.smallBtnDanger}`}>Gỡ khỏi kệ</button>
+                )}
+              </div>
+              <div className={styles.dangerRow}>
+                <p>
+                  {initial.deleteBlock
+                    ? `Không xoá được — sản phẩm ${initial.deleteBlock}. Chỉ món chưa từng bán và chưa gắn lô mới xoá được.`
+                    : "Xoá hẳn khỏi hệ thống: mất ảnh, mô tả, bảng size và lượt yêu thích. Không hoàn tác được."}
+                </p>
+                <button type="button" disabled={pending || !!initial.deleteBlock} onClick={() => setConfirm("delete")} className={`${styles.smallBtn} ${styles.smallBtnDanger}`}>Xoá sản phẩm</button>
+              </div>
+            </div>
+          )}
+
           {error && <div className={`${styles.error} ${styles.fieldWide}`} role="alert">{error}</div>}
         </div>
 
@@ -398,6 +426,40 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
           <button type="submit" disabled={pending || uploading > 0} className={styles.primaryBtn}>{pending ? "Đang lưu…" : editing ? "Lưu thay đổi" : "Tạo sản phẩm"}</button>
         </div>
       </form>
+
+      {confirm === "off" && (
+        <ConfirmDialog
+          title={`Gỡ “${f.name}” khỏi kệ?`}
+          risks={[
+            "Khách không còn thấy món này ở Cửa hàng, Hàng mới, Sale, tìm kiếm và trang chủ.",
+            "Link sản phẩm cũ trả về “không tìm thấy”; ai đang có nó trong giỏ sẽ phải bỏ ra mới thanh toán được.",
+            "Người đã lưu Yêu thích vẫn thấy, nhưng hiện “Ngừng bán” và không nhận email báo hàng.",
+            "Tồn, lô nhập và lịch sử đơn giữ nguyên — không mất số liệu. Thay đổi chưa lưu trong form này sẽ bị bỏ.",
+          ]}
+          note="Đảo ngược được bất cứ lúc nào bằng “Lên kệ lại”."
+          confirmLabel="Gỡ khỏi kệ"
+          danger
+          pending={pending}
+          onConfirm={() => start(async () => { const r = await setProductActiveAction(initial.id!, false); setConfirm(null); if (!r.ok) { setError(r.error); return; } onClose(); router.refresh(); })}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
+      {confirm === "delete" && (
+        <ConfirmDialog
+          title={`Xoá hẳn “${f.name}”?`}
+          risks={[
+            "Mất toàn bộ: ảnh, mô tả, chi tiết, bảng size, tag và mọi biến thể size.",
+            "Khách đã lưu Yêu thích hoặc đang có món này trong giỏ sẽ thấy nó biến mất không báo trước.",
+            <>SKU <strong>{f.sku}</strong> không được cấp lại — số thứ tự chỉ tăng.</>,
+            "Không có hoàn tác. Nếu chỉ muốn ngừng bán, dùng “Gỡ khỏi kệ” thay vì xoá.",
+          ]}
+          confirmLabel="Xoá vĩnh viễn"
+          danger
+          pending={pending}
+          onConfirm={() => start(async () => { const r = await deleteProductAction(initial.id!); setConfirm(null); if (!r.ok) { setError(r.error); return; } onClose(); router.refresh(); })}
+          onCancel={() => setConfirm(null)}
+        />
+      )}
     </div>
   );
 }

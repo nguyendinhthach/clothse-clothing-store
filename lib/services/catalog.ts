@@ -7,7 +7,7 @@ import { PAGE_SIZE, PRICE_MAX, PRICE_MIN, type SortKey } from "@/lib/catalog-con
 export async function getCategoryCounts() {
   const rows = await prisma.category.findMany({
     orderBy: { id: "asc" },
-    select: { name: true, _count: { select: { products: true } } },
+    select: { name: true, _count: { select: { products: { where: { active: true } } } } },
   });
   return rows.map((c) => ({ name: c.name, count: c._count.products }));
 }
@@ -27,6 +27,8 @@ export interface ProductCardData {
   /** In-stock size labels in the category's sort order. */
   sizesInStock: string[];
   createdAt: Date;
+  /** false = taken off the shelf by the admin; only reachable via Favourites/Bag, never listed. */
+  active: boolean;
 }
 
 const cardInclude = {
@@ -62,6 +64,7 @@ function toCard(p: ProductRow, bestSellerIds: Set<number>, context: BadgeContext
     ),
     image: p.images[0] ?? null,
     createdAt: p.createdAt,
+    active: p.active,
     sizesInStock: p.variants
       .filter((v) => v.stock > 0)
       .sort((a, b) => a.sizeOption.sortOrder - b.sizeOption.sortOrder)
@@ -109,7 +112,7 @@ export async function getBestSellerIds(now = new Date()): Promise<Set<number>> {
 
 export async function getNewArrivals(limit = 8, now = new Date()): Promise<ProductCardData[]> {
   const [rows, best] = await Promise.all([
-    prisma.product.findMany({ orderBy: { createdAt: "desc" }, take: limit, include: cardInclude }),
+    prisma.product.findMany({ where: { active: true }, orderBy: { createdAt: "desc" }, take: limit, include: cardInclude }),
     getBestSellerIds(now),
   ]);
   return rows.map((p) => toCard(p, best, "default", now));
@@ -129,7 +132,7 @@ export async function getBestSellers(limit = 4, now = new Date()): Promise<Produ
     }
   }
   if (ids.length === 0) return [];
-  const rows = await prisma.product.findMany({ where: { id: { in: ids } }, include: cardInclude });
+  const rows = await prisma.product.findMany({ where: { id: { in: ids }, active: true }, include: cardInclude });
   const best = new Set(topIds(thisMonth, BEST_SELLER_TOP));
   const byId = new Map(rows.map((p) => [p.id, p]));
   return ids.map((id) => byId.get(id)).filter((p): p is ProductRow => !!p).map((p) => toCard(p, best, "default", now));
@@ -141,9 +144,9 @@ export async function getShopByCounts() {
   const [tags, total] = await Promise.all([
     prisma.tag.findMany({
       where: { name: { in: ["Men", "Women", "Unisex"] } },
-      select: { name: true, _count: { select: { products: true } } },
+      select: { name: true, _count: { select: { products: { where: { product: { active: true } } } } } },
     }),
-    prisma.product.count(),
+    prisma.product.count({ where: { active: true } }),
   ]);
   const count = (name: string) => tags.find((t) => t.name === name)?._count.products ?? 0;
   return [
@@ -157,7 +160,7 @@ export async function getShopByCounts() {
 /** Largest markdown among products currently on sale, for the "Up to X% off" banner. */
 export async function getMaxSalePercent(): Promise<number> {
   const rows = await prisma.product.findMany({
-    where: { onSale: true, salePrice: { not: null } },
+    where: { onSale: true, salePrice: { not: null }, active: true },
     select: { price: true, salePrice: true },
   });
   let max = 0;
@@ -197,7 +200,7 @@ export interface Listing {
 const effectivePrice = (p: ProductCardData) => (p.onSale && p.salePrice != null ? p.salePrice : p.price);
 
 export async function listProducts(query: ListingQuery, now = new Date()): Promise<Listing> {
-  const where: Prisma.ProductWhereInput = {};
+  const where: Prisma.ProductWhereInput = { active: true };
   if (query.cats?.length) where.category = { name: { in: query.cats } };
   if (query.types?.length) where.type = { code: { in: query.types } };
   if (query.brands?.length) where.brand = { name: { in: query.brands } };
@@ -229,9 +232,9 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
 export async function getFilterFacets() {
   const [categories, types, tags, brands] = await Promise.all([
     prisma.category.findMany({ orderBy: { id: "asc" }, select: { name: true } }),
-    prisma.itemType.findMany({ where: { products: { some: {} } }, orderBy: { label: "asc" }, select: { code: true, label: true, category: { select: { name: true } }, _count: { select: { products: true } } } }),
+    prisma.itemType.findMany({ where: { products: { some: { active: true } } }, orderBy: { label: "asc" }, select: { code: true, label: true, category: { select: { name: true } }, _count: { select: { products: { where: { active: true } } } } } }),
     prisma.tag.findMany({ orderBy: { name: "asc" }, select: { name: true } }),
-    prisma.brand.findMany({ orderBy: { name: "asc" }, select: { name: true, _count: { select: { products: true } } } }),
+    prisma.brand.findMany({ orderBy: { name: "asc" }, select: { name: true, _count: { select: { products: { where: { active: true } } } } } }),
   ]);
   return {
     categories: categories.map((c) => c.name),
@@ -298,7 +301,7 @@ export async function getProductDetail(id: number, now = new Date()): Promise<Pr
     }),
     getBestSellerIds(now),
   ]);
-  if (!p) return null;
+  if (!p || !p.active) return null; // taken off the shelf ⇒ 404, same as never existed
   const card = toCard({ ...p, images: p.images.slice(0, 1) }, best, "default", now);
   return {
     ...card,
@@ -319,7 +322,7 @@ export async function getProductDetail(id: number, now = new Date()): Promise<Pr
 export async function getRelatedProducts(product: { id: number; category: string }, limit = 4, now = new Date()): Promise<ProductCardData[]> {
   const [same, best] = await Promise.all([
     prisma.product.findMany({
-      where: { id: { not: product.id }, category: { name: product.category } },
+      where: { id: { not: product.id }, category: { name: product.category }, active: true },
       orderBy: { createdAt: "desc" },
       take: limit,
       include: cardInclude,
@@ -329,7 +332,7 @@ export async function getRelatedProducts(product: { id: number; category: string
   let rows = same;
   if (rows.length < limit) {
     const more = await prisma.product.findMany({
-      where: { id: { notIn: [product.id, ...rows.map((r) => r.id)] } },
+      where: { id: { notIn: [product.id, ...rows.map((r) => r.id)] }, active: true },
       orderBy: { createdAt: "desc" },
       take: limit - rows.length,
       include: cardInclude,

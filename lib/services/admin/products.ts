@@ -21,14 +21,16 @@ export interface AdminProductRow {
   stock: number;
   badge: Badge;
   image: string | null;
-  ordered: boolean;
+  active: boolean;
+  /** Why "Xoá" is disabled, or null when the product has never been used. */
+  deleteBlock: string | null;
 }
 
 export interface ProductFilters {
   q?: string;
   brand?: string;
   category?: string;
-  status?: "in" | "low" | "out";
+  status?: "in" | "low" | "out" | "off";
   sort?: "new" | "name" | "stock";
 }
 
@@ -46,7 +48,7 @@ export async function listAdminProducts(f: ProductFilters, now = new Date()): Pr
         brand: { select: { name: true } },
         category: { select: { name: true } },
         images: { orderBy: { sortOrder: "asc" }, take: 1, select: { url: true } },
-        variants: { select: { stock: true, _count: { select: { orderItems: true } } } },
+        variants: { select: { stock: true, _count: { select: { orderItems: true, batches: true } } } },
       },
     }),
     getBestSellerIds(now),
@@ -64,14 +66,25 @@ export async function listAdminProducts(f: ProductFilters, now = new Date()): Pr
     stock: p.variants.reduce((s, v) => s + v.stock, 0),
     badge: computeBadge({ stocks: p.variants.map((v) => v.stock), onSale: p.onSale, restockedAt: p.restockedAt, createdAt: p.createdAt, isBestSeller: best.has(p.id) }, "default", now),
     image: p.images[0]?.url ?? null,
-    ordered: p.variants.some((v) => v._count.orderItems > 0),
+    active: p.active,
+    deleteBlock: deleteBlockReason(p.variants),
   }));
 
-  if (f.status === "in") items = items.filter((p) => p.badge !== "Out of stock" && p.badge !== "Low stock");
-  if (f.status === "low") items = items.filter((p) => p.badge === "Low stock");
-  if (f.status === "out") items = items.filter((p) => p.badge === "Out of stock");
+  if (f.status === "off") items = items.filter((p) => !p.active);
+  if (f.status === "in") items = items.filter((p) => p.active && p.badge !== "Out of stock" && p.badge !== "Low stock");
+  if (f.status === "low") items = items.filter((p) => p.active && p.badge === "Low stock");
+  if (f.status === "out") items = items.filter((p) => p.active && p.badge === "Out of stock");
   if (f.sort === "stock") items.sort((a, b) => a.stock - b.stock);
   return items;
+}
+
+/** "Xoá" is only for products that were never used: no order lines, no intake batches. */
+function deleteBlockReason(variants: { _count: { orderItems: number; batches: number } }[]): string | null {
+  const orders = variants.reduce((n, v) => n + v._count.orderItems, 0);
+  const batches = variants.reduce((n, v) => n + v._count.batches, 0);
+  if (orders > 0) return `đã nằm trong ${orders} dòng đơn hàng`;
+  if (batches > 0) return `có ${batches} lô nhập đang gắn vào`;
+  return null;
 }
 
 // ─── Form data ────────────────────────────────────────────────────────────────
@@ -111,6 +124,9 @@ export interface ProductFormData {
   warehouse?: Record<string, number>;
   /** Edit mode: units currently on the shelf (Variant.stock) per size label. */
   shelf?: Record<string, number>;
+  /** Edit mode: whether the product is on the shelf, and why "Xoá" is blocked (null = allowed). */
+  active?: boolean;
+  deleteBlock?: string | null;
 }
 
 export async function getProductFormVocab() {
@@ -170,6 +186,8 @@ export async function getProductForm(id: number): Promise<ProductFormData | null
     images: p.images.map((i) => ({ url: i.url, alt: i.alt ?? "" })),
     warehouse: await getWarehouseAvailability(p.id),
     shelf: Object.fromEntries(sizes.map((v) => [v.sizeOption.label, v.stock])),
+    active: p.active,
+    deleteBlock: deleteBlockReason(sizes),
   };
 }
 
@@ -182,7 +200,7 @@ export async function nextSku(code: string): Promise<string> {
   return `CSE-${code}-${String(max + 1).padStart(3, "0")}`;
 }
 
-export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse" | "shelf"> & { sku?: string };
+export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse" | "shelf" | "active" | "deleteBlock"> & { sku?: string };
 
 export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const name = input.name.trim();
@@ -276,11 +294,16 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
 
 /** Only products that were never ordered can be deleted; the rest keep their history. */
 export async function deleteProduct(id: number): Promise<ProductResult> {
-  const ordered = await prisma.orderItem.count({ where: { variant: { productId: id } } });
-  if (ordered > 0) return { ok: false, error: "Sản phẩm đã có trong đơn cũ nên không xoá được. Muốn ngừng bán thì đưa tồn mọi size về 0." };
-  await prisma.$transaction(async (tx) => {
-    await tx.batch.updateMany({ where: { variant: { productId: id } }, data: { variantId: null } }); // batches stay as unlinked stock
-    await tx.product.delete({ where: { id } }); // cascades variants, images, tags, favourites, cart lines
-  });
+  const variants = await prisma.variant.findMany({ where: { productId: id }, select: { _count: { select: { orderItems: true, batches: true } } } });
+  const block = deleteBlockReason(variants);
+  if (block) return { ok: false, error: `Không xoá được: sản phẩm ${block}. Dùng "Gỡ khỏi kệ" để ngừng bán.` };
+  await prisma.product.delete({ where: { id } }); // cascades variants, images, tags, favourites, cart lines
+  return { ok: true, id };
+}
+
+/** "Gỡ khỏi kệ" / "Lên kệ lại" — hides or shows the product to customers; nothing else changes. */
+export async function setProductActive(id: number, active: boolean): Promise<ProductResult> {
+  const r = await prisma.product.updateMany({ where: { id }, data: { active } });
+  if (r.count === 0) return { ok: false, error: "Không tìm thấy sản phẩm." };
   return { ok: true, id };
 }

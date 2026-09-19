@@ -13,7 +13,7 @@ export default async function AdminProductsPage({ searchParams }: PageProps<"/ad
     q: str(sp.q),
     brand: str(sp.brand),
     category: str(sp.category),
-    status: sp.status === "in" || sp.status === "low" || sp.status === "out" ? sp.status : undefined,
+    status: sp.status === "in" || sp.status === "low" || sp.status === "out" || sp.status === "off" ? sp.status : undefined,
     sort: sp.sort === "name" || sp.sort === "stock" ? sp.sort : undefined,
   };
   const [rows, vocab] = await Promise.all([listAdminProducts(filters), getProductFormVocab()]);

@@ -615,7 +615,17 @@ Chưa có trang nào được thiết kế trên canvas. Nếu làm, dùng lại
 | Footwear | SNK sneaker · RUN runner · BOT boot · SDL sandal · FTW giày khác |
 | Accessories | CAP cap · BNE beanie · BAG bag · BLT belt · SCK sock · ACC phụ kiện khác |
 
-Cột `type` trong xlsx thu thập khớp theo tên hoặc mã của bảng này; thiếu loại thì thêm ở tab trước rồi mới nhập. Việc còn treo: bộ lọc "Loại" ở trang Cửa hàng và meta thẻ sản phẩm dùng `typeId`.
+Cột `type` trong xlsx thu thập khớp theo tên hoặc mã của bảng này; thiếu loại thì thêm ở tab trước rồi mới nhập. Trang Cửa hàng có bộ lọc "Loại" (`?type=HDY,TEE`, thu theo danh mục đã chọn).
+
+**Gỡ khỏi kệ vs Xoá** (`Product.active`, 2026-09-19). Hai hành động khác nhau, cả hai đều qua hộp xác nhận nêu rõ hậu quả:
+
+| | Gỡ khỏi kệ | Xoá |
+|---|---|---|
+| Bản chất | `active = false`, đảo ngược bằng "Lên kệ lại" | mất bản ghi, SKU không cấp lại |
+| Điều kiện | luôn được | **chỉ khi chưa có dòng đơn và chưa gắn lô** — nghĩa là "chưa từng dùng" |
+| Vị trí | nút trong bảng Sản phẩm + vùng nguy hiểm của form Sửa | chỉ trong vùng nguy hiểm của form Sửa |
+| Khách thấy | biến mất khỏi mọi trang, URL trả 404, giỏ báo "Ngừng bán" và không thanh toán được, Yêu thích hiện "Ngừng bán", không gửi email báo | 404 |
+| Số liệu | tồn, lô, đơn, doanh thu giữ nguyên | lô đã gắn chặn xoá nên không có gì để mất |
 
 **Ngày giờ.** Lưu UTC, hiển thị theo giờ Việt Nam.
 
@@ -801,3 +811,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-18 | Đổi toàn bộ giao diện sang tiếng Việt (slogan mới "Đủ chất / Đủ tự tin / Khỏi cần chứng minh"). Instrument Serif → Playfair Display (có tiếng Việt), bật subset `vietnamese` cho cả 3 font, nới line-height heading vì dấu |
 | 2026-09-19 | **Loại món thành bảng `ItemType`** + tab Loại món trong Store Management; `Product.typeId`; seed/xlsx đọc từ bảng. Sửa mục 7 |
 | 2026-09-19 | Tách seed: `db:seed` chỉ khung + admin thật; `db:seed:demo` nạp dữ liệu mẫu. Bỏ 2 tài khoản thử và nút chạm-để-điền |
+| 2026-09-19 | Bộ lọc Loại ở Cửa hàng. `Product.active` — "Gỡ khỏi kệ / Lên kệ lại" thay cho Xoá ở bảng Sản phẩm; Xoá lùi vào form, chỉ cho món chưa có đơn và chưa gắn lô; hộp xác nhận nêu hậu quả cho cả hai |

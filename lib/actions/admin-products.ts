@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { deleteImage, publicIdFromUrl, uploadProductImage } from "@/lib/cloudinary";
 import { routes } from "@/lib/routes";
 import { requireAdmin } from "@/lib/session";
-import { deleteProduct, saveProduct, type ProductInput, type ProductResult } from "@/lib/services/admin/products";
+import { deleteProduct, saveProduct, setProductActive, type ProductInput, type ProductResult } from "@/lib/services/admin/products";
 import { linkBatch, pullFromWarehouse } from "@/lib/services/admin/storage";
 import { prisma } from "@/lib/prisma";
 
@@ -37,6 +37,17 @@ export async function saveProductAction(input: ProductInput, warehouse: Warehous
     if (!lr.ok) { refresh(r.id); return { ok: false, error: `Đã lưu, nhưng gắn lô cho size ${w.size} lỗi: ${lr.error}` }; }
   }
   refresh(r.id);
+  return r;
+}
+
+export async function setProductActiveAction(id: number, active: boolean): Promise<ProductResult> {
+  await requireAdmin();
+  const r = await setProductActive(id, active);
+  if (r.ok) {
+    refresh(id);
+    revalidatePath(routes.favourites);
+    revalidatePath(routes.bag());
+  }
   return r;
 }
 
