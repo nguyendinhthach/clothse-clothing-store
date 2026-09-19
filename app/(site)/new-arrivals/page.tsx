@@ -66,7 +66,6 @@ export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-
             <div className={styles.stats}>
               <span><strong>{all.total}</strong> món trong đợt</span>
               <span><strong>{weekCount}</strong> về tuần này</span>
-              <span><strong>{NEW_WINDOW_DAYS}</strong> ngày tính là mới</span>
             </div>
           </div>
           <div className={styles.heroArt}>
