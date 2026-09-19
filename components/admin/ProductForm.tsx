@@ -5,7 +5,7 @@ import { useRef, useState, useTransition } from "react";
 import { discardImageAction, saveProductAction, uploadImageAction, type WarehouseRow } from "@/lib/actions/admin-products";
 import { linkableBatchesAction } from "@/lib/actions/admin-storage";
 import { categoryLabel } from "@/lib/catalog-constants";
-import { formatVnd } from "@/lib/format";
+import { formatDate, formatVnd } from "@/lib/format";
 import type { ProductFormData, ProductInput } from "@/lib/services/admin/products";
 import { skuTypesFor } from "@/lib/sku-codes";
 import styles from "./admin.module.css";
@@ -65,7 +65,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
       [size]: rows.map((b) => ({
         id: b.id,
         qtyRemaining: b.qtyRemaining,
-        label: `${b.itemDescription ?? "Lô"} · ${new Date(b.receivedAt).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })} · còn ${b.qtyRemaining} @ ${formatVnd(b.unitCost)}`,
+        label: `${b.itemDescription ?? "Lô"} · ${formatDate(new Date(b.receivedAt), { day: "2-digit", month: "2-digit" })} · còn ${b.qtyRemaining} @ ${formatVnd(b.unitCost)}`,
       })),
     }));
   }
@@ -271,7 +271,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 {f.tags.map((t) => (
                   <span key={t} className={styles.tagChip}>
                     {t}
-                    <button type="button" onClick={() => set("tags", f.tags.filter((x) => x !== t))} aria-label={`Remove ${t}`} className={styles.tagX}>✕</button>
+                    <button type="button" onClick={() => set("tags", f.tags.filter((x) => x !== t))} aria-label={`Bỏ tag ${t}`} className={styles.tagX}>✕</button>
                   </span>
                 ))}
               </div>

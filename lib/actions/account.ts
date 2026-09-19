@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { routes } from "@/lib/routes";
 import { requireUser } from "@/lib/session";
+import { updateSession } from "@/lib/auth";
 import { deleteAddress, saveAddress, setDefaultAddress, type AddressInput, type AddressResult } from "@/lib/services/addresses";
 import { changePassword, updateProfile, type AccountResult } from "@/lib/services/users";
 
@@ -17,6 +18,7 @@ export async function updateProfileAction(_prev: AccountState, fd: FormData): Pr
   const user = await requireUser(routes.account());
   const r = await updateProfile(user.id, { name: str(fd, "name"), email: str(fd, "email"), phone: str(fd, "phone") });
   if (!r.ok) return { error: r.error };
+  await updateSession({ user: { name: r.name, email: r.email } }); // the header reads name/email from the JWT
   revalidatePath("/", "layout"); // header initials / email
   return { done: "Đã lưu" };
 }

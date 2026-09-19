@@ -67,11 +67,16 @@ export async function forgotPasswordAction(_prev: FormState, fd: FormData): Prom
   const reset = await createPasswordReset(email);
   if (reset) {
     const link = appUrl(`${routes.resetPassword}?token=${reset.token}`);
-    await sendMail({
-      to: email,
-      subject: "Đặt lại mật khẩu ClothSE",
-      text: `Chào ${reset.name},\n\nCó yêu cầu đặt lại mật khẩu cho tài khoản ClothSE này. Mở link dưới đây trong 30 phút để chọn mật khẩu mới:\n\n${link}\n\nNếu không phải bạn, cứ bỏ qua email này — mật khẩu vẫn giữ nguyên.\n\n— ClothSE`,
-    });
+    try {
+      await sendMail({
+        to: email,
+        subject: "Đặt lại mật khẩu ClothSE",
+        text: `Chào ${reset.name},\n\nCó yêu cầu đặt lại mật khẩu cho tài khoản ClothSE này. Mở link dưới đây trong 30 phút để chọn mật khẩu mới:\n\n${link}\n\nNếu không phải bạn, cứ bỏ qua email này — mật khẩu vẫn giữ nguyên.\n\n— ClothSE`,
+      });
+    } catch (e) {
+      console.error("[forgot-password] send failed", e);
+      return { error: "Chưa gửi được email — thử lại sau ít phút nhé." };
+    }
   }
   // Same answer whether or not the account exists — never reveal which.
   return { done: email };

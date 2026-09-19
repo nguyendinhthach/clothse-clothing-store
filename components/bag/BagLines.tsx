@@ -129,7 +129,7 @@ export function BagLines({ lines }: { lines: BagLine[] }) {
         )}
         <div className={styles.summaryFoot}>
           <span className={styles.shipNote}>
-            {subtotal > 0 && subtotal < FREE_SHIPPING_OVER ? `Thêm ${formatVnd(FREE_SHIPPING_OVER - subtotal)} nữa để được miễn ship` : "Đã được miễn ship · Đổi trả 30 ngày"}
+            {subtotal === 0 ? `Miễn ship từ ${formatVnd(FREE_SHIPPING_OVER)} · Đổi trả 30 ngày` : subtotal < FREE_SHIPPING_OVER ? `Thêm ${formatVnd(FREE_SHIPPING_OVER - subtotal)} nữa để được miễn ship` : "Đã được miễn ship · Đổi trả 30 ngày"}
           </span>
           <span className={styles.codChip}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="square" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10" /><circle cx="12" cy="12" r="2.4" /></svg>

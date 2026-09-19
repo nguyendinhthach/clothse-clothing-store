@@ -25,7 +25,11 @@ interface Line {
   cost: string;
 }
 
-const today = () => new Date().toISOString().slice(0, 10);
+// Local calendar date (toISOString() is UTC — before 07:00 in Vietnam it would say yesterday and block today in the picker).
+const today = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
 const empty = (): Line => ({ mode: "existing", productId: "", variantId: "", itemDescription: "", categoryId: "", sizeOptionId: "", qty: "", cost: "" });
 const num = (s: string) => (s.trim() === "" ? NaN : Number(s.replace(/\D/g, "")));
 

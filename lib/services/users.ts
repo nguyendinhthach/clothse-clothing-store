@@ -74,7 +74,9 @@ export async function resetPassword(token: string, password: string): Promise<Re
 
 export type AccountResult = { ok: true } | { ok: false; error: string };
 
-export async function updateProfile(userId: number, input: { name: string; email: string; phone: string }): Promise<AccountResult> {
+export type ProfileResult = { ok: true; name: string; email: string } | { ok: false; error: string };
+
+export async function updateProfile(userId: number, input: { name: string; email: string; phone: string }): Promise<ProfileResult> {
   const name = input.name.trim();
   const email = normalizeEmail(input.email);
   const phone = input.phone.trim();
@@ -83,7 +85,7 @@ export async function updateProfile(userId: number, input: { name: string; email
   const clash = await prisma.user.findFirst({ where: { email, NOT: { id: userId } }, select: { id: true } });
   if (clash) return { ok: false, error: "Email này đang được tài khoản khác dùng." };
   await prisma.user.update({ where: { id: userId }, data: { name, email, phone: phone || null } });
-  return { ok: true };
+  return { ok: true, name, email };
 }
 
 export async function changePassword(userId: number, current: string, next: string, confirm: string): Promise<AccountResult> {

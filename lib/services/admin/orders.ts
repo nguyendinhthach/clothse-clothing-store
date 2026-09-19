@@ -81,10 +81,12 @@ export async function advanceOrder(orderId: number): Promise<AdminOrderResult> {
   if (!o) return { ok: false, error: "Không tìm thấy đơn." };
   const next = NEXT[o.status];
   if (!next) return { ok: false, error: "Đơn này không chuyển tiếp được nữa." };
-  await prisma.order.update({
-    where: { id: orderId },
+  // Guarded on the status we read, so a double click (or two admins) cannot skip a step.
+  const r = await prisma.order.updateMany({
+    where: { id: orderId, status: o.status },
     data: { status: next, ...(next === "COMPLETED" ? { paymentStatus: "PAID" } : {}) },
   });
+  if (r.count === 0) return { ok: false, error: "Đơn vừa được cập nhật ở nơi khác — tải lại trang." };
   return { ok: true, status: next };
 }
 
@@ -94,8 +96,9 @@ export async function adminCancelOrder(orderId: number): Promise<AdminOrderResul
     const o = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } });
     if (!o) return { ok: false, error: "Không tìm thấy đơn." };
     if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Chỉ huỷ được đơn Chờ xác nhận / Đang xử lý." };
+    const r = await tx.order.updateMany({ where: { id: o.id, status: o.status }, data: { status: "CANCELLED" } });
+    if (r.count === 0) return { ok: false, error: "Đơn vừa được cập nhật ở nơi khác — tải lại trang." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
-    await tx.order.update({ where: { id: o.id }, data: { status: "CANCELLED" } });
     return { ok: true, status: "CANCELLED" };
   });
 }
@@ -106,8 +109,9 @@ export async function approveRefund(orderId: number): Promise<AdminOrderResult> 
     const o = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } });
     if (!o) return { ok: false, error: "Không tìm thấy đơn." };
     if (o.status !== "REFUND" || o.paymentStatus !== "PAID") return { ok: false, error: "Đơn này không có yêu cầu đổi trả đang mở." };
+    const r = await tx.order.updateMany({ where: { id: o.id, status: "REFUND", paymentStatus: "PAID" }, data: { paymentStatus: "REFUNDED" } });
+    if (r.count === 0) return { ok: false, error: "Đơn vừa được cập nhật ở nơi khác — tải lại trang." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
-    await tx.order.update({ where: { id: o.id }, data: { paymentStatus: "REFUNDED" } });
     return { ok: true, status: "REFUND" };
   });
 }

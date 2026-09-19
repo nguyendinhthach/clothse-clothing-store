@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import type { OrderStatus } from "@/lib/generated/prisma/client";
 import { LOW_STOCK_MAX } from "@/lib/badges";
+import { formatDate } from "@/lib/format";
 
 // SPEC §6.4 — Revenue = Σ qty × unit_price, COGS = Σ qty × unit_cogs, Profit = the
 // difference; both read from the snapshots on OrderItem. Only COMPLETED orders
@@ -101,7 +102,7 @@ export interface RevenueRange {
   label: string;
 }
 
-const fmt = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
+const fmt = (d: Date) => formatDate(d);
 
 export function resolveRange(key: RangeKey, custom: { from?: string; to?: string } = {}, now = new Date()): RevenueRange {
   const today = startOfDay(now);

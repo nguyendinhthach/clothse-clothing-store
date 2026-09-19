@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AddressesPanel, ProfilePanel, SecurityPanel } from "@/components/account/AccountPanels";
+import { formatDate } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
 import { routes, type AccountTab } from "@/lib/routes";
 import { getAddresses } from "@/lib/services/addresses";
@@ -26,7 +27,7 @@ export default async function AccountPage({ searchParams }: PageProps<"/account"
     prisma.user.findUniqueOrThrow({ where: { id: session.id }, select: { name: true, email: true, phone: true, createdAt: true } }),
     getAddresses(session.id),
   ]);
-  const since = user.createdAt.toLocaleDateString("vi-VN", { month: "numeric", year: "numeric" });
+  const since = formatDate(user.createdAt, { month: "numeric", year: "numeric" });
 
   return (
     <div className={`container ${styles.page}`}>

@@ -161,28 +161,32 @@ export async function receiveStock(input: IntakeInput): Promise<StorageResult> {
   }
 
   const restocked: number[] = [];
-  await prisma.$transaction(async (tx) => {
-    for (const l of input.lines) {
-      if (l.mode === "existing") {
-        const v = await tx.variant.findUniqueOrThrow({ where: { id: l.variantId }, include: { product: { select: { id: true, categoryId: true } } } });
-        const before = await tx.variant.aggregate({ where: { productId: v.productId }, _sum: { stock: true } });
-        await tx.batch.create({
-          data: { variantId: v.id, brandId: brand.id, categoryId: v.product.categoryId, sizeOptionId: v.sizeOptionId, receivedAt, qtyReceived: l.qty, qtyRemaining: l.qty, unitCost: l.unitCost },
-        });
-        await tx.variant.update({ where: { id: v.id }, data: { stock: { increment: l.qty } } });
-        if (await noteRestock(tx, v.productId, before._sum.stock ?? 0)) restocked.push(v.productId);
-      } else {
-        const size = await tx.sizeOption.findUniqueOrThrow({ where: { id: l.sizeOptionId } });
-        if (size.categoryId !== l.categoryId) throw new Error("SIZE_CATEGORY");
-        await tx.batch.create({
-          data: { brandId: brand.id, categoryId: l.categoryId!, sizeOptionId: size.id, itemDescription: l.itemDescription!.trim(), receivedAt, qtyReceived: l.qty, qtyRemaining: l.qty, unitCost: l.unitCost },
-        });
+  try {
+    await prisma.$transaction(async (tx) => {
+      for (const [i, l] of input.lines.entries()) {
+        if (l.mode === "existing") {
+          const v = await tx.variant.findUnique({ where: { id: l.variantId }, include: { product: { select: { id: true, categoryId: true } } } });
+          if (!v) throw new Error(`Dòng ${i + 1}: không tìm thấy size sản phẩm — tải lại trang rồi thử lại.`);
+          const before = await tx.variant.aggregate({ where: { productId: v.productId }, _sum: { stock: true } });
+          await tx.batch.create({
+            data: { variantId: v.id, brandId: brand.id, categoryId: v.product.categoryId, sizeOptionId: v.sizeOptionId, receivedAt, qtyReceived: l.qty, qtyRemaining: l.qty, unitCost: l.unitCost },
+          });
+          await tx.variant.update({ where: { id: v.id }, data: { stock: { increment: l.qty } } });
+          if (await noteRestock(tx, v.productId, before._sum.stock ?? 0)) restocked.push(v.productId);
+        } else {
+          const size = await tx.sizeOption.findUnique({ where: { id: l.sizeOptionId } });
+          if (!size || size.categoryId !== l.categoryId) throw new Error(`Dòng ${i + 1}: size không thuộc danh mục đã chọn.`);
+          await tx.batch.create({
+            data: { brandId: brand.id, categoryId: l.categoryId!, sizeOptionId: size.id, itemDescription: l.itemDescription!.trim(), receivedAt, qtyReceived: l.qty, qtyRemaining: l.qty, unitCost: l.unitCost },
+          });
+        }
       }
-    }
-  }).catch((e) => {
-    if (e instanceof Error && e.message === "SIZE_CATEGORY") throw new Error("A size doesn't belong to the chosen category.");
+    });
+  } catch (e) {
+    // Validation failures thrown inside the transaction come back to the form as a message, not a 500.
+    if (e instanceof Error && e.message.startsWith("Dòng ")) return { ok: false, error: e.message };
     throw e;
-  });
+  }
 
   for (const pid of new Set(restocked)) void notifyRestock(pid);
   return { ok: true };
@@ -210,8 +214,8 @@ export async function linkBatch(batchId: number, variantId: number, qty: number)
   try {
     await prisma.$transaction(async (tx) => {
       const b = await tx.batch.findUniqueOrThrow({ where: { id: batchId } });
-      if (b.variantId) throw new Error("This batch is already linked.");
-      if (qty > b.qtyRemaining) throw new Error(`Only ${b.qtyRemaining} left in this batch.`);
+      if (b.variantId) throw new Error("Lô này đã gắn sản phẩm rồi.");
+      if (qty > b.qtyRemaining) throw new Error(`Lô này chỉ còn ${b.qtyRemaining} món.`);
       const v = await tx.variant.findUniqueOrThrow({ where: { id: variantId }, include: { product: { select: { categoryId: true } } } });
       if (v.sizeOptionId !== b.sizeOptionId) throw new Error("Size của lô không khớp size sản phẩm.");
       if (v.product.categoryId !== b.categoryId) throw new Error("Danh mục của lô không khớp sản phẩm.");

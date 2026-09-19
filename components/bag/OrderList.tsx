@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { cancelOrderAction, requestRefundAction } from "@/lib/actions/bag";
-import { formatVnd } from "@/lib/format";
+import { formatDate, formatVnd } from "@/lib/format";
 import { STATUS_LABEL } from "@/lib/order-status";
 import { routes } from "@/lib/routes";
 import type { OrderSummary } from "@/lib/services/orders";
@@ -16,7 +16,7 @@ interface Props {
   highlight?: string;
 }
 
-const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
+const fmtDate = (d: Date) => formatDate(d);
 
 export function OrderList({ orders, empty, highlight }: Props) {
   const router = useRouter();

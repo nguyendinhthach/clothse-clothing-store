@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { formatVnd } from "@/lib/format";
+import { formatDate, formatVnd } from "@/lib/format";
 import { STATUS_LABEL } from "@/lib/order-status";
 import { routes } from "@/lib/routes";
 import type { DashboardData } from "@/lib/services/admin/analytics";
 import styles from "./admin.module.css";
 
-const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric" });
+const fmtDate = (d: Date) => formatDate(d, { day: "numeric", month: "numeric" });
 const pct = (cur: number, prev: number) => (prev > 0 ? `${cur >= prev ? "+" : ""}${Math.round(((cur - prev) / prev) * 100)}% so với tháng trước` : "tháng trước chưa có doanh thu");
 
 export function DashboardPanel({ d }: { d: DashboardData }) {

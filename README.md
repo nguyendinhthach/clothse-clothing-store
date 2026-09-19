@@ -50,7 +50,7 @@ Có lỗi ở bất kỳ dòng nào thì không ghi gì cả. Sản phẩm đã 
 ## Deploy (Vercel + Neon)
 
 1. Trên [vercel.com](https://vercel.com) → Add New Project → import repo GitHub này.
-2. Environment Variables: sao chép mọi biến trong `.env.example` (`DATABASE_URL` của Neon, `AUTH_SECRET` mới, `APP_URL` = domain Vercel, SMTP, Cloudinary, SEED_*).
+2. Environment Variables: sao chép mọi biến trong `.env.example` (`DATABASE_URL` của Neon, `AUTH_SECRET` mới, `APP_URL` = domain Vercel, `TZ=Asia/Ho_Chi_Minh` để báo cáo tháng/tuần tính theo giờ Việt Nam, SMTP, Cloudinary, SEED_*).
 3. Deploy. `npm run build` tự chạy `prisma migrate deploy` trước `next build`, nên bảng luôn khớp code.
 4. Nếu DB còn trống, nạp dữ liệu mẫu **một lần** từ máy local: `npm run db:seed` (dùng cùng `DATABASE_URL`).
 

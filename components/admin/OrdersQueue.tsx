@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { adminCancelOrderAction, advanceOrderAction, approveRefundAction } from "@/lib/actions/admin-orders";
-import { formatVnd } from "@/lib/format";
+import { formatDate, formatVnd } from "@/lib/format";
 import { ORDER_TABS, STATUS_LABEL } from "@/lib/order-status";
 import { routes } from "@/lib/routes";
 import type { AdminOrderRow } from "@/lib/services/admin/orders";
@@ -21,7 +21,7 @@ const NOTE: Record<OrderStatus, string> = {
   REFUND: "Yêu cầu đổi trả đang mở. Duyệt = hoàn tiền cho khách và trả hàng về kệ.",
 };
 
-const fmtDate = (d: Date) => d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric", year: "numeric" });
+const fmtDate = (d: Date) => formatDate(d);
 
 interface Props {
   status: OrderStatus;

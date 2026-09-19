@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import type { OrderStatus, Prisma } from "@/lib/generated/prisma/client";
+import { Prisma, type OrderStatus } from "@/lib/generated/prisma/client";
 import { shippingFeeFor } from "@/lib/shipping";
 
 export const REFUND_WINDOW_DAYS = 30;
@@ -78,13 +78,14 @@ export interface ShipTo {
 
 export type PlaceOrderResult = { ok: true; orderId: number; code: string } | { ok: false; error: string };
 
-/** Next sequential code "CSE-4418" (SPEC §7). */
+/** Next sequential code "CSE-4418" (SPEC §7). Newest row by id, not by code: "CSE-10000" sorts before "CSE-9999" as text. */
 async function nextOrderCode(tx: Prisma.TransactionClient): Promise<string> {
-  // Codes are zero-padded to the same length, so string order == numeric order.
-  const last = await tx.order.findFirst({ orderBy: { code: "desc" }, select: { code: true } });
+  const last = await tx.order.findFirst({ orderBy: { id: "desc" }, select: { code: true } });
   const n = last ? Number(last.code.replace(/\D/g, "")) : 4400;
   return `CSE-${Number.isFinite(n) ? n + 1 : 4401}`;
 }
+
+const isUniqueViolation = (e: unknown) => e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002";
 
 /**
  * Turn the chosen bag lines into an order. Everything happens in one
@@ -96,6 +97,19 @@ export async function placeOrder(userId: number, variantIds: number[], ship: Shi
   if (variantIds.length === 0) return { ok: false, error: "Chọn ít nhất một món." };
   if (!ship.name.trim() || !ship.phone.trim() || !ship.address.trim()) return { ok: false, error: "Điền đủ họ tên, số điện thoại và địa chỉ giao hàng." };
 
+  // Two checkouts in the same instant can pick the same code; the unique index
+  // rejects the second, and we simply run it again with the next number.
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await placeOrderOnce(userId, variantIds, ship);
+    } catch (e) {
+      if (isUniqueViolation(e) && attempt < 2) continue;
+      throw e;
+    }
+  }
+}
+
+async function placeOrderOnce(userId: number, variantIds: number[], ship: ShipTo): Promise<PlaceOrderResult> {
   try {
     return await prisma.$transaction(async (tx) => {
       const rows = await tx.cartItem.findMany({ where: { userId, variantId: { in: variantIds } }, include: lineInclude });
@@ -186,8 +200,10 @@ const orderInclude = {
 
 type OrderRow = Prisma.OrderGetPayload<{ include: typeof orderInclude }>;
 
+/** Days since the order was marked delivered (updatedAt: no write touches a COMPLETED order after that one). */
+const daysSinceDelivered = (o: { updatedAt: Date }, now: Date) => (now.getTime() - o.updatedAt.getTime()) / 86_400_000;
+
 function toSummary(o: OrderRow, now: Date): OrderSummary {
-  const ageDays = (now.getTime() - o.createdAt.getTime()) / 86_400_000;
   return {
     id: o.id,
     code: o.code,
@@ -209,7 +225,7 @@ function toSummary(o: OrderRow, now: Date): OrderSummary {
       image: i.variant.product.images[0] ?? null,
     })),
     canCancel: o.status === "PENDING" || o.status === "PROCESSING",
-    canRequestRefund: o.status === "COMPLETED" && ageDays <= REFUND_WINDOW_DAYS,
+    canRequestRefund: o.status === "COMPLETED" && daysSinceDelivered(o, now) <= REFUND_WINDOW_DAYS,
   };
 }
 
@@ -252,8 +268,9 @@ export async function cancelOrder(userId: number, orderId: number): Promise<Orde
     if (!o) return { ok: false, error: "Không tìm thấy đơn hàng." };
     if (o.status === "CANCELLED") return { ok: false, error: "Đơn này đã huỷ rồi." };
     if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Đơn đã rời kho nên không huỷ được nữa." };
+    const r = await tx.order.updateMany({ where: { id: o.id, status: o.status }, data: { status: "CANCELLED" } });
+    if (r.count === 0) return { ok: false, error: "Đơn vừa đổi trạng thái, tải lại trang nhé." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
-    await tx.order.update({ where: { id: o.id }, data: { status: "CANCELLED" } });
     return { ok: true };
   });
 }
@@ -267,7 +284,9 @@ export async function requestRefund(userId: number, orderId: number, now = new D
   const o = await prisma.order.findFirst({ where: { id: orderId, userId } });
   if (!o) return { ok: false, error: "Không tìm thấy đơn hàng." };
   if (o.status !== "COMPLETED") return { ok: false, error: "Chỉ đơn đã hoàn thành mới đổi trả được." };
-  if ((now.getTime() - o.createdAt.getTime()) / 86_400_000 > REFUND_WINDOW_DAYS) return { ok: false, error: `Chỉ nhận đổi trả trong ${REFUND_WINDOW_DAYS} ngày kể từ khi đặt đơn.` };
-  await prisma.order.update({ where: { id: o.id }, data: { status: "REFUND" } });
+  if (daysSinceDelivered(o, now) > REFUND_WINDOW_DAYS) return { ok: false, error: `Chỉ nhận đổi trả trong ${REFUND_WINDOW_DAYS} ngày kể từ khi nhận hàng.` };
+  // Guarded on COMPLETED so a double click cannot re-open a request the admin already settled.
+  const r = await prisma.order.updateMany({ where: { id: o.id, status: "COMPLETED" }, data: { status: "REFUND" } });
+  if (r.count === 0) return { ok: false, error: "Đơn vừa đổi trạng thái, tải lại trang nhé." };
   return { ok: true };
 }
