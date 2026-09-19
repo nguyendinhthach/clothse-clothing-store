@@ -109,6 +109,8 @@ export interface ProductFormData {
   images: { url: string; alt: string }[];
   /** Edit mode: unlinked warehouse units per size label for this brand + category. */
   warehouse?: Record<string, number>;
+  /** Edit mode: units currently on the shelf (Variant.stock) per size label. */
+  shelf?: Record<string, number>;
 }
 
 export async function getProductFormVocab() {
@@ -164,6 +166,7 @@ export async function getProductForm(id: number): Promise<ProductFormData | null
     modelFitNote: p.modelFitNote ?? "",
     images: p.images.map((i) => ({ url: i.url, alt: i.alt ?? "" })),
     warehouse: await getWarehouseAvailability(p.id),
+    shelf: Object.fromEntries(sizes.map((v) => [v.sizeOption.label, v.stock])),
   };
 }
 
@@ -176,7 +179,7 @@ export async function nextSku(code: string): Promise<string> {
   return `CSE-${code}-${String(max + 1).padStart(3, "0")}`;
 }
 
-export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse"> & { sku?: string };
+export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse" | "shelf"> & { sku?: string };
 
 export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const name = input.name.trim();
@@ -196,6 +199,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const wanted = [...new Set(input.sizes.map((s) => s.trim()).filter(Boolean))];
   const unknown = wanted.filter((l) => !sizeIds.has(l));
   if (unknown.length) return { ok: false, error: `Size không thuộc ${category.name}: ${unknown.join(", ")}.` };
+  if (wanted.length === 0) return { ok: false, error: "Chọn ít nhất một size — sản phẩm không có size thì không bán được." };
 
   const details = input.details.map((d) => ({ label: d.label.trim(), value: d.value.trim() })).filter((d) => d.label && d.value);
   const sizeGuide: Record<string, { chest: string; length: string; sleeve: string }> = {};

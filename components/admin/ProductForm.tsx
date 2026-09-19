@@ -287,12 +287,15 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
               ) : (
                 f.sizes.map((size) => {
                   const avail = f.warehouse?.[size] ?? 0;
+                  const shelf = f.shelf?.[size] ?? 0;
                   const q = Number(restock[size] ?? 0);
                   return (
                     <div key={size} className={styles.restockRow}>
                       <span className={styles.restockSize}>
                         <span className={styles.guideSize}>{size}</span>
-                        <span className={styles.hint}>{avail > 0 ? `${avail} chưa gắn trong kho` : "Size này không có hàng chưa gắn — nhập kho trước"}</span>
+                        <span className={styles.hint}>
+                          Trên kệ: <strong>{shelf}</strong> · Kho chưa gắn: <strong>{avail}</strong>{avail === 0 && " — muốn lên thêm thì nhập kho trước"}
+                        </span>
                       </span>
                       <label className={styles.field}>
                         <span className={styles.fieldLabel}>Lên kệ</span>

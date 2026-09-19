@@ -32,8 +32,9 @@ export interface BadgeInput {
 const daysAgo = (d: Date, now: Date) => (now.getTime() - d.getTime()) / 86_400_000;
 
 export function computeBadge(p: BadgeInput, context: BadgeContext = "default", now = new Date()): Badge {
+  // No variants yet (nothing to sell) counts as out of stock too.
   const total = p.stocks.reduce((s, n) => s + n, 0);
-  if (p.stocks.length > 0 && total === 0) return "Out of stock";
+  if (total === 0) return "Out of stock";
   if (p.stocks.some((n) => n >= 1 && n <= LOW_STOCK_MAX)) return "Low stock";
 
   const sale = p.onSale;
