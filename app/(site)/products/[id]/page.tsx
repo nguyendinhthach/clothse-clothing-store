@@ -36,14 +36,14 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
     {
       id: "details",
       title: "Chi tiết sản phẩm",
-      lines: [...product.details, ...(product.modelFitNote ? [{ label: "Người mẫu", value: product.modelFitNote }] : [])],
+      lines: product.details,
     },
     {
       id: "size-guide",
       title: "Hướng dẫn chọn size",
       lines: Object.keys(product.sizeGuide).length
         ? Object.entries(product.sizeGuide).map(([label, value]) => ({ label, value }))
-        : [{ label: "Form", value: product.modelFitNote ?? "Đúng size. Lỡ cỡ giữa hai size thì lấy size lớn hơn cho thoải mái." }],
+        : [{ label: "Form", value: "Đúng size. Lỡ cỡ giữa hai size thì lấy size lớn hơn cho thoải mái." }],
     },
     {
       id: "shipping",

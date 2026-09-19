@@ -178,7 +178,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 <option value="">Chọn…</option>
                 {skuTypesFor(category.name).map((t) => <option key={t.code} value={t.code}>{t.label} · CSE-{t.code}-…</option>)}
               </select>
-              <span className={styles.hint}>SKU sinh khi lưu (SPEC §7), ví dụ CSE-HDY-007.</span>
+              <span className={styles.hint}>SKU sinh tự động khi lưu, ví dụ CSE-HDY-007.</span>
             </label>
           )}
 
@@ -241,7 +241,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 );
               })}
             </div>
-            <span className={styles.hint}>Mỗi size thành một biến thể tồn 0; hàng về qua lô nhập ở mục Kho (SPEC §6.5).</span>
+            <span className={styles.hint}>Mỗi size bắt đầu với tồn 0; hàng về qua lô nhập ở mục Kho.</span>
           </div>
 
           <div className={`${styles.field} ${styles.fieldWide}`}>
@@ -276,7 +276,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 ))}
               </div>
             )}
-            <span className={styles.hint}>Men / Women / Unisex và nhãn mô tả. New, Sale, Best seller, Restocked được tính tự động — đừng thêm tay (SPEC §6.12).</span>
+            <span className={styles.hint}>Men / Women / Unisex và nhãn mô tả. New, Sale, Best seller, Restocked được tính tự động — đừng thêm tay.</span>
           </div>
 
           {editing && (
@@ -387,10 +387,6 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 </div>
               ))
             )}
-            <label className={styles.field}>
-              <span className={styles.fieldLabel}>Ghi chú người mẫu</span>
-              <input value={f.modelFitNote} onChange={(e) => set("modelFitNote", e.target.value)} placeholder="1m83 / 74kg mặc size M" className={`${styles.input} ${styles.inputSm}`} />
-            </label>
           </div>
 
           {error && <div className={`${styles.error} ${styles.fieldWide}`} role="alert">{error}</div>}
