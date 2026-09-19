@@ -9,6 +9,7 @@ import styles from "./shop.module.css";
 
 interface Facets {
   categories: string[];
+  types: { code: string; label: string; category: string; count: number }[];
   tags: string[];
   brands: { name: string; count: number }[];
 }
@@ -26,6 +27,13 @@ export function Filters({ basePath, params, facets, total }: Props) {
   const router = useRouter();
   // Any filter change resets "show" back to the first page.
   const go = (patch: Partial<ShopParams>) => router.replace(basePath + buildShopQuery({ ...params, ...patch, show: undefined }), { scroll: false });
+  // Picking a category narrows the type list to that category; a type outside the new selection is dropped.
+  const typesShown = params.cats.length ? facets.types.filter((t) => params.cats.includes(t.category)) : facets.types;
+  const pickCategory = (c: string) => {
+    const cats = toggle(params.cats, c);
+    const allowed = new Set(facets.types.filter((t) => !cats.length || cats.includes(t.category)).map((t) => t.code));
+    go({ cats, types: params.types.filter((code) => allowed.has(code)) });
+  };
 
   return (
     <aside className={styles.aside}>
@@ -38,12 +46,25 @@ export function Filters({ basePath, params, facets, total }: Props) {
         <span className={styles.groupLabel}>Danh mục</span>
         <div className={styles.pills}>
           {facets.categories.map((c) => (
-            <button key={c} type="button" onClick={() => go({ cats: toggle(params.cats, c) })} className={`${styles.pill} ${params.cats.includes(c) ? styles.pillOn : ""}`}>
+            <button key={c} type="button" onClick={() => pickCategory(c)} className={`${styles.pill} ${params.cats.includes(c) ? styles.pillOn : ""}`}>
               {categoryLabel(c)}
             </button>
           ))}
         </div>
       </div>
+
+      {typesShown.length > 0 && (
+        <div className={styles.group}>
+          <span className={styles.groupLabel}>Loại</span>
+          <div className={styles.pills}>
+            {typesShown.map((t) => (
+              <button key={t.code} type="button" onClick={() => go({ types: toggle(params.types, t.code) })} className={`${styles.pill} ${params.types.includes(t.code) ? styles.pillOn : ""}`} title={`${t.count} sản phẩm`}>
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className={styles.group}>
         <span className={styles.groupLabel}>Đặc điểm</span>

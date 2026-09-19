@@ -5,6 +5,8 @@ import { PAGE_SIZE, PRICE_MAX, PRICE_MIN, PRICE_STEP, type SortKey } from "@/lib
 
 export interface ShopParams {
   cats: string[];
+  /** Item-type codes (HDY, TEE…). */
+  types: string[];
   tags: string[];
   brands: string[];
   min: number;
@@ -28,6 +30,7 @@ export function parseShopParams(raw: Raw): ShopParams {
   const show = Number(raw.show);
   return {
     cats: list(raw.cat),
+    types: list(raw.type).map((t) => t.toUpperCase()),
     tags: list(raw.tag),
     brands: list(raw.brand),
     min: clampPrice(typeof raw.min === "string" ? raw.min : undefined, PRICE_MIN),
@@ -42,6 +45,7 @@ export function parseShopParams(raw: Raw): ShopParams {
 export function buildShopQuery(p: Partial<ShopParams>, defaultSort: SortKey = "new"): string {
   const sp = new URLSearchParams();
   if (p.cats?.length) sp.set("cat", p.cats.join(","));
+  if (p.types?.length) sp.set("type", p.types.join(","));
   if (p.tags?.length) sp.set("tag", p.tags.join(","));
   if (p.brands?.length) sp.set("brand", p.brands.join(","));
   if (p.min != null && p.min > PRICE_MIN) sp.set("min", String(p.min));
@@ -54,5 +58,5 @@ export function buildShopQuery(p: Partial<ShopParams>, defaultSort: SortKey = "n
 }
 
 export function filtersActive(p: ShopParams): boolean {
-  return p.cats.length > 0 || p.tags.length > 0 || p.brands.length > 0 || p.min > PRICE_MIN || p.max < PRICE_MAX || !!p.q;
+  return p.cats.length > 0 || p.types.length > 0 || p.tags.length > 0 || p.brands.length > 0 || p.min > PRICE_MIN || p.max < PRICE_MAX || !!p.q;
 }

@@ -173,6 +173,8 @@ export async function getMaxSalePercent(): Promise<number> {
 
 export interface ListingQuery {
   cats?: string[];
+  /** Item-type codes. */
+  types?: string[];
   tags?: string[];
   brands?: string[];
   min?: number;
@@ -197,6 +199,7 @@ const effectivePrice = (p: ProductCardData) => (p.onSale && p.salePrice != null 
 export async function listProducts(query: ListingQuery, now = new Date()): Promise<Listing> {
   const where: Prisma.ProductWhereInput = {};
   if (query.cats?.length) where.category = { name: { in: query.cats } };
+  if (query.types?.length) where.type = { code: { in: query.types } };
   if (query.brands?.length) where.brand = { name: { in: query.brands } };
   if (query.tags?.length) where.tags = { some: { tag: { name: { in: query.tags } } } };
   if (query.q) where.OR = [{ name: { contains: query.q, mode: "insensitive" } }, { brand: { name: { contains: query.q, mode: "insensitive" } } }];
@@ -222,15 +225,17 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
   return { items: items.slice(0, show), total: items.length, shown: Math.min(show, items.length) };
 }
 
-/** Sidebar vocab: categories, every tag in the database (SPEC §6.12), brands with product counts. */
+/** Sidebar vocab: categories, item types that have products, every tag in the database (SPEC §6.12), brands with product counts. */
 export async function getFilterFacets() {
-  const [categories, tags, brands] = await Promise.all([
+  const [categories, types, tags, brands] = await Promise.all([
     prisma.category.findMany({ orderBy: { id: "asc" }, select: { name: true } }),
+    prisma.itemType.findMany({ where: { products: { some: {} } }, orderBy: { label: "asc" }, select: { code: true, label: true, category: { select: { name: true } }, _count: { select: { products: true } } } }),
     prisma.tag.findMany({ orderBy: { name: "asc" }, select: { name: true } }),
     prisma.brand.findMany({ orderBy: { name: "asc" }, select: { name: true, _count: { select: { products: true } } } }),
   ]);
   return {
     categories: categories.map((c) => c.name),
+    types: types.map((t) => ({ code: t.code, label: t.label, category: t.category.name, count: t._count.products })),
     tags: tags.map((t) => t.name),
     brands: brands.map((b) => ({ name: b.name, count: b._count.products })),
   };

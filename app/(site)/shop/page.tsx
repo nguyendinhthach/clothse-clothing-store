@@ -22,7 +22,8 @@ export default async function ShopPage({ searchParams }: PageProps<"/shop">) {
     user ? getFavouriteIds(user.id) : null,
   ]);
 
-  const title = params.q ? `“${params.q}”` : params.cats.length === 1 ? categoryLabel(params.cats[0]) : "Tất cả sản phẩm";
+  const oneType = params.types.length === 1 ? facets.types.find((t) => t.code === params.types[0]) : undefined;
+  const title = params.q ? `“${params.q}”` : oneType ? oneType.label : params.cats.length === 1 ? categoryLabel(params.cats[0]) : "Tất cả sản phẩm";
 
   return (
     <div className={`container ${styles.page}`}>
