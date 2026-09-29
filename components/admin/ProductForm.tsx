@@ -46,7 +46,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
 
   // ── warehouse (SPEC §6.5 step 3) ──
   type SrcRow = { size: string; batchId: string; qty: string };
-  type Option = { id: number; label: string; qtyRemaining: number };
+  type Option = { id: number; label: string; qtyRemaining: number; unitCost: number };
   const [srcRows, setSrcRows] = useState<SrcRow[]>([]);
   const [options, setOptions] = useState<Record<string, Option[]>>({}); // size → linkable batches
   const [restock, setRestock] = useState<Record<string, string>>({}); // size → qty to pull (edit mode)
@@ -66,11 +66,21 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
       [size]: rows.map((b) => ({
         id: b.id,
         qtyRemaining: b.qtyRemaining,
+        unitCost: b.unitCost,
         label: `${b.itemDescription ?? "Lô"} · ${formatDate(new Date(b.receivedAt), { day: "2-digit", month: "2-digit" })} · còn ${b.qtyRemaining} @ ${formatVnd(b.unitCost)}`,
       })),
     }));
   }
   const srcSummary = srcRows.filter((r) => r.batchId && Number(r.qty) > 0);
+
+  // ── selling below cost: compare against the dearest unit that will sit on the shelf ──
+  const maxCost = Math.max(
+    f.shelfCost ?? 0,
+    ...srcSummary.map((r) => options[r.size]?.find((o) => String(o.id) === r.batchId)?.unitCost ?? 0),
+    ...Object.entries(restock).filter(([, q]) => Number(q) > 0).map(([size]) => f.warehouseCost?.[size] ?? 0),
+  );
+  const belowCost = (p: number | "") => p !== "" && p > 0 && maxCost > 0 && p < maxCost;
+  const costWarning = (what: string, p: number) => `${what} thấp hơn giá vốn ${formatVnd(maxCost)} — bán giá này lỗ ${formatVnd(maxCost - p)} mỗi món.`;
 
   // ── tags ──
   const [tagDraft, setTagDraft] = useState("");
@@ -229,6 +239,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
           <label className={styles.field}>
             <span className={styles.fieldLabel}>Giá (VNĐ)</span>
             <input value={f.price} onChange={(e) => set("price", e.target.value.replace(/\D/g, "") === "" ? "" : Number(e.target.value.replace(/\D/g, "")))} inputMode="numeric" placeholder="1860000" required className={`${styles.input} ${styles.mono}`} />
+            {belowCost(f.price) && <span className={`${styles.hint} ${styles.saleOn}`}>{costWarning("Giá", Number(f.price))}</span>}
           </label>
 
           <div className={`${styles.fieldWide} ${styles.sizeBox}`}>
@@ -324,6 +335,7 @@ export function ProductForm({ initial, vocab, cloudinaryReady, onClose }: Props)
                 <input value={f.salePrice} onChange={(e) => set("salePrice", e.target.value.replace(/\D/g, "") === "" ? "" : Number(e.target.value.replace(/\D/g, "")))} inputMode="numeric" placeholder="1490000" className={`${styles.input} ${styles.mono}`} style={{ width: 160, height: 44 }} />
               </label>
             )}
+            {f.onSale && !belowCost(f.price) && belowCost(f.salePrice) && <span className={`${styles.hint} ${styles.saleOn}`} style={{ flexBasis: "100%" }}>{costWarning("Giá sale", Number(f.salePrice))}</span>}
           </div>
 
           <div className={`${styles.field} ${styles.fieldWide}`}>

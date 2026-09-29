@@ -124,6 +124,10 @@ export interface ProductFormData {
   warehouse?: Record<string, number>;
   /** Edit mode: units currently on the shelf (Variant.stock) per size label. */
   shelf?: Record<string, number>;
+  /** Edit mode: highest unit cost among batches still stocking the shelf (0 = none). */
+  shelfCost?: number;
+  /** Edit mode: highest unit cost among unlinked warehouse batches per size label. */
+  warehouseCost?: Record<string, number>;
   /** Edit mode: whether the product is on the shelf, and why "Xoá" is blocked (null = allowed). */
   active?: boolean;
   deleteBlock?: string | null;
@@ -167,6 +171,11 @@ export async function getProductForm(id: number): Promise<ProductFormData | null
   });
   if (!p) return null;
   const sizes = p.variants.sort((a, b) => a.sizeOption.sortOrder - b.sizeOption.sortOrder);
+  const [shelfCost, warehouseCost] = await Promise.all([
+    prisma.batch.aggregate({ where: { variant: { productId: p.id }, qtyRemaining: { gt: 0 } }, _max: { unitCost: true } }),
+    prisma.batch.groupBy({ by: ["sizeOptionId"], where: { variantId: null, qtyRemaining: { gt: 0 }, brandId: p.brandId, categoryId: p.categoryId }, _max: { unitCost: true } }),
+  ]);
+  const sizeLabel = new Map((await prisma.sizeOption.findMany({ where: { id: { in: warehouseCost.map((r) => r.sizeOptionId) } }, select: { id: true, label: true } })).map((s) => [s.id, s.label]));
   return {
     id: p.id,
     name: p.name,
@@ -186,6 +195,8 @@ export async function getProductForm(id: number): Promise<ProductFormData | null
     images: p.images.map((i) => ({ url: i.url, alt: i.alt ?? "" })),
     warehouse: await getWarehouseAvailability(p.id),
     shelf: Object.fromEntries(sizes.map((v) => [v.sizeOption.label, v.stock])),
+    shelfCost: shelfCost._max.unitCost ?? 0,
+    warehouseCost: Object.fromEntries(warehouseCost.map((r) => [sizeLabel.get(r.sizeOptionId)!, r._max.unitCost ?? 0])),
     active: p.active,
     deleteBlock: deleteBlockReason(sizes),
   };
@@ -200,7 +211,7 @@ export async function nextSku(code: string): Promise<string> {
   return `CSE-${code}-${String(max + 1).padStart(3, "0")}`;
 }
 
-export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse" | "shelf" | "active" | "deleteBlock"> & { sku?: string };
+export type ProductInput = Omit<ProductFormData, "lockedSizes" | "sku" | "warehouse" | "shelf" | "shelfCost" | "warehouseCost" | "active" | "deleteBlock"> & { sku?: string };
 
 export async function saveProduct(input: ProductInput): Promise<ProductResult> {
   const name = input.name.trim();
