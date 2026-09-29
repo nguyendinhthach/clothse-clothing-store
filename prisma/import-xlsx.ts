@@ -244,7 +244,7 @@ async function main() {
       const ext = path.extname(im.file).toLowerCase();
       const file = new File([fs.readFileSync(im.file)], path.basename(im.file), { type: MIME[ext] ?? "image/jpeg" });
       const up = await uploadProductImage(file, `clothse/products/${p.id}`);
-      images.push({ url: up.url, alt: i === 0 ? p.name : `${p.name} — view ${i + 1}` });
+      images.push({ url: up.url, alt: i === 0 ? p.name : `${p.name} — ảnh ${i + 1}` });
     }
 
     const brand = await prisma.brand.upsert({ where: { name: p.brand }, update: {}, create: { name: p.brand } });
