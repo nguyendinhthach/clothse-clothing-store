@@ -68,12 +68,8 @@
   min-height: 620px;
   background: repeating-linear-gradient(135deg, #e1deea 0 10px, #d3cfe0 10px 20px);
 }
-.artLines {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(115deg, rgba(34, 27, 46, 0.14) 0 3px, rgba(34, 27, 46, 0) 3px 26px);
-  pointer-events: none;
-}
+/* Tall photo in a wider panel: keep the faces in view, let the legs run under the copy. */
+.artImg { object-fit: cover; object-position: 50% 30%; }
 .artFade {
   position: absolute;
   inset: 0;

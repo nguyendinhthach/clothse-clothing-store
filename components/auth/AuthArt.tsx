@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import styles from "./auth.module.css";
 
@@ -5,7 +6,7 @@ import styles from "./auth.module.css";
 export function AuthArt({ pill, title, children }: { pill: string; title: ReactNode; children: ReactNode }) {
   return (
     <section className={styles.art} aria-hidden="true">
-      <span className={styles.artLines} />
+      <Image src="/images/login.jpg" alt="" fill priority sizes="50vw" className={styles.artImg} />
       <span className={styles.artFade} />
       <span className={styles.artTag}>
         <span className={`${styles.dot} ${styles.dotAccent}`} />

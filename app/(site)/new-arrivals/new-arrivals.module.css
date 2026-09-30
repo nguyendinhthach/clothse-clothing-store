@@ -97,13 +97,7 @@
   display: grid;
   place-items: center;
 }
-.heroArtLabel {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #6c6285;
-}
+.heroImg { object-fit: cover; }
 .heroTag {
   position: absolute;
   left: 0;

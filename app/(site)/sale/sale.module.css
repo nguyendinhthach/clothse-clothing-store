@@ -133,13 +133,7 @@
   display: grid;
   place-items: center;
 }
-.heroArtLabel {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #8c3e19;
-}
+.heroImg { object-fit: cover; }
 .sticker {
   position: absolute;
   top: clamp(20px, 4vw, 44px);

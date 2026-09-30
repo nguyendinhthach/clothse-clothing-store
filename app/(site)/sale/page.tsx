@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { CategoryPills } from "@/components/shop/CategoryPills";
 import { ProductGrid } from "@/components/shop/ProductGrid";
@@ -74,7 +75,7 @@ export default async function SalePage({ searchParams }: PageProps<"/sale">) {
             </div>
           </div>
           <div className={styles.heroArt}>
-            <span className={styles.heroArtLabel}>Ảnh chiến dịch — sale</span>
+            <Image src="/images/sale.jpg" alt="" fill sizes="40vw" className={styles.heroImg} />
             <span className={styles.sticker}>Giá chốt</span>
             <span className={styles.heroTag}>Không nhập lại</span>
           </div>

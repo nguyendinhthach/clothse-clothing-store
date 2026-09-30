@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { CategoryPills } from "@/components/shop/CategoryPills";
 import { ProductGrid } from "@/components/shop/ProductGrid";
@@ -69,7 +70,7 @@ export default async function NewArrivalsPage({ searchParams }: PageProps<"/new-
             </div>
           </div>
           <div className={styles.heroArt}>
-            <span className={styles.heroArtLabel}>Ảnh editorial — đợt hàng mới</span>
+            <Image src="/images/new-arrival.jpg" alt="" fill sizes="40vw" className={styles.heroImg} />
             <span className={styles.heroTag}>Drop 04 / Thu</span>
           </div>
         </div>
