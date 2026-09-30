@@ -229,12 +229,12 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
   return { items: items.slice(0, show), total: items.length, shown: Math.min(show, items.length) };
 }
 
-/** Sidebar vocab: categories, item types that have products, every tag in the database (SPEC §6.12), brands with product counts. */
+/** Sidebar vocab: categories, item types and tags that are on at least one product on the shelf (SPEC §6.12), brands with product counts. */
 export async function getFilterFacets() {
   const [categories, types, tags, brands] = await Promise.all([
     prisma.category.findMany({ orderBy: { id: "asc" }, select: { name: true } }),
     prisma.itemType.findMany({ where: { products: { some: { active: true } } }, orderBy: { label: "asc" }, select: { code: true, label: true, category: { select: { name: true } }, _count: { select: { products: { where: { active: true } } } } } }),
-    prisma.tag.findMany({ orderBy: { name: "asc" }, select: { name: true } }),
+    prisma.tag.findMany({ where: { products: { some: { product: { active: true } } } }, orderBy: { name: "asc" }, select: { name: true } }),
     prisma.brand.findMany({ orderBy: { name: "asc" }, select: { name: true, _count: { select: { products: { where: { active: true } } } } } }),
   ]);
   return {
