@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { categoryLabel, PRICE_MAX, PRICE_MIN, PRICE_STEP, tagLabel } from "@/lib/catalog-constants";
+import { categoryLabel, GENDER_TAGS, PRICE_MAX, PRICE_MIN, PRICE_STEP, tagLabel } from "@/lib/catalog-constants";
 import { formatVnd } from "@/lib/format";
 import { buildShopQuery, filtersActive, type ShopParams } from "@/lib/shop-params";
 import styles from "./shop.module.css";
@@ -43,6 +43,17 @@ export function Filters({ basePath, params, facets, total }: Props) {
       </div>
 
       <div className={styles.group}>
+        <span className={styles.groupLabel}>Dành cho</span>
+        <div className={styles.pills}>
+          {GENDER_TAGS.map((t) => (
+            <button key={t} type="button" onClick={() => go({ tags: toggle(params.tags, t) })} className={`${styles.pill} ${params.tags.includes(t) ? styles.pillOn : ""}`}>
+              {tagLabel(t)}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className={styles.group}>
         <span className={styles.groupLabel}>Danh mục</span>
         <div className={styles.pills}>
           {facets.categories.map((c) => (
@@ -69,7 +80,7 @@ export function Filters({ basePath, params, facets, total }: Props) {
       <div className={styles.group}>
         <span className={styles.groupLabel}>Đặc điểm</span>
         <div className={styles.pills}>
-          {facets.tags.map((t) => (
+          {facets.tags.filter((t) => !GENDER_TAGS.includes(t)).map((t) => (
             <button key={t} type="button" onClick={() => go({ tags: toggle(params.tags, t) })} className={`${styles.pill} ${params.tags.includes(t) ? styles.pillOn : ""}`}>
               {tagLabel(t)}
             </button>

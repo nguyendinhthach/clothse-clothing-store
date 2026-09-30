@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { BEST_SELLER_TOP, NEW_WINDOW_DAYS, computeBadge, type Badge, type BadgeContext } from "@/lib/badges";
 import type { Prisma } from "@/lib/generated/prisma/client";
-import { PAGE_SIZE, PRICE_MAX, PRICE_MIN, type SortKey } from "@/lib/catalog-constants";
+import { GENDER_TAGS, PAGE_SIZE, PRICE_MAX, PRICE_MIN, type SortKey } from "@/lib/catalog-constants";
 import { vnMonthStart } from "@/lib/vn-time";
 
 /** Product count per category, in the fixed display order (SPEC §5). */
@@ -202,7 +202,10 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
   if (query.cats?.length) where.category = { name: { in: query.cats } };
   if (query.types?.length) where.type = { code: { in: query.types } };
   if (query.brands?.length) where.brand = { name: { in: query.brands } };
-  if (query.tags?.length) where.tags = { some: { tag: { name: { in: expandGenderTags(query.tags) } } } };
+  // Audience and descriptive tags are separate filter groups: any-of within a group, all groups must match.
+  const audience = (query.tags ?? []).filter((t) => GENDER_TAGS.includes(t));
+  const traits = (query.tags ?? []).filter((t) => !GENDER_TAGS.includes(t));
+  where.AND = [audience, traits].filter((g) => g.length).map((g) => ({ tags: { some: { tag: { name: { in: expandGenderTags(g) } } } } }));
   if (query.q) where.OR = [{ name: { contains: query.q, mode: "insensitive" } }, { brand: { name: { contains: query.q, mode: "insensitive" } } }];
   if (query.scope === "sale") where.onSale = true;
   if (query.scope === "new") where.createdAt = { gte: new Date(now.getTime() - NEW_WINDOW_DAYS * 86_400_000) };
