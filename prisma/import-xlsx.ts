@@ -252,9 +252,13 @@ async function main() {
     const sizeIds = sizesByCategory.get(p.category)!;
     const tagIds = await Promise.all(p.tags.map((n) => prisma.tag.upsert({ where: { name: n }, update: {}, create: { name: n }, select: { id: true } })));
     const sku = await nextSku(p.typeCode);
+    // Listed when its first stock arrived, so "New" follows the intake dates instead of the import day.
+    const own = batches.filter((b) => b.id === p.id);
+    const createdAt = own.length ? new Date(Math.min(...own.map((b) => b.receivedAt.getTime()))) : new Date();
 
     const product = await prisma.product.create({
       data: {
+        createdAt,
         name: p.name,
         sku,
         typeId: p.typeId,
@@ -275,7 +279,7 @@ async function main() {
 
     // Opening stock straight into the ledger (FIFO by receivedAt), no restock flag.
     let units = 0;
-    for (const b of batches.filter((b) => b.id === p.id)) {
+    for (const b of own) {
       const v = product.variants.find((v) => v.sizeOption.label.toLowerCase() === b.size.toLowerCase())!;
       await prisma.batch.create({ data: { variantId: v.id, brandId: brand.id, categoryId, sizeOptionId: v.sizeOptionId, receivedAt: b.receivedAt, qtyReceived: b.qty, qtyRemaining: b.qty, unitCost: b.unitCost } });
       await prisma.variant.update({ where: { id: v.id }, data: { stock: { increment: b.qty } } });

@@ -107,6 +107,7 @@ npm run db:import -- clothse-products.xlsx ./images             # tải ảnh l�
 
 - Cột `type` phải khớp tên hoặc mã trong **Store Management → Loại món**; cột `category` là một trong 4 danh mục; size phải có trong tab Size của danh mục đó.
 - Có lỗi ở bất kỳ dòng nào thì không ghi gì. Sản phẩm đã tồn tại (trùng hãng + tên) được bỏ qua, nên chạy lại an toàn.
+- Ngày tạo sản phẩm lấy theo `received_at` sớm nhất của nó, nên badge **Mới** và trang Hàng mới theo ngày nhập hàng chứ không theo ngày chạy lệnh.
 - SKU sinh tự động từ loại món; file xlsx và ảnh không cần đưa vào repo.
 
 ## Triển khai (Vercel + Neon)
