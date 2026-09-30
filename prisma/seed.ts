@@ -43,7 +43,7 @@ const SIZES: Record<Cat, string[]> = {
   Tops: ["XS", "S", "M", "L", "XL", "XXL"],
   Bottoms: ["XS", "S", "M", "L", "XL", "XXL"],
   Accessories: ["One size", "S", "M", "L", "XL"],
-  Footwear: ["35", "36", "37", "38", "39", "40", "41", "42", "43"],
+  Footwear: ["35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46"],
 };
 
 // Descriptive tags only (SPEC §6.12). New / Restocked / Best seller / Sale /

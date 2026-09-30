@@ -177,7 +177,7 @@ Lấy nguyên từ thiết kế:
 | `Tops` | `XS` `S` `M` `L` `XL` `XXL` |
 | `Bottoms` | `XS` `S` `M` `L` `XL` `XXL` |
 | `Accessories` | `One size` `S` `M` `L` `XL` |
-| `Footwear` | `35` `36` `37` `38` `39` `40` `41` `42` `43` |
+| `Footwear` | `35` `36` `37` `38` `39` `40` `41` `42` `43` `44` `45` `46` |
 
 **Chính sách định dạng theo danh mục:**
 
@@ -579,6 +579,8 @@ Bốn khái niệm hay bị trộn vào nhau — tách rõ:
 | **Homepage — khối "Bắt đầu từ đây"** | **4 ô cố định** trong code: `Nam`, `Nữ`, `Unisex`, `Tất cả`. Tên và ảnh chọn tay. Chỉ **số lượng** (`52 mẫu`) là truy vấn động. Ba ô đầu đếm theo tag; ô `Tất cả` đếm toàn bộ sản phẩm và trỏ về Cửa hàng (đổi từ `New Arrivals` ngày 2026-09-18 vì khối Hàng mới nằm ngay dưới) |
 | **Shop Listing — bộ lọc "Details"** | Liệt kê **toàn bộ** tag trong database, hoàn toàn động. Admin thêm tag mới là tự xuất hiện, không sửa code |
 
+**Nam / Nữ gồm cả Unisex.** Lọc `Men` hoặc `Women` (ở Shop Listing lẫn khi đếm hai ô Nam, Nữ trên homepage) trả về thêm các món gắn `Unisex`, vì đồ unisex ai cũng mặc được. Lọc `Unisex` thì chỉ ra món `Unisex`. Không cần gắn cả `Men` và `Women` cho món unisex.
+
 > Bộ lọc `TAGS` trong thiết kế Shop Listing còn lẫn `New`, `Restocked`, `Best Seller` — đó là badge. Trong app thật, bộ lọc Details chỉ hiện tag; muốn lọc "hàng mới" hay "giảm giá" thì đã có trang New Arrivals và Sale.
 
 ## 6b. Trang nội dung tĩnh
@@ -812,3 +814,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-19 | **Loại món thành bảng `ItemType`** + tab Loại món trong Store Management; `Product.typeId`; seed/xlsx đọc từ bảng. Sửa mục 7 |
 | 2026-09-19 | Tách seed: `db:seed` chỉ khung + admin thật; `db:seed:demo` nạp dữ liệu mẫu. Bỏ 2 tài khoản thử và nút chạm-để-điền |
 | 2026-09-19 | Bộ lọc Loại ở Cửa hàng. `Product.active` — "Gỡ khỏi kệ / Lên kệ lại" thay cho Xoá ở bảng Sản phẩm; Xoá lùi vào form, chỉ cho món chưa có đơn và chưa gắn lô; hộp xác nhận nêu hậu quả cho cả hai |
+| 2026-09-30 | Footwear thêm size `44` `45` `46`. Lọc Nam / Nữ gồm cả món `Unisex` (mục 6.12) |
