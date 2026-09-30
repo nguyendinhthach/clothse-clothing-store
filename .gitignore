@@ -173,3 +173,6 @@ yarn-error.log*
 skills-lock.json
 AGENTS.md
 CLAUDE.md
+
+# Product workbook + image folders for db:import — real data, never committed
+/import/
