@@ -61,6 +61,7 @@ Các biến trong `.env`:
 | Biến | Bắt buộc | Ghi chú |
 |---|---|---|
 | `DATABASE_URL` | ✔ | Chuỗi kết nối Neon (pooler, `sslmode=verify-full`) |
+| `DIRECT_URL` | ✔ trên Vercel | Cùng chuỗi nhưng bỏ `-pooler` khỏi host; chỉ `prisma migrate` dùng (khoá migration qua pooler có thể bị kẹt → lỗi P1002 khi build) |
 | `AUTH_SECRET` | ✔ | Chuỗi ngẫu nhiên ký cookie phiên |
 | `APP_URL` | ✔ | Origin công khai, dùng trong link email (`http://localhost:3000` khi chạy local) |
 | `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` | ✔ | Tài khoản admin do `db:seed` tạo |
