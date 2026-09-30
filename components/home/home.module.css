@@ -310,6 +310,7 @@
   transition: transform 420ms var(--ease-pop);
 }
 .tile:hover .tileZoom { transform: scale(1.07); }
+.tileImg { object-fit: cover; }
 
 .tileTint {
   position: absolute;

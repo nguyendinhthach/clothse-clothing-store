@@ -1,7 +1,15 @@
+import Image from "next/image";
 import Link from "next/link";
 import { routes } from "@/lib/routes";
-import { Placeholder } from "@/components/product/Placeholder";
 import styles from "./home.module.css";
+
+/** Tile photo per audience tag (null = the whole shop). The label sits on top, so the image is decorative. */
+const TILE_IMAGE: Record<string, string> = {
+  Men: "/images/shop-men.jpg",
+  Women: "/images/shop-women.jpg",
+  Unisex: "/images/shop-unisex.jpg",
+  all: "/images/shop-all.jpg",
+};
 
 interface Tile {
   label: string;
@@ -20,7 +28,7 @@ export function ShopBy({ tiles }: { tiles: Tile[] }) {
         {tiles.map((t) => (
           <Link key={t.label} href={t.tag ? routes.shop({ tag: t.tag }) : routes.shop()} className={styles.tile}>
             <span className={styles.tileZoom}>
-              <Placeholder label={t.label.toLowerCase()} />
+              <Image src={TILE_IMAGE[t.tag ?? "all"]} alt="" fill sizes="(max-width: 599px) 100vw, (max-width: 1099px) 50vw, 25vw" className={styles.tileImg} />
             </span>
             <span className={styles.tileTint} />
             <span className={styles.tileText}>
