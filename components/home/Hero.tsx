@@ -5,12 +5,13 @@ import { FREE_SHIPPING_OVER } from "@/lib/shipping";
 import { HeroCarousel, type HeroSlide } from "./HeroCarousel";
 import styles from "./home.module.css";
 
-// Four looks per the design; swap `src` in once the photography exists (public/images/hero-N.jpg).
+// Four looks per the design (lifestyle, street editorial, denim, jacket). The frame is 4:5;
+// hero-3 and hero-4 are taller (9:16), so `position` picks which band of the photo stays in view.
 const SLIDES: HeroSlide[] = [
-  { label: "ảnh lifestyle", tint: ["#e1deea", "#d3cfe0"] },
-  { label: "ảnh street editorial", tint: ["#dcd8e8", "#cbc6dc"] },
-  { label: "ảnh chi tiết denim", tint: ["#e4e1ec", "#d0ccdf"] },
-  { label: "ảnh studio áo khoác", tint: ["#d8d4e5", "#c6c1d8"] },
+  { label: "Look lifestyle: áo thun oversize, quần ống rộng đen, mũ lưỡi trai", src: "/images/hero-3.jpg" },
+  { label: "Look street editorial: cây đen, kính râm, dây xích bạc", src: "/images/hero-1.jpg" },
+  { label: "Look denim: áo khoác da, jeans ống rộng, sneaker trắng", src: "/images/hero-2.jpg" },
+  { label: "Look áo khoác: jacket nâu, quần be xắn gấu, sneaker trắng", src: "/images/hero-4.jpg", position: "50% 90%" },
 ];
 
 export function Hero() {

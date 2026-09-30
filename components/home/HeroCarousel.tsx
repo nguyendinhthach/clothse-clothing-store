@@ -11,6 +11,8 @@ export interface HeroSlide {
   label: string;
   /** Path under /public — omit to show the striped placeholder. */
   src?: string;
+  /** CSS object-position when the photo's ratio differs from the 4:5 frame (default: centred). */
+  position?: string;
   /** Placeholder stripe colours (design gives each look a slightly different tint). */
   tint?: [string, string];
 }
@@ -49,7 +51,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             style={s.src ? undefined : { background: `repeating-linear-gradient(135deg, ${s.tint?.[0] ?? "#e1deea"} 0 10px, ${s.tint?.[1] ?? "#d3cfe0"} 10px 20px)` }}
             aria-hidden={i !== index}
           >
-            {s.src ? <Image src={s.src} alt={s.label} fill sizes="(max-width: 899px) 100vw, 50vw" priority={i === 0} className={styles.heroImg} /> : <span className={styles.heroPh}>{s.label}</span>}
+            {s.src ? <Image src={s.src} alt={s.label} fill sizes="(max-width: 899px) 100vw, 50vw" priority={i === 0} className={styles.heroImg} style={s.position ? { objectPosition: s.position } : undefined} /> : <span className={styles.heroPh}>{s.label}</span>}
           </span>
         ))}
         <span className={styles.heroTint} />
