@@ -138,21 +138,20 @@ export async function getBestSellers(limit = 4, now = new Date()): Promise<Produ
   return ids.map((id) => byId.get(id)).filter((p): p is ProductRow => !!p).map((p) => toCard(p, best, "default", now));
 }
 
-/** Homepage "Shop by" tiles: three tag counts plus the New badge count (SPEC §6.12). */
+/** Men / Women also match Unisex — unisex pieces fit both (SPEC §6.12). Unisex alone stays Unisex. */
+export function expandGenderTags(tags: string[]): string[] {
+  return tags.some((t) => t === "Men" || t === "Women") && !tags.includes("Unisex") ? [...tags, "Unisex"] : tags;
+}
+
 /** Homepage "Bắt đầu từ đây" tiles: three gender tags + "everything" (SPEC §6.12; 4th tile changed from New Arrivals on 2026-09-18 — the arrivals row sits right below it). */
 export async function getShopByCounts() {
-  const [tags, total] = await Promise.all([
-    prisma.tag.findMany({
-      where: { name: { in: ["Men", "Women", "Unisex"] } },
-      select: { name: true, _count: { select: { products: { where: { product: { active: true } } } } } },
-    }),
-    prisma.product.count({ where: { active: true } }),
-  ]);
-  const count = (name: string) => tags.find((t) => t.name === name)?._count.products ?? 0;
+  const count = (tags: string[] | null) =>
+    prisma.product.count({ where: { active: true, ...(tags && { tags: { some: { tag: { name: { in: expandGenderTags(tags) } } } } }) } });
+  const [men, women, unisex, total] = await Promise.all([count(["Men"]), count(["Women"]), count(["Unisex"]), count(null)]);
   return [
-    { label: "Nam", count: count("Men"), tag: "Men" },
-    { label: "Nữ", count: count("Women"), tag: "Women" },
-    { label: "Unisex", count: count("Unisex"), tag: "Unisex" },
+    { label: "Nam", count: men, tag: "Men" },
+    { label: "Nữ", count: women, tag: "Women" },
+    { label: "Unisex", count: unisex, tag: "Unisex" },
     { label: "Tất cả", count: total, tag: null },
   ];
 }
@@ -204,7 +203,7 @@ export async function listProducts(query: ListingQuery, now = new Date()): Promi
   if (query.cats?.length) where.category = { name: { in: query.cats } };
   if (query.types?.length) where.type = { code: { in: query.types } };
   if (query.brands?.length) where.brand = { name: { in: query.brands } };
-  if (query.tags?.length) where.tags = { some: { tag: { name: { in: query.tags } } } };
+  if (query.tags?.length) where.tags = { some: { tag: { name: { in: expandGenderTags(query.tags) } } } };
   if (query.q) where.OR = [{ name: { contains: query.q, mode: "insensitive" } }, { brand: { name: { contains: query.q, mode: "insensitive" } } }];
   if (query.scope === "sale") where.onSale = true;
   if (query.scope === "new") where.createdAt = { gte: new Date(now.getTime() - NEW_WINDOW_DAYS * 86_400_000) };
