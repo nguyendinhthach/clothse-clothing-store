@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/lib/generated/prisma/client";
 import { notifyRestock } from "@/lib/services/notify";
+import { vnMonthStart } from "@/lib/vn-time";
 
 export type StorageResult = { ok: true } | { ok: false; error: string };
 
@@ -74,7 +75,7 @@ export async function listBatches(f: StorageFilters = {}): Promise<BatchRow[]> {
 }
 
 export async function getStorageStats(now = new Date()) {
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthStart = vnMonthStart(now);
   const [unlinked, thisMonth, total] = await Promise.all([
     prisma.batch.findMany({ where: { variantId: null, qtyRemaining: { gt: 0 } }, select: { qtyRemaining: true, unitCost: true } }),
     prisma.batch.count({ where: { receivedAt: { gte: monthStart } } }),

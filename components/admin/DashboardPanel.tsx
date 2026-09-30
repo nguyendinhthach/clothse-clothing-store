@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { formatDate, formatVnd } from "@/lib/format";
+import { vnParts } from "@/lib/vn-time";
 import { STATUS_LABEL } from "@/lib/order-status";
 import { routes } from "@/lib/routes";
 import type { DashboardData } from "@/lib/services/admin/analytics";
@@ -9,7 +10,7 @@ const fmtDate = (d: Date) => formatDate(d, { day: "numeric", month: "numeric" })
 const pct = (cur: number, prev: number) => (prev > 0 ? `${cur >= prev ? "+" : ""}${Math.round(((cur - prev) / prev) * 100)}% so với tháng trước` : "tháng trước chưa có doanh thu");
 
 export function DashboardPanel({ d }: { d: DashboardData }) {
-  const month = `tháng ${new Date().getMonth() + 1}`;
+  const month = `tháng ${vnParts(new Date()).month + 1}`;
   return (
     <div className={styles.stack}>
       <div className={styles.statGrid} style={{ gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>

@@ -2,13 +2,13 @@ import { prisma } from "@/lib/prisma";
 import type { OrderStatus } from "@/lib/generated/prisma/client";
 import { LOW_STOCK_MAX } from "@/lib/badges";
 import { formatDate } from "@/lib/format";
+import { vnDate, vnDayFromIso, vnIsoDay, vnMonthStart, vnParts, vnStartOfDay } from "@/lib/vn-time";
 
 // SPEC §6.4 — Revenue = Σ qty × unit_price, COGS = Σ qty × unit_cogs, Profit = the
 // difference; both read from the snapshots on OrderItem. Only COMPLETED orders
 // count (paid, delivered); a refunded order drops out of the report (§6.3).
 
 const DAY = 86_400_000;
-const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
 
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 
@@ -30,9 +30,9 @@ async function revenueBetween(from: Date, to: Date): Promise<number> {
 }
 
 export async function getDashboard(now = new Date()): Promise<DashboardData> {
-  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
-  const prevStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
-  const nextStart = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const monthStart = vnMonthStart(now);
+  const prevStart = vnMonthStart(now, -1);
+  const nextStart = vnMonthStart(now, 1);
 
   const [revenueMonth, revenuePrevMonth, totalOrders, pendingOrders, recent, lowVariants, sold] = await Promise.all([
     revenueBetween(monthStart, nextStart),
@@ -105,28 +105,28 @@ export interface RevenueRange {
 const fmt = (d: Date) => formatDate(d);
 
 export function resolveRange(key: RangeKey, custom: { from?: string; to?: string } = {}, now = new Date()): RevenueRange {
-  const today = startOfDay(now);
+  const today = vnStartOfDay(now);
   if (key === "week") {
-    const dow = (today.getDay() + 6) % 7; // Monday = 0
+    const dow = (vnParts(today).weekday + 6) % 7; // Monday = 0
     const from = new Date(today.getTime() - dow * DAY);
     const to = new Date(from.getTime() + 7 * DAY);
     return { key, from, to, label: `${fmt(from)} – ${fmt(new Date(to.getTime() - DAY))}` };
   }
   if (key === "year") {
-    const from = new Date(now.getFullYear(), 0, 1);
-    return { key, from, to: new Date(now.getFullYear() + 1, 0, 1), label: `Năm ${now.getFullYear()} · tới hôm nay` };
+    const { year } = vnParts(now);
+    return { key, from: vnDate(year, 0, 1), to: vnDate(year + 1, 0, 1), label: `Năm ${year} · tới hôm nay` };
   }
   if (key === "custom" && custom.from && custom.to) {
-    let a = startOfDay(new Date(custom.from));
-    let b = startOfDay(new Date(custom.to));
-    if (!Number.isNaN(a.getTime()) && !Number.isNaN(b.getTime())) {
+    let a = vnDayFromIso(custom.from);
+    let b = vnDayFromIso(custom.to);
+    if (a && b) {
       if (a > b) [a, b] = [b, a];
       const to = new Date(b.getTime() + DAY);
       return { key, from: a, to, label: `${fmt(a)} – ${fmt(b)}` };
     }
   }
-  const from = new Date(now.getFullYear(), now.getMonth(), 1);
-  const to = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+  const from = vnMonthStart(now);
+  const to = vnMonthStart(now, 1);
   return { key: "month", from, to, label: `${fmt(from)} – ${fmt(new Date(to.getTime() - DAY))}` };
 }
 
@@ -169,19 +169,22 @@ export async function getRevenue(range: RevenueRange): Promise<RevenueData> {
   const buckets: RevenueData["series"]["buckets"] = [];
   const index = new Map<string, number>();
   if (useMonths) {
-    for (let d = new Date(range.from.getFullYear(), range.from.getMonth(), 1); d < range.to; d = new Date(d.getFullYear(), d.getMonth() + 1, 1)) {
-      index.set(`${d.getFullYear()}-${d.getMonth()}`, buckets.length);
-      buckets.push({ label: `T${d.getMonth() + 1}`, title: `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`, revenue: 0, profit: 0 });
+    for (let d = vnMonthStart(range.from); d < range.to; d = vnMonthStart(d, 1)) {
+      const { year, month } = vnParts(d);
+      index.set(`${year}-${month}`, buckets.length);
+      buckets.push({ label: `T${month + 1}`, title: `Tháng ${month + 1}/${year}`, revenue: 0, profit: 0 });
     }
   } else {
     for (let d = new Date(range.from); d < range.to; d = new Date(d.getTime() + DAY)) {
-      index.set(startOfDay(d).toDateString(), buckets.length);
-      buckets.push({ label: range.key === "week" ? ["CN", "T2", "T3", "T4", "T5", "T6", "T7"][d.getDay()] : String(d.getDate()), title: fmt(d), revenue: 0, profit: 0 });
+      const { day, weekday } = vnParts(d);
+      index.set(vnIsoDay(d), buckets.length);
+      buckets.push({ label: range.key === "week" ? ["CN", "T2", "T3", "T4", "T5", "T6", "T7"][weekday] : String(day), title: fmt(d), revenue: 0, profit: 0 });
     }
   }
   for (const i of items) {
     const d = i.order.createdAt;
-    const k = useMonths ? `${d.getFullYear()}-${d.getMonth()}` : startOfDay(d).toDateString();
+    const p = vnParts(d);
+    const k = useMonths ? `${p.year}-${p.month}` : vnIsoDay(d);
     const at = index.get(k);
     if (at === undefined) continue;
     buckets[at].revenue += i.qty * i.unitPrice;

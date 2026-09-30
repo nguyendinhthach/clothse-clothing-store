@@ -5,6 +5,7 @@ import { useState, useTransition } from "react";
 import { sizeHistoryAction } from "@/lib/actions/admin-storage";
 import { categoryLabel } from "@/lib/catalog-constants";
 import { formatDate, formatVnd } from "@/lib/format";
+import { vnParts } from "@/lib/vn-time";
 import { routes } from "@/lib/routes";
 import type { BatchRow, BatchStatus, StorageFilters } from "@/lib/services/admin/storage";
 import { IntakeForm, type IntakeVocab } from "./IntakeForm";
@@ -35,7 +36,7 @@ const BATCH_STATUS_LABEL: Record<BatchStatus, string> = {
 };
 
 const fmtDate = (d: Date) => formatDate(d, { day: "2-digit", month: "2-digit", year: "numeric" });
-const monthLabel = (d: Date) => `Tháng ${d.getMonth() + 1}/${d.getFullYear()}`;
+const monthLabel = (d: Date) => `Tháng ${vnParts(d).month + 1}/${vnParts(d).year}`;
 
 export function StoragePanel({ rows, stats, filters, vocab }: Props) {
   const router = useRouter();

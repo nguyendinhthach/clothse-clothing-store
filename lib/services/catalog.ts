@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { BEST_SELLER_TOP, NEW_WINDOW_DAYS, computeBadge, type Badge, type BadgeContext } from "@/lib/badges";
 import type { Prisma } from "@/lib/generated/prisma/client";
 import { PAGE_SIZE, PRICE_MAX, PRICE_MIN, type SortKey } from "@/lib/catalog-constants";
+import { vnMonthStart } from "@/lib/vn-time";
 
 /** Product count per category, in the fixed display order (SPEC §5). */
 export async function getCategoryCounts() {
@@ -99,9 +100,7 @@ function topIds(totals: Map<number, number>, n: number): number[] {
   return [...totals.entries()].sort((a, b) => b[1] - a[1]).slice(0, n).map(([id]) => id);
 }
 
-function monthStart(now: Date) {
-  return new Date(now.getFullYear(), now.getMonth(), 1);
-}
+const monthStart = (now: Date) => vnMonthStart(now);
 
 /** Product ids that carry the "Best seller" badge right now. */
 export async function getBestSellerIds(now = new Date()): Promise<Set<number>> {

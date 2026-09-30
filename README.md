@@ -64,7 +64,6 @@ Các biến trong `.env`:
 | `AUTH_SECRET` | ✔ | Chuỗi ngẫu nhiên ký cookie phiên |
 | `APP_URL` | ✔ | Origin công khai, dùng trong link email (`http://localhost:3000` khi chạy local) |
 | `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` | ✔ | Tài khoản admin do `db:seed` tạo |
-| `TZ` | khuyên dùng | `Asia/Ho_Chi_Minh` để báo cáo tháng/tuần tính theo giờ Việt Nam |
 | `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `CONTACT_TO` | tuỳ chọn | Gmail App Password; để trống thì email in ra console |
 | `CLOUDINARY_*` | tuỳ chọn | Để trống thì không tải được ảnh sản phẩm (vẫn lưu được sản phẩm) |
 
@@ -115,7 +114,7 @@ npm run db:import -- clothse-products.xlsx ./images             # tải ảnh l�
 ## Triển khai (Vercel + Neon)
 
 1. Import repo vào Vercel.
-2. Khai báo Environment Variables theo bảng ở trên (dùng `AUTH_SECRET` mới, `APP_URL` là domain Vercel, `TZ=Asia/Ho_Chi_Minh`).
+2. Khai báo Environment Variables theo bảng ở trên (dùng `AUTH_SECRET` mới, `APP_URL` là domain Vercel). Không cần `TZ` — Vercel không cho đặt biến này; ngày, tuần, tháng đã tính theo giờ Việt Nam trong code (`lib/vn-time.ts`).
 3. Deploy — `npm run build` chạy `prisma migrate deploy` trước `next build` nên schema luôn khớp code.
 4. Lần đầu, từ máy local với cùng `DATABASE_URL`: `npm run db:seed` để có khung và admin, rồi nhập hàng bằng `db:import` (hoặc `db:seed:demo` nếu chỉ cần dữ liệu mẫu).
 
