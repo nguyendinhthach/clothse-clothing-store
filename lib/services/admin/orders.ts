@@ -27,6 +27,7 @@ export interface AdminOrderRow {
   items: { name: string; size: string; qty: number; image: { url: string; alt: string | null } | null }[];
   primaryLabel: string | null;
   canCancel: boolean;
+  canFailDelivery: boolean;
   canApproveRefund: boolean;
 }
 
@@ -57,6 +58,7 @@ function toRow(o: Row): AdminOrderRow {
     items: o.items.map((i) => ({ name: i.variant.product.name, size: i.variant.sizeOption.label, qty: i.qty, image: i.variant.product.images[0] ?? null })),
     primaryLabel: PRIMARY_LABEL[o.status] ?? null,
     canCancel: o.status === "PENDING" || o.status === "PROCESSING",
+    canFailDelivery: o.status === "SHIPPING",
     canApproveRefund: o.status === "REFUND" && o.paymentStatus === "PAID",
   };
 }
@@ -90,17 +92,30 @@ export async function advanceOrder(orderId: number): Promise<AdminOrderResult> {
   return { ok: true, status: next };
 }
 
-/** Admin cancel — same window as the customer (before dispatch); stock returns. */
-export async function adminCancelOrder(orderId: number): Promise<AdminOrderResult> {
+/** Cancel from one of `allowed`, putting every unit back on the shelf. Payment stays UNPAID. */
+function cancelWithRestock(orderId: number, allowed: OrderStatus[], wrongStatus: string): Promise<AdminOrderResult> {
   return prisma.$transaction(async (tx) => {
     const o = await tx.order.findUnique({ where: { id: orderId }, include: { items: true } });
     if (!o) return { ok: false, error: "Không tìm thấy đơn." };
-    if (o.status !== "PENDING" && o.status !== "PROCESSING") return { ok: false, error: "Chỉ huỷ được đơn Chờ xác nhận / Đang xử lý." };
+    if (!allowed.includes(o.status)) return { ok: false, error: wrongStatus };
     const r = await tx.order.updateMany({ where: { id: o.id, status: o.status }, data: { status: "CANCELLED" } });
     if (r.count === 0) return { ok: false, error: "Đơn vừa được cập nhật ở nơi khác — tải lại trang." };
     for (const i of o.items) await restock(tx, i.variantId, i.qty);
     return { ok: true, status: "CANCELLED" };
   });
+}
+
+/** Admin cancel — same window as the customer (before dispatch); stock returns. */
+export function adminCancelOrder(orderId: number): Promise<AdminOrderResult> {
+  return cancelWithRestock(orderId, ["PENDING", "PROCESSING"], "Chỉ huỷ được đơn Chờ xác nhận / Đang xử lý.");
+}
+
+/**
+ * SPEC §6.2 — delivery failed (customer refused or unreachable): the parcel comes
+ * back, the order is cancelled and was never paid. Never COMPLETED without cash.
+ */
+export function failDelivery(orderId: number): Promise<AdminOrderResult> {
+  return cancelWithRestock(orderId, ["SHIPPING"], "Chỉ đơn Đang giao mới báo giao không thành công.");
 }
 
 /** Settle a return: money back (REFUNDED) and units back on the shelf (§6.3). */

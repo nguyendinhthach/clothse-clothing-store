@@ -217,8 +217,8 @@ Riêng `Accessories` trộn định dạng nên không suy ra được thứ t�
         ╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶╶┼╶╶╶╶╶╶╶╶╶╶╶╶╶╶┼╶╶╶╶ ranh giới huỷ / hoàn
                            ▼              │
                     ┌──────────────┐      │
-                    │   Shipping   │      │ admin huỷ
-                    └──────┬───────┘      │
+                    │   Shipping   │──────┤ admin huỷ / giao
+                    └──────┬───────┘      │ không thành công
                            │ giao xong    ▼
                            ▼         ┌───────────┐
                     ┌──────────────┐ │ Cancelled │
@@ -237,10 +237,15 @@ Riêng `Accessories` trộn định dạng nên không suy ra được thứ t�
 |---|---|---|
 | `To Confirm` | Huỷ được | Xác nhận, huỷ |
 | `Processing` | Huỷ được | Chuyển giao hàng, huỷ |
-| `Shipping` | **Không huỷ được** | Đánh dấu giao xong |
-| `Completed` | Yêu cầu hoàn trong 30 ngày | Duyệt hoàn |
+| `Shipping` | **Không huỷ được** | Đánh dấu giao xong, **giao không thành công** |
+| `Completed` | Yêu cầu hoàn trong 30 ngày | — |
+| `Return/Refund` | — | Duyệt hoàn |
 
-Ranh giới nằm giữa `Processing` và `Shipping`: hàng đã rời kho thì không còn đường huỷ, chỉ còn đường hoàn.
+Ranh giới nằm giữa `Processing` và `Shipping`: hàng đã rời kho thì khách không còn đường huỷ, chỉ còn đường hoàn.
+
+**Giao không thành công** (khách từ chối nhận, không liên lạc được): gói hàng quay về shop, admin bấm nút này ở đơn `Shipping` → đơn sang `Cancelled`, cộng trả tồn kho, `payment_status` giữ `unpaid` (chưa từng thu tiền). Đây là lối ra duy nhất của `Shipping` ngoài "giao xong" — đơn COD không bao giờ `completed` mà chưa thu tiền ([mục 6.2](#62-thanh-toán)).
+
+**Đổi trả có hai bước:** khách yêu cầu → đơn sang `Return/Refund` ngay (vẫn `paid`, rời khỏi báo cáo doanh thu); admin **duyệt hoàn** → `payment_status` thành `refunded` và cộng trả tồn kho. Trạng thái vẫn là `Return/Refund`; `payment_status` phân biệt "đang chờ duyệt" với "đã hoàn".
 
 Huỷ ở bất kỳ đâu đều **cộng trả tồn kho** ([mục 6.3](#63-tồn-kho)).
 
@@ -816,3 +821,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-19 | Bộ lọc Loại ở Cửa hàng. `Product.active` — "Gỡ khỏi kệ / Lên kệ lại" thay cho Xoá ở bảng Sản phẩm; Xoá lùi vào form, chỉ cho món chưa có đơn và chưa gắn lô; hộp xác nhận nêu hậu quả cho cả hai |
 | 2026-09-30 | Footwear thêm size `44` `45` `46`. Lọc Nam / Nữ gồm cả món `Unisex` (mục 6.12) |
 | 2026-09-30 | Bộ lọc Cửa hàng: nhóm "Dành cho" tách khỏi "Đặc điểm", *và* giữa các nhóm. Thanh giá 0₫ – 5.000.000₫+, bước 50.000₫ (trước 200.000₫ – 2.000.000₫+, ẩn mất món rẻ hơn). Đặc điểm chỉ hiện tag đang có sản phẩm |
+| 2026-09-30 | Mục 6.1: nút **Giao không thành công** cho đơn `Shipping` → `Cancelled`, hoàn kho, vẫn `unpaid` (khớp câu "khách từ chối nhận thì sang cancelled" ở 6.2). Ghi rõ đổi trả hai bước: khách yêu cầu → admin duyệt hoàn |

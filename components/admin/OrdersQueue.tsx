@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { adminCancelOrderAction, advanceOrderAction, approveRefundAction } from "@/lib/actions/admin-orders";
+import { adminCancelOrderAction, advanceOrderAction, approveRefundAction, failDeliveryAction } from "@/lib/actions/admin-orders";
 import { formatDate, formatVnd } from "@/lib/format";
 import { ORDER_TABS, STATUS_LABEL } from "@/lib/order-status";
 import { routes } from "@/lib/routes";
@@ -15,9 +15,9 @@ import styles from "./admin.module.css";
 const NOTE: Record<OrderStatus, string> = {
   PENDING: "Đơn mới, chờ xác nhận trước khi xử lý.",
   PROCESSING: "Đơn đã xác nhận, đang soạn và đóng gói.",
-  SHIPPING: "Gói hàng đang trên đường tới khách. Đã giao = đã thu tiền.",
+  SHIPPING: "Gói hàng đang trên đường tới khách. Đã giao = đã thu tiền. Khách từ chối nhận hoặc không liên lạc được thì báo giao không thành công.",
   COMPLETED: "Đơn đã giao, đã đóng.",
-  CANCELLED: "Đơn huỷ trước khi gửi — hàng đã trả về kệ.",
+  CANCELLED: "Đơn huỷ trước khi gửi hoặc giao không thành công — hàng đã trả về kệ, không thu tiền.",
   REFUND: "Yêu cầu đổi trả đang mở. Duyệt = hoàn tiền cho khách và trả hàng về kệ.",
 };
 
@@ -107,12 +107,17 @@ export function OrdersQueue({ status, counts, orders }: Props) {
                       Duyệt hoàn tiền
                     </button>
                   )}
+                  {o.canFailDelivery && (
+                    <button type="button" disabled={pending} onClick={() => { if (confirm(`Đơn #${o.code} giao không thành công? Đơn sẽ chuyển sang Đã huỷ, hàng trả về kệ, không thu tiền.`)) run(() => failDeliveryAction(o.id)); }} className={styles.ghostBtn}>
+                      Giao không thành công
+                    </button>
+                  )}
                   {o.canCancel && (
                     <button type="button" disabled={pending} onClick={() => { if (confirm(`Huỷ đơn #${o.code}?`)) run(() => adminCancelOrderAction(o.id)); }} className={styles.ghostBtn}>
                       Huỷ
                     </button>
                   )}
-                  {!o.primaryLabel && !o.canApproveRefund && !o.canCancel && <span className={styles.viewOnly}>{STATUS_LABEL[o.status]}</span>}
+                  {!o.primaryLabel && !o.canApproveRefund && !o.canCancel && !o.canFailDelivery && <span className={styles.viewOnly}>{STATUS_LABEL[o.status]}</span>}
                 </div>
               </div>
               {open && (
