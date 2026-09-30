@@ -94,6 +94,7 @@ npm run db:seed:demo        # XOÁ sản phẩm/đơn hiện có rồi nạp l�
 | `npm run db:seed:demo` | Nạp dữ liệu mẫu (xoá sản phẩm/đơn cũ) |
 | `npm run db:studio` | Xem/sửa dữ liệu bằng Prisma Studio |
 | `npm run db:import -- <file.xlsx> <thư-mục-ảnh> [--dry-run] [--owner <tên>]` | Nhập sản phẩm hàng loạt (xem dưới) |
+| `npm run db:clear-catalog [-- --yes]` | Xoá toàn bộ sản phẩm, lô nhập và hãng trống (từ chối nếu đã có đơn); không có `--yes` thì chỉ in ra sẽ xoá gì |
 | `npx prisma migrate reset` | Xoá sạch DB, chạy lại migration và seed khung |
 
 ## Nhập sản phẩm từ Excel
@@ -109,6 +110,7 @@ npm run db:import -- clothse-products.xlsx ./images             # tải ảnh l�
 - Có lỗi ở bất kỳ dòng nào thì không ghi gì. Sản phẩm đã tồn tại (trùng hãng + tên) được bỏ qua, nên chạy lại an toàn.
 - Ngày tạo sản phẩm lấy theo `received_at` sớm nhất của nó, nên badge **Mới** và trang Hàng mới theo ngày nhập hàng chứ không theo ngày chạy lệnh.
 - SKU sinh tự động từ loại món; file xlsx và ảnh không cần đưa vào repo.
+- Đang có dữ liệu mẫu (`db:seed:demo`) thì chạy `npm run db:clear-catalog -- --yes` trước khi nhập.
 
 ## Triển khai (Vercel + Neon)
 
