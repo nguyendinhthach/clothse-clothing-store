@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/lib/generated/prisma/client";
 import { computeBadge, type Badge } from "@/lib/badges";
 import { getBestSellerIds } from "@/lib/services/catalog";
-import { notifySale } from "@/lib/services/notify";
+import { mailAfterResponse, notifySale } from "@/lib/services/notify";
 import { getWarehouseAvailability } from "@/lib/services/admin/storage";
 
 export type ProductResult = { ok: true; id: number } | { ok: false; error: string };
@@ -292,7 +292,7 @@ export async function saveProduct(input: ProductInput): Promise<ProductResult> {
 
       return productId;
     });
-    if (saleTurnedOn) void notifySale(id); // SPEC §6.10 #3 — price-drop alert for Favourites with notify on
+    if (saleTurnedOn) mailAfterResponse(() => notifySale(id)); // SPEC §6.10 #3 — price-drop alert for Favourites with notify on
     return { ok: true, id };
   } catch (e) {
     const msg = e instanceof Error ? e.message : "";

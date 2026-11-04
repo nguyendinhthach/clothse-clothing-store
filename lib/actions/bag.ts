@@ -6,6 +6,7 @@ import { routes } from "@/lib/routes";
 import { getCurrentUser } from "@/lib/session";
 import { toggleFavourite } from "@/lib/services/favourites";
 import { cancelOrder, placeOrder, removeCartLines, requestRefund, setCartQty } from "@/lib/services/orders";
+import { mailAfterResponse, notifyNewOrder, notifyOrderStatus } from "@/lib/services/notify";
 import { prisma } from "@/lib/prisma";
 
 async function requireUserOrRedirect(returnTo: string) {
@@ -58,6 +59,7 @@ export async function placeOrderAction(_prev: CheckoutState, fd: FormData): Prom
 
   const r = await placeOrder(user.id, variantIds, ship);
   if (!r.ok) return { error: r.error };
+  mailAfterResponse(() => notifyNewOrder(r.orderId));
   refreshBag();
   redirect(`${routes.bag("pending")}&placed=${encodeURIComponent(r.code)}`);
 }
@@ -65,13 +67,19 @@ export async function placeOrderAction(_prev: CheckoutState, fd: FormData): Prom
 export async function cancelOrderAction(orderId: number): Promise<{ ok: boolean; error?: string }> {
   const user = await requireUserOrRedirect(routes.bag("pending"));
   const r = await cancelOrder(user.id, orderId);
-  if (r.ok) revalidatePath(routes.bag());
+  if (r.ok) {
+    revalidatePath(routes.bag());
+    mailAfterResponse(() => notifyOrderStatus(orderId, "CANCELLED"));
+  }
   return r;
 }
 
 export async function requestRefundAction(orderId: number): Promise<{ ok: boolean; error?: string }> {
   const user = await requireUserOrRedirect(routes.bag("completed"));
   const r = await requestRefund(user.id, orderId);
-  if (r.ok) revalidatePath(routes.bag());
+  if (r.ok) {
+    revalidatePath(routes.bag());
+    mailAfterResponse(() => notifyOrderStatus(orderId, "REFUND_REQUESTED"));
+  }
   return r;
 }

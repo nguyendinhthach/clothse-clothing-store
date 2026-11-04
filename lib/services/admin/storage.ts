@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { Prisma } from "@/lib/generated/prisma/client";
-import { notifyRestock } from "@/lib/services/notify";
+import { mailAfterResponse, notifyRestock } from "@/lib/services/notify";
 import { vnMonthStart } from "@/lib/vn-time";
 
 export type StorageResult = { ok: true } | { ok: false; error: string };
@@ -189,7 +189,7 @@ export async function receiveStock(input: IntakeInput): Promise<StorageResult> {
     throw e;
   }
 
-  for (const pid of new Set(restocked)) void notifyRestock(pid);
+  for (const pid of new Set(restocked)) mailAfterResponse(() => notifyRestock(pid));
   return { ok: true };
 }
 
@@ -236,7 +236,10 @@ export async function linkBatch(batchId: number, variantId: number, qty: number)
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Không gắn được lô hàng." };
   }
-  if (restockedProduct) void notifyRestock(restockedProduct);
+  if (restockedProduct) {
+    const pid = restockedProduct;
+    mailAfterResponse(() => notifyRestock(pid));
+  }
   return { ok: true };
 }
 

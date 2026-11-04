@@ -485,7 +485,7 @@ Resize ảnh ngay lúc upload (Cloudinary làm sẵn, hoặc dùng `sharp`) — 
 
 ### 6.10 Gửi email
 
-Thiết kế có **5 điểm chạm email**. Trước đây SPEC liệt kê email là ngoài phạm vi — nay đã vào phạm vi.
+Có **7 điểm chạm email**: 5 từ thiết kế, cộng 2 cho đơn hàng (thêm 2026-11-04). Trước đây SPEC liệt kê email là ngoài phạm vi — nay đã vào phạm vi.
 
 | # | Điểm chạm | Trang | Đợt |
 |---|---|---|---|
@@ -494,6 +494,8 @@ Thiết kế có **5 điểm chạm email**. Trước đây SPEC liệt kê emai
 | 3 | **Báo hàng về** (Notify me) | Favourites | 2 |
 | 4 | Đăng ký nhận tin hàng tuần | Homepage | 2 |
 | 5 | Email chào mừng sau khi tạo tài khoản | Sign Up | 2 |
+| 6 | **Báo đơn mới cho shop** → gửi tới `CONTACT_TO`, mặc định `SMTP_USER` | Checkout | 2 |
+| 7 | **Báo trạng thái đơn cho khách**: xác nhận, đang giao, đã giao, đã huỷ, nhận yêu cầu đổi trả, duyệt đổi trả | Orders · My Bag | 2 |
 
 **Cách gửi: Nodemailer + SMTP Gmail bằng App Password.**
 
@@ -822,3 +824,4 @@ Rời React (Blade, Django template, JSP) thì phải **viết lại toàn bộ 
 | 2026-09-30 | Footwear thêm size `44` `45` `46`. Lọc Nam / Nữ gồm cả món `Unisex` (mục 6.12) |
 | 2026-09-30 | Bộ lọc Cửa hàng: nhóm "Dành cho" tách khỏi "Đặc điểm", *và* giữa các nhóm. Thanh giá 0₫ – 5.000.000₫+, bước 50.000₫ (trước 200.000₫ – 2.000.000₫+, ẩn mất món rẻ hơn). Đặc điểm chỉ hiện tag đang có sản phẩm |
 | 2026-09-30 | Mục 6.1: nút **Giao không thành công** cho đơn `Shipping` → `Cancelled`, hoàn kho, vẫn `unpaid` (khớp câu "khách từ chối nhận thì sang cancelled" ở 6.2). Ghi rõ đổi trả hai bước: khách yêu cầu → admin duyệt hoàn |
+| 2026-11-04 | Mục 6.10: thêm mail báo đơn mới cho shop và mail báo trạng thái đơn cho khách. Mọi mail sau thao tác dữ liệu gửi bằng `after()` để Vercel không dừng giữa chừng |

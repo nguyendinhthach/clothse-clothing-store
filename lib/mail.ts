@@ -29,6 +29,11 @@ export async function sendMail(mail: Mail): Promise<void> {
   await transport.sendMail({ from, ...mail });
 }
 
+/** The shop's own mailbox: new-order alerts land here, like Contact messages. */
+export function shopInbox(): string {
+  return process.env.CONTACT_TO || user || "shop@clothse.local";
+}
+
 /** Absolute URL for links inside emails. */
 export function appUrl(path: string): string {
   const base = (process.env.APP_URL || process.env.NEXTAUTH_URL || "http://localhost:3000").replace(/\/$/, "");
